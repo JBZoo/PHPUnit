@@ -1,0 +1,27 @@
+{
+    "name": "jbzoo/phpunit",
+    "type": "library",
+    "description": "PHPUnit toolbox with short aliases and useful functions",
+    "license": "MIT",
+    "keywords": [],
+    "authors": [
+        {
+            "name": "SmetDenis",
+            "email": "denis@jbzoo.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.10"
+    },
+    "autoload": {
+        "files": [
+            "src/aliases.php"
+        ],
+        "psr-4": {
+            "JBZoo\\PHPUnit\\": "src"
+        }
+    },
+    "support": {
+        "issues": "https://github.com/JBZoo/PHPUnit/issues"
+    }
+}
