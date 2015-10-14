@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # JBZoo PHPUnit  [![Build Status](https://travis-ci.org/JBZoo/PHPUnit.svg?branch=master)](https://travis-ci.org/JBZoo/PHPUnit)      [![Coverage Status](https://coveralls.io/repos/JBZoo/PHPUnit/badge.svg?branch=master&service=github)](https://coveralls.io/github/JBZoo/PHPUnit?branch=master)
 
 #### PHP library description
@@ -24,6 +23,3 @@ $object->doSomeMagic(':)');
 
 MIT
 =======
-# PHPUnit
-Toolbox based on the PHPUnit Framework
->>>>>>> origin/master
