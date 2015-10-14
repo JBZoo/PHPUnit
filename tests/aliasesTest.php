@@ -67,7 +67,10 @@ class AliasesTest extends PHPUnit
     function testString()
     {
         isLike('#t.st#i', 'TESTO');
+        isNotLike('#teeest#i', 'TESTO');
+
         isContain('t', 'test');
+        isNotContain('x', 'test');
     }
 
     function testFilesystem()

@@ -123,6 +123,16 @@ function isLike($pattern, $value, $msg = null)
 }
 
 /**
+ * @param string $pattern
+ * @param string $value
+ * @param null   $msg
+ */
+function isNotLike($pattern, $value, $msg = null)
+{
+    getTestcase()->assertNotRegExp($pattern, $value, $msg);
+}
+
+/**
  * @param string $filepath1
  * @param string $filepath2
  * @param null   $msg
@@ -203,9 +213,21 @@ function isFile($path, $msg = null)
 /**
  * @param string $expected
  * @param string $value
+ * @param bool   $ignoreCase
  * @param null   $msg
  */
-function isContain($expected, $value, $msg = null)
+function isContain($expected, $value, $ignoreCase = false, $msg = null)
 {
-    getTestcase()->assertContains($expected, $value, $msg);
+    getTestcase()->assertContains($expected, $value, $msg, $ignoreCase);
+}
+
+/**
+ * @param string $expected
+ * @param string $value
+ * @param bool   $ignoreCase
+ * @param null   $msg
+ */
+function isNotContain($expected, $value, $ignoreCase = false, $msg = null)
+{
+    getTestcase()->assertNotContains($expected, $value, $msg, $ignoreCase);
 }
