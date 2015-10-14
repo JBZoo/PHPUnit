@@ -17,7 +17,7 @@ matrix:
 before_script:
   # Composer
   - composer self-update
-  - composer update --dev --no-interaction
+  - composer update
   - composer validate
 
   # install testing tools
