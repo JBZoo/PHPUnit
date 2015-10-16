@@ -100,4 +100,9 @@ class AliasesTest extends PHPUnit
         $this->loopProfiler($max, true);
         $this->loopProfiler($max, false);
     }
+    
+    public function testSkip()
+    {
+        skip('Some reason to skip this test');
+    }    
 }
