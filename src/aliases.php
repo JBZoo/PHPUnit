@@ -47,6 +47,18 @@ function is($expected, $actual, $msg = null)
 }
 
 /**
+ * @param mixed $expected
+ * @param mixed $actual
+ * @param null  $msg
+ * @return bool
+ */
+function isNot($expected, $actual, $msg = null)
+{
+    getTestcase()->assertNotEquals($expected, $actual, $msg);
+    return $expected === $actual ? true : false;
+}
+
+/**
  * @param array $testList
  * @param null  $msg
  * @return bool
@@ -110,6 +122,15 @@ function isCount($expected, $actual, $msg = null)
 function skip($msg = null)
 {
     getTestcase()->markTestSkipped($msg);
+}
+
+/**
+ * Skip some test
+ * @param $msg
+ */
+function incomplete($msg = null)
+{
+    getTestcase()->markTestIncomplete($msg);
 }
 
 /**

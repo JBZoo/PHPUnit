@@ -21,21 +21,28 @@ namespace JBZoo\PHPUnit;
  */
 class AliasesTest extends PHPUnit
 {
-    function testBase()
+    function testBoolean()
     {
         isTrue(true);
         isFalse(false);
         isNull(null);
+    }
 
+    function testEmpty()
+    {
         isEmpty(0);
         isEmpty('');
         isEmpty(null);
         isEmpty('0');
         isEmpty(.0);
         isEmpty(array());
+    }
 
+    function testEquals()
+    {
         is(1, true);
         is(array(1, 2, 3), array(1, 2, 3));
+        isNot(1, 2);
 
         same(array(1, 2, 3), array(1, 2, 3));
 
@@ -85,6 +92,8 @@ class AliasesTest extends PHPUnit
         isCount(1, $this->getFileList(__DIR__, 'aliases'));
         isCount(0, $this->getFileList(__DIR__, '\.qwerty$'));
         isCount(1, $this->getFileList(__DIR__ . '/..', '\.travis'));
+
+        $this->markTestIncomplete();
     }
 
     function testLoopProfiler()
@@ -100,9 +109,14 @@ class AliasesTest extends PHPUnit
         $this->loopProfiler($max, true);
         $this->loopProfiler($max, false);
     }
-    
+
     public function testSkip()
     {
         skip('Some reason to skip this test');
-    }    
+    }
+
+    public function testIncomplete()
+    {
+        incomplete('Some reason to incomplete this test');
+    }
 }
