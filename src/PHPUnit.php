@@ -32,7 +32,7 @@ class PHPUnit extends \PHPUnit_Framework_TestCase
     /**
      * Life hack - no test error
      */
-    function test()
+    public function test()
     {
         // noop
     }
@@ -100,11 +100,10 @@ class PHPUnit extends \PHPUnit_Framework_TestCase
     {
         $files = scandir($dir);
 
-        foreach ($files as $key => $value) {
+        foreach ($files as $value) {
             $path = $dir . DIRECTORY_SEPARATOR . $value;
 
             if (!is_dir($path) && !in_array($value, $this->excludeFiles, true)) {
-
                 if ($filter) {
                     if (preg_match('#' . $filter . '#iu', $path)) {
                         $results[] = $path;
@@ -131,8 +130,8 @@ class PHPUnit extends \PHPUnit_Framework_TestCase
         $contents = null;
 
         if ($realPath = realpath($path)) {
-            $handle   = fopen($path, "rb");
-            $contents = fread($handle, filesize($path));
+            $handle   = fopen($realPath, "rb");
+            $contents = fread($handle, filesize($realPath));
             fclose($handle);
         }
 

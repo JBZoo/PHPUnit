@@ -97,12 +97,12 @@ function isFalse($value, $msg = null)
 
 /**
  * @param mixed  $expected
- * @param string $сlassname
+ * @param string $сlassName
  * @param null   $msg
  */
-function isClass($expected, $сlassname, $msg = null)
+function isClass($expected, $сlassName, $msg = null)
 {
-    getTestcase()->assertInstanceOf($expected, $сlassname, $msg);
+    getTestcase()->assertInstanceOf($expected, $сlassName, $msg);
 }
 
 /**
@@ -113,6 +113,15 @@ function isClass($expected, $сlassname, $msg = null)
 function isCount($expected, $actual, $msg = null)
 {
     getTestcase()->assertCount($expected, $actual, $msg);
+}
+
+/**
+ * Skip some test
+ * @param $msg
+ */
+function alert($msg = null)
+{
+    getTestcase()->expectOutputString($msg);
 }
 
 /**

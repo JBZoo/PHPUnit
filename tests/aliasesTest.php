@@ -117,4 +117,9 @@ class AliasesTest extends PHPUnit
     {
         incomplete('Some reason to incomplete this test');
     }
+
+    public function testAlert()
+    {
+        alert('ALERT!');
+    }
 }
