@@ -120,6 +120,11 @@ class Test extends PHPUnit
         $this->loopProfiler($max, true);
         $this->loopProfiler($max, false);
     }
+    
+    public function testSkip()
+    {
+        skip('Some reason to skip this test');
+    }
 
     /**
      * @expectedException \JBZoo\__PACKAGE__\Exception
