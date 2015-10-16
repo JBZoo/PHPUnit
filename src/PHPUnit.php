@@ -70,18 +70,23 @@ class PHPUnit extends \PHPUnit_Framework_TestCase
         // build report
         $count = (int)abs($count);
         if ($formated) {
-            $result = array(
-                'time-diff' => number_format($timeDiff * 1000, 3, '.', ' ') . ' ms',
-                'time-one'  => number_format($timeDiff * 1000 / $count, 3, '.', ' ') . ' ms',
-                'memo-diff' => number_format($memoryDiff / 1024, 3, '.', ' ') . ' KB',
-                'memo-one'  => number_format($memoryDiff / 1024 / $count, 3, '.', ' ') . ' KB',
-            );
+            $timeDiff = number_format($timeDiff * 1000, 2, '.', ' ') . ' ms';
+            $timeOne  = number_format($timeDiff * 1000 / $count, 2, '.', ' ') . ' ms';
+            $memoDiff = number_format($memoryDiff / 1024, 2, '.', ' ') . ' KB';
+            $memoOne  = number_format($memoryDiff / 1024 / $count, 2, '.', ' ') . ' KB';
+            $count    = number_format($count, 0, '', ' ');
+
+            $result = 'COUNT: ' . $count . ';  '
+                . 'TIME: ' . $timeDiff . '/' . $timeOne . ';  '
+                . 'MEMO: ' . $memoDiff . '/' . $memoOne . ';';
+
         } else {
             $result = array(
                 'time-diff' => $timeDiff,
                 'time-one'  => $timeDiff / $count,
                 'memo-diff' => $memoryDiff,
                 'memo-one'  => $memoryDiff / $count,
+                'count'     => $count,
             );
         }
 
@@ -148,13 +153,10 @@ class PHPUnit extends \PHPUnit_Framework_TestCase
             $message = print_r($message, true);
         }
 
-        $message = ($label ? $label . ': ' : '') . $message . PHP_EOL;
+        $message = PHP_EOL . ($label ? $label . ': ' : '') . $message . PHP_EOL;
 
-        if (defined('STDOUT') && STDOUT) {
-            fwrite(STDOUT, $message);
-        } else {
-            echo $message;
-        }
+        //echo $message; // see beStrictAboutOutputDuringTests
+        fwrite(STDOUT, $message);
     }
 
     /**

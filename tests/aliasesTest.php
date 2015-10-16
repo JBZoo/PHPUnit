@@ -88,7 +88,7 @@ class AliasesTest extends PHPUnit
         isFile(__FILE__);
         isDir(__DIR__);
 
-        isCount(2, $this->getFileList(__DIR__));
+        isCount(3, $this->getFileList(__DIR__));
         isCount(1, $this->getFileList(__DIR__, 'aliases'));
         isCount(0, $this->getFileList(__DIR__, '\.qwerty$'));
         isCount(1, $this->getFileList(__DIR__ . '/..', '\.travis'));
@@ -101,20 +101,16 @@ class AliasesTest extends PHPUnit
         $max    = 100000;
         $result = array();
         for ($i = 0; $i < $max; $i++) {
-            $result[] = array($i);
+            $result[] = $i;
         }
 
-        alert($this->loopProfiler($max, true), 'Formated report');
-        alert($this->loopProfiler($max, false), 'Report as is');
+        alert($this->loopProfiler($max, true), 'Report');
+        $this->loopProfiler($max, false); // just for coverage :)
     }
 
     function testXdebug()
     {
-        if (!$this->isXDebug()) {
-            skip('xDebug is not loaded');
-        } else {
-            skip('xDebug is loaded');
-        }
+        $this->isXDebug();
     }
 
     function testSkip()
@@ -124,13 +120,7 @@ class AliasesTest extends PHPUnit
 
     function testAlert()
     {
-        alert('Some alert message');
+        //alert('Some alert message');
+        //alert('Some alert message', 'Label');
     }
-
-    function testIncomplete()
-    {
-        incomplete('Some reason to incomplete this test');
-    }
-
-
 }
