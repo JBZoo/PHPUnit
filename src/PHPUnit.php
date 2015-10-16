@@ -40,7 +40,7 @@ class PHPUnit extends \PHPUnit_Framework_TestCase
     /**
      * Start profiler
      */
-    protected function startProfiler()
+    public function startProfiler()
     {
         // cleanup
         self::$times = self::$memories = array();
@@ -56,7 +56,7 @@ class PHPUnit extends \PHPUnit_Framework_TestCase
      * @param bool|true $formated
      * @return array
      */
-    protected function loopProfiler($count = 1, $formated = true)
+    public function loopProfiler($count = 1, $formated = true)
     {
         $time   = microtime(true);
         $memory = memory_get_usage(false);
@@ -96,7 +96,7 @@ class PHPUnit extends \PHPUnit_Framework_TestCase
      * @param array $results
      * @return array
      */
-    protected function getFileList($dir, $filter = null, &$results = array())
+    public function getFileList($dir, $filter = null, &$results = array())
     {
         $files = scandir($dir);
 
@@ -125,7 +125,7 @@ class PHPUnit extends \PHPUnit_Framework_TestCase
      * @param $path
      * @return null|string
      */
-    protected function openFile($path)
+    public function openFile($path)
     {
         $contents = null;
 
@@ -136,5 +136,32 @@ class PHPUnit extends \PHPUnit_Framework_TestCase
         }
 
         return $contents;
+    }
+
+    /**
+     * @param string $message
+     * @param null   $label
+     */
+    public function showAlertMessage($message, $label = null)
+    {
+        if (!is_string($message)) {
+            $message = print_r($message, true);
+        }
+
+        $message = ($label ? $label . ': ' : '') . $message . PHP_EOL;
+
+        if (defined('STDOUT') && STDOUT) {
+            fwrite(STDOUT, $message);
+        } else {
+            echo $message;
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    public function isXDebug()
+    {
+        return extension_loaded('xdebug');
     }
 }

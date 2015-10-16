@@ -21,7 +21,7 @@ if (!defined('DEBUG_BACKTRACE_PROVIDE_OBJECT')) {
 }
 
 /**
- * @return \PHPUnit_Framework_TestCase
+ * @return PHPUnit
  */
 function getTestcase()
 {
@@ -116,12 +116,13 @@ function isCount($expected, $actual, $msg = null)
 }
 
 /**
- * Skip some test
- * @param $msg
+ * Show alert
+ * @param string $msg
+ * @param null   $label
  */
-function alert($msg = null)
+function alert($msg, $label = null)
 {
-    getTestcase()->expectOutputString($msg);
+    getTestcase()->showAlertMessage($msg, $label);
 }
 
 /**

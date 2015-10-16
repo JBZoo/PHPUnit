@@ -98,28 +98,39 @@ class AliasesTest extends PHPUnit
     {
         $this->startProfiler();
 
-        $max    = 10000;
+        $max    = 100000;
         $result = array();
         for ($i = 0; $i < $max; $i++) {
             $result[] = array($i);
         }
 
-        $this->loopProfiler($max, true);
-        $this->loopProfiler($max, false);
+        alert($this->loopProfiler($max, true), 'Formated report');
+        alert($this->loopProfiler($max, false), 'Report as is');
     }
 
-    public function testSkip()
+    function testXdebug()
+    {
+        if (!$this->isXDebug()) {
+            skip('xDebug is not loaded');
+        } else {
+            skip('xDebug is loaded');
+        }
+    }
+
+    function testSkip()
     {
         skip('Some reason to skip this test');
     }
 
-    public function testIncomplete()
+    function testAlert()
+    {
+        alert('Some alert message');
+    }
+
+    function testIncomplete()
     {
         incomplete('Some reason to incomplete this test');
     }
 
-    public function testAlert()
-    {
-        alert('ALERT!');
-    }
+
 }
