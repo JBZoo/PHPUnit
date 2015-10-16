@@ -3,7 +3,7 @@
     "type": "library",
     "description": "PHPUnit toolbox with short aliases and useful functions",
     "license": "MIT",
-    "keywords": [],
+    "keywords": ["phpunit", "jbzoo", "aliases", "short-syntax", "testing"],
     "authors": [
         {
             "name": "SmetDenis",
