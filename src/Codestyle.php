@@ -16,10 +16,10 @@
 namespace JBZoo\PHPUnit;
 
 /**
- * Class CodeStyleTest
+ * Class Codestyle
  * @package JBZoo\PHPUnit
  */
-class CodeStyle extends PHPUnit
+class Codestyle extends PHPUnit
 {
     protected $le = "\n";
 
@@ -143,7 +143,7 @@ class CodeStyle extends PHPUnit
 
         foreach ($files as $file) {
             $content = $this->openFile($file);
-            isNotLike('#[А-Яа-яЁё]#u', $content, 'File has no valid chars: ' . $file);
+            isNotLike('#[А-Яа-яЁё]#ius', $content, 'File has no valid chars: ' . $file);
         }
     }
 
