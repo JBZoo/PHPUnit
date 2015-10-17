@@ -16,10 +16,10 @@
 namespace JBZoo\PHPUnit;
 
 /**
- * Class AliasesTest
+ * Class CodeStyleTest
  * @package JBZoo\PHPUnit
  */
-class CodeStyleTest extends CodeStyle
+class CodeStyleTest extends Codestyle
 {
 
 }
