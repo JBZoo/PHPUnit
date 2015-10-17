@@ -88,7 +88,7 @@ class AliasesTest extends PHPUnit
         isFile(__FILE__);
         isDir(__DIR__);
 
-        isCount(3, $this->getFileList(__DIR__));
+        isCount(4, $this->getFileList(__DIR__));
         isCount(1, $this->getFileList(__DIR__, 'aliases'));
         isCount(0, $this->getFileList(__DIR__, '\.qwerty$'));
         isCount(1, $this->getFileList(__DIR__ . '/..', '\.travis'));

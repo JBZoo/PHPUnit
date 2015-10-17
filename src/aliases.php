@@ -97,12 +97,12 @@ function isFalse($value, $msg = null)
 
 /**
  * @param mixed  $expected
- * @param string $сlassName
+ * @param string $className
  * @param null   $msg
  */
-function isClass($expected, $сlassName, $msg = null)
+function isClass($expected, $className, $msg = null)
 {
-    getTestcase()->assertInstanceOf($expected, $сlassName, $msg);
+    getTestcase()->assertInstanceOf($expected, $className, $msg);
 }
 
 /**
