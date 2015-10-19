@@ -62,8 +62,8 @@ class PHPUnit extends \PHPUnit_Framework_TestCase
         $time   = microtime(true);
         $memory = memory_get_usage(false);
 
-        $timeDiff   = $time - end(self::$_times);
-        $memoryDiff = $memory - end(self::$_memories);
+        $_timeDiff   = $time - end(self::$_times);
+        $_memoryDiff = $memory - end(self::$_memories);
 
         array_push(self::$_times, $time);
         array_push(self::$_memories, $memory);
@@ -71,10 +71,10 @@ class PHPUnit extends \PHPUnit_Framework_TestCase
         // build report
         $count = (int)abs($count);
         if ($formated) {
-            $timeDiff = number_format($timeDiff * 1000, 2, '.', ' ') . ' ms';
-            $timeOne  = number_format($timeDiff * 1000 / $count, 2, '.', ' ') . ' ms';
-            $memoDiff = number_format($memoryDiff / 1024, 2, '.', ' ') . ' KB';
-            $memoOne  = number_format($memoryDiff / 1024 / $count, 2, '.', ' ') . ' KB';
+            $timeDiff = number_format($_timeDiff * 1000, 2, '.', ' ') . ' ms';
+            $timeOne  = number_format($_timeDiff * 1000 / $count, 2, '.', ' ') . ' ms';
+            $memoDiff = number_format($_memoryDiff / 1024, 2, '.', ' ') . ' KB';
+            $memoOne  = number_format($_memoryDiff / 1024 / $count, 2, '.', ' ') . ' KB';
             $count    = number_format($count, 0, '', ' ');
 
             $result = implode(';   ', array(
@@ -85,10 +85,10 @@ class PHPUnit extends \PHPUnit_Framework_TestCase
 
         } else {
             $result = array(
-                'time-diff' => $timeDiff,
-                'time-one'  => $timeDiff / $count,
-                'memo-diff' => $memoryDiff,
-                'memo-one'  => $memoryDiff / $count,
+                'time-diff' => $_timeDiff,
+                'time-one'  => $_timeDiff / $count,
+                'memo-diff' => $_memoryDiff,
+                'memo-one'  => $_memoryDiff / $count,
                 'count'     => $count,
             );
         }
