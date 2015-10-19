@@ -61,12 +61,6 @@ after_script:
         php vendor/bin/coveralls --verbose;
     fi;'
       
-  # Check PSR1,2 src and tests
-  - sh -c 'if [ "$TRAVIS_PHP_VERSION" = "5.6" ]; then
-        curl -sS https://raw.githubusercontent.com/JBZoo/Misc/master/phpcs/JBZoo/ruleset.xml > ./build/phpcs_ruleset.xml;
-        php vendor/bin/phpcs ./src --standard=./build/phpcs_ruleset.xml --report=full;
-    fi;'
-  
   # Try to find copy-paste
   - sh -c 'if [ "$TRAVIS_PHP_VERSION" = "5.6" ]; then
         php vendor/bin/phpcpd ./src --no-interaction --verbose;
