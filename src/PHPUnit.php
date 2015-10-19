@@ -77,9 +77,11 @@ class PHPUnit extends \PHPUnit_Framework_TestCase
             $memoOne  = number_format($memoryDiff / 1024 / $count, 2, '.', ' ') . ' KB';
             $count    = number_format($count, 0, '', ' ');
 
-            $result = 'COUNT: ' . $count . ';  '
-                . 'TIME: ' . $timeDiff . '/' . $timeOne . ';  '
-                . 'MEMO: ' . $memoDiff . '/' . $memoOne . ';';
+            $result = implode(';   ', array(
+                'TIME: ' . $timeDiff . '/' . $timeOne,
+                'MEMO: ' . $memoDiff . '/' . $memoOne,
+                'COUNT: ' . $count,
+            ));
 
         } else {
             $result = array(
