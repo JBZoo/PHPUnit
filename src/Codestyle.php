@@ -58,7 +58,7 @@ class Codestyle extends PHPUnit
         'composer.lock',
     );
 
-    protected function setUp()
+    public function setUp()
     {
         parent::setUp();
 
@@ -82,7 +82,7 @@ class Codestyle extends PHPUnit
      * @param $text
      * @return mixed
      */
-    protected function replaceCopyright($text)
+    protected function _replaceCopyright($text)
     {
         foreach ($this->_replace as $const => $value) {
             $text = str_replace($const, $value, $text);
@@ -122,13 +122,13 @@ class Codestyle extends PHPUnit
             }
             $validHeader[] = ' */';
 
-            $namespace = $this->replaceCopyright('namespace _NAMESPACE_');
+            $namespace = $this->_replaceCopyright('namespace _NAMESPACE_');
             if (strpos($content, $namespace)) {
                 //$validHeader[] = '';
                 //$validHeader[] = 'namespace _NAMESPACE_';
             }
 
-            $valid = $this->replaceCopyright(implode($validHeader, $this->_le));
+            $valid = $this->_replaceCopyright(implode($validHeader, $this->_le));
             isContain($valid, $content, false, 'File has no valid header: ' . $file);
         }
     }
