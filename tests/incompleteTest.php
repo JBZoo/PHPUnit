@@ -25,5 +25,4 @@ class IncompleteTest extends PHPUnit
     {
         incomplete('Some reason to incomplete this test');
     }
-
 }

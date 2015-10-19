@@ -123,5 +123,4 @@ class AliasesTest extends PHPUnit
         //alert('Some alert message');
         //alert('Some alert message', 'Label');
     }
-
 }

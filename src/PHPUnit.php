@@ -167,5 +167,4 @@ class PHPUnit extends \PHPUnit_Framework_TestCase
     {
         return extension_loaded('xdebug');
     }
-
 }
