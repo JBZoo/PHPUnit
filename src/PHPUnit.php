@@ -21,10 +21,11 @@ namespace JBZoo\PHPUnit;
  */
 class PHPUnit extends \PHPUnit_Framework_TestCase
 {
-    protected static $times = array();
-    protected static $memories = array();
+    protected static $_times = array();
 
-    protected $excludeFiles = array(
+    protected static $_memories = array();
+
+    protected $_excludeFiles = array(
         '.', '..', '.idea', '.git',
         'build', 'vendor', 'reports',
     );
@@ -43,11 +44,11 @@ class PHPUnit extends \PHPUnit_Framework_TestCase
     public function startProfiler()
     {
         // cleanup
-        self::$times = self::$memories = array();
+        self::$_times = self::$_memories = array();
 
         // set firsy mark
-        array_push(self::$times, microtime(true));
-        array_push(self::$memories, memory_get_usage(false));
+        array_push(self::$_times, microtime(true));
+        array_push(self::$_memories, memory_get_usage(false));
     }
 
     /**
@@ -61,11 +62,11 @@ class PHPUnit extends \PHPUnit_Framework_TestCase
         $time   = microtime(true);
         $memory = memory_get_usage(false);
 
-        $timeDiff   = $time - end(self::$times);
-        $memoryDiff = $memory - end(self::$memories);
+        $timeDiff   = $time - end(self::$_times);
+        $memoryDiff = $memory - end(self::$_memories);
 
-        array_push(self::$times, $time);
-        array_push(self::$memories, $memory);
+        array_push(self::$_times, $time);
+        array_push(self::$_memories, $memory);
 
         // build report
         $count = (int)abs($count);
@@ -108,7 +109,7 @@ class PHPUnit extends \PHPUnit_Framework_TestCase
         foreach ($files as $value) {
             $path = $dir . DIRECTORY_SEPARATOR . $value;
 
-            if (!is_dir($path) && !in_array($value, $this->excludeFiles, true)) {
+            if (!is_dir($path) && !in_array($value, $this->_excludeFiles, true)) {
                 if ($filter) {
                     if (preg_match('#' . $filter . '#iu', $path)) {
                         $results[] = $path;
@@ -117,7 +118,7 @@ class PHPUnit extends \PHPUnit_Framework_TestCase
                     $results[] = $path;
                 }
 
-            } elseif (is_dir($path) && !in_array($value, $this->excludeFiles, true)) {
+            } elseif (is_dir($path) && !in_array($value, $this->_excludeFiles, true)) {
                 $this->getFileList($path, $filter, $results);
             }
         }
@@ -166,4 +167,5 @@ class PHPUnit extends \PHPUnit_Framework_TestCase
     {
         return extension_loaded('xdebug');
     }
+
 }

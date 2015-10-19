@@ -21,8 +21,9 @@ namespace JBZoo\PHPUnit;
  */
 class IncompleteTest extends PHPUnit
 {
-    function testIncomplete()
+    public function testIncomplete()
     {
         incomplete('Some reason to incomplete this test');
     }
+
 }

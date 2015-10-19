@@ -21,15 +21,15 @@ namespace JBZoo\PHPUnit;
  */
 class Codestyle extends PHPUnit
 {
-    protected $le = "\n";
+    protected $_le = "\n";
 
-    protected $replace = array();
+    protected $_replace = array();
 
     /**
      * Valid copyright header
      * @var array
      */
-    protected $validHeader = array(
+    protected $_validHeader = array(
         '<?php',
         '/**',
         ' * JBZoo _PACKAGE_',
@@ -48,7 +48,7 @@ class Codestyle extends PHPUnit
      * Ignore list for
      * @var array
      */
-    protected $excludeFiles = array(
+    protected $_excludeFiles = array(
         '.',
         '..',
         '.idea',
@@ -66,7 +66,7 @@ class Codestyle extends PHPUnit
             throw new \Exception('env.PACKAGE_NAME is undefined!');
         }
 
-        $this->replace = array(
+        $this->_replace = array(
             '_LINK_'       => 'https://github.com/JBZoo/_PACKAGE_',
             '_NAMESPACE_'  => 'JBZoo\_PACKAGE_',
             '_PACKAGE_'    => $_ENV['PACKAGE_NAME'],
@@ -84,7 +84,7 @@ class Codestyle extends PHPUnit
      */
     protected function replaceCopyright($text)
     {
-        foreach ($this->replace as $const => $value) {
+        foreach ($this->_replace as $const => $value) {
             $text = str_replace($const, $value, $text);
         }
 
@@ -101,6 +101,7 @@ class Codestyle extends PHPUnit
         foreach ($files as $file) {
             $content = $this->openFile($file);
             isNotContain("\r", $content, false, 'File has no \r symbol: ' . $file);
+            isNotContain("\t", $content, false, 'File has no \t symbol: ' . $file);
         }
     }
 
@@ -115,8 +116,8 @@ class Codestyle extends PHPUnit
             $content = $this->openFile($file);
 
             // build copyrights
-            $validHeader = $this->validHeader;
-            if (isset($this->replace['_AUTHOR_']) && $this->replace['_AUTHOR_']) {
+            $validHeader = $this->_validHeader;
+            if (isset($this->_replace['_AUTHOR_']) && $this->_replace['_AUTHOR_']) {
                 $validHeader[] = ' * @author    _AUTHOR_';
             }
             $validHeader[] = ' */';
@@ -127,7 +128,7 @@ class Codestyle extends PHPUnit
                 //$validHeader[] = 'namespace _NAMESPACE_';
             }
 
-            $valid = $this->replaceCopyright(implode($validHeader, $this->le));
+            $valid = $this->replaceCopyright(implode($validHeader, $this->_le));
             isContain($valid, $content, false, 'File has no valid header: ' . $file);
         }
     }
@@ -137,7 +138,7 @@ class Codestyle extends PHPUnit
      */
     public function testCyrillic()
     {
-        $this->excludeFiles[] = pathinfo(__FILE__, PATHINFO_BASENAME);
+        $this->_excludeFiles[] = pathinfo(__FILE__, PATHINFO_BASENAME);
 
         $files = $this->getFileList(ROOT_PATH, '[/\\\\](src|tests)[/\\\\].*\.php$');
 
@@ -146,5 +147,4 @@ class Codestyle extends PHPUnit
             isNotLike('#[А-Яа-яЁё]#ius', $content, 'File has no valid chars: ' . $file);
         }
     }
-
 }

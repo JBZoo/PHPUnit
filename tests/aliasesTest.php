@@ -21,14 +21,14 @@ namespace JBZoo\PHPUnit;
  */
 class AliasesTest extends PHPUnit
 {
-    function testBoolean()
+    public function testBoolean()
     {
         isTrue(true);
         isFalse(false);
         isNull(null);
     }
 
-    function testEmpty()
+    public function testEmpty()
     {
         isEmpty(0);
         isEmpty('');
@@ -38,7 +38,7 @@ class AliasesTest extends PHPUnit
         isEmpty(array());
     }
 
-    function testEquals()
+    public function testEquals()
     {
         is(1, true);
         is(array(1, 2, 3), array(1, 2, 3));
@@ -56,7 +56,7 @@ class AliasesTest extends PHPUnit
 
     }
 
-    function testObjects()
+    public function testObjects()
     {
         isClass('stdClass', new \stdClass());
         isClass('\stdClass', new \stdClass());
@@ -64,14 +64,14 @@ class AliasesTest extends PHPUnit
         isClass('JBZoo\PHPUnit\PHPUnit', $this);
     }
 
-    function testArray()
+    public function testArray()
     {
         isCount(0, array());
         isCount(1, array(1));
         isCount(2, array(1, 3));
     }
 
-    function testString()
+    public function testString()
     {
         isLike('#t.st#i', 'TESTO');
         isNotLike('#teeest#i', 'TESTO');
@@ -80,7 +80,7 @@ class AliasesTest extends PHPUnit
         isNotContain('x', 'test');
     }
 
-    function testFilesystem()
+    public function testFilesystem()
     {
         fileEq(__FILE__, __FILE__);
         is($this->openFile(__FILE__), $this->openFile(__FILE__));
@@ -94,7 +94,7 @@ class AliasesTest extends PHPUnit
         isCount(1, $this->getFileList(__DIR__ . '/..', '\.travis'));
     }
 
-    function testLoopProfiler()
+    public function testLoopProfiler()
     {
         $this->startProfiler();
 
@@ -108,19 +108,20 @@ class AliasesTest extends PHPUnit
         $this->loopProfiler($max, false); // just for coverage :)
     }
 
-    function testXdebug()
+    public function testXdebug()
     {
         $this->isXDebug();
     }
 
-    function testSkip()
+    public function testSkip()
     {
         skip('Some reason to skip this test');
     }
 
-    function testAlert()
+    public function testAlert()
     {
         //alert('Some alert message');
         //alert('Some alert message', 'Label');
     }
+
 }

@@ -21,7 +21,7 @@ if (!defined('DEBUG_BACKTRACE_PROVIDE_OBJECT')) {
 }
 
 /**
- * @return PHPUnit
+ * @return PHPUnit|null
  */
 function getTestcase()
 {
@@ -32,6 +32,8 @@ function getTestcase()
             return $object['object'];
         }
     }
+
+    return null;
 }
 
 /**
@@ -164,13 +166,13 @@ function isNotLike($pattern, $value, $msg = null)
 }
 
 /**
- * @param string $filepath1
- * @param string $filepath2
+ * @param string $filePathOrig
+ * @param string $filePathCopy
  * @param null   $msg
  */
-function fileEq($filepath1, $filepath2, $msg = null)
+function fileEq($filePathOrig, $filePathCopy, $msg = null)
 {
-    getTestcase()->assertFileEquals($filepath1, $filepath2, $msg);
+    getTestcase()->assertFileEquals($filePathOrig, $filePathCopy, $msg);
 }
 
 /**
