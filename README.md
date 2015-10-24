@@ -3,7 +3,7 @@
 PHPUnit Toolbox for simple syntax and dev
 
 [![License](https://poser.pugx.org/JBZoo/PHPUnit/license)](https://packagist.org/packages/JBZoo/PHPUnit)
-[![Latest Stable Version](https://poser.pugx.org/JBZoo/PHPUnit/v/stable)](https://packagist.org/packages/JBZoo/PHPUnit)
+[![Latest Stable Version](https://poser.pugx.org/JBZoo/PHPUnit/v/stable)](https://packagist.org/packages/JBZoo/PHPUnit) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/JBZoo/PHPUnit/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/JBZoo/PHPUnit/?branch=master)
 
 
 #### Composer.json content
