@@ -42,9 +42,11 @@ class AliasesTest extends PHPUnit
     {
         is(1, true);
         is(array(1, 2, 3), array(1, 2, 3));
+        is(array('a' => 1, 'b'=> 2), array('b'=> 2, 'a' => 1));
         isNot(1, 2);
 
         same(array(1, 2, 3), array(1, 2, 3));
+        notSame(array(1, 2, 3), array(3, 2, 1));
 
         isKey('test', array('test' => true));
         isAttr('test', (object)array('test' => true));
@@ -120,7 +122,7 @@ class AliasesTest extends PHPUnit
 
     public function testAlert()
     {
-        //alert('Some alert message');
-        //alert('Some alert message', 'Label');
+        alert('Some alert message');
+        alert(array('Some alert message'), 'Label');
     }
 }

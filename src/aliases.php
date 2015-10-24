@@ -33,7 +33,9 @@ function getTestcase()
         }
     }
 
+    //@codeCoverageIgnoreStart
     return null;
+    //@codeCoverageIgnoreEnd
 }
 
 /**
@@ -131,19 +133,23 @@ function alert($msg, $label = null)
  * Skip some test
  * @param $msg
  */
+//@codeCoverageIgnoreStart
 function skip($msg = null)
 {
     getTestcase()->markTestSkipped($msg);
 }
+//@codeCoverageIgnoreEnd
 
 /**
  * Skip some test
  * @param $msg
  */
+//@codeCoverageIgnoreStart
 function incomplete($msg = null)
 {
     getTestcase()->markTestIncomplete($msg);
 }
+//@codeCoverageIgnoreEnd
 
 /**
  * @param string $pattern
@@ -178,10 +184,21 @@ function fileEq($filePathOrig, $filePathCopy, $msg = null)
 /**
  * @param $expected
  * @param $actual
+ * @param $msg
  */
-function same($expected, $actual)
+function same($expected, $actual, $msg = null)
 {
-    getTestcase()->assertSame($expected, $actual);
+    getTestcase()->assertSame($expected, $actual, $msg);
+}
+
+/**
+ * @param mixed $expected
+ * @param mixed $actual
+ * @param null  $msg
+ */
+function notSame($expected, $actual, $msg = null)
+{
+    getTestcase()->assertNotSame($expected, $actual, $msg);
 }
 
 /**

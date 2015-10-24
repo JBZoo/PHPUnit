@@ -63,7 +63,9 @@ class Codestyle extends PHPUnit
         parent::setUp();
 
         if (!isset($_ENV['PACKAGE_NAME'])) {
+            //@codeCoverageIgnoreStart
             throw new \Exception('env.PACKAGE_NAME is undefined!');
+            //@codeCoverageIgnoreEnd
         }
 
         $this->_replace = array(
