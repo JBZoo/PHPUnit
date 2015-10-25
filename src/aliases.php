@@ -15,6 +15,8 @@
 
 namespace JBZoo\PHPUnit;
 
+use \PHPUnit_Framework_TestCase;
+
 /* php 5.3.3 does not support this */
 if (!defined('DEBUG_BACKTRACE_PROVIDE_OBJECT')) {
     define('DEBUG_BACKTRACE_PROVIDE_OBJECT', true);
@@ -28,7 +30,7 @@ function getTestcase()
     $objects = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT);
 
     foreach ($objects as $object) {
-        if (isset($object['object']) && $object['object'] instanceof \PHPUnit_Framework_TestCase) {
+        if (isset($object['object']) && $object['object'] instanceof PHPUnit_Framework_TestCase) {
             return $object['object'];
         }
     }
