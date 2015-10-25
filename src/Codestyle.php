@@ -124,12 +124,6 @@ class Codestyle extends PHPUnit
             }
             $validHeader[] = ' */';
 
-            $namespace = $this->_replaceCopyright('namespace _NAMESPACE_');
-            if (strpos($content, $namespace)) {
-                //$validHeader[] = '';
-                //$validHeader[] = 'namespace _NAMESPACE_';
-            }
-
             $valid = $this->_replaceCopyright(implode($validHeader, $this->_le));
             isContain($valid, $content, false, 'File has no valid header: ' . $file);
         }
