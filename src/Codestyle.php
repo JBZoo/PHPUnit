@@ -58,6 +58,11 @@ class Codestyle extends PHPUnit
         'composer.lock',
     );
 
+    /**
+     * @throws \Exception
+     *
+     * @SuppressWarnings(PHPMD.Superglobals)
+     */
     public function setUp()
     {
         parent::setUp();

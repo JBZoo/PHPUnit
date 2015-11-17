@@ -45,6 +45,8 @@ function getTestcase()
  * @param mixed $actual
  * @param null  $msg
  * @return bool
+ *
+ * @SuppressWarnings(PHPMD.ShortMethodName)
  */
 function is($expected, $actual, $msg = null)
 {
