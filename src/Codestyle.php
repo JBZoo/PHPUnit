@@ -19,7 +19,7 @@ namespace JBZoo\PHPUnit;
  * Class Codestyle
  * @package JBZoo\PHPUnit
  */
-class Codestyle extends PHPUnit
+abstract class Codestyle extends PHPUnit
 {
     protected $_le = "\n";
 
