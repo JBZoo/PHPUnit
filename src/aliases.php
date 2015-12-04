@@ -17,7 +17,7 @@ namespace JBZoo\PHPUnit;
 
 use \PHPUnit_Framework_TestCase;
 
-/* php 5.3.3 does not support this */
+// php 5.3.3 does not support this
 if (!defined('DEBUG_BACKTRACE_PROVIDE_OBJECT')) {
     define('DEBUG_BACKTRACE_PROVIDE_OBJECT', true);
 }

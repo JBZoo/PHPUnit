@@ -21,6 +21,11 @@ namespace JBZoo\PHPUnit;
  */
 abstract class Codestyle extends PHPUnit
 {
+    protected $_packageVendor = "JBZoo";
+    protected $_packageName = "";
+    protected $_packageAuthor = "";
+    protected $_packageLicense = "MIT";
+
     protected $_le = "\n";
 
     protected $_replace = array();
@@ -32,7 +37,7 @@ abstract class Codestyle extends PHPUnit
     protected $_validHeader = array(
         '<?php',
         '/**',
-        ' * JBZoo _PACKAGE_',
+        ' * _VENDOR_ _PACKAGE_',
         ' *',
         ' * This file is part of the JBZoo CCK package.',
         ' * For the full copyright and license information, please view the LICENSE',
@@ -67,7 +72,7 @@ abstract class Codestyle extends PHPUnit
     {
         parent::setUp();
 
-        if (!isset($_ENV['PACKAGE_NAME'])) {
+        if (!$this->_packageName) {
             //@codeCoverageIgnoreStart
             throw new \Exception('env.PACKAGE_NAME is undefined!');
             //@codeCoverageIgnoreEnd
@@ -75,11 +80,12 @@ abstract class Codestyle extends PHPUnit
 
         $this->_replace = array(
             '_LINK_'       => 'https://github.com/JBZoo/_PACKAGE_',
-            '_NAMESPACE_'  => 'JBZoo\_PACKAGE_',
-            '_PACKAGE_'    => $_ENV['PACKAGE_NAME'],
-            '_LICENSE_'    => 'MIT',
+            '_NAMESPACE_'  => '_VENDOR_\_PACKAGE_',
             '_COPYRIGHTS_' => 'Copyright (C) JBZoo.com,  All rights reserved.',
-            '_AUTHOR_'     => isset($_ENV['PACKAGE_AUTHOR']) ? $_ENV['PACKAGE_AUTHOR'] : null,
+            '_PACKAGE_'    => $this->_packageName,
+            '_LICENSE_'    => $this->_packageLicense,
+            '_AUTHOR_'     => $this->_packageAuthor,
+            '_VENDOR_'     => $this->_packageVendor,
         );
 
     }
