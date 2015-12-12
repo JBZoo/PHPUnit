@@ -24,6 +24,11 @@
             "JBZoo\\PHPUnit\\": "src"
         }
     },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    },
     "support": {
         "issues": "https://github.com/JBZoo/PHPUnit/issues"
     }
