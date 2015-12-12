@@ -17,10 +17,19 @@ namespace JBZoo\PHPUnit;
 
 use \PHPUnit_Framework_TestCase;
 
-// php 5.3.3 does not support this
-if (!defined('DEBUG_BACKTRACE_PROVIDE_OBJECT')) {
-    define('DEBUG_BACKTRACE_PROVIDE_OBJECT', true);
-}
+/* php 5.3.3 does not support this */
+!defined('DEBUG_BACKTRACE_PROVIDE_OBJECT') && define('DEBUG_BACKTRACE_PROVIDE_OBJECT', true);
+
+// System
+!defined('CRLF') && define('CRLF', "\r\n");
+!defined('LF') && define('LF', "\n");
+!defined('DS') && define('DS', DIRECTORY_SEPARATOR);
+
+// Paths
+!defined('PROJECT_ROOT')  && define('PROJECT_ROOT',  realpath('.'));
+!defined('PROJECT_BUILD') && define('PROJECT_BUILD', PROJECT_ROOT . DS . 'build');
+!defined('PROJECT_SRC')   && define('PROJECT_SRC',   PROJECT_ROOT . DS . 'src');
+!defined('PROJECT_TESTS') && define('PROJECT_TESTS', PROJECT_ROOT . DS . 'tests');
 
 /**
  * @return PHPUnit|null
@@ -142,6 +151,7 @@ function skip($msg = null)
 {
     getTestcase()->markTestSkipped($msg);
 }
+
 //@codeCoverageIgnoreEnd
 
 /**
@@ -153,6 +163,7 @@ function incomplete($msg = null)
 {
     getTestcase()->markTestIncomplete($msg);
 }
+
 //@codeCoverageIgnoreEnd
 
 /**
