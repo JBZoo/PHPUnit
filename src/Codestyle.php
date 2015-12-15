@@ -74,7 +74,7 @@ abstract class Codestyle extends PHPUnit
 
         if (!$this->_packageName) {
             //@codeCoverageIgnoreStart
-            throw new \Exception('env.PACKAGE_NAME is undefined!');
+            throw new \Exception('$this->_packageName is undefined!');
             //@codeCoverageIgnoreEnd
         }
 
