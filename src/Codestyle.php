@@ -109,7 +109,7 @@ abstract class Codestyle extends PHPUnit
      */
     public function testFiles()
     {
-        $files = $this->getFileList(ROOT_PATH, '[/\\\\](src|tests)[/\\\\].*\.php$');
+        $files = $this->getFileList(PROJECT_ROOT, '[/\\\\](src|tests)[/\\\\].*\.php$');
 
         foreach ($files as $file) {
             $content = $this->openFile($file);
@@ -123,7 +123,7 @@ abstract class Codestyle extends PHPUnit
      */
     public function testHeaders()
     {
-        $files = $this->getFileList(ROOT_PATH, '[/\\\\](src|tests)[/\\\\].*\.php$');
+        $files = $this->getFileList(PROJECT_ROOT, '[/\\\\](src|tests)[/\\\\].*\.php$');
 
         foreach ($files as $file) {
             $content = $this->openFile($file);
@@ -147,7 +147,7 @@ abstract class Codestyle extends PHPUnit
     {
         $this->_excludeFiles[] = pathinfo(__FILE__, PATHINFO_BASENAME);
 
-        $files = $this->getFileList(ROOT_PATH, '[/\\\\](src|tests)[/\\\\].*\.php$');
+        $files = $this->getFileList(PROJECT_ROOT, '[/\\\\](src|tests)[/\\\\].*\.php$');
 
         foreach ($files as $file) {
             $content = $this->openFile($file);
