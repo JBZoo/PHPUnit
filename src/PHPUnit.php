@@ -26,8 +26,13 @@ class PHPUnit extends \PHPUnit_Framework_TestCase
     protected static $_memories = array();
 
     protected $_excludeFiles = array(
-        '.', '..', '.idea', '.git',
-        'build', 'vendor', 'reports',
+        '.',
+        '..',
+        '.idea',
+        '.git',
+        'build',
+        'vendor',
+        'resources',
     );
 
     /**
@@ -111,11 +116,16 @@ class PHPUnit extends \PHPUnit_Framework_TestCase
         foreach ($files as $value) {
             $path = $dir . DIRECTORY_SEPARATOR . $value;
 
+            $path = realpath($path);
+
             if (!is_dir($path) && !in_array($value, $this->_excludeFiles, true)) {
                 if ($filter) {
-                    if (preg_match('#' . $filter . '#iu', $path)) {
+
+                    $regexp = '#' . $filter . '#u';
+                    if (preg_match($regexp, $path)) {
                         $results[] = $path;
                     }
+
                 } else {
                     $results[] = $path;
                 }

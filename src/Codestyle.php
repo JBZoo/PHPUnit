@@ -60,7 +60,7 @@ abstract class Codestyle extends PHPUnit
         '.git',
         'build',
         'vendor',
-        'composer.lock',
+        'resources',
     );
 
     /**
@@ -109,12 +109,12 @@ abstract class Codestyle extends PHPUnit
      */
     public function testFiles()
     {
-        $files = $this->getFileList(PROJECT_ROOT, '[/\\\\](src|tests)[/\\\\].*\.php$');
+        $files = $this->getFileList(PROJECT_ROOT, '.*');
 
         foreach ($files as $file) {
             $content = $this->openFile($file);
-            isNotContain("\r", $content, false, 'File has no \r symbol: ' . $file);
-            isNotContain("\t", $content, false, 'File has no \t symbol: ' . $file);
+            isNotContain("\r", $content, false, 'File has \r symbol: ' . $file);
+            isNotContain("\t", $content, false, 'File has \t symbol: ' . $file);
         }
     }
 
@@ -147,7 +147,7 @@ abstract class Codestyle extends PHPUnit
     {
         $this->_excludeFiles[] = pathinfo(__FILE__, PATHINFO_BASENAME);
 
-        $files = $this->getFileList(PROJECT_ROOT, '[/\\\\](src|tests)[/\\\\].*\.php$');
+        $files = $this->getFileList(PROJECT_ROOT, '[/\\\\](src)[/\\\\]$');
 
         foreach ($files as $file) {
             $content = $this->openFile($file);

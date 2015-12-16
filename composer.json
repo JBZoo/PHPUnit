@@ -1,35 +1,37 @@
 {
-    "name": "jbzoo/phpunit",
-    "type": "library",
-    "description": "PHPUnit toolbox with short assert aliases and useful functions",
-    "license": "MIT",
-    "keywords": ["phpunit", "jbzoo", "aliases", "short-syntax", "testing", "assert", "assertion", "validation"],
-    "minimum-stability": "dev",
-    "authors": [
+    "name"              : "jbzoo/phpunit",
+    "type"              : "library",
+    "description"       : "PHPUnit toolbox with short assert aliases and useful functions",
+    "license"           : "MIT",
+    "keywords"          : [
+        "phpunit", "jbzoo", "aliases", "short-syntax", "testing", "assert", "assertion", "validation"
+    ],
+    "minimum-stability" : "dev",
+    "authors"           : [
         {
-            "name": "SmetDenis",
-            "email": "denis@jbzoo.com",
-            "role": "lead"
+            "name"  : "SmetDenis",
+            "email" : "denis@jbzoo.com",
+            "role"  : "lead"
         }
     ],
-    "require": {
-        "php": ">=5.3",
+    "require"           : {
+        "php"             : ">=5.3",
         "phpunit/phpunit" : "^4.8"
     },
-    "autoload": {
-        "files": [
+    "autoload"          : {
+        "files" : [
             "src/aliases.php"
         ],
-        "psr-4": {
-            "JBZoo\\PHPUnit\\": "src"
+        "psr-4" : {
+            "JBZoo\\PHPUnit\\" : "src"
         }
     },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.x-dev"
+    "extra"             : {
+        "branch-alias" : {
+            "dev-master" : "1.x-dev"
         }
     },
-    "support": {
-        "issues": "https://github.com/JBZoo/PHPUnit/issues"
+    "support"           : {
+        "issues" : "https://github.com/JBZoo/PHPUnit/issues"
     }
 }

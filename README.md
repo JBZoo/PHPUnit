@@ -13,7 +13,7 @@ PHPUnit Toolbox for simple syntax and dev
         "php": ">=5.3.10"
     },
     "require-dev": {
-        "jbzoo/phpunit": "^1.0"
+        "jbzoo/phpunit": "^1.x-dev"
     }
 }
 ```
@@ -120,7 +120,7 @@ class Test extends PHPUnit
         $this->loopProfiler($max, true);
         $this->loopProfiler($max, false);
     }
-    
+
     public function testSkip()
     {
         skip('Some reason to skip this test');
