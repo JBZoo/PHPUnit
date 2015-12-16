@@ -147,7 +147,7 @@ abstract class Codestyle extends PHPUnit
     {
         $this->_excludeFiles[] = pathinfo(__FILE__, PATHINFO_BASENAME);
 
-        $files = $this->getFileList(PROJECT_ROOT, '[/\\\\](src)[/\\\\]$');
+        $files = $this->getFileList(PROJECT_SRC);
 
         foreach ($files as $file) {
             $content = $this->openFile($file);
