@@ -7,6 +7,7 @@
         "phpunit", "jbzoo", "aliases", "short-syntax", "testing", "assert", "assertion", "validation"
     ],
     "minimum-stability" : "dev",
+    "prefer-stable"     : true,
     "authors"           : [
         {
             "name"  : "SmetDenis",
@@ -18,8 +19,16 @@
         "php"             : ">=5.3",
         "phpunit/phpunit" : "^4.8"
     },
+    "require-dev"       : {
+        "jbzoo/misc"                : "1.x-dev",
+        "squizlabs/php_codesniffer" : "^2.5",
+        "sebastian/phpcpd"          : "^2.0",
+        "phploc/phploc"             : "^2.1",
+        "phpmd/phpmd"               : "^2.3"
+    },
     "autoload"          : {
         "files" : [
+            "src/defines.php",
             "src/aliases.php"
         ],
         "psr-4" : {
@@ -30,6 +39,24 @@
         "branch-alias" : {
             "dev-master" : "1.x-dev"
         }
+    },
+    "scripts"           : {
+        "test"     : [
+            "@manifest",
+            "@autoload",
+            "@phpunit",
+            "@phpmd",
+            "@phpcs",
+            "@phpcpd",
+            "@phploc"
+        ],
+        "manifest" : "composer validate",
+        "autoload" : "composer dump-autoload --optimize --no-scripts",
+        "phpunit"  : "php ./vendor/phpunit/phpunit/phpunit",
+        "phpmd"    : "php ./vendor/phpmd/phpmd/src/bin/phpmd ./src text ./vendor/jbzoo/misc/phpmd/jbzoo.xml --verbose",
+        "phpcs"    : "php ./vendor/squizlabs/php_codesniffer/scripts/phpcs ./src --standard=./vendor/jbzoo/misc/phpcs/JBZoo/ruleset.xml --report=full",
+        "phpcpd"   : "php ./vendor/sebastian/phpcpd/phpcpd ./src --verbose",
+        "phploc"   : "php ./vendor/phploc/phploc/phploc ./src --verbose"
     },
     "support"           : {
         "issues" : "https://github.com/JBZoo/PHPUnit/issues"
