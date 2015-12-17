@@ -22,8 +22,7 @@ before_script:
             composer update
         else
             composer update --no-dev
-        fi;
-    '
+        fi;'
 
   # Update env
   - phpenv rehash
@@ -35,8 +34,7 @@ script:
             composer test
         else
             vendor/bin/phpunit
-        fi;
-    '
+        fi;'
 
 after_script:
   # Send to coveralls
