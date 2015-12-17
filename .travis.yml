@@ -11,12 +11,11 @@ matrix:
   fast_finish: true
 
 before_script:
-  - composer self-update
-  - composer update;
+  - composer update-all
   - phpenv rehash
 
 script:
-  - composer test;
+  - composer test
 
 after_script:
- - vendor/bin/coveralls --verbose
+ - composer coveralls
