@@ -16,10 +16,8 @@
         }
     ],
     "require"           : {
-        "php"             : ">=5.3",
-        "phpunit/phpunit" : "^4.8"
-    },
-    "require-dev"       : {
+        "php"                       : ">=5.3",
+        "phpunit/phpunit"           : "^4.8",
         "jbzoo/misc"                : "1.x-dev",
         "squizlabs/php_codesniffer" : "^2.5",
         "sebastian/phpcpd"          : "^2.0",
