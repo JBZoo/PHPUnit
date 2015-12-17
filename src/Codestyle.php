@@ -21,10 +21,10 @@ namespace JBZoo\PHPUnit;
  */
 abstract class Codestyle extends PHPUnit
 {
-    protected $_packageVendor = "JBZoo";
-    protected $_packageName = "";
-    protected $_packageAuthor = "";
-    protected $_packageLicense = "MIT";
+    protected $_packageVendor = 'JBZoo';
+    protected $_packageName = '';
+    protected $_packageAuthor = '';
+    protected $_packageLicense = 'MIT';
 
     protected $_le = "\n";
 
@@ -113,7 +113,11 @@ abstract class Codestyle extends PHPUnit
 
         foreach ($files as $file) {
             $content = $this->openFile($file);
-            isNotContain("\r", $content, false, 'File has \r symbol: ' . $file);
+
+            if (!isWin()) {
+                isNotContain("\r", $content, false, 'File has \r symbol: ' . $file);
+            }
+
             isNotContain("\t", $content, false, 'File has \t symbol: ' . $file);
         }
     }

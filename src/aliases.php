@@ -283,3 +283,12 @@ function isNotContain($expected, $value, $ignoreCase = false, $msg = null)
 {
     getTestcase()->assertNotContains($expected, $value, $msg, $ignoreCase);
 }
+
+/**
+ * Check is current OS Windows
+ * @return bool
+ */
+function isWin()
+{
+    return strncasecmp(PHP_OS, 'WIN', 3) === 0;
+}
