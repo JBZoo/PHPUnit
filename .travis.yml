@@ -17,24 +17,22 @@ before_script:
   - composer self-update
 
   # Install all testing and dev tools
-  - sh -c 'if [ "$TRAVIS_PHP_VERSION" = "$PHP_TEST_VERSION" ];
-        then
-            composer update
-        else
-            composer update --no-dev
-        fi;'
+  - sh -c 'if [ "$TRAVIS_PHP_VERSION" = "$PHP_TEST_VERSION" ]; then
+        composer update;
+    else
+        composer update --no-dev;
+    fi;'
 
   # Update env
   - phpenv rehash
 
 script:
   # PHPUnit tests OR global testing
-  - sh -c 'if [ "$TRAVIS_PHP_VERSION" = "$PHP_TEST_VERSION" ];
-        then
-            composer test
-        else
-            vendor/bin/phpunit
-        fi;'
+  - sh -c 'if [ "$TRAVIS_PHP_VERSION" = "$PHP_TEST_VERSION" ]; then
+        composer test;
+    else
+        composer phpunit;
+    fi;'
 
 after_script:
   # Send to coveralls
