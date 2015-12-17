@@ -37,8 +37,6 @@ script:
 after_script:
   # Send to coveralls
   - sh -c 'if [ "$TRAVIS_PHP_VERSION" = "5.6" ]; then
+        composer require satooshi/php-coveralls;
         php vendor/bin/coveralls --verbose;
     fi;'
-
-notifications:
-  slack: jbzoo:RPyzxVQZPuPhgvm1Q6fDvK3C
