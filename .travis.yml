@@ -19,4 +19,4 @@ script:
   - composer test;
 
 after_script:
- - php vendor/bin/coveralls --verbose
+ - vendor/bin/coveralls --verbose
