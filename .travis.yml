@@ -18,11 +18,12 @@ before_script:
 
   # Install all testing and dev tools
   - sh -c 'if [ "$TRAVIS_PHP_VERSION" = "$PHP_TEST_VERSION" ];
-    then
-        composer update
-    else
-        composer update --no-dev
-    fi;'
+        then
+            composer update
+        else
+            composer update --no-dev
+        fi;
+    '
 
   # Update env
   - phpenv rehash
@@ -30,11 +31,12 @@ before_script:
 script:
   # PHPUnit tests OR global testing
   - sh -c 'if [ "$TRAVIS_PHP_VERSION" = "$PHP_TEST_VERSION" ];
-    then
-        composer test
-    else
-        vendor/bin/phpunit
-    fi;'
+        then
+            composer test
+        else
+            vendor/bin/phpunit
+        fi;
+    '
 
 after_script:
   # Send to coveralls
