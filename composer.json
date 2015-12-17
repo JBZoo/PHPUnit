@@ -6,7 +6,6 @@
     "keywords"          : [
         "phpunit", "jbzoo", "aliases", "short-syntax", "testing", "assert", "assertion", "validation"
     ],
-    "minimum-stability" : "dev",
     "prefer-stable"     : true,
     "authors"           : [
         {
@@ -18,7 +17,7 @@
     "require"           : {
         "php"                       : ">=5.3",
         "phpunit/phpunit"           : "^4.8",
-        "jbzoo/misc"                : "1.x-dev",
+        "jbzoo/misc"                : "^1.0",
         "squizlabs/php_codesniffer" : "^2.5",
         "sebastian/phpcpd"          : "^2.0",
         "phploc/phploc"             : "^2.1",
