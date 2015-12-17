@@ -6,7 +6,7 @@
     "keywords"          : [
         "phpunit", "jbzoo", "aliases", "short-syntax", "testing", "assert", "assertion", "validation"
     ],
-    "prefer-stable"     : true,
+    "minimum-stability" : "stable",
     "authors"           : [
         {
             "name"  : "SmetDenis",
@@ -21,7 +21,8 @@
         "squizlabs/php_codesniffer" : "^2.5",
         "sebastian/phpcpd"          : "^2.0",
         "phploc/phploc"             : "^2.1",
-        "phpmd/phpmd"               : "^2.3"
+        "phpmd/phpmd"               : "^2.3",
+        "satooshi/php-coveralls"    : "^0.7",
     },
     "autoload"          : {
         "files" : [
