@@ -21,6 +21,19 @@ namespace JBZoo\PHPUnit;
  */
 class AliasesTest extends PHPUnit
 {
+    public function testDump()
+    {
+        $testObj = (object)array(
+            'array'  => array(1, 2, 3),
+            'bool'   => true,
+            'string' => ' 123 ',
+        );
+
+        dump($testObj->array, 0);
+        dump($testObj->bool, 0);
+        dump($testObj, 0);
+    }
+
     public function testBoolean()
     {
         isTrue(true);
@@ -42,7 +55,7 @@ class AliasesTest extends PHPUnit
     {
         is(1, true);
         is(array(1, 2, 3), array(1, 2, 3));
-        is(array('a' => 1, 'b'=> 2), array('b'=> 2, 'a' => 1));
+        is(array('a' => 1, 'b' => 2), array('b' => 2, 'a' => 1));
         isNot(1, 2);
 
         same(array(1, 2, 3), array(1, 2, 3));

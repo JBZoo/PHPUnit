@@ -17,6 +17,7 @@ namespace JBZoo\PHPUnit;
 
 /** @noinspection PhpUndefinedClassInspection */
 use \PHPUnit_Framework_TestCase;
+use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * @return PHPUnit|null
@@ -291,4 +292,32 @@ function isNotContain($expected, $value, $ignoreCase = false, $msg = null)
 function isWin()
 {
     return strncasecmp(PHP_OS, 'WIN', 3) === 0;
+}
+
+/**
+ * Useful console dump
+ * @param mixed $var
+ * @param bool  $isDie
+ */
+function dump($var, $isDie = true)
+{
+    if (!is_array($var) && !is_object($var) && !is_callable($var)) {
+        var_dump($var);
+
+    } else {
+        VarDumper::dump($var);
+    }
+
+    $trace     = debug_backtrace(false);
+    $dirname   = pathinfo(dirname($trace[0]['file']), PATHINFO_BASENAME);
+    $filename  = pathinfo($trace[0]['file'], PATHINFO_BASENAME);
+    $line      = $trace[0]['line'];
+    $callplace = "\"{$dirname}/{$filename}:{$line}\"";
+
+    echo '-------------' . PHP_EOL . $callplace . PHP_EOL;
+
+    if ($isDie) {
+        echo 'Die!';
+        exit(1);
+    }
 }
