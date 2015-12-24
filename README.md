@@ -67,7 +67,7 @@ class Test extends PHPUnit
         // Equals
         is(1, true);
         is(array(1, 2, 3), array(1, 2, 3));
-        same(array(1, 2, 3), array(1, 2, 3));
+        isSame(array(1, 2, 3), array(1, 2, 3));
         isBatch(array(
             array(1, 1),
             array(2, 2),
@@ -75,7 +75,10 @@ class Test extends PHPUnit
 
         // Array, Object etc
         isKey('test', array('test' => true));
+        isNotKey('undef-kest', array('test' => true));
+
         isAttr('test', (object)array('test' => true));
+        isNotAttr('undef-test', (object)array('test' => true));
 
         // Instance Of ...
         isClass('stdClass', new \stdClass());
@@ -103,7 +106,7 @@ class Test extends PHPUnit
         isCount(1, $this->getFileList(__DIR__ . '/..', '\.travis'));
 
         // Filesystem
-        fileEq(__FILE__, __FILE__);
+        isFileEq(__FILE__, __FILE__);
         is($this->openFile(__FILE__), $this->openFile(__FILE__));
         isFile(__FILE__);
         isDir(__DIR__);
@@ -121,9 +124,28 @@ class Test extends PHPUnit
         $this->loopProfiler($max, false);
     }
 
+    public function testHtml()
+    {
+        $html = '<body>
+            <div class="test-class">
+                <p>qwerty</p>
+            </div>
+            <span class="empty-1"> </span>
+            <span class="empty-2"></span>
+        </body>';
+
+        isHtmlContain($html, 'body > div.test-class p', 'qwerty');
+        isHtmlNotContain($html, 'body > div.test-class p', 'qwerty-123');
+    }
+
     public function testSkip()
     {
         skip('Some reason to skip this test');
+    }
+
+    public function testFail()
+    {
+        fail('Some reason to fail this test');
     }
 
     /**
@@ -132,6 +154,44 @@ class Test extends PHPUnit
     public function testShouldShowException()
     {
         throw new Exception('Test message');
+    }
+
+    public function testBenchmark()
+    {
+        // Compare performance of functions
+        runBench(array(
+            'md5'   => function () {
+                $string = str_repeat(mt_rand(0, 9), 1024 * 1024);
+                return md5($string);
+            },
+            'sha1'  => function () {
+                $string = str_repeat(mt_rand(0, 9), 1024 * 1024);
+                return sha1($string);
+            },
+            'crc32' => function () {
+                $string = str_repeat(mt_rand(0, 9), 1024 * 1024);
+                return crc32($string);
+            },
+        ), array('count' => 500, 'name' => 'Hash functions'));
+
+        /* Result:
+
+            ---------- Start benchmark: Hash functions  ----------
+            Running tests 500 times
+            PHP Overhead: time=58 ms; memory=0 B;
+
+            Testing 1/3 : md5 ... Done!
+            Testing 2/3 : sha1 ... Done!
+            Testing 3/3 : crc32 ... Done!
+
+            Name of test    Time, ms    Time, %     Memory    Memory, %
+            crc32              1 551          ~    1.25 MB            ~
+            md5                1 938         25    1.25 MB            ~
+            sha1               2 776         79    1.25 MB            ~
+
+            TOTAL TIME: 6 547.37 ms/4.36 ms;   MEMO: 41.05 KB/0.03 KB;   COUNT: 1 500
+            ---------- Finish benchmark: Hash functions  ----------
+        */
     }
 }
 
