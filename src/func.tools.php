@@ -15,6 +15,7 @@
 
 namespace JBZoo\PHPUnit;
 
+use JBZoo\PHPUnit\Benchmark\Benchmark;
 use Symfony\Component\VarDumper\VarDumper;
 
 
@@ -267,4 +268,39 @@ function openFile($path)
     }
 
     return $contents;
+}
+
+/**
+ * @link http://www.php.net/manual/en/control-structures.declare.php#control-structures.declare.ticks
+ * @param array $tests
+ * @param array $options
+ */
+function runBench(array $tests, array $options = array())
+{
+    $options = array_merge(array(
+        'name'  => 'Compare speed',
+        'count' => 1000,
+        'time'  => 2,
+    ), $options);
+
+    $benchmark = new Benchmark();
+
+    declare(ticks = 1);
+
+    startProfiler();
+    $execCounter = $options['count'] * count($tests);
+
+    foreach ($tests as $testName => $function) {
+        $benchmark->add($testName, $function);
+    }
+
+    $benchmark->maxSeconds($options['time']);
+    $benchmark->setCount($options['count']);
+
+    cliMessage(PHP_EOL . '---------- Start benchmark: ' . $options['name'] . '  ----------');
+
+    $benchmark->run(true);
+
+    cliMessage(PHP_EOL . 'TOTAL ' . loopProfiler($execCounter));
+    cliMessage('---------- Finish benchmark: ' . $options['name'] . '  ----------');
 }
