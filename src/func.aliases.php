@@ -37,6 +37,66 @@ function getTestcase()
     //@codeCoverageIgnoreEnd
 }
 
+/**** Controls ********************************************************************************************************/
+//@codeCoverageIgnoreStart
+
+/**
+ * Show alert message
+ * @param string $message
+ * @param null   $label
+ */
+function alert($message, $label = null)
+{
+    if (!is_string($message)) {
+        $message = print_r($message, true);
+    }
+
+    $message = PHP_EOL . ($label ? $label . ': ' : '') . $message;
+
+    cliMessage($message);
+}
+
+/**
+ * Skip current test
+ * @param $msg
+ */
+
+function skip($msg = null)
+{
+    return getTestcase()->markTestSkipped($msg);
+}
+
+/**
+ * Incomplete current test
+ * @param $msg
+ */
+function incomplete($msg = null)
+{
+    return getTestcase()->markTestIncomplete($msg);
+}
+
+/**
+ * Fail current test
+ * @param $msg
+ */
+//@codeCoverageIgnoreStart
+function fail($msg = null)
+{
+    getTestcase()->fail($msg);
+}
+
+/**
+ * Success current test
+ * @param $msg
+ */
+function success($msg = null)
+{
+    getTestcase()->isTrue(true, $msg);
+}
+
+//@codeCoverageIgnoreEnd
+/**** Asserts *********************************************************************************************************/
+
 /**
  * @param mixed $expected
  * @param mixed $actual
@@ -120,45 +180,6 @@ function isCount($expected, $actual, $msg = null)
     getTestcase()->assertCount($expected, $actual, $msg);
 }
 
-/**
- * Show alert
- * @param string $message
- * @param null   $label
- */
-function alert($message, $label = null)
-{
-    if (!is_string($message)) {
-        $message = print_r($message, true);
-    }
-
-    $message = PHP_EOL . ($label ? $label . ': ' : '') . $message;
-
-    cliMessage($message);
-}
-
-/**
- * Skip some test
- * @param $msg
- */
-//@codeCoverageIgnoreStart
-function skip($msg = null)
-{
-    getTestcase()->markTestSkipped($msg);
-}
-
-//@codeCoverageIgnoreEnd
-
-/**
- * Skip some test
- * @param $msg
- */
-//@codeCoverageIgnoreStart
-function incomplete($msg = null)
-{
-    getTestcase()->markTestIncomplete($msg);
-}
-
-//@codeCoverageIgnoreEnd
 
 /**
  * @param string $pattern
@@ -184,17 +205,6 @@ function isNotLike($pattern, $value, $msg = null)
  * @param string $filePathOrig
  * @param string $filePathCopy
  * @param null   $msg
- * @deprecated Use isFileEq
- */
-function fileEq($filePathOrig, $filePathCopy, $msg = null)
-{
-    getTestcase()->assertFileEquals($filePathOrig, $filePathCopy, $msg);
-}
-
-/**
- * @param string $filePathOrig
- * @param string $filePathCopy
- * @param null   $msg
  *
  */
 function isFileEq($filePathOrig, $filePathCopy, $msg = null)
@@ -206,32 +216,10 @@ function isFileEq($filePathOrig, $filePathCopy, $msg = null)
  * @param $expected
  * @param $actual
  * @param $msg
- * @deprecated Use isSame
- */
-function same($expected, $actual, $msg = null)
-{
-    getTestcase()->assertSame($expected, $actual, $msg);
-}
-
-/**
- * @param $expected
- * @param $actual
- * @param $msg
  */
 function isSame($expected, $actual, $msg = null)
 {
     getTestcase()->assertSame($expected, $actual, $msg);
-}
-
-/**
- * @param mixed $expected
- * @param mixed $actual
- * @param null  $msg
- * @deprecated Use isNotSame
- */
-function notSame($expected, $actual, $msg = null)
-{
-    getTestcase()->assertNotSame($expected, $actual, $msg);
 }
 
 /**
@@ -270,6 +258,15 @@ function isEmpty($expected, $msg = null)
 }
 
 /**
+ * @param mixed $expected
+ * @param null  $msg
+ */
+function isNotEmpty($expected, $msg = null)
+{
+    getTestcase()->assertNotEmpty($expected, $msg);
+}
+
+/**
  * @param string $key
  * @param array  $array
  * @param null   $msg
@@ -277,6 +274,16 @@ function isEmpty($expected, $msg = null)
 function isKey($key, $array, $msg = null)
 {
     getTestcase()->assertArrayHasKey($key, $array, $msg);
+}
+
+/**
+ * @param string $key
+ * @param array  $array
+ * @param null   $msg
+ */
+function isNotKey($key, $array, $msg = null)
+{
+    getTestcase()->assertArrayNotHasKey($key, $array, $msg);
 }
 
 /**
@@ -289,6 +296,18 @@ function isAttr($attrName, $object)
     $test = getTestcase();
     $test->assertNotNull($object, "object " . get_class($object) . " is not empty");
     $test->assertObjectHasAttribute($attrName, $object);
+}
+
+/**
+ * Assert object has an attribute
+ * @param string $attrName
+ * @param mixed  $object
+ */
+function isNotAttr($attrName, $object)
+{
+    $test = getTestcase();
+    $test->assertNotNull($object, "object " . get_class($object) . " is not empty");
+    $test->assertObjectNotHasAttribute($attrName, $object);
 }
 
 /**
@@ -306,9 +325,29 @@ function isDir($path, $msg = null)
  * @param string $path
  * @param null   $msg
  */
+function isNotDir($path, $msg = null)
+{
+    $test = getTestcase();
+    $test->assertFileNotExists($path, $msg);
+    $test->assertFalse(is_dir($path));
+}
+
+/**
+ * @param string $path
+ * @param null   $msg
+ */
 function isFile($path, $msg = null)
 {
     getTestcase()->assertFileExists($path, $msg);
+}
+
+/**
+ * @param string $path
+ * @param null   $msg
+ */
+function isNotFile($path, $msg = null)
+{
+    getTestcase()->assertFileNotExists($path, $msg);
 }
 
 /**
@@ -335,51 +374,93 @@ function isNotContain($expected, $value, $ignoreCase = false, $msg = null)
 
 /**
  * Is CSS selector find in the HTML code
- * @param string $selector
  * @param string $html
+ * @param string $selector
  * @param string $expected
+ * @param string $msg
  * @return bool
  */
-function isHtmlContain($selector, $html, $expected)
+function isHtmlContain($html, $selector, $expected = null, $msg = null)
 {
-    $crawler  = new Crawler($html);
     $findText = null;
 
     try {
+        $crawler  = new Crawler($html);
         $findText = $crawler->filter($selector)->text();
         isSame((string)$expected, (string)$findText);
 
     } catch (\Exception $exception) {
-        if (null !== $expected) {
-            isTrue(false, $exception->getMessage()); // Show exception text
+
+        if ($expected) {
+            $msg = $msg ? $msg . ' // ' : '';
+            fail($msg . 'Crawler: ' . $exception->getMessage());
         } else {
-            isNull($expected);
+            success($msg);
         }
+
     }
 }
 
 /**
  * Is NOT find CSS-selector find in the HTML code
- * @param string $selector
  * @param string $html
+ * @param string $selector
  * @param string $expected
+ * @param string $msg
  * @return bool
  */
-function isHtmlNotContain($selector, $html, $expected)
+function isHtmlNotContain($html, $selector, $expected, $msg = null)
 {
-    $crawler  = new Crawler($html);
     $findText = null;
 
     try {
+        $crawler  = new Crawler($html);
         $findText = $crawler->filter($selector)->text();
         isNotSame((string)$expected, (string)$findText);
 
     } catch (\Exception $exception) {
 
-        if (null !== $findText) {
-            isTrue(false, $exception->getMessage()); // Show exception text
+        if (!$findText) {
+            success($msg);
+
         } else {
-            isNotNull($expected);
+            $msg = $msg ? $msg . ' // ' : '';
+            fail($msg . 'Crawler: ' . $exception->getMessage());
         }
     }
+}
+
+/**** Deprecated!******************************************************************************************************/
+
+/**
+ * @param string $filePathOrig
+ * @param string $filePathCopy
+ * @param null   $msg
+ * @deprecated Use isFileEq(), renamed
+ */
+function fileEq($filePathOrig, $filePathCopy, $msg = null)
+{
+    getTestcase()->assertFileEquals($filePathOrig, $filePathCopy, $msg);
+}
+
+/**
+ * @param $expected
+ * @param $actual
+ * @param $msg
+ * @deprecated Use isSame(), renamed
+ */
+function same($expected, $actual, $msg = null)
+{
+    getTestcase()->assertSame($expected, $actual, $msg);
+}
+
+/**
+ * @param mixed $expected
+ * @param mixed $actual
+ * @param null  $msg
+ * @deprecated Use isNotSame(), renamed
+ */
+function notSame($expected, $actual, $msg = null)
+{
+    getTestcase()->assertNotSame($expected, $actual, $msg);
 }

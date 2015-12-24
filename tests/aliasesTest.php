@@ -21,20 +21,6 @@ namespace JBZoo\PHPUnit;
  */
 class AliasesTest extends PHPUnit
 {
-    public function testDump()
-    {
-        $testObj = (object)array(
-            'string' => ' 123 ',
-            'array'  => array(1, 2, 3),
-            'func'   => function () {
-                echo 42;
-            },
-        );
-
-        dump($testObj->string, 0, 'Some string');
-        dump($testObj, 0);
-    }
-
     public function testBoolean()
     {
         isTrue(true);
@@ -59,8 +45,8 @@ class AliasesTest extends PHPUnit
         is(array('a' => 1, 'b' => 2), array('b' => 2, 'a' => 1));
         isNot(1, 2);
 
-        same(array(1, 2, 3), array(1, 2, 3));
-        notSame(array(1, 2, 3), array(3, 2, 1));
+        isSame(array(1, 2, 3), array(1, 2, 3));
+        isNotSame(array(1, 2, 3), array(3, 2, 1));
 
         isKey('test', array('test' => true));
         isAttr('test', (object)array('test' => true));
@@ -99,34 +85,34 @@ class AliasesTest extends PHPUnit
     public function testFilesystem()
     {
         isFileEq(__FILE__, __FILE__);
-        is($this->openFile(__FILE__), $this->openFile(__FILE__));
+        is(openFile(__FILE__), openFile(__FILE__));
 
         isFile(__FILE__);
         isDir(__DIR__);
 
-        isCount(4, $this->getFileList(__DIR__));
-        isCount(1, $this->getFileList(__DIR__, 'aliases'));
-        isCount(0, $this->getFileList(__DIR__, '\.qwerty$'));
-        isCount(1, $this->getFileList(__DIR__ . '/..', '\.travis'));
+        isCount(4, getFileList(__DIR__));
+        isCount(1, getFileList(__DIR__, 'aliases'));
+        isCount(0, getFileList(__DIR__, '\.qwerty$'));
+        isCount(1, getFileList(__DIR__ . '/..', '\.travis'));
     }
 
     public function testLoopProfiler()
     {
-        $this->startProfiler();
+        startProfiler();
 
         $max    = 100000;
         $result = array();
         for ($i = 0; $i < $max; $i++) {
-            $resulвt[] = $i;
+            $result[] = $i;
         }
 
-        alert($this->loopProfiler($max, true), 'Report');
-        $this->loopProfiler($max, false); // just for coverage :)
+        alert(loopProfiler($max, true), 'Report');
+        loopProfiler($max, false); // just for coverage :)
     }
 
     public function testXdebug()
     {
-        $this->isXDebug();
+        isXDebug();
     }
 
     public function testSkip()
@@ -140,6 +126,29 @@ class AliasesTest extends PHPUnit
         alert(array('Some alert message'), 'Label');
     }
 
+    public function testDump()
+    {
+        $testObj = (object)array(
+            'string' => ' 123 ',
+            'int'    => 123,
+            'float'  => 123.456,
+            'null'   => null,
+            'bool'   => true,
+            'array'  => array(1, 2, 3),
+            'func'   => function () {
+                echo 42;
+            },
+        );
+
+        dump($testObj->string, 0, 'Some string');
+        dump($testObj->int, 0, 'Some integer');
+        dump($testObj->float, 0, 'Some float');
+        dump($testObj->null, 0, 'Null');
+        dump($testObj->bool, 0, 'Some boolean');
+        dump($testObj->array, 0, 'Some array');
+        dump($testObj, 0);
+    }
+
     public function testHtmlContain()
     {
         $html = '<body>
@@ -150,10 +159,14 @@ class AliasesTest extends PHPUnit
             <span class="empty-2"></span>
         </body>';
 
-        isHtmlContain('body > div.test-class p', $html, 'qwerty');
-        isHtmlContain('body .empty-1', $html, ' ');
-        isHtmlContain('body .empty-2', $html, '');
-        isHtmlContain('body .empty-undefined', $html, null);
+        isHtmlContain($html, 'body > div.test-class p', 'qwerty');
+        isHtmlContain($html, 'body .empty-1', ' ');
+        isHtmlContain($html, 'body .empty-2', '');
+
+        isHtmlContain($html, 'body .empty-undefined', '', 'Empty string should be success');
+        isHtmlContain($html, 'body .empty-undefined', null, 'NULL should be success');
+        isHtmlContain($html, 'body .empty-undefined', false, 'FALSE should be success');
+        isHtmlContain($html, 'body .empty-undefined', 0, 'FALSE should be success');
     }
 
     public function testHtmlNotContain()
@@ -166,9 +179,13 @@ class AliasesTest extends PHPUnit
             <span class="empty-2"></span>
         </body>';
 
-        isHtmlNotContain('body > div.test-class p', $html, 'qwerty-123');
-        isHtmlNotContain('body .empty-1', $html, '');
-        isHtmlNotContain('body .empty-2', $html, ' ');
-        isHtmlNotContain('body .empty-undefined', $html, 123);
+        isHtmlNotContain($html, 'body > div.test-class p', 'qwerty-123');
+        isHtmlNotContain($html, 'body .empty-1', 'qwerty');
+        isHtmlNotContain($html, 'body .empty-2', ' ');
+
+        isHtmlNotContain($html, 'body .empty-undefined', '');
+        isHtmlNotContain($html, 'body .empty-undefined', ' ');
+        isHtmlNotContain($html, 'body .empty-undefined', 123);
     }
+
 }

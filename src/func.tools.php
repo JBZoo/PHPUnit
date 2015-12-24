@@ -62,7 +62,19 @@ function dump($var, $isDie = true, $label = '')
     $message = PHP_EOL . $message . ' ' . $callplace;
 
     cliMessage($message);
-    VarDumper::dump($var);
+
+    $isSimpleVar = is_string($var) || is_numeric($var) || is_bool($var) || is_null($var);
+
+    if ($isSimpleVar) {
+        ob_start();
+        var_dump($var);
+        $dump = ob_get_contents();
+        ob_end_clean();
+        cliMessage($dump, false);
+
+    } else {
+        VarDumper::dump($var);
+    }
 
     if ($isDie) {
         //@codeCoverageIgnoreStart
@@ -73,11 +85,15 @@ function dump($var, $isDie = true, $label = '')
 }
 
 /**
- * @param $message
+ * @param string $message
+ * @param bool   $addEol
  */
-function cliMessage($message)
+function cliMessage($message, $addEol = true)
 {
-    $message = (string)$message . PHP_EOL;
+    $message = (string)$message;
+    if ($addEol) {
+        $message .= PHP_EOL;
+    }
 
     if (defined('STDOUT')) {
         fwrite(STDOUT, $message);
@@ -87,11 +103,15 @@ function cliMessage($message)
 }
 
 /**
- * @param $message
+ * @param string $message
+ * @param bool   $addEol
  */
-function cliError($message)
+function cliError($message, $addEol = true)
 {
-    $message = (string)$message . PHP_EOL;
+    $message = (string)$message;
+    if ($addEol) {
+        $message .= PHP_EOL;
+    }
 
     if (defined('STDERR')) {
         fwrite(STDERR, $message);
