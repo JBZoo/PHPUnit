@@ -47,7 +47,7 @@ use JBZoo\__PACKAGE__\Exception;
 class Test extends PHPUnit
 {
 
-    public function test()
+    public function testSimple()
     {
         // Boolean
         isTrue(true);
@@ -110,9 +110,11 @@ class Test extends PHPUnit
         is($this->openFile(__FILE__), $this->openFile(__FILE__));
         isFile(__FILE__);
         isDir(__DIR__);
+    }
 
-        // profiles (memory leaks...)
-        $this->startProfiler();
+    public function testMemoryLeak()
+    {
+        startProfiler();
 
         $max    = 10000;
         $result = array();
@@ -120,8 +122,11 @@ class Test extends PHPUnit
             $result[] = array($i);
         }
 
-        $this->loopProfiler($max, true);
-        $this->loopProfiler($max, false);
+        loopProfiler($max, true);
+
+        /*
+           Report: TIME: 52.00 ms/0.00 ms;   MEMO: 8 324.95 KB/0.08 KB;   COUNT: 100 000
+        */
     }
 
     public function testHtml()
