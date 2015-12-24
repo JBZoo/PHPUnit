@@ -17,7 +17,7 @@ namespace JBZoo\PHPUnit;
 
 /** @noinspection PhpUndefinedClassInspection */
 use \PHPUnit_Framework_TestCase;
-use Symfony\Component\VarDumper\VarDumper;
+use Symfony\Component\DomCrawler\Crawler;
 
 /**
  * @return PHPUnit|null
@@ -122,12 +122,18 @@ function isCount($expected, $actual, $msg = null)
 
 /**
  * Show alert
- * @param string $msg
+ * @param string $message
  * @param null   $label
  */
-function alert($msg, $label = null)
+function alert($message, $label = null)
 {
-    getTestcase()->showAlertMessage($msg, $label);
+    if (!is_string($message)) {
+        $message = print_r($message, true);
+    }
+
+    $message = PHP_EOL . ($label ? $label . ': ' : '') . $message;
+
+    cliMessage($message);
 }
 
 /**
@@ -178,8 +184,20 @@ function isNotLike($pattern, $value, $msg = null)
  * @param string $filePathOrig
  * @param string $filePathCopy
  * @param null   $msg
+ * @deprecated Use isFileEq
  */
 function fileEq($filePathOrig, $filePathCopy, $msg = null)
+{
+    getTestcase()->assertFileEquals($filePathOrig, $filePathCopy, $msg);
+}
+
+/**
+ * @param string $filePathOrig
+ * @param string $filePathCopy
+ * @param null   $msg
+ *
+ */
+function isFileEq($filePathOrig, $filePathCopy, $msg = null)
 {
     getTestcase()->assertFileEquals($filePathOrig, $filePathCopy, $msg);
 }
@@ -188,8 +206,19 @@ function fileEq($filePathOrig, $filePathCopy, $msg = null)
  * @param $expected
  * @param $actual
  * @param $msg
+ * @deprecated Use isSame
  */
 function same($expected, $actual, $msg = null)
+{
+    getTestcase()->assertSame($expected, $actual, $msg);
+}
+
+/**
+ * @param $expected
+ * @param $actual
+ * @param $msg
+ */
+function isSame($expected, $actual, $msg = null)
 {
     getTestcase()->assertSame($expected, $actual, $msg);
 }
@@ -198,8 +227,19 @@ function same($expected, $actual, $msg = null)
  * @param mixed $expected
  * @param mixed $actual
  * @param null  $msg
+ * @deprecated Use isNotSame
  */
 function notSame($expected, $actual, $msg = null)
+{
+    getTestcase()->assertNotSame($expected, $actual, $msg);
+}
+
+/**
+ * @param mixed $expected
+ * @param mixed $actual
+ * @param null  $msg
+ */
+function isNotSame($expected, $actual, $msg = null)
 {
     getTestcase()->assertNotSame($expected, $actual, $msg);
 }
@@ -210,6 +250,14 @@ function notSame($expected, $actual, $msg = null)
 function isNull($expected)
 {
     getTestcase()->assertNull($expected);
+}
+
+/**
+ * @param mixed $expected
+ */
+function isNotNull($expected)
+{
+    getTestcase()->assertNotNull($expected);
 }
 
 /**
@@ -286,38 +334,52 @@ function isNotContain($expected, $value, $ignoreCase = false, $msg = null)
 }
 
 /**
- * Check is current OS Windows
+ * Is CSS selector find in the HTML code
+ * @param string $selector
+ * @param string $html
+ * @param string $expected
  * @return bool
  */
-function isWin()
+function isHtmlContain($selector, $html, $expected)
 {
-    return strncasecmp(PHP_OS, 'WIN', 3) === 0;
+    $crawler  = new Crawler($html);
+    $findText = null;
+
+    try {
+        $findText = $crawler->filter($selector)->text();
+        isSame((string)$expected, (string)$findText);
+
+    } catch (\Exception $exception) {
+        if (null !== $expected) {
+            isTrue(false, $exception->getMessage()); // Show exception text
+        } else {
+            isNull($expected);
+        }
+    }
 }
 
 /**
- * Useful console dump
- * @param mixed $var
- * @param bool  $isDie
+ * Is NOT find CSS-selector find in the HTML code
+ * @param string $selector
+ * @param string $html
+ * @param string $expected
+ * @return bool
  */
-function dump($var, $isDie = true)
+function isHtmlNotContain($selector, $html, $expected)
 {
-    if (!is_array($var) && !is_object($var) && !is_callable($var)) {
-        var_dump($var);
+    $crawler  = new Crawler($html);
+    $findText = null;
 
-    } else {
-        VarDumper::dump($var);
-    }
+    try {
+        $findText = $crawler->filter($selector)->text();
+        isNotSame((string)$expected, (string)$findText);
 
-    $trace     = debug_backtrace(false);
-    $dirname   = pathinfo(dirname($trace[0]['file']), PATHINFO_BASENAME);
-    $filename  = pathinfo($trace[0]['file'], PATHINFO_BASENAME);
-    $line      = $trace[0]['line'];
-    $callplace = "\"{$dirname}/{$filename}:{$line}\"";
+    } catch (\Exception $exception) {
 
-    echo '-------------' . PHP_EOL . $callplace . PHP_EOL;
-
-    if ($isDie) {
-        echo 'Die!';
-        exit(1);
+        if (null !== $findText) {
+            isTrue(false, $exception->getMessage()); // Show exception text
+        } else {
+            isNotNull($expected);
+        }
     }
 }

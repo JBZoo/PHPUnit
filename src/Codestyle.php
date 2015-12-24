@@ -149,7 +149,9 @@ abstract class Codestyle extends PHPUnit
      */
     public function testCyrillic()
     {
-        $this->_excludeFiles[] = pathinfo(__FILE__, PATHINFO_BASENAME);
+        global $_jbzoo_fileExcludes;
+
+        $_jbzoo_fileExcludes[] = pathinfo(__FILE__, PATHINFO_BASENAME);
 
         $files = $this->getFileList(PROJECT_SRC);
 

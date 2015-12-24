@@ -24,13 +24,14 @@ class AliasesTest extends PHPUnit
     public function testDump()
     {
         $testObj = (object)array(
-            'array'  => array(1, 2, 3),
-            'bool'   => true,
             'string' => ' 123 ',
+            'array'  => array(1, 2, 3),
+            'func'   => function () {
+                echo 42;
+            },
         );
 
-        dump($testObj->array, 0);
-        dump($testObj->bool, 0);
+        dump($testObj->string, 0, 'Some string');
         dump($testObj, 0);
     }
 
@@ -97,7 +98,7 @@ class AliasesTest extends PHPUnit
 
     public function testFilesystem()
     {
-        fileEq(__FILE__, __FILE__);
+        isFileEq(__FILE__, __FILE__);
         is($this->openFile(__FILE__), $this->openFile(__FILE__));
 
         isFile(__FILE__);
@@ -116,7 +117,7 @@ class AliasesTest extends PHPUnit
         $max    = 100000;
         $result = array();
         for ($i = 0; $i < $max; $i++) {
-            $result[] = $i;
+            $resulвt[] = $i;
         }
 
         alert($this->loopProfiler($max, true), 'Report');
@@ -137,5 +138,37 @@ class AliasesTest extends PHPUnit
     {
         alert('Some alert message');
         alert(array('Some alert message'), 'Label');
+    }
+
+    public function testHtmlContain()
+    {
+        $html = '<body>
+            <div class="test-class">
+                <p>qwerty</p>
+            </div>
+            <span class="empty-1"> </span>
+            <span class="empty-2"></span>
+        </body>';
+
+        isHtmlContain('body > div.test-class p', $html, 'qwerty');
+        isHtmlContain('body .empty-1', $html, ' ');
+        isHtmlContain('body .empty-2', $html, '');
+        isHtmlContain('body .empty-undefined', $html, null);
+    }
+
+    public function testHtmlNotContain()
+    {
+        $html = '<body>
+            <div class="test-class">
+                <p>qwerty</p>
+            </div>
+            <span class="empty-1"> </span>
+            <span class="empty-2"></span>
+        </body>';
+
+        isHtmlNotContain('body > div.test-class p', $html, 'qwerty-123');
+        isHtmlNotContain('body .empty-1', $html, '');
+        isHtmlNotContain('body .empty-2', $html, ' ');
+        isHtmlNotContain('body .empty-undefined', $html, 123);
     }
 }
