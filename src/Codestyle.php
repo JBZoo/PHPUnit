@@ -109,10 +109,10 @@ abstract class Codestyle extends PHPUnit
      */
     public function testFiles()
     {
-        $files = $this->getFileList(PROJECT_ROOT, '.*');
+        $files = getFileList(PROJECT_ROOT, '.*');
 
         foreach ($files as $file) {
-            $content = $this->openFile($file);
+            $content = openFile($file);
 
             if (!isWin()) {
                 isNotContain("\r", $content, false, 'File has \r symbol: ' . $file);
@@ -127,10 +127,10 @@ abstract class Codestyle extends PHPUnit
      */
     public function testHeaders()
     {
-        $files = $this->getFileList(PROJECT_ROOT, '[/\\\\](src|tests)[/\\\\].*\.php$');
+        $files = getFileList(PROJECT_ROOT, '[/\\\\](src|tests)[/\\\\].*\.php$');
 
         foreach ($files as $file) {
-            $content = $this->openFile($file);
+            $content = openFile($file);
 
             // build copyrights
             $validHeader = $this->_validHeader;
@@ -153,10 +153,10 @@ abstract class Codestyle extends PHPUnit
 
         $_jbzoo_fileExcludes[] = pathinfo(__FILE__, PATHINFO_BASENAME);
 
-        $files = $this->getFileList(PROJECT_SRC);
+        $files = getFileList(PROJECT_SRC);
 
         foreach ($files as $file) {
-            $content = $this->openFile($file);
+            $content = openFile($file);
             isNotLike('#[А-Яа-яЁё]#ius', $content, 'File has no valid chars: ' . $file);
         }
     }
