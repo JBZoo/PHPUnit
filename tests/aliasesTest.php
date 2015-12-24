@@ -25,7 +25,12 @@ class AliasesTest extends PHPUnit
     {
         isTrue(true);
         isFalse(false);
+
         isNull(null);
+        isNotNull(false);
+        isNotNull('');
+        isNotNull(0);
+        isNotNull(.0);
     }
 
     public function testEmpty()
@@ -36,6 +41,11 @@ class AliasesTest extends PHPUnit
         isEmpty('0');
         isEmpty(.0);
         isEmpty(array());
+
+        isNotEmpty(array(0));
+        isNotEmpty(true);
+        isNotEmpty('1');
+        isNotEmpty(1);
     }
 
     public function testEquals()
@@ -49,7 +59,10 @@ class AliasesTest extends PHPUnit
         isNotSame(array(1, 2, 3), array(3, 2, 1));
 
         isKey('test', array('test' => true));
+        isNotKey('undefined', array('test' => true));
+
         isAttr('test', (object)array('test' => true));
+        isNotAttr('undefined', (object)array('test' => true));
 
         isBatch(array(
             array(1, 1),
@@ -89,6 +102,12 @@ class AliasesTest extends PHPUnit
 
         isFile(__FILE__);
         isDir(__DIR__);
+
+        isNotFile(__DIR__);
+        isNotFile(__FILE__ . '.qwerty');
+
+        isNotDir(__FILE__);
+        isNotDir(__DIR__ . '/qwerty');
 
         isCount(4, getFileList(__DIR__));
         isCount(1, getFileList(__DIR__, 'aliases'));

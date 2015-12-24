@@ -41,22 +41,6 @@ function getTestcase()
 //@codeCoverageIgnoreStart
 
 /**
- * Show alert message
- * @param string $message
- * @param null   $label
- */
-function alert($message, $label = null)
-{
-    if (!is_string($message)) {
-        $message = print_r($message, true);
-    }
-
-    $message = PHP_EOL . ($label ? $label . ': ' : '') . $message;
-
-    cliMessage($message);
-}
-
-/**
  * Skip current test
  * @param $msg
  */
@@ -327,9 +311,13 @@ function isDir($path, $msg = null)
  */
 function isNotDir($path, $msg = null)
 {
-    $test = getTestcase();
-    $test->assertFileNotExists($path, $msg);
-    $test->assertFalse(is_dir($path));
+    if (is_dir($path)) {
+        //@codeCoverageIgnoreStart
+        fail("\"{$path}\" is direcory");
+        //@codeCoverageIgnoreEnd
+    } else {
+        success($msg);
+    }
 }
 
 /**
@@ -347,7 +335,12 @@ function isFile($path, $msg = null)
  */
 function isNotFile($path, $msg = null)
 {
-    getTestcase()->assertFileNotExists($path, $msg);
+    $test = getTestcase();
+    if (!is_dir($path)) {
+        $test->assertFileNotExists($path, $msg);
+    } else {
+        success($msg);
+    }
 }
 
 /**
@@ -391,11 +384,13 @@ function isHtmlContain($html, $selector, $expected = null, $msg = null)
 
     } catch (\Exception $exception) {
 
-        if ($expected) {
+        if (!$expected) {
+            success($msg);
+        } else {
+            //@codeCoverageIgnoreStart
             $msg = $msg ? $msg . ' // ' : '';
             fail($msg . 'Crawler: ' . $exception->getMessage());
-        } else {
-            success($msg);
+            //@codeCoverageIgnoreEnd
         }
 
     }
@@ -424,8 +419,10 @@ function isHtmlNotContain($html, $selector, $expected, $msg = null)
             success($msg);
 
         } else {
+            //@codeCoverageIgnoreStart
             $msg = $msg ? $msg . ' // ' : '';
             fail($msg . 'Crawler: ' . $exception->getMessage());
+            //@codeCoverageIgnoreEnd
         }
     }
 }

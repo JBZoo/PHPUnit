@@ -98,7 +98,9 @@ function cliMessage($message, $addEol = true)
     if (defined('STDOUT')) {
         fwrite(STDOUT, $message);
     } else {
+        //@codeCoverageIgnoreStart
         echo $message;
+        //@codeCoverageIgnoreEnd
     }
 }
 
@@ -116,8 +118,26 @@ function cliError($message, $addEol = true)
     if (defined('STDERR')) {
         fwrite(STDERR, $message);
     } else {
+        //@codeCoverageIgnoreStart
         echo $message;
+        //@codeCoverageIgnoreEnd
     }
+}
+
+/**
+ * Show alert message
+ * @param string $message
+ * @param null   $label
+ */
+function alert($message, $label = null)
+{
+    if (!is_string($message)) {
+        $message = print_r($message, true);
+    }
+
+    $message = PHP_EOL . ($label ? $label . ': ' : '') . $message;
+
+    cliError($message);
 }
 
 /**
