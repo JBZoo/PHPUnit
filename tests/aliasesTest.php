@@ -126,29 +126,6 @@ class AliasesTest extends PHPUnit
         alert(array('Some alert message'), 'Label');
     }
 
-    public function testDump()
-    {
-        $testObj = (object)array(
-            'string' => ' 123 ',
-            'int'    => 123,
-            'float'  => 123.456,
-            'null'   => null,
-            'bool'   => true,
-            'array'  => array(1, 2, 3),
-            'func'   => function () {
-                echo 42;
-            },
-        );
-
-        dump($testObj->string, 0, 'Some string');
-        dump($testObj->int, 0, 'Some integer');
-        dump($testObj->float, 0, 'Some float');
-        dump($testObj->null, 0, 'Null');
-        dump($testObj->bool, 0, 'Some boolean');
-        dump($testObj->array, 0, 'Some array');
-        dump($testObj, 0);
-    }
-
     public function testHtmlContain()
     {
         $html = '<body>
@@ -188,4 +165,26 @@ class AliasesTest extends PHPUnit
         isHtmlNotContain($html, 'body .empty-undefined', 123);
     }
 
+    public function testDump()
+    {
+        $testObj = (object)array(
+            'string' => ' 123 ',
+            'int'    => 123,
+            'float'  => 123.456,
+            'null'   => null,
+            'bool'   => true,
+            'array'  => array(1, 2, 3),
+            'func'   => function () {
+                echo 42;
+            },
+        );
+
+        dump($testObj->string, 0, 'Some string');
+        dump($testObj->int, 0, 'Some integer');
+        dump($testObj->float, 0, 'Some float');
+        dump($testObj->null, 0, 'Null');
+        dump($testObj->bool, 0, 'Some boolean');
+        dump($testObj->array, 0, 'Some array');
+        dump($testObj, 0);
+    }
 }
