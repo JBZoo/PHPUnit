@@ -16,28 +16,50 @@
 namespace JBZoo\PHPUnit\Benchmark;
 
 /**
- * Class AbstractTest
- * @package JBZoo\PHPUnit
+ * Class Test
+ * @package JBZoo\PHPUnit\Benchmark
  */
-abstract class AbstractTest
+class Test
 {
     /**
-     * @var string
+     * @var \Closure
      */
-    private $_name;
+    private $_test;
 
     /**
-     * @var Profiler
+     * @param string   $name
+     * @param \Closure $testFunction
      */
-    private $_profiler;
-
-    /**
-     * @param $name
-     */
-    public function __construct($name)
+    public function __construct($name, \Closure $testFunction)
     {
         $this->_name     = $name;
-        $this->_profiler = new Profiler;
+        $this->_test     = $testFunction;
+        $this->_profiler = new Profiler();
+    }
+
+    /**
+     * @param int $count
+     * @return array
+     */
+    public function runTest($count = 1)
+    {
+        gc_collect_cycles(); // clear memory before start
+
+        $this->_profiler->start();
+
+        for ($i = 0; $i < $count; $i++) {
+            // Store the result so it appears in memory profiling
+            $result = $this->_executeTest();
+            unset($result);
+        }
+
+        $this->_profiler->stop();
+
+        return array(
+            'time'   => $this->_profiler->getTime(),
+            'memory' => $this->_profiler->getMemoryUsage(),
+            'count'  => $count,
+        );
     }
 
     /**
@@ -49,54 +71,10 @@ abstract class AbstractTest
     }
 
     /**
-     * @param int $count
-     * @return array
-     */
-    public function run($count = 1)
-    {
-        $this->prepare();
-
-        gc_collect_cycles(); // clear memory before start
-
-        $this->_profiler->start();
-
-        for ($i = 0; $i < $count; $i++) {
-            // Store the result so it appears in memory profiling
-            $result = $this->execute();
-            unset($result);
-        }
-
-        $this->_profiler->stop();
-
-        $results = array(
-            'time'   => $this->_profiler->getTime(),
-            'memory' => $this->_profiler->getMemoryUsage(),
-            'n'      => $count,
-        );
-
-        $this->cleanup();
-
-        return $results;
-    }
-
-    /**
      * @return mixed
      */
-    abstract protected function execute();
-
-    /**
-     * @param int $maxSeconds
-     * @return float|int
-     */
-    public function guessCount($maxSeconds = 1)
+    protected function _executeTest()
     {
-        $this->run(); // warmup
-        $once = $this->run();
-
-        if ($once['time'] >= $maxSeconds) {
-            return 1;
-        } else {
-            return @round($maxSeconds / $once['time']);
-        }
+        return call_user_func($this->_test);
     }
 }

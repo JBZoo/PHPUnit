@@ -54,9 +54,10 @@
             "@phploc"
         ],
         "update-all" : [
-            "composer self-update",
-            "composer update --optimize-autoloader --no-interaction"
+            "composer self-update --no-interaction",
+            "composer update --optimize-autoloader --prefer-source --no-interaction"
         ],
+        "git-reset"  : "git reset --hard",
         "manifest"   : "composer validate --no-interaction",
         "autoload"   : "composer dump-autoload --optimize --no-interaction",
         "phpunit"    : "php ./vendor/phpunit/phpunit/phpunit",

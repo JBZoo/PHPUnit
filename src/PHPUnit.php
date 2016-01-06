@@ -17,7 +17,8 @@ namespace JBZoo\PHPUnit;
 
 /**
  * Class PHPUnit
- * @package JBZoo\PHPUnit
+ * @package      JBZoo\PHPUnit
+ * @noinspection PhpUndefinedClassInspection
  */
 abstract class PHPUnit extends \PHPUnit_Framework_TestCase
 {

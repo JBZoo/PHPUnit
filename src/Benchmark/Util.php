@@ -22,46 +22,38 @@ namespace JBZoo\PHPUnit\Benchmark;
 class Util
 {
     /**
-     * @param float $number
-     * @param int   $significant
-     * @return float
-     */
-    public static function round($number, $significant = 0)
-    {
-        $order = floor(log($number) / log(10));
-
-        return @round($number / pow(10, $order), $significant) * pow(10, $order);
-    }
-
-    /**
      * Converts 1024 to 1K, etc.
      *
-     * @param  double  $number    i.e.: 1280
+     * @param  int     $number    i.e.: 1280
      * @param  integer $precision i.e.: 1.25 for precision = 2
-     * @param  string  $unit      suffix of the unit, may be empty
-     * @param  integer $factor    change base to 1000 or 1024
      * @return string  i.e.: 1.25 kB
      */
-    public static function convertToSI($number, $precision = 2, $unit = 'B', $factor = 1024)
+    public static function memFormat($number, $precision = 3)
     {
         if ($number < 0) {
             $number = 0;
         }
 
-        static $sizes = array(
-            '-3' => 'n',
-            '-2' => 'µ',
-            '-1' => 'm',
-            '0'  => '',
-            '1'  => 'k',
-            '2'  => 'M',
-            '3'  => 'G',
-            '4'  => 'T',
+        $sizes = array(
+            '0' => 'B',
+            '1' => 'KB',
+            '2' => 'MB',
+            '3' => 'GB',
+            '4' => 'TB',
         );
 
-        $scale = $number == 0 ? 0 : floor(log($number, $factor));
+        $scale = $number === 0 ? 0 : floor(log($number, 1024));
 
-        return round($number / pow($factor, $scale), $precision) . ' ' . $sizes[$scale] . $unit;
+        return round($number / pow(1024, $scale), $precision) . ' ' . $sizes[$scale];
+    }
+
+    /**
+     * @param int $time
+     * @return string
+     */
+    public static function timeFormat($time)
+    {
+        return number_format($time * 1000, 0, '.', ' ') . ' ms';
     }
 
     /**
@@ -71,13 +63,15 @@ class Util
      */
     public static function relativePerc($min, $value)
     {
-        if ($min == 0 || $min == $value) {
-            return '~';
+        $min   = (float)$min;
+        $value = (float)$value;
+
+        if (!$min || $min === $value) {
+            return '100';
 
         } else {
-            $min = abs($min);
-
-            $percent = round(($value - $min) / $min * 100);
+            $min     = abs($min);
+            $percent = round($value / $min * 100);
 
             return number_format($percent, 0, '.', ' ');
         }

@@ -34,19 +34,19 @@ class Profiler
     /**
      * @var float
      */
-    private $_startTime = null;
+    private $_startTime = 0.0;
 
     /**
      * @var float
      */
-    private $_endTime = null;
+    private $_endTime = 0.0;
 
     /**
      * Start profiler
      */
     public function start()
     {
-        $this->_startMemory = $this->_maxMemory = memory_get_usage(true);
+        $this->_startMemory = memory_get_usage(false);
         $this->_startTime   = microtime(true);
 
         register_tick_function(array($this, 'tick'));
@@ -57,7 +57,7 @@ class Profiler
      */
     public function tick()
     {
-        $this->_maxMemory = max($this->_maxMemory, memory_get_usage(true));
+        $this->_maxMemory = max($this->_maxMemory, memory_get_usage(false));
     }
 
     /**
