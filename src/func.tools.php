@@ -64,10 +64,11 @@ function dump($var, $isDie = true, $label = '')
 
     cliMessage($message);
 
-    $isSimpleVar = is_string($var) || is_numeric($var) || is_bool($var) || is_null($var);
+    $isSimpleVar = is_string($var) || is_numeric($var) || is_bool($var) || null === $var;
 
     if ($isSimpleVar) {
         ob_start();
+        /** @noinspection ForgottenDebugOutputInspection */
         var_dump($var);
         $dump = ob_get_contents();
         ob_end_clean();
@@ -151,20 +152,16 @@ function isXdebug()
 
 /**
  * Start profiler
+ *
+ * @SuppressWarnings(PHPMD.Superglobals)
  */
 function startProfiler()
 {
-    global $_jbzoo_profiler;
-
-    // cleanup
-    $_jbzoo_profiler = array(
-        'times'    => array(),
-        'memories' => array(),
+    // cleanup and set first mark
+    $GLOBALS['_jbzoo_profiler'] = array(
+        'times'    => array(microtime(true)),
+        'memories' => array(memory_get_usage(false)),
     );
-
-    // set first mark
-    array_push($_jbzoo_profiler['times'], microtime(true));
-    array_push($_jbzoo_profiler['memories'], memory_get_usage(false));
 }
 
 /**
@@ -183,8 +180,8 @@ function loopProfiler($count = 1, $formated = true)
     $_timeDiff   = $time - end($_jbzoo_profiler['times']);
     $_memoryDiff = $memory - end($_jbzoo_profiler['memories']);
 
-    array_push($_jbzoo_profiler['times'], $time);
-    array_push($_jbzoo_profiler['memories'], $memory);
+    $_jbzoo_profiler['times'][]    = $time;
+    $_jbzoo_profiler['memories'][] = $memory;
 
     // build report
     $count = (int)abs($count);
@@ -232,20 +229,22 @@ function getFileList($dir, $filter = null, &$results = array())
 
         $path = realpath($path);
 
-        if (!is_dir($path) && !in_array($value, $_jbzoo_fileExcludes, true)) {
-            if ($filter) {
-
-                $regexp = '#' . $filter . '#u';
-                if (preg_match($regexp, $path)) {
-                    $results[] = $path;
-                }
+        if (!in_array($value, $_jbzoo_fileExcludes, true)) {
+            if (is_dir($path)) {
+                return getFileList($path, $filter, $results);
 
             } else {
-                $results[] = $path;
-            }
+                if ($filter) {
 
-        } elseif (is_dir($path) && !in_array($value, $_jbzoo_fileExcludes, true)) {
-            return getFileList($path, $filter, $results);
+                    $regexp = '#' . $filter . '#u';
+                    if (preg_match($regexp, $path)) {
+                        $results[] = $path;
+                    }
+
+                } else {
+                    $results[] = $path;
+                }
+            }
         }
     }
 
@@ -262,7 +261,7 @@ function openFile($path)
     $contents = null;
 
     if ($realPath = realpath($path)) {
-        $handle   = fopen($realPath, "rb");
+        $handle   = fopen($realPath, 'rb');
         $contents = fread($handle, filesize($realPath));
         fclose($handle);
     }
@@ -278,12 +277,18 @@ function openFile($path)
 function runBench(array $tests, array $options = array())
 {
     $options = array_merge(array(
-        'name'  => 'Compare speed',
-        'count' => 1000,
-        'time'  => 2,
+        'name'    => 'Compare speed',
+        'count'   => 1000,
+        'timeout' => 0,
+        'output'  => false,
     ), $options);
 
+    if (!$options['output']) {
+        ob_start();
+    }
+
     $benchmark = new Benchmark();
+    $benchmark->setCount($options['count']);
 
     declare(ticks = 1);
 
@@ -294,13 +299,14 @@ function runBench(array $tests, array $options = array())
         $benchmark->add($testName, $function);
     }
 
-    $benchmark->maxSeconds($options['time']);
-    $benchmark->setCount($options['count']);
-
-    cliMessage(PHP_EOL . '---------- Start benchmark: ' . $options['name'] . '  ----------');
+    cliMessage(PHP_EOL . '-------------------- Start benchmark: ' . $options['name'] . ' --------------------');
 
     $benchmark->run(true);
 
     cliMessage(PHP_EOL . 'TOTAL ' . loopProfiler($execCounter));
-    cliMessage('---------- Finish benchmark: ' . $options['name'] . '  ----------');
+    cliMessage('-------------------- Finish benchmark: ' . $options['name'] . ' --------------------');
+
+    if (!$options['output']) {
+        ob_end_clean();
+    }
 }

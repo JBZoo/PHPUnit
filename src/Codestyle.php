@@ -34,7 +34,7 @@ abstract class Codestyle extends PHPUnit
      * Valid copyright header
      * @var array
      */
-    protected $_validHeader = array(
+    protected static $_validHeader = array(
         '<?php',
         '/**',
         ' * _VENDOR_ _PACKAGE_',
@@ -53,7 +53,7 @@ abstract class Codestyle extends PHPUnit
      * Ignore list for
      * @var array
      */
-    protected $_excludeFiles = array(
+    protected static $_excludeFiles = array(
         '.',
         '..',
         '.idea',
@@ -74,7 +74,7 @@ abstract class Codestyle extends PHPUnit
 
         if (!$this->_packageName) {
             //@codeCoverageIgnoreStart
-            throw new \Exception('$this->_packageName is undefined!');
+            throw new Exception('$this->_packageName is undefined!');
             //@codeCoverageIgnoreEnd
         }
 
@@ -133,8 +133,8 @@ abstract class Codestyle extends PHPUnit
             $content = openFile($file);
 
             // build copyrights
-            $validHeader = $this->_validHeader;
-            if (isset($this->_replace['_AUTHOR_']) && $this->_replace['_AUTHOR_']) {
+            $validHeader = self::$_validHeader;
+            if (array_key_exists('_AUTHOR_', $this->_replace) && $this->_replace['_AUTHOR_']) {
                 $validHeader[] = ' * @author    _AUTHOR_';
             }
             $validHeader[] = ' */';

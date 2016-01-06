@@ -16,7 +16,6 @@
 namespace JBZoo\PHPUnit;
 
 /** @noinspection PhpUndefinedClassInspection */
-use \PHPUnit_Framework_TestCase;
 use Symfony\Component\DomCrawler\Crawler;
 
 /**
@@ -27,7 +26,7 @@ function getTestcase()
     $objects = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT);
 
     foreach ($objects as $object) {
-        if (isset($object['object']) && $object['object'] instanceof PHPUnit_Framework_TestCase) {
+        if (isset($object['object']) && $object['object'] instanceof \PHPUnit_Framework_TestCase) {
             return $object['object'];
         }
     }
@@ -44,10 +43,9 @@ function getTestcase()
  * Skip current test
  * @param $msg
  */
-
 function skip($msg = null)
 {
-    return getTestcase()->markTestSkipped($msg);
+    getTestcase()->markTestSkipped($msg);
 }
 
 /**
@@ -56,7 +54,7 @@ function skip($msg = null)
  */
 function incomplete($msg = null)
 {
-    return getTestcase()->markTestIncomplete($msg);
+    getTestcase()->markTestIncomplete($msg);
 }
 
 /**
@@ -75,6 +73,7 @@ function fail($msg = null)
  */
 function success($msg = null)
 {
+    /** @noinspection PhpMethodParametersCountMismatchInspection */
     getTestcase()->isTrue(true, $msg);
 }
 
@@ -92,7 +91,7 @@ function success($msg = null)
 function is($expected, $actual, $msg = null)
 {
     getTestcase()->assertEquals($expected, $actual, $msg);
-    return $expected === $actual ? true : false;
+    return $expected === $actual;
 }
 
 /**
@@ -104,7 +103,7 @@ function is($expected, $actual, $msg = null)
 function isNot($expected, $actual, $msg = null)
 {
     getTestcase()->assertNotEquals($expected, $actual, $msg);
-    return $expected === $actual ? true : false;
+    return $expected === $actual;
 }
 
 /**
@@ -278,7 +277,7 @@ function isNotKey($key, $array, $msg = null)
 function isAttr($attrName, $object)
 {
     $test = getTestcase();
-    $test->assertNotNull($object, "object " . get_class($object) . " is not empty");
+    $test->assertNotNull($object, 'object ' . get_class($object) . ' is not empty');
     $test->assertObjectHasAttribute($attrName, $object);
 }
 
@@ -290,7 +289,7 @@ function isAttr($attrName, $object)
 function isNotAttr($attrName, $object)
 {
     $test = getTestcase();
-    $test->assertNotNull($object, "object " . get_class($object) . " is not empty");
+    $test->assertNotNull($object, 'object ' . get_class($object) . ' is not empty');
     $test->assertObjectNotHasAttribute($attrName, $object);
 }
 
@@ -348,7 +347,9 @@ function isNotFile($path, $msg = null)
  * @param string $value
  * @param bool   $ignoreCase
  * @param null   $msg
+ * @noinspection MoreThanThreeArgumentsInspection
  */
+/** @noinspection MoreThanThreeArgumentsInspection */
 function isContain($expected, $value, $ignoreCase = false, $msg = null)
 {
     getTestcase()->assertContains($expected, $value, $msg, $ignoreCase);

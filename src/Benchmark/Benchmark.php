@@ -21,6 +21,12 @@ namespace JBZoo\PHPUnit\Benchmark;
  */
 class Benchmark
 {
+    const COL_NAME       = 'Name of test';
+    const COL_TIME       = 'Time';
+    const COL_TIME_REL   = 'Time, %';
+    const COL_MEMORY     = 'Memory';
+    const COL_MEMORY_REL = 'Memory, %';
+
     /**
      * @var array [Test]
      */
@@ -29,17 +35,17 @@ class Benchmark
     /**
      * @var int
      */
-    private $_count = null;
+    private $_count = 1;
 
     /**
-     * @var mixed
+     * @var array
      */
-    private $_overhead = null;
+    private $_overhead = array();
 
     /**
-     * @param AbstractTest $test
+     * @param Test $test
      */
-    public function addTest(AbstractTest $test)
+    public function addTest(Test $test)
     {
         $this->_tests[$test->getName()] = $test;
     }
@@ -49,11 +55,11 @@ class Benchmark
      *
      * @param string   $name
      * @param \Closure $closure function to execute
-     * @return SimpleTest
+     * @return Test
      */
     public function add($name, \Closure $closure)
     {
-        $test = new SimpleTest($name, $closure);
+        $test = new Test($name, $closure);
         $this->addTest($test);
 
         return $test;
@@ -64,19 +70,15 @@ class Benchmark
      */
     private function _warmup()
     {
-        $warmup = new SimpleTest('warmup', function () {
+        $warmup = new Test('warmup', function () {
         });
-        $warmup->run();
 
-        foreach ($this->_tests as $test) {
-            $test->run();
-        }
+        $this->_overhead = $warmup->runTest($this->_count);
 
-        $this->_overhead = $warmup->run($this->_count);
         $this->out(
             'PHP Overhead: ' .
-            'time=' . round($this->_overhead['time'] * 1000, 2) . ' ms; ' .
-            'memory=' . Util::convertToSI($this->_overhead['memory']) . ';' .
+            'time=' . Util::timeFormat($this->_overhead['time']) . '; ' .
+            'memory=' . Util::memFormat($this->_overhead['memory']) . ';' .
             PHP_EOL
         );
     }
@@ -89,10 +91,6 @@ class Benchmark
     {
         $results = array();
 
-        if (null === $this->_count) {
-            $this->maxSeconds(2); // aim for around 2 seconds per test
-        }
-
         if ($output) {
             $this->out("Running tests {$this->_count} times");
         }
@@ -100,11 +98,15 @@ class Benchmark
         $this->_warmup();
 
         $testNum = 0;
+
+        /**
+         * @var Test $test
+         */
         foreach ($this->_tests as $name => $test) {
             if ($output) {
                 $this->out('Testing ' . ++$testNum . '/' . count($this->_tests) . ' : ' . $name . ' ... ', false);
             }
-            $results[$name] = $test->run($this->_count);
+            $results[$name] = $test->runTest($this->_count);
 
             $this->out('Done!');
         }
@@ -127,27 +129,6 @@ class Benchmark
     }
 
     /**
-     * Average the guessCount of each test, determining the best n
-     *
-     * @param  float $maxSeconds
-     * @return int
-     */
-    public function maxSeconds($maxSeconds)
-    {
-        if (!$this->_tests) {
-            throw new \RuntimeException('No test in Benchmark.');
-        }
-
-        $minValue = INF;
-
-        foreach ($this->_tests as $test) {
-            $minValue = min($minValue, $test->guessCount($maxSeconds));
-        }
-
-        return $this->_count = Util::round($minValue);
-    }
-
-    /**
      * Output results in columns, padding right if values are string, left if numeric
      *
      * @param  array   $lines   array(array('Name' => 'Value'));
@@ -155,10 +136,6 @@ class Benchmark
      */
     public function outputTable(array $lines, $padding = 4)
     {
-        if (!$lines) {
-            return;
-        }
-
         $pad = function ($string, $width) use ($padding) {
             if ($width > 0) {
                 return str_pad($string, $width, ' ') . str_repeat(' ', $padding);
@@ -171,12 +148,12 @@ class Benchmark
         $cols = array_combine(array_keys($lines[0]), array_map('strlen', array_keys($lines[0])));
 
         foreach ($cols as $col => $width) {
+
             foreach ($lines as $line) {
                 $width = max($width, strlen($line[$col]));
             }
 
-            // pad left if numeric
-            if (preg_match('/^[0-9]/', $line[$col])) {
+            if ($col !== self::COL_NAME) {
                 $width = -$width;
             }
 
@@ -203,7 +180,7 @@ class Benchmark
     public function formatResults(array $results)
     {
         uasort($results, function ($testOne, $testTwo) {
-            if ($testOne['time'] == $testTwo['time']) {
+            if ($testOne['time'] === $testTwo['time']) {
                 return 0;
             } else {
                 return ($testOne['time'] < $testTwo['time']) ? -1 : 1;
@@ -214,32 +191,29 @@ class Benchmark
         $minMemory = INF;
 
         foreach ($results as $name => $result) {
+            // time
             $time = $result['time'];
             $time -= $this->_overhead['time']; // Substract base_time
-            $time *= 1000; // Convert to ms
-            $time = round($time);
-            $time = max(1, $time); // min 1 ms
+            //$time = round($time);
+            //$time = max(1, $time); // min 1 ms
 
             $minTime = min($minTime, $time);
 
             $results[$name]['time'] = $time;
 
-            if ($results[$name]['memory'] == 0) {
-                $results[$name]['memory'] = -1;
-            }
-
-            $minMemory = min($minMemory, $results[$name]['memory']);
+            // memory
+            $minMemory = min($minMemory, $results[$name]['memory'] - $this->_overhead['memory']);
         }
 
         $output = array();
 
         foreach ($results as $name => $result) {
             $output[] = array(
-                'Name of test' => $name,
-                'Time, ms'     => number_format($result['time'], 0, '.', ' '),
-                'Time, %'      => Util::relativePerc($minTime, $result['time']),
-                'Memory'       => Util::convertToSI($result['memory']),
-                'Memory, %'    => Util::relativePerc($minMemory, $result['memory']),
+                self::COL_NAME       => $name,
+                self::COL_TIME       => Util::timeFormat($result['time']),
+                self::COL_TIME_REL   => Util::relativePerc($minTime, $result['time']),
+                self::COL_MEMORY     => Util::memFormat($result['memory']),
+                self::COL_MEMORY_REL => Util::relativePerc($minMemory, $result['memory']),
             );
         }
 

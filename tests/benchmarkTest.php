@@ -15,84 +15,101 @@
 
 namespace JBZoo\PHPUnit;
 
-use JBZoo\PHPUnit\Benchmark\Benchmark;
-
 /**
  * Class BenchmarkTest
  * @package JBZoo\PHPUnit
  */
 class BenchmarkTest extends PHPUnit
 {
-    public function testTime()
-    {
-        cliMessage(PHP_EOL . '---------- Bench time');
-
-        // Generate long string for tests
-        $string = '';
-        for ($i = 0; $i < 5000; $i++) {
-            $string .= sha1(mt_rand(100000, 999999));
-        }
-
-        declare(ticks = 1);
-
-        $benchmark = new Benchmark();
-        $benchmark->add('md5', function () use ($string) {
-            return md5($string);
-        });
-
-        $benchmark->add('sha1', function () use ($string) {
-            return sha1($string);
-        });
-
-        $benchmark->add('crc32', function () use ($string) {
-            return crc32($string);
-        });
-
-        $benchmark->setCount(500);
-        $benchmark->run(true);
-    }
-
-    public function testMemory()
-    {
-        cliMessage(PHP_EOL . '---------- Bench memory');
-
-        $benchmark = new Benchmark();
-
-        declare(ticks = 1);
-
-        $benchmark->add('Test #1', function () {
-            return str_repeat('a', 1024 * 256);
-        });
-
-        $benchmark->add('Test #2', function () {
-            return str_repeat('a', 1024 * 1024);
-        });
-
-        $benchmark->add('Test #3', function () {
-            return str_repeat('a', 1024 * 1024 * 16);
-        });
-
-        $benchmark->setCount(500);
-
-        $benchmark->run(true);
-    }
-
-    public function testBenchAlias()
+    public function testBenchmarkHash()
     {
         runBench(array(
-            'Test #1' => function () {
+            'md5'   => function () {
                 $string = str_repeat(mt_rand(0, 9), 1024 * 1024);
                 return md5($string);
             },
-            'Test #2' => function () {
-                $string = str_repeat(mt_rand(0, 9), 1024 * 512 * 16);
+            'crc32' => function () {
+                $string = str_repeat(mt_rand(0, 9), 1024 * 1024);
                 return crc32($string);
             },
-            'Test #3' => function () {
-                $string = str_repeat(mt_rand(0, 9), 1024 * 256);
+            'sha1'  => function () {
+                $string = str_repeat(mt_rand(0, 9), 1024 * 1024);
                 return sha1($string);
             },
-        ), array('count' => 500, 'time' => 1, 'name' => 'runBench function'));
+        ), array(
+            'name'  => 'hash functions',
+            'count' => 100,
+        ));
+    }
+
+    public function testBenchmarkMemory()
+    {
+        runBench(array(
+            'x1'  => function () {
+                return str_repeat(mt_rand(0, 9), 900000);
+            },
+            'x2'  => function () {
+                return str_repeat(mt_rand(0, 9), 900000 * 2);
+            },
+            'x3'  => function () {
+                return str_repeat(mt_rand(0, 9), 900000 * 3);
+            },
+            'x16' => function () {
+                return str_repeat(mt_rand(0, 9), 900000 * 16);
+            },
+        ), array(
+            'name'   => 'memory diff',
+            'count'  => 100,
+            'output' => 1,
+        ));
+    }
+
+    public function testBenchmarkEcho()
+    {
+        runBench(array(
+            'echo sem'    => function () {
+
+                $a = str_repeat(mt_rand(0, 9), 32);
+                $b = str_repeat(mt_rand(0, 9), 64);
+                $c = str_repeat(mt_rand(0, 9), 128);
+                $d = str_repeat(mt_rand(0, 9), 256);
+                $e = str_repeat(mt_rand(0, 9), 512);
+                $f = str_repeat(mt_rand(0, 9), 1024);
+
+                echo $a, $b, $c, $d, $e, $f;
+            },
+            'echo cancat' => function () {
+
+                $a = str_repeat(mt_rand(0, 9), 32);
+                $b = str_repeat(mt_rand(0, 9), 64);
+                $c = str_repeat(mt_rand(0, 9), 128);
+                $d = str_repeat(mt_rand(0, 9), 256);
+                $e = str_repeat(mt_rand(0, 9), 512);
+                $f = str_repeat(mt_rand(0, 9), 1024);
+
+                echo $a . $b . $c . $d . $e . $f;
+            },
+            'echo multi'  => function () {
+
+                $a = str_repeat(mt_rand(0, 9), 32);
+                $b = str_repeat(mt_rand(0, 9), 64);
+                $c = str_repeat(mt_rand(0, 9), 128);
+                $d = str_repeat(mt_rand(0, 9), 256);
+                $e = str_repeat(mt_rand(0, 9), 512);
+                $f = str_repeat(mt_rand(0, 9), 1024);
+
+                echo $a;
+                echo $b;
+                echo $c;
+                echo $d;
+                echo $e;
+                echo $f;
+            },
+        ), array(
+            'name'   => 'echo call methods',
+            'count'  => 1000,
+            'output' => false,
+        ));
     }
 
 }
