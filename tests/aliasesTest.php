@@ -206,4 +206,11 @@ class AliasesTest extends PHPUnit
         dump($testObj->array, 0, 'Some array');
         dump($testObj, 0);
     }
+
+    public function testCmd()
+    {
+        $output = cmd('php', array('v' => ''));
+
+        cliMessage($output);
+    }
 }

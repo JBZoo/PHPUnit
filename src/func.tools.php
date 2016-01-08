@@ -16,6 +16,7 @@
 namespace JBZoo\PHPUnit;
 
 use JBZoo\PHPUnit\Benchmark\Benchmark;
+use Symfony\Component\Process\Process;
 use Symfony\Component\VarDumper\VarDumper;
 
 
@@ -309,4 +310,52 @@ function runBench(array $tests, array $options = array())
     if (!$options['output']) {
         ob_end_clean();
     }
+}
+
+/**
+ * @param string $command
+ * @param array  $args
+ * @param null   $cwd
+ * @return string
+ */
+function cmd($command, $args = array(), $cwd = null)
+{
+    $stringArgs  = array();
+    $realCommand = $command;
+
+    if (count($args) > 0) {
+
+        foreach ($args as $key => $value) {
+            $value = trim($value);
+            $key   = trim($key);
+
+            if (strlen($key) == 1) {
+                $key = '-' . $key;
+            } else {
+                $key = '--' . $key;
+            }
+
+            if ($value) {
+                $stringArgs[] = $key . '=' . $value;
+            } else {
+                $stringArgs[] = $key;
+            }
+        }
+    }
+
+    if (count($stringArgs)) {
+        $realCommand = $command . ' ' . implode(' ', $stringArgs);
+    }
+
+    cliMessage('Process called: "' . $realCommand . '"; cwd: "' . $cwd . '";');
+
+    $process = new Process($realCommand, $cwd);
+    $process->run();
+
+    // executes after the command finishes
+    if (!$process->isSuccessful()) {
+        throw new \RuntimeException($process->getErrorOutput());
+    }
+
+    return $process->getOutput();
 }
