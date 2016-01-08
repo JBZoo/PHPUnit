@@ -39,20 +39,6 @@ class Command extends SymfonyCommand
     protected $_in;
 
     /**
-     * @param string $name The command name
-     * @return Command The current instance
-     * @throws \InvalidArgumentException When the name is invalid
-     * @api
-     */
-    public function setName($name)
-    {
-        //$configPath   = PATH_ROOT . '/config/' . str_replace(':', '-', $name) . '.ini';
-        //$this->config = new Ini($configPath);
-
-        return parent::setName($name);
-    }
-
-    /**
      * @param InputInterface  $input
      * @param OutputInterface $output
      */

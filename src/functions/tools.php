@@ -68,7 +68,7 @@ function dump($var, $isDie = true, $label = '')
 
     if ($isSimpleVar) {
         ob_start();
-        var_dump('' . $var);
+        var_dump($var);
         $dump = ob_get_contents();
         ob_end_clean();
 
@@ -348,11 +348,11 @@ function cmd($command, $args = array(), $cwd = null, $verbose = false)
     $process->run();
 
     // executes after the command finishes
+    //@codeCoverageIgnoreStart
     if (!$process->isSuccessful()) {
-        //@codeCoverageIgnoreStart
         throw new \RuntimeException($process->getErrorOutput());
-        //@codeCoverageIgnoreEnd
     }
+    //@codeCoverageIgnoreEnd
 
     return $process->getOutput();
 }

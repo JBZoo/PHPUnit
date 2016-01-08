@@ -73,11 +73,11 @@ abstract class Codestyle extends PHPUnit
     {
         parent::setUp();
 
+        //@codeCoverageIgnoreStart
         if (!$this->_packageName) {
-            //@codeCoverageIgnoreStart
             throw new Exception('$this->_packageName is undefined!');
-            //@codeCoverageIgnoreEnd
         }
+        //@codeCoverageIgnoreEnd
 
         $this->_replace = array(
             '_LINK_'       => 'https://github.com/JBZoo/_PACKAGE_',
@@ -147,12 +147,12 @@ abstract class Codestyle extends PHPUnit
 
     /**
      * Try to find cyrilic symbols in the code
+     *
+     * * @SuppressWarnings(PHPMD.Superglobals)
      */
     public function testCyrillic()
     {
-        global $_jbzoo_fileExcludes;
-
-        $_jbzoo_fileExcludes[] = pathinfo(__FILE__, PATHINFO_BASENAME);
+        $GLOBALS['_jbzoo_fileExcludes'][] = pathinfo(__FILE__, PATHINFO_BASENAME);
 
         $files = getFileList(PROJECT_SRC);
 

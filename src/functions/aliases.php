@@ -370,7 +370,7 @@ function isNotContain($expected, $value, $ignoreCase = false, $msg = null)
  * Is CSS selector find in the HTML code
  * @param string $html
  * @param string $selector
- * @param string $expected
+ * @param mixed  $expected
  * @param string $msg
  * @return bool
  */
@@ -401,7 +401,7 @@ function isHtmlContain($html, $selector, $expected = null, $msg = null)
  * Is NOT find CSS-selector find in the HTML code
  * @param string $html
  * @param string $selector
- * @param string $expected
+ * @param mixed  $expected
  * @param string $msg
  * @return bool
  */
