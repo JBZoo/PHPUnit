@@ -10,6 +10,7 @@ $vendorPaths = array(
     __DIR__ . '/../../autoload.php',
     __DIR__ . '/../vendor/autoload.php',
     __DIR__ . '/vendor/autoload.php',
+    './vendor/autoload.php',
 );
 
 foreach ($vendorPaths as $file) {
@@ -21,7 +22,10 @@ foreach ($vendorPaths as $file) {
 
 $application = new App('JBZoo PHPUnit');
 
-$application->registerCommands(PROJECT_SRC . '/Console/Command');
+if ($dir = realpath(PROJECT_SRC . '/Console/Command')) {
+    $application->registerCommands($dir);
+}
+
 $application->registerCommands(__DIR__ . '/../src/Console/Command');
 
 $application->run();
