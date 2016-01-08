@@ -6,12 +6,12 @@
          convertWarningsToExceptions="true"
          processIsolation="false"
          syntaxCheck="true"
-         stopOnFailures="true"
          stopOnError="true"
          stopOnFailure="true"
          stopOnIncomplete="true"
+         stopOnRisky="true"
          stopOnSkipped="false"
-         verbose="true"
+         verbose="false"
         >
 
     <testsuites>
@@ -28,7 +28,6 @@
 
     <logging>
         <log type="coverage-clover" target="build/logs/clover.xml"/>
-        <log type="coverage-html" target="build/phpunit" lowUpperBound="80" highLowerBound="95"/>
         <log type="coverage-text" target="php://stdout" showUncoveredFiles="false" showOnlySummary="true"/>
     </logging>
 
