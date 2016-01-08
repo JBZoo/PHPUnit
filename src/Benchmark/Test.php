@@ -27,6 +27,16 @@ class Test
     private $_test;
 
     /**
+     * @var string
+     */
+    private $_name;
+
+    /**
+     * @var Profiler
+     */
+    private $_profiler;
+
+    /**
      * @param string   $name
      * @param \Closure $testFunction
      */

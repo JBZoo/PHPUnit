@@ -14,7 +14,7 @@
  */
 
 // @codingStandardsIgnoreFile
-define('JBZOO_PHPUNIT', true);
+!defined('JBZOO_PHPUNIT') && define('JBZOO_PHPUNIT', true);
 
 // PHP 5.3.3 does not support this
 !defined('DEBUG_BACKTRACE_PROVIDE_OBJECT') && define('DEBUG_BACKTRACE_PROVIDE_OBJECT', true);

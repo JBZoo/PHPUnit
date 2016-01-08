@@ -194,8 +194,6 @@ class Benchmark
             // time
             $time = $result['time'];
             $time -= $this->_overhead['time']; // Substract base_time
-            //$time = round($time);
-            //$time = max(1, $time); // min 1 ms
 
             $minTime = min($minTime, $time);
 
