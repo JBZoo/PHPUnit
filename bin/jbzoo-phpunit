@@ -1,0 +1,27 @@
+#!/usr/bin/env php
+<?php
+
+use JBZoo\PHPUnit\Console\App;
+
+umask(0000);
+set_time_limit(0);
+
+$vendorPaths = array(
+    __DIR__ . '/../../autoload.php',
+    __DIR__ . '/../vendor/autoload.php',
+    __DIR__ . '/vendor/autoload.php',
+);
+
+foreach ($vendorPaths as $file) {
+    if (file_exists($file)) {
+        require_once $file;
+        break;
+    }
+}
+
+$application = new App('JBZoo PHPUnit');
+
+$application->registerCommands(PROJECT_SRC . '/Console/Command');
+$application->registerCommands(__DIR__ . '/../src/Console/Command');
+
+$application->run();
