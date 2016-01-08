@@ -194,13 +194,16 @@ class Benchmark
             // time
             $time = $result['time'];
             $time -= $this->_overhead['time']; // Substract base_time
+            $results[$name]['time'] = $time;
 
             $minTime = min($minTime, $time);
 
-            $results[$name]['time'] = $time;
-
             // memory
-            $minMemory = min($minMemory, $results[$name]['memory'] - $this->_overhead['memory']);
+            $memory = $results[$name]['memory'];
+            $memory -= $this->_overhead['memory'];
+            $results[$name]['memory'] = $memory;
+
+            $minMemory = min($minMemory, $memory);
         }
 
         $output = array();

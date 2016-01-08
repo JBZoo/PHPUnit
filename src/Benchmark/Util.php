@@ -22,13 +22,13 @@ namespace JBZoo\PHPUnit\Benchmark;
 class Util
 {
     /**
-     * Converts 1024 to 1K, etc.
+     * Converts 1024 B to 1K, etc.
      *
      * @param  int     $number    i.e.: 1280
      * @param  integer $precision i.e.: 1.25 for precision = 2
-     * @return string  i.e.: 1.25 kB
+     * @return string  i.e.: 1.25 KB
      */
-    public static function memFormat($number, $precision = 3)
+    public static function memFormat($number, $precision = 2)
     {
         if ($number < 0) {
             $number = 0;
