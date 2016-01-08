@@ -21,6 +21,7 @@ use Symfony\Component\Finder\Finder;
 /**
  * Class App
  * @package JBZoo\PHPUnit\Console
+ * @codeCoverageIgnore
  */
 class App extends Application
 {

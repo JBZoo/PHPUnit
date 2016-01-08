@@ -23,6 +23,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Class UnitTest
  * @package SmetDenis/PHPTools
+ * @codeCoverageIgnore
  */
 class UnitTest extends Command
 {

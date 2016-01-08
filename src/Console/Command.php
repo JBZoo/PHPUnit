@@ -24,6 +24,7 @@ use Symfony\Component\Finder\Finder;
 /**
  * Class Command
  * @package JBZoo\PHPUnit\Console
+ * @codeCoverageIgnore
  */
 class Command extends SymfonyCommand
 {
