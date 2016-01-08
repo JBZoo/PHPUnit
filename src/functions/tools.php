@@ -19,7 +19,6 @@ use JBZoo\PHPUnit\Benchmark\Benchmark;
 use Symfony\Component\Process\Process;
 use Symfony\Component\VarDumper\VarDumper;
 
-
 // @codingStandardsIgnoreFile
 global $_jbzoo_profiler, $_jbzoo_fileExcludes; // Yes, this is not cool stuff...
 
@@ -63,17 +62,17 @@ function dump($var, $isDie = true, $label = '')
     $message = ($label ? '--- "' . $label . '" ---' : str_repeat('-', 20));
     $message = PHP_EOL . $message . ' ' . $callplace;
 
-    cliMessage($message);
+    fwrite(STDOUT, $message . PHP_EOL);
 
     $isSimpleVar = is_string($var) || is_numeric($var) || is_bool($var) || null === $var;
 
     if ($isSimpleVar) {
         ob_start();
-        /** @noinspection ForgottenDebugOutputInspection */
-        var_dump($var);
+        var_dump('' . $var);
         $dump = ob_get_contents();
         ob_end_clean();
-        cliMessage($dump, false);
+
+        fwrite(STDOUT, $dump);
 
     } else {
         VarDumper::dump($var);
@@ -81,7 +80,7 @@ function dump($var, $isDie = true, $label = '')
 
     if ($isDie) {
         //@codeCoverageIgnoreStart
-        cliError('Dump die!');
+        fwrite(STDOUT, 'Dump die!' . PHP_EOL);
         exit(255);
         //@codeCoverageIgnoreEnd
     }
@@ -98,13 +97,7 @@ function cliMessage($message, $addEol = true)
         $message .= PHP_EOL;
     }
 
-    if (defined('STDOUT')) {
-        fwrite(STDOUT, $message);
-    } else {
-        //@codeCoverageIgnoreStart
-        echo $message;
-        //@codeCoverageIgnoreEnd
-    }
+    MessageBuffer::getInstance()->info($message);
 }
 
 /**
@@ -118,19 +111,14 @@ function cliError($message, $addEol = true)
         $message .= PHP_EOL;
     }
 
-    if (defined('STDERR')) {
-        fwrite(STDERR, $message);
-    } else {
-        //@codeCoverageIgnoreStart
-        echo $message;
-        //@codeCoverageIgnoreEnd
-    }
+    MessageBuffer::getInstance()->error($message);
 }
 
 /**
  * Show alert message
  * @param string $message
  * @param null   $label
+ * @deprecated
  */
 function alert($message, $label = null)
 {
@@ -278,10 +266,9 @@ function openFile($path)
 function runBench(array $tests, array $options = array())
 {
     $options = array_merge(array(
-        'name'    => 'Compare speed',
-        'count'   => 1000,
-        'timeout' => 0,
-        'output'  => false,
+        'name'   => 'Compare speed',
+        'count'  => 100,
+        'output' => false,
     ), $options);
 
     if (!$options['output']) {
@@ -294,7 +281,7 @@ function runBench(array $tests, array $options = array())
     declare(ticks = 1);
 
     startProfiler();
-    $execCounter = $options['count'] * count($tests);
+    $execCounter = $options['count'] * (count($tests) + 1); // "+1" to check PHP overhead
 
     foreach ($tests as $testName => $function) {
         $benchmark->add($testName, $function);
@@ -316,9 +303,10 @@ function runBench(array $tests, array $options = array())
  * @param string $command
  * @param array  $args
  * @param null   $cwd
+ * @param bool   $verbose
  * @return string
  */
-function cmd($command, $args = array(), $cwd = null)
+function cmd($command, $args = array(), $cwd = null, $verbose = false)
 {
     $stringArgs  = array();
     $realCommand = $command;
@@ -329,10 +317,12 @@ function cmd($command, $args = array(), $cwd = null)
             $value = trim($value);
             $key   = trim($key);
 
-            if (strlen($key) == 1) {
-                $key = '-' . $key;
-            } else {
-                $key = '--' . $key;
+            if (strpos($key, '-') !== 0) {
+                if (strlen($key) == 1) {
+                    $key = '-' . $key;
+                } else {
+                    $key = '--' . $key;
+                }
             }
 
             if ($value) {
@@ -347,7 +337,9 @@ function cmd($command, $args = array(), $cwd = null)
         $realCommand = $command . ' ' . implode(' ', $stringArgs);
     }
 
-    cliMessage('Process called: "' . $realCommand . '"; cwd: "' . $cwd . '";');
+    if ($verbose) {
+        cliMessage('Process called: "' . $realCommand . '"; cwd: "' . $cwd . '";');
+    }
 
     $process = new Process($realCommand, $cwd);
     $process->run();
