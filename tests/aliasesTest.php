@@ -109,40 +109,15 @@ class AliasesTest extends PHPUnit
         isNotDir(__FILE__);
         isNotDir(__DIR__ . '/qwerty');
 
-        isCount(5, getFileList(__DIR__));
+        isCount(1, getFileList(__DIR__ . '/../bin'));
         isCount(1, getFileList(__DIR__, 'aliases'));
         isCount(0, getFileList(__DIR__, '\.qwerty$'));
         isCount(1, getFileList(__DIR__ . '/..', '\.travis'));
     }
 
-    public function testLoopProfiler()
-    {
-        startProfiler();
-
-        $max    = 100000;
-        $result = array();
-        for ($i = 0; $i < $max; $i++) {
-            $result[] = $i;
-        }
-
-        alert(loopProfiler($max, true), 'Report');
-        loopProfiler($max, false); // just for coverage :)
-    }
-
-    public function testXdebug()
-    {
-        isXDebug();
-    }
-
     public function testSkip()
     {
         skip('Some reason to skip this test');
-    }
-
-    public function testAlert()
-    {
-        alert('Some alert message');
-        alert(array('Some alert message'), 'Label');
     }
 
     public function testHtmlContain()
@@ -182,35 +157,5 @@ class AliasesTest extends PHPUnit
         isHtmlNotContain($html, 'body .empty-undefined', '');
         isHtmlNotContain($html, 'body .empty-undefined', ' ');
         isHtmlNotContain($html, 'body .empty-undefined', 123);
-    }
-
-    public function testDump()
-    {
-        $testObj = (object)array(
-            'string' => ' 123 ',
-            'int'    => 123,
-            'float'  => 123.456,
-            'null'   => null,
-            'bool'   => true,
-            'array'  => array(1, 2, 3),
-            'func'   => function () {
-                echo 42;
-            },
-        );
-
-        dump($testObj->string, 0, 'Some string');
-        dump($testObj->int, 0, 'Some integer');
-        dump($testObj->float, 0, 'Some float');
-        dump($testObj->null, 0, 'Null');
-        dump($testObj->bool, 0, 'Some boolean');
-        dump($testObj->array, 0, 'Some array');
-        dump($testObj, 0);
-    }
-
-    public function testCmd()
-    {
-        $output = cmd('php', array('v' => ''));
-
-        cliMessage($output);
     }
 }

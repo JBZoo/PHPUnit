@@ -21,27 +21,6 @@ namespace JBZoo\PHPUnit;
  */
 class BenchmarkTest extends PHPUnit
 {
-    public function testBenchmarkHash()
-    {
-        runBench(array(
-            'md5'   => function () {
-                $string = str_repeat(mt_rand(0, 9), 1024 * 1024);
-                return md5($string);
-            },
-            'crc32' => function () {
-                $string = str_repeat(mt_rand(0, 9), 1024 * 1024);
-                return crc32($string);
-            },
-            'sha1'  => function () {
-                $string = str_repeat(mt_rand(0, 9), 1024 * 1024);
-                return sha1($string);
-            },
-        ), array(
-            'name'  => 'hash functions',
-            'count' => 100,
-        ));
-    }
-
     public function testBenchmarkMemory()
     {
         runBench(array(
@@ -58,14 +37,39 @@ class BenchmarkTest extends PHPUnit
                 return str_repeat(mt_rand(0, 9), 900000 * 16);
             },
         ), array(
-            'name'   => 'memory diff',
-            'count'  => 100,
+            'name'   => 'runBench()',
+            'count'  => 10,
             'output' => 1,
+        ));
+    }
+
+    public function testBenchmarkHash()
+    {
+        skip('Hash speed is not actual');
+
+        runBench(array(
+            'md5'   => function () {
+                $string = str_repeat(mt_rand(0, 9), 1024 * 1024);
+                return md5($string);
+            },
+            'crc32' => function () {
+                $string = str_repeat(mt_rand(0, 9), 1024 * 1024);
+                return crc32($string);
+            },
+            'sha1'  => function () {
+                $string = str_repeat(mt_rand(0, 9), 1024 * 1024);
+                return sha1($string);
+            },
+        ), array(
+            'name'  => 'Hash',
+            'count' => 100,
         ));
     }
 
     public function testBenchmarkEcho()
     {
+        skip('Echo speed is not actual');
+
         runBench(array(
             'echo sem'    => function () {
 
@@ -106,10 +110,9 @@ class BenchmarkTest extends PHPUnit
                 echo $f;
             },
         ), array(
-            'name'   => 'echo call methods',
+            'name'   => 'echo',
             'count'  => 1000,
             'output' => false,
         ));
     }
-
 }
