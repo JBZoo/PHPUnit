@@ -18,6 +18,7 @@ namespace JBZoo\PHPUnit;
 /**
  * Class Codestyle
  * @package JBZoo\PHPUnit
+ * @codeCoverageIgnore
  */
 abstract class Codestyle extends PHPUnit
 {

@@ -36,11 +36,7 @@ class BenchmarkTest extends PHPUnit
             'x16' => function () {
                 return str_repeat(mt_rand(0, 9), 900000 * 16);
             },
-        ), array(
-            'name'   => 'runBench()',
-            'count'  => 10,
-            'output' => 1,
-        ));
+        ), array('name' => 'runBench()'));
     }
 
     public function testBenchmarkHash()

@@ -18,6 +18,7 @@ namespace JBZoo\PHPUnit;
 /**
  * Class MessageCollector
  * @package JBZoo\PHPUnit
+ * @codeCoverageIgnore
  */
 class MessageBuffer
 {
@@ -66,7 +67,6 @@ class MessageBuffer
      */
     public function __destruct()
     {
-        //@codeCoverageIgnoreStart
         foreach ($this->_info as $message) {
             if (defined('STDOUT')) {
                 fwrite(STDOUT, $message);
@@ -82,6 +82,5 @@ class MessageBuffer
                 echo $message;
             }
         }
-        //@codeCoverageIgnoreEnd
     }
 }

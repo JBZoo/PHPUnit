@@ -103,6 +103,7 @@ function cliMessage($message, $addEol = true)
 /**
  * @param string $message
  * @param bool   $addEol
+ * @codeCoverageIgnore
  */
 function cliError($message, $addEol = true)
 {
@@ -337,16 +338,20 @@ function cmd($command, $args = array(), $cwd = null, $verbose = false)
         $realCommand = $command . ' ' . implode(' ', $stringArgs);
     }
 
+    //@codeCoverageIgnoreStart
     if ($verbose) {
         cliMessage('Process called: "' . $realCommand . '"; cwd: "' . $cwd . '";');
     }
+    //@codeCoverageIgnoreEnd
 
     $process = new Process($realCommand, $cwd);
     $process->run();
 
     // executes after the command finishes
     if (!$process->isSuccessful()) {
+        //@codeCoverageIgnoreStart
         throw new \RuntimeException($process->getErrorOutput());
+        //@codeCoverageIgnoreEnd
     }
 
     return $process->getOutput();

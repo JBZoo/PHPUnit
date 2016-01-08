@@ -23,7 +23,11 @@ class ToolsTest extends PHPUnit
 {
     public function testBin()
     {
-        $output = cmd('php bin/jbzoo-phpunit test', array('no-ansi' => ''), PROJECT_ROOT);
+        $output = cmd('php bin/jbzoo-phpunit test', array(
+            'option'  => '123456',
+            'no-ansi' => '',
+        ), PROJECT_ROOT);
+
         isContain('Success', $output);
     }
 
@@ -84,6 +88,6 @@ class ToolsTest extends PHPUnit
 
     public function testCliError()
     {
-        cliError('Some error message');
+        //cliError('Some error message');
     }
 }
