@@ -29,4 +29,9 @@
 !defined('PROJECT_BUILD') && define('PROJECT_BUILD', PROJECT_ROOT . DS . 'build');
 !defined('PROJECT_SRC') && define('PROJECT_SRC', PROJECT_ROOT . DS . 'src');
 !defined('PROJECT_TESTS') && define('PROJECT_TESTS', PROJECT_ROOT . DS . 'tests');
+!defined('PROJECT_RES') && define('PROJECT_RES', PROJECT_ROOT . DS . 'resources');
+
+/**
+ * @deprecated
+ */
 !defined('PROJECT_RESOURCES') && define('PROJECT_RESOURCES', PROJECT_ROOT . DS . 'resources');
