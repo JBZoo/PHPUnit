@@ -16,6 +16,7 @@
 namespace JBZoo\PHPUnit;
 
 use JBZoo\PHPUnit\Benchmark\Benchmark;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 use Symfony\Component\VarDumper\VarDumper;
 
@@ -327,7 +328,7 @@ function cmd($command, $args = array(), $cwd = null, $verbose = false)
             }
 
             if ($value) {
-                $stringArgs[] = $key . '=' . $value;
+                $stringArgs[] = $key . '="' . addcslashes($value, '"') . '"';
             } else {
                 $stringArgs[] = $key;
             }
@@ -338,9 +339,14 @@ function cmd($command, $args = array(), $cwd = null, $verbose = false)
         $realCommand = $command . ' ' . implode(' ', $stringArgs);
     }
 
+    if ($cwd) {
+        $cwd = realpath($cwd);
+    }
+
     //@codeCoverageIgnoreStart
     if ($verbose) {
-        cliMessage('Process called: "' . $realCommand . '"; cwd: "' . $cwd . '";');
+        cliMessage('Process: ' . $realCommand);
+        cliMessage('CWD: ' . $cwd);
     }
     //@codeCoverageIgnoreEnd
 
@@ -350,7 +356,7 @@ function cmd($command, $args = array(), $cwd = null, $verbose = false)
     // executes after the command finishes
     //@codeCoverageIgnoreStart
     if (!$process->isSuccessful()) {
-        throw new \RuntimeException($process->getErrorOutput());
+        throw new ProcessFailedException($process);
     }
     //@codeCoverageIgnoreEnd
 
