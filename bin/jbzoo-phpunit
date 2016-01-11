@@ -7,10 +7,12 @@ umask(0000);
 set_time_limit(0);
 
 $vendorPaths = array(
-    __DIR__ . '/../../autoload.php',
-    __DIR__ . '/../vendor/autoload.php',
-    __DIR__ . '/vendor/autoload.php',
-    './vendor/autoload.php',
+    realpath(__DIR__ . '/vendor/autoload.php'),
+    realpath(__DIR__ . '/../vendor/autoload.php'),
+    realpath(__DIR__ . '/../../vendor/autoload.php'),
+    realpath(__DIR__ . '/../../../vendor/autoload.php'),
+    realpath(__DIR__ . '/../../../../vendor/autoload.php'),
+    realpath('./vendor/autoload.php'),
 );
 
 foreach ($vendorPaths as $file) {
@@ -21,6 +23,10 @@ foreach ($vendorPaths as $file) {
 }
 
 $application = new App('JBZoo PHPUnit');
+
+if ($dir = realpath(PROJECT_TESTS . '/Console/Command')) {
+    $application->registerCommands($dir);
+}
 
 if ($dir = realpath(PROJECT_SRC . '/Console/Command')) {
     $application->registerCommands($dir);
