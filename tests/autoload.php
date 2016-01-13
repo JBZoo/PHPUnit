@@ -24,8 +24,4 @@ if ($autoload = realpath('./vendor/autoload.php')) {
     die('execute "composer update"');
 }
 
-if (!defined('ROOT_PATH')) {
-    define('ROOT_PATH', realpath('.'));
-}
-
 // @codeCoverageIgnoreEnd

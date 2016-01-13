@@ -21,19 +21,6 @@ namespace JBZoo\PHPUnit;
  */
 class ToolsTest extends PHPUnit
 {
-    public function testBin()
-    {
-        $unique = uniqid('', true);
-
-        $output = cmd('php bin/jbzoo-phpunit test', array(
-            'option'  => $unique,
-            'no-ansi' => '',
-        ), PROJECT_ROOT);
-
-        isContain('Success', $output);
-        isContain($unique, $output);
-    }
-
     public function testLoopProfiler()
     {
         startProfiler();
