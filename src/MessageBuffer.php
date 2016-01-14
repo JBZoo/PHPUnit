@@ -15,6 +15,8 @@
 
 namespace JBZoo\PHPUnit;
 
+use JBZoo\Utils\Cli;
+
 /**
  * Class MessageCollector
  * @package JBZoo\PHPUnit
@@ -68,19 +70,11 @@ class MessageBuffer
     public function __destruct()
     {
         foreach ($this->_info as $message) {
-            if (defined('STDOUT')) {
-                fwrite(STDOUT, $message);
-            } else {
-                echo $message;
-            }
+            Cli::out($message, false);
         }
 
         foreach ($this->_error as $message) {
-            if (defined('STDERR')) {
-                fwrite(STDERR, $message);
-            } else {
-                echo $message;
-            }
+            Cli::err($message, false);
         }
     }
 }

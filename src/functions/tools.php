@@ -15,9 +15,8 @@
 
 namespace JBZoo\PHPUnit;
 
+use JBZoo\Utils\Cli;
 use JBZoo\PHPUnit\Benchmark\Benchmark;
-use Symfony\Component\Process\Exception\ProcessFailedException;
-use Symfony\Component\Process\Process;
 use Symfony\Component\VarDumper\VarDumper;
 
 // @codingStandardsIgnoreFile
@@ -310,55 +309,5 @@ function runBench(array $tests, array $options = array())
  */
 function cmd($command, $args = array(), $cwd = null, $verbose = false)
 {
-    $stringArgs  = array();
-    $realCommand = $command;
-
-    if (count($args) > 0) {
-
-        foreach ($args as $key => $value) {
-            $value = trim($value);
-            $key   = trim($key);
-
-            if (strpos($key, '-') !== 0) {
-                if (strlen($key) == 1) {
-                    $key = '-' . $key;
-                } else {
-                    $key = '--' . $key;
-                }
-            }
-
-            if ($value) {
-                $stringArgs[] = $key . '="' . addcslashes($value, '"') . '"';
-            } else {
-                $stringArgs[] = $key;
-            }
-        }
-    }
-
-    if (count($stringArgs)) {
-        $realCommand = $command . ' ' . implode(' ', $stringArgs);
-    }
-
-    if ($cwd) {
-        $cwd = realpath($cwd);
-    }
-
-    //@codeCoverageIgnoreStart
-    if ($verbose) {
-        cliMessage('Process: ' . $realCommand);
-        cliMessage('CWD: ' . $cwd);
-    }
-    //@codeCoverageIgnoreEnd
-
-    $process = new Process($realCommand, $cwd);
-    $process->run();
-
-    // executes after the command finishes
-    //@codeCoverageIgnoreStart
-    if (!$process->isSuccessful()) {
-        throw new ProcessFailedException($process);
-    }
-    //@codeCoverageIgnoreEnd
-
-    return $process->getOutput();
+    return Cli::exec($command, $args, $cwd, $verbose);
 }
