@@ -15,6 +15,10 @@
 
 namespace JBZoo\PHPUnit;
 
+use JBZoo\Utils\Arr;
+use JBZoo\Utils\FS;
+use JBZoo\Utils\Vars;
+
 /**
  * Class BenchmarkTest
  * @package JBZoo\PHPUnit
@@ -37,6 +41,43 @@ class BenchmarkTest extends PHPUnit
                 return str_repeat(mt_rand(0, 9), 900000 * 16);
             },
         ), array('name' => 'runBench()'));
+    }
+
+    public function testFunctionOverhead()
+    {
+        runBench(array(
+            'Clean'   => function () {
+                return pathinfo(__FILE__, PATHINFO_BASENAME);
+            },
+            'Wrapper' => function () {
+                return FS::base(__FILE__);
+            },
+        ), array('name' => 'Pathinfo overhead', 'count' => 10000));
+
+        runBench(array(
+            'Vars::get' => function () {
+                return Vars::get($GLOBALS['somevar']);
+            },
+            'isset'     => function () {
+                return isset($GLOBALS['somevar']);
+            },
+        ), array('name' => 'Isset overhead', 'count' => 10000));
+
+
+        $randArr = array_fill(0, 100, null);
+
+        for ($i = 0; $i < 100; $i += 1) {
+            $randArr[$i] = mt_rand(0, 9);
+        }
+
+        runBench(array(
+            'array_keys(+flip)' => function () use ($randArr) {
+                return Arr::unique($randArr, false);
+            },
+            'array_unique'      => function () use ($randArr) {
+                return Arr::unique($randArr, true);
+            },
+        ), array('name' => 'Isset overhead', 'count' => 1000));
     }
 
     public function testBenchmarkHash()

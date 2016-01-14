@@ -75,6 +75,13 @@ class Benchmark
 
         $this->_overhead = $warmup->runTest($this->_count);
 
+        // One call each method for init
+
+        /** @var Test $test */
+        foreach ($this->_tests as $test) {
+            $test->runTest(1);
+        }
+
         $this->out(
             'PHP Overhead: ' .
             'time=' . Util::timeFormat($this->_overhead['time']) . '; ' .
