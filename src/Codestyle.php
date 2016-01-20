@@ -148,7 +148,7 @@ abstract class Codestyle extends PHPUnit
     /**
      * Try to find cyrilic symbols in the code
      *
-     * * @SuppressWarnings(PHPMD.Superglobals)
+     * @SuppressWarnings(PHPMD.Superglobals)
      */
     public function testCyrillic()
     {
