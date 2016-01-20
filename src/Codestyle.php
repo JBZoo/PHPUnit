@@ -27,6 +27,12 @@ abstract class Codestyle extends PHPUnit
     protected $_packageAuthor = '';
     protected $_packageLicense = 'MIT';
 
+    protected $_packageDesc = array(
+        'This file is part of the JBZoo CCK package.',
+        'For the full copyright and license information, please view the LICENSE',
+        'file that was distributed with this source code.'
+    );
+
     protected $_le = "\n";
 
     protected $_replace = array();
@@ -40,9 +46,7 @@ abstract class Codestyle extends PHPUnit
         '/**',
         ' * _VENDOR_ _PACKAGE_',
         ' *',
-        ' * This file is part of the JBZoo CCK package.',
-        ' * For the full copyright and license information, please view the LICENSE',
-        ' * file that was distributed with this source code.',
+        ' * _DESCRIPTION_',
         ' *',
         ' * @package   _PACKAGE_',
         ' * @license   _LICENSE_',
@@ -80,15 +84,15 @@ abstract class Codestyle extends PHPUnit
         //@codeCoverageIgnoreEnd
 
         $this->_replace = array(
-            '_LINK_'       => 'https://github.com/JBZoo/_PACKAGE_',
-            '_NAMESPACE_'  => '_VENDOR_\_PACKAGE_',
-            '_COPYRIGHTS_' => 'Copyright (C) JBZoo.com,  All rights reserved.',
-            '_PACKAGE_'    => $this->_packageName,
-            '_LICENSE_'    => $this->_packageLicense,
-            '_AUTHOR_'     => $this->_packageAuthor,
-            '_VENDOR_'     => $this->_packageVendor,
+            '_LINK_'        => 'https://github.com/JBZoo/_PACKAGE_',
+            '_NAMESPACE_'   => '_VENDOR_\_PACKAGE_',
+            '_COPYRIGHTS_'  => 'Copyright (C) JBZoo.com,  All rights reserved.',
+            '_PACKAGE_'     => $this->_packageName,
+            '_LICENSE_'     => $this->_packageLicense,
+            '_AUTHOR_'      => $this->_packageAuthor,
+            '_VENDOR_'      => $this->_packageVendor,
+            '_DESCRIPTION_' => implode("\n * ", $this->_packageDesc)
         );
-
     }
 
     /**
@@ -125,6 +129,8 @@ abstract class Codestyle extends PHPUnit
 
     /**
      * Test copyright headers
+     *
+     * @return void
      */
     public function testHeaders()
     {
