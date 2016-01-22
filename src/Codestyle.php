@@ -30,7 +30,7 @@ abstract class Codestyle extends PHPUnit
     protected $_packageDesc = array(
         'This file is part of the JBZoo CCK package.',
         'For the full copyright and license information, please view the LICENSE',
-        'file that was distributed with this source code.'
+        'file that was distributed with this source code.',
     );
 
     protected $_le = "\n";
@@ -91,7 +91,7 @@ abstract class Codestyle extends PHPUnit
             '_LICENSE_'     => $this->_packageLicense,
             '_AUTHOR_'      => $this->_packageAuthor,
             '_VENDOR_'      => $this->_packageVendor,
-            '_DESCRIPTION_' => implode("\n * ", $this->_packageDesc)
+            '_DESCRIPTION_' => implode($this->_le . ' * ', $this->_packageDesc),
         );
     }
 
