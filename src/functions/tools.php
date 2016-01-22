@@ -282,7 +282,7 @@ function runBench(array $tests, array $options = array())
     declare(ticks = 1);
 
     startProfiler();
-    $execCounter = $options['count'] * (count($tests) + 1); // "+1" to check PHP overhead
+    $execCounter = $options['count'] * count($tests);
 
     foreach ($tests as $testName => $function) {
         $benchmark->add($testName, $function);

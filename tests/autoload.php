@@ -15,7 +15,6 @@
 
 
 // @codingStandardsIgnoreFile
-// @codeCoverageIgnoreStart
 
 // main autoload
 if ($autoload = realpath('./vendor/autoload.php')) {
@@ -24,4 +23,6 @@ if ($autoload = realpath('./vendor/autoload.php')) {
     die('execute "composer update"');
 }
 
-// @codeCoverageIgnoreEnd
+if ($fixturesPath = realpath(PROJECT_TESTS . '/fixtures.php')) {
+    require_once PROJECT_TESTS . '/fixtures.php';
+}

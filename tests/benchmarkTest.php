@@ -43,6 +43,34 @@ class BenchmarkTest extends PHPUnit
         ), array('name' => 'runBench()'));
     }
 
+    public function testFunctionWrapper()
+    {
+        $myTrim = function ($string) {
+            return trim($string);
+        };
+
+        $source = "\t" . '  trim ..   ' . "\t\n";
+        $obj    = $this;
+
+        runBench(array(
+            'clean'           => function () use ($source) {
+                return trim($source);
+            },
+            '$obj->_myTrim()' => function () use ($source, $obj) {
+                return $obj->myTrim($source);
+            },
+            '$myTrim()'       => function () use ($source, $myTrim) {
+                return $myTrim($source);
+            },
+            'myTrim()'        => function () use ($source) {
+                return myTrim($source);
+            },
+            '..\myTrim()'     => function () use ($source) {
+                return \JBZoo\PHPUnit\myTrim($source);
+            },
+        ), array('name' => 'Function wrapper overhead', 'count' => 10000));
+    }
+
     public function testFunctionOverhead()
     {
         runBench(array(
@@ -151,5 +179,14 @@ class BenchmarkTest extends PHPUnit
             'count'  => 1000,
             'output' => false,
         ));
+    }
+
+    /**
+     * @param $string
+     * @return string
+     */
+    public function myTrim($string)
+    {
+        return trim($string);
     }
 }
