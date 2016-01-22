@@ -200,7 +200,7 @@ class Benchmark
         foreach ($results as $name => $result) {
             // time
             $time = $result['time'];
-            $time -= $this->_overhead['time']; // Substract base_time
+            //$time -= $this->_overhead['time']; // Substract base_time
             $results[$name]['time'] = $time;
 
             $minTime = min($minTime, $time);
