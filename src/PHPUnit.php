@@ -292,7 +292,7 @@ abstract class PHPUnit extends \PHPUnit_Framework_TestCase
         $normalized = array();
         foreach ((array)$expected as $key => $val) {
             if (!is_numeric($key)) {
-                $normalized[] = [$key => $val];
+                $normalized[] = array($key => $val);
             } else {
                 $normalized[] = $val;
             }
