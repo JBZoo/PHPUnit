@@ -367,6 +367,16 @@ function isNotContain($expected, $value, $ignoreCase = false, $msg = null)
 }
 
 /**
+ * Asserts HTML tags.
+ * @param array $expected
+ * @param $string
+ */
+function isHtml(array $expected, $string)
+{
+    getTestcase()->assertHtml($expected, $string);
+}
+
+/**
  * Is CSS selector find in the HTML code
  * @param string $html
  * @param string $selector
