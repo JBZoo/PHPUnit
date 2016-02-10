@@ -69,7 +69,7 @@ class AssertHtmlTest extends PHPUnit
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         $input   = "<span class='active'><strong>Text</strong></span>";
         $pattern = array(
-            'span' => ['class'],
+            'span' => array('class'),
                 '<strong',
                     'Text',
                 '/strong',
