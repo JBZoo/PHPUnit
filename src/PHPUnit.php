@@ -17,9 +17,7 @@ namespace JBZoo\PHPUnit;
 
 /**
  * Class PHPUnit
- * @package      JBZoo\PHPUnit
- * @noinspection PhpUndefinedClassInspection
- * @codeCoverageIgnore
+ * @package JBZoo\PHPUnit
  */
 abstract class PHPUnit extends \PHPUnit_Framework_TestCase
 {
@@ -41,7 +39,7 @@ abstract class PHPUnit extends \PHPUnit_Framework_TestCase
      */
     public function loopProfiler($count = 1, $formated = true)
     {
-        return loopProfiler($count, $formated);
+        return loopProfiler($count, $formated); // @codeCoverageIgnore
     }
 
 
@@ -55,7 +53,7 @@ abstract class PHPUnit extends \PHPUnit_Framework_TestCase
      */
     public function getFileList($dir, $filter = null, &$results = array())
     {
-        return getFileList($dir, $filter, $results);
+        return getFileList($dir, $filter, $results); // @codeCoverageIgnore
     }
 
     /**
@@ -66,7 +64,7 @@ abstract class PHPUnit extends \PHPUnit_Framework_TestCase
      */
     public function openFile($path)
     {
-        return openFile($path);
+        return openFile($path); // @codeCoverageIgnore
     }
 
     /**
@@ -76,7 +74,7 @@ abstract class PHPUnit extends \PHPUnit_Framework_TestCase
      */
     public function showAlertMessage($message, $label = null)
     {
-        alert($message, $label);
+        alert($message, $label); // @codeCoverageIgnore
     }
 
     /**
@@ -85,7 +83,7 @@ abstract class PHPUnit extends \PHPUnit_Framework_TestCase
      */
     public static function isXdebug()
     {
-        return isXdebug();
+        return isXdebug(); // @codeCoverageIgnore
     }
 
     /**
@@ -127,15 +125,15 @@ abstract class PHPUnit extends \PHPUnit_Framework_TestCase
      * Important: This function is very forgiving about whitespace and also accepts any
      * permutation of attribute order. It will also allow whitespace between specified tags.
      *
-     * @param array $expected An array, see above
-     * @param string $string An HTML/XHTML/XML string
+     * @param array  $expected An array, see above
+     * @param string $string   An HTML/XHTML/XML string
      * @return bool
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function assertHtml($expected, $string)
     {
-        $count = 0;
-        $regex = array();
+        $count      = 0;
+        $regex      = array();
         $normalized = $this->_normalizeHtmlExp($expected);
 
         foreach ($normalized as $tags) {
@@ -155,7 +153,7 @@ abstract class PHPUnit extends \PHPUnit_Framework_TestCase
                     $regex[] = array(
                         sprintf('%sClose %s tag', $prefix[0], substr($tags, strlen($match[0]))),
                         sprintf('%s<[\s]*\/[\s]*%s[\s]*>[\n\r]*', $prefix[1], substr($tags, strlen($match[0]))),
-                        $count
+                        $count,
                     );
                     continue;
                 }
@@ -170,12 +168,12 @@ abstract class PHPUnit extends \PHPUnit_Framework_TestCase
                     $attributes = array();
                 }
 
-                $count = 1;
-                $attrs = array();
+                $count        = 1;
+                $attrs        = array();
                 $explanations = array();
                 foreach ($attributes as $attr => $val) {
                     if (is_numeric($attr) && preg_match('/^preg\:\/(.+)\/$/i', $val, $matches)) {
-                        $attrs[] = $matches[1];
+                        $attrs[]        = $matches[1];
                         $explanations[] = sprintf('Regex "%s" matches', $matches[1]);
                         continue;
                     } else {
@@ -198,7 +196,7 @@ abstract class PHPUnit extends \PHPUnit_Framework_TestCase
             }
 
             list($description, $expressions, $itemNum) = $assertion;
-            foreach ((array) $expressions as $expression) {
+            foreach ((array)$expressions as $expression) {
                 $expression = sprintf('/^%s/s', $expression);
                 if (preg_match($expression, $string, $match)) {
                     $matches = true;
@@ -221,8 +219,8 @@ abstract class PHPUnit extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param $attr
-     * @param $val
+     * @param       $attr
+     * @param       $val
      * @param array $explanations
      * @return string
      */
@@ -232,27 +230,30 @@ abstract class PHPUnit extends \PHPUnit_Framework_TestCase
         if (is_numeric($attr)) {
             $attr = $val;
             $val  = '.+?';
+
             $explanations[] = sprintf('Attribute "%s" present', $attr);
+
         } elseif (!empty($val) && preg_match('/^preg\:\/(.+)\/$/i', $val, $matches)) {
             $val    = str_replace(array('.*', '.+'), array('.*?', '.+?'), $matches[1]);
             $quotes = $val !== $matches[1] ? '["\']' : '["\']?';
 
             $explanations[] = sprintf('Attribute "%s" matches "%s"', $attr, $val);
+
         } else {
             $explanations[] = sprintf('Attribute "%s" == "%s"', $attr, $val);
-            $val = preg_quote($val, '/');
+            $val            = preg_quote($val, '/');
         }
 
         return array(
             $explanations,
-            '[\s]+' . preg_quote($attr, '/') . '=' . $quotes . $val . $quotes
+            '[\s]+' . preg_quote($attr, '/') . '=' . $quotes . $val . $quotes,
         );
     }
 
     /**
      * Check the attributes as part of an assertTags() check.
      *
-     * @param array $assertions
+     * @param array  $assertions
      * @param string $string
      * @return string
      */
@@ -266,7 +267,7 @@ abstract class PHPUnit extends \PHPUnit_Framework_TestCase
             foreach ($asserts as $j => $assert) {
                 if (preg_match(sprintf('/^%s/s', $assert), $string, $match)) {
                     $matches = true;
-                    $string = substr($string, strlen($match[0]));
+                    $string  = substr($string, strlen($match[0]));
                     array_splice($asserts, $j, 1);
                     array_splice($explains, $j, 1);
                     break;
@@ -308,7 +309,7 @@ abstract class PHPUnit extends \PHPUnit_Framework_TestCase
     protected function _tagsToString($tags)
     {
         if (!is_array($tags)) {
-            $tags = (string) $tags;
+            $tags = (string)$tags;
         }
 
         return $tags;
