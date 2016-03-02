@@ -142,9 +142,9 @@ abstract class Codestyle extends PHPUnit
             // build copyrights
             $validHeader = self::$_validHeader;
             if (array_key_exists('_AUTHOR_', $this->_replace) && $this->_replace['_AUTHOR_']) {
-                $validHeader[] = ' * @author    _AUTHOR_';
+                // $validHeader[] = ' * @author    _AUTHOR_'; // TODO add multiple authors, and it's not required
             }
-            $validHeader[] = ' */';
+            // $validHeader[] = ' */';
 
             $valid = $this->_replaceCopyright(implode($validHeader, $this->_le));
             isContain($valid, $content, false, 'File has no valid header: ' . $file);
