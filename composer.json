@@ -21,6 +21,7 @@
         "jbzoo/misc"                : "^1.0",
         "jbzoo/console"             : "^1.0",
         "jbzoo/utils"               : "^1.1.2",
+        "jbzoo/pimpledumper"        : "^1.0",
 
         "squizlabs/php_codesniffer" : "^2.5",
         "sebastian/phpcpd"          : "^2.0",
