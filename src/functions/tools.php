@@ -288,12 +288,12 @@ function runBench(array $tests, array $options = array())
         $benchmark->add($testName, $function);
     }
 
-    cliMessage(PHP_EOL . '-------------------- Start benchmark: ' . $options['name'] . ' --------------------');
+    cliMessage(PHP_EOL . '<pre>--------------- Start benchmark: ' . $options['name'] . ' --------------------');
 
     $benchmark->run(true);
 
     cliMessage(PHP_EOL . 'TOTAL ' . loopProfiler($execCounter));
-    cliMessage('-------------------- Finish benchmark: ' . $options['name'] . ' --------------------');
+    cliMessage('-------------------- Finish benchmark: ' . $options['name'] . ' --------------</pre>');
 
     if (!$options['output']) {
         ob_end_clean();
