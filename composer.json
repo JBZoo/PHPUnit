@@ -20,16 +20,17 @@
 
         "jbzoo/misc"                : "^1.0",
         "jbzoo/console"             : "^1.0",
-        "jbzoo/utils"               : "^1.1.2",
+        "jbzoo/utils"               : "^1.6",
         "jbzoo/pimpledumper"        : "^1.0",
+        "jbzoo/profiler"            : "^1.0.1",
 
         "squizlabs/php_codesniffer" : "^2.5",
         "sebastian/phpcpd"          : "^2.0",
         "phploc/phploc"             : "^2.1",
         "phpmd/phpmd"               : "^2.3",
         "phpunit/phpunit"           : "^4.8",
-
         "satooshi/php-coveralls"    : "^1.0",
+
         "symfony/var-dumper"        : "^2.8|^3.0",
         "symfony/dom-crawler"       : "^2.8|^3.0",
         "symfony/css-selector"      : "^2.8|^3.0"

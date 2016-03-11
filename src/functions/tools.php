@@ -15,8 +15,8 @@
 
 namespace JBZoo\PHPUnit;
 
+use JBZoo\Profiler\Benchmark;
 use JBZoo\Utils\Cli;
-use JBZoo\PHPUnit\Benchmark\Benchmark;
 use Symfony\Component\VarDumper\VarDumper;
 
 // @codingStandardsIgnoreFile
@@ -266,38 +266,7 @@ function openFile($path)
  */
 function runBench(array $tests, array $options = array())
 {
-    $options = array_merge(array(
-        'name'   => 'Compare speed',
-        'count'  => 100,
-        'output' => false,
-    ), $options);
-
-    if (!$options['output']) {
-        ob_start();
-    }
-
-    $benchmark = new Benchmark();
-    $benchmark->setCount($options['count']);
-
-    declare(ticks = 1);
-
-    startProfiler();
-    $execCounter = $options['count'] * count($tests);
-
-    foreach ($tests as $testName => $function) {
-        $benchmark->add($testName, $function);
-    }
-
-    cliMessage(PHP_EOL . '<pre>--------------- Start benchmark: ' . $options['name'] . ' --------------------');
-
-    $benchmark->run(true);
-
-    cliMessage(PHP_EOL . 'TOTAL ' . loopProfiler($execCounter));
-    cliMessage('-------------------- Finish benchmark: ' . $options['name'] . ' --------------</pre>');
-
-    if (!$options['output']) {
-        ob_end_clean();
-    }
+    return Benchmark::compare($tests, $options);
 }
 
 /**
