@@ -261,8 +261,12 @@ function openFile($path)
 
 /**
  * @link http://www.php.net/manual/en/control-structures.declare.php#control-structures.declare.ticks
+ *
  * @param array $tests
  * @param array $options
+ * @return array
+ *
+ * @deprecated
  */
 function runBench(array $tests, array $options = array())
 {
