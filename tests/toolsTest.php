@@ -43,11 +43,13 @@ class ToolsTest extends PHPUnit
 
     public function testCmd()
     {
-        $output = cmd('php', array('v' => ''));
-        isContain('PHP', $output);
+        if (!defined('HHVM_VERSION')) {
+            $output = cmd('php', array('v' => ''));
+            isContain('PHP', $output);
 
-        $output = cmd('php', array('version' => ''));
-        isContain('PHP', $output);
+            $output = cmd('php', array('version' => ''));
+            isContain('PHP', $output);
+        }
     }
 
     public function testDump()
