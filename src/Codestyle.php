@@ -162,7 +162,7 @@ abstract class Codestyle extends PHPUnit
         $finder = new Finder();
         $finder
             ->files()
-            ->in([PROJECT_ROOT])
+            ->in(PROJECT_ROOT)
             ->exclude($this->_excludePaths);
 
         /** @var \SplFileInfo $file */
