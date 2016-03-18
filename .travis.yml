@@ -18,11 +18,8 @@ matrix:
     - php: 7.0
       env: XDEBUG_OFF="yes"
 
-before_script:
-  - composer update-all
-  - phpenv rehash
-
 script:
+  - composer update-all
   - composer test
 
 after_script:
