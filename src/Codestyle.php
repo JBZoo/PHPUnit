@@ -111,6 +111,24 @@ abstract class Codestyle extends PHPUnit
     );
 
     /**
+     * Valid header for XML files
+     * @var array
+     */
+    protected $_validHeaderXML = array(
+        '<?xml version="1.0" encoding="UTF-8" ?>',
+        '<!--',
+        '    _VENDOR_ _PACKAGE_',
+        '',
+        '    _DESCRIPTION_XML_',
+        '',
+        '    @package    _PACKAGE_',
+        '    @license    _LICENSE_',
+        '    @copyright  _COPYRIGHTS_',
+        '    @link       _LINK_',
+        '-->',
+    );
+
+    /**
      * Ignore list for
      * @var array
      */
@@ -151,6 +169,7 @@ abstract class Codestyle extends PHPUnit
             '_DESCRIPTION_JS_'   => implode($this->_le . ' * ', $this->_packageDesc),
             '_DESCRIPTION_CSS_'  => implode($this->_le . ' * ', $this->_packageDesc),
             '_DESCRIPTION_LESS_' => implode($this->_le . '// ', $this->_packageDesc),
+            '_DESCRIPTION_XML_'  => implode($this->_le . '    ', $this->_packageDesc),
         );
     }
 
@@ -252,6 +271,27 @@ abstract class Codestyle extends PHPUnit
             ->in(PROJECT_ROOT)
             ->exclude($this->_excludePaths)
             ->name('*.less');
+
+        /** @var \SplFileInfo $file */
+        foreach ($finder as $file) {
+            $content = openFile($file->getPathname());
+            isContain($valid, $content, false, 'File has no valid header: ' . $file);
+        }
+    }
+
+    /**
+     * Test copyright headers of XML files
+     */
+    public function testHeadersXML()
+    {
+        $valid = $this->_prepareTemplate(implode($this->_validHeaderXML, $this->_le));
+
+        $finder = new Finder();
+        $finder
+            ->files()
+            ->in(PROJECT_ROOT)
+            ->exclude($this->_excludePaths)
+            ->name('*.xml');
 
         /** @var \SplFileInfo $file */
         foreach ($finder as $file) {
