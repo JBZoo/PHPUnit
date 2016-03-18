@@ -208,6 +208,8 @@ function loopProfiler($count = 1, $formated = true)
  * @param null  $filter
  * @param array $results
  * @return array
+ *
+ * @deprecated use symfony/finder
  */
 function getFileList($dir, $filter = null, &$results = array())
 {

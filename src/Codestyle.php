@@ -15,6 +15,8 @@
 
 namespace JBZoo\PHPUnit;
 
+use Symfony\Component\Finder\Finder;
+
 /**
  * Class Codestyle
  * @package JBZoo\PHPUnit
@@ -22,11 +24,13 @@ namespace JBZoo\PHPUnit;
  */
 abstract class Codestyle extends PHPUnit
 {
-    protected $_packageVendor = 'JBZoo';
-    protected $_packageName = '';
-    protected $_packageAuthor = '';
-    protected $_packageLicense = 'MIT';
+    protected $_packageName = ''; // Overload me!
 
+    protected $_packageVendor = 'JBZoo';
+    protected $_packageLicense = 'MIT';
+    protected $_packageCopyright = 'Copyright (C) JBZoo.com,  All rights reserved.';
+    protected $_packageLink = 'https://github.com/JBZoo/_PACKAGE_';
+    protected $_packageAuthor = ''; // Deprecated!
     protected $_packageDesc = array(
         'This file is part of the JBZoo CCK package.',
         'For the full copyright and license information, please view the LICENSE',
@@ -34,19 +38,18 @@ abstract class Codestyle extends PHPUnit
     );
 
     protected $_le = "\n";
-
     protected $_replace = array();
 
     /**
-     * Valid copyright header
+     * Valid header for PHP files
      * @var array
      */
-    protected static $_validHeader = array(
+    protected $_validHeaderPHP = array(
         '<?php',
         '/**',
         ' * _VENDOR_ _PACKAGE_',
         ' *',
-        ' * _DESCRIPTION_',
+        ' * _DESCRIPTION_PHP_',
         ' *',
         ' * @package   _PACKAGE_',
         ' * @license   _LICENSE_',
@@ -55,17 +58,70 @@ abstract class Codestyle extends PHPUnit
     );
 
     /**
+     * Valid header for JavaScript files
+     * @var array
+     */
+    protected $_validHeaderJS = array(
+        '/**',
+        ' * _VENDOR_ _PACKAGE_',
+        ' *',
+        ' * _DESCRIPTION_JS_',
+        ' *',
+        ' * @package    _PACKAGE_',
+        ' * @license    _LICENSE_',
+        ' * @copyright  _COPYRIGHTS_',
+        ' * @link       _LINK_',
+        ' */',
+        '',
+    );
+
+    /**
+     * Valid header for CSS files (if not mimified)
+     * @var array
+     */
+    protected $_validHeaderCSS = array(
+        '/**',
+        ' * _VENDOR_ _PACKAGE_',
+        ' *',
+        ' * _DESCRIPTION_CSS_',
+        ' *',
+        ' * @package    _PACKAGE_',
+        ' * @license    _LICENSE_',
+        ' * @copyright  _COPYRIGHTS_',
+        ' * @link       _LINK_',
+        ' */',
+        '',
+    );
+
+    /**
+     * Valid header for LESS files
+     * @var array
+     */
+    protected $_validHeaderLESS = array(
+        '//',
+        '// _VENDOR_ _PACKAGE_',
+        '//',
+        '// _DESCRIPTION_LESS_',
+        '//',
+        '// @package    _PACKAGE_',
+        '// @license    _LICENSE_',
+        '// @copyright  _COPYRIGHTS_',
+        '// @link       _LINK_',
+        '//',
+    );
+
+    /**
      * Ignore list for
      * @var array
      */
-    protected static $_excludeFiles = array(
-        '.',
-        '..',
-        '.idea',
+    protected $_excludePaths = array(
         '.git',
+        '.idea',
+        'bin',
         'build',
-        'vendor',
+        'logs',
         'resources',
+        'vendor',
     );
 
     /**
@@ -84,29 +140,18 @@ abstract class Codestyle extends PHPUnit
         //@codeCoverageIgnoreEnd
 
         $this->_replace = array(
-            '_LINK_'        => 'https://github.com/JBZoo/_PACKAGE_',
-            '_NAMESPACE_'   => '_VENDOR_\_PACKAGE_',
-            '_COPYRIGHTS_'  => 'Copyright (C) JBZoo.com,  All rights reserved.',
-            '_PACKAGE_'     => $this->_packageName,
-            '_LICENSE_'     => $this->_packageLicense,
-            '_AUTHOR_'      => $this->_packageAuthor,
-            '_VENDOR_'      => $this->_packageVendor,
-            '_DESCRIPTION_' => implode($this->_le . ' * ', $this->_packageDesc),
+            '_LINK_'             => $this->_packageLink,
+            '_NAMESPACE_'        => '_VENDOR_\_PACKAGE_',
+            '_COPYRIGHTS_'       => $this->_packageCopyright,
+            '_PACKAGE_'          => $this->_packageName,
+            '_LICENSE_'          => $this->_packageLicense,
+            '_AUTHOR_'           => $this->_packageAuthor,
+            '_VENDOR_'           => $this->_packageVendor,
+            '_DESCRIPTION_PHP_'  => implode($this->_le . ' * ', $this->_packageDesc),
+            '_DESCRIPTION_JS_'   => implode($this->_le . ' * ', $this->_packageDesc),
+            '_DESCRIPTION_CSS_'  => implode($this->_le . ' * ', $this->_packageDesc),
+            '_DESCRIPTION_LESS_' => implode($this->_le . '// ', $this->_packageDesc),
         );
-    }
-
-    /**
-     * Render copyrights
-     * @param $text
-     * @return mixed
-     */
-    protected function _replaceCopyright($text)
-    {
-        foreach ($this->_replace as $const => $value) {
-            $text = str_replace($const, $value, $text);
-        }
-
-        return $text;
     }
 
     /**
@@ -114,57 +159,138 @@ abstract class Codestyle extends PHPUnit
      */
     public function testFiles()
     {
-        $files = getFileList(PROJECT_ROOT, '.*');
+        $finder = new Finder();
+        $finder
+            ->files()
+            ->in([PROJECT_ROOT])
+            ->exclude($this->_excludePaths);
 
-        foreach ($files as $file) {
-            $content = openFile($file);
-
-            if (!isWin()) {
-                isNotContain("\r", $content, false, 'File has \r symbol: ' . $file);
-            }
-
+        /** @var \SplFileInfo $file */
+        foreach ($finder as $file) {
+            $content = openFile($file->getPathname());
+            isNotContain("\r", $content, false, 'File has \r symbol: ' . $file);
             isNotContain("\t", $content, false, 'File has \t symbol: ' . $file);
         }
     }
 
     /**
-     * Test copyright headers
-     *
-     * @return void
+     * Test copyright headers of PHP files
      */
-    public function testHeaders()
+    public function testHeadersPHP()
     {
-        $files = getFileList(PROJECT_ROOT, '[/\\\\](src|tests)[/\\\\].*\.php$');
+        $valid = $this->_prepareTemplate(implode($this->_validHeaderPHP, $this->_le));
 
-        foreach ($files as $file) {
-            $content = openFile($file);
+        $finder = new Finder();
+        $finder
+            ->files()
+            ->in(PROJECT_ROOT)
+            ->exclude($this->_excludePaths)
+            ->name('*.php');
 
-            // build copyrights
-            $validHeader = self::$_validHeader;
-            if (array_key_exists('_AUTHOR_', $this->_replace) && $this->_replace['_AUTHOR_']) {
-                // $validHeader[] = ' * @author    _AUTHOR_'; // TODO add multiple authors, and it's not required
-            }
-            // $validHeader[] = ' */';
+        /** @var \SplFileInfo $file */
+        foreach ($finder as $file) {
 
-            $valid = $this->_replaceCopyright(implode($validHeader, $this->_le));
+            $content = openFile($file->getPathname());
+            isContain($valid, $content, false, 'File has no valid header: ' . $file);
+        }
+    }
+
+    /**
+     * Test copyright headers of JS files (not minified)
+     */
+    public function testHeadersJS()
+    {
+        $valid = $this->_prepareTemplate(implode($this->_validHeaderJS, $this->_le));
+
+        $finder = new Finder();
+        $finder
+            ->files()
+            ->in(PROJECT_ROOT)
+            ->exclude($this->_excludePaths)
+            ->name('*.js')
+            ->notName('*.min.js');
+
+        /** @var \SplFileInfo $file */
+        foreach ($finder as $file) {
+            $content = openFile($file->getPathname());
+            isContain($valid, $content, false, 'File has no valid header: ' . $file);
+        }
+    }
+
+    /**
+     * Test copyright headers of CSS files (not minified)
+     */
+    public function testHeadersCSS()
+    {
+        $valid = $this->_prepareTemplate(implode($this->_validHeaderCSS, $this->_le));
+
+        $finder = new Finder();
+        $finder
+            ->files()
+            ->in(PROJECT_ROOT)
+            ->exclude($this->_excludePaths)
+            ->name('*.css')
+            ->notName('*.min.css');
+
+        /** @var \SplFileInfo $file */
+        foreach ($finder as $file) {
+            $content = openFile($file->getPathname());
+            isContain($valid, $content, false, 'File has no valid header: ' . $file);
+        }
+    }
+
+    /**
+     * Test copyright headers of LESS files (not minified)
+     */
+    public function testHeadersLESS()
+    {
+        $valid = $this->_prepareTemplate(implode($this->_validHeaderLESS, $this->_le));
+
+        $finder = new Finder();
+        $finder
+            ->files()
+            ->in(PROJECT_ROOT)
+            ->exclude($this->_excludePaths)
+            ->name('*.less');
+
+        /** @var \SplFileInfo $file */
+        foreach ($finder as $file) {
+            $content = openFile($file->getPathname());
             isContain($valid, $content, false, 'File has no valid header: ' . $file);
         }
     }
 
     /**
      * Try to find cyrilic symbols in the code
-     *
-     * @SuppressWarnings(PHPMD.Superglobals)
      */
     public function testCyrillic()
     {
-        $GLOBALS['_jbzoo_fileExcludes'][] = pathinfo(__FILE__, PATHINFO_BASENAME);
+        $finder = new Finder();
+        $finder
+            ->files()
+            ->in(PROJECT_ROOT)
+            ->exclude($this->_excludePaths)
+            ->notPath(basename(__FILE__))
+            ->exclude('tests');
 
-        $files = getFileList(PROJECT_SRC);
-
-        foreach ($files as $file) {
-            $content = openFile($file);
+        /** @var \SplFileInfo $file */
+        foreach ($finder as $file) {
+            $content = openFile($file->getPathname());
             isNotLike('#[А-Яа-яЁё]#ius', $content, 'File has no valid chars: ' . $file);
         }
+    }
+
+    /**
+     * Render copyrights
+     * @param $text
+     * @return mixed
+     */
+    protected function _prepareTemplate($text)
+    {
+        foreach ($this->_replace as $const => $value) {
+            $text = str_replace($const, $value, $text);
+        }
+
+        return $text;
     }
 }
