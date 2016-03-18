@@ -208,7 +208,6 @@ abstract class Codestyle extends PHPUnit
 
         /** @var \SplFileInfo $file */
         foreach ($finder as $file) {
-
             $content = openFile($file->getPathname());
             isContain($valid, $content, false, 'File has no valid header: ' . $file);
         }
