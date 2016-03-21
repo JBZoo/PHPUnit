@@ -129,6 +129,27 @@ abstract class Codestyle extends PHPUnit
     );
 
     /**
+     * Valid header for INI files
+     * @var array
+     */
+    protected $_validHeaderINI = array(
+        ';',
+        '; _VENDOR_ _PACKAGE_',
+        ';',
+        '; _DESCRIPTION_INI_',
+        ';',
+        '; Note : All ini files need to be saved as UTF-8 - No BOM',
+        '; Common boolean values',
+        '; Note: YES, NO, TRUE, FALSE are reserved words in INI format',
+        ';',
+        '; @package    _PACKAGE_',
+        '; @license    _LICENSE_',
+        '; @copyright  _COPYRIGHTS_',
+        '; @link       _LINK_',
+        ';',
+    );
+
+    /**
      * Ignore list for
      * @var array
      */
@@ -170,6 +191,7 @@ abstract class Codestyle extends PHPUnit
             '_DESCRIPTION_CSS_'  => implode($this->_le . ' * ', $this->_packageDesc),
             '_DESCRIPTION_LESS_' => implode($this->_le . '// ', $this->_packageDesc),
             '_DESCRIPTION_XML_'  => implode($this->_le . '    ', $this->_packageDesc),
+            '_DESCRIPTION_INI_'  => implode($this->_le . '; ', $this->_packageDesc),
         );
     }
 
@@ -226,6 +248,7 @@ abstract class Codestyle extends PHPUnit
             ->in(PROJECT_ROOT)
             ->exclude($this->_excludePaths)
             ->name('*.js')
+            ->name('*.jsx')
             ->notName('*.min.js');
 
         /** @var \SplFileInfo $file */
@@ -291,6 +314,27 @@ abstract class Codestyle extends PHPUnit
             ->in(PROJECT_ROOT)
             ->exclude($this->_excludePaths)
             ->name('*.xml');
+
+        /** @var \SplFileInfo $file */
+        foreach ($finder as $file) {
+            $content = openFile($file->getPathname());
+            isContain($valid, $content, false, 'File has no valid header: ' . $file);
+        }
+    }
+
+    /**
+     * Test copyright headers of XML files
+     */
+    public function testHeadersINI()
+    {
+        $valid = $this->_prepareTemplate(implode($this->_validHeaderINI, $this->_le));
+
+        $finder = new Finder();
+        $finder
+            ->files()
+            ->in(PROJECT_ROOT)
+            ->exclude($this->_excludePaths)
+            ->name('*.ini');
 
         /** @var \SplFileInfo $file */
         foreach ($finder as $file) {
