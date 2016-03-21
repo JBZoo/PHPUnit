@@ -138,14 +138,12 @@ abstract class Codestyle extends PHPUnit
         ';',
         '; _DESCRIPTION_INI_',
         ';',
-        '; Note : All ini files need to be saved as UTF-8 - No BOM',
-        '; Common boolean values',
-        '; Note: YES, NO, TRUE, FALSE are reserved words in INI format',
-        ';',
         '; @package    _PACKAGE_',
         '; @license    _LICENSE_',
         '; @copyright  _COPYRIGHTS_',
         '; @link       _LINK_',
+        ';',
+        '; Note: All ini files need to be saved as UTF-8 (no BOM)',
         ';',
     );
 
