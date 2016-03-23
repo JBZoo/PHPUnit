@@ -155,10 +155,12 @@ abstract class Codestyle extends PHPUnit
         '.git',
         '.idea',
         'bin',
+        'bower_components',
         'build',
         'logs',
+        'node_modules',
         'resources',
-        'vendor',
+        'vendor'
     );
 
     /**
