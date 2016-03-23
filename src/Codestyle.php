@@ -41,6 +41,22 @@ abstract class Codestyle extends PHPUnit
     protected $_replace = array();
 
     /**
+     * Ignore list for
+     * @var array
+     */
+    protected $_excludePaths = array(
+        '.git',
+        '.idea',
+        'bin',
+        'bower_components',
+        'build',
+        'logs',
+        'node_modules',
+        'resources',
+        'vendor'
+    );
+
+    /**
      * Valid header for PHP files
      * @var array
      */
@@ -145,22 +161,6 @@ abstract class Codestyle extends PHPUnit
         ';',
         '; Note: All ini files need to be saved as UTF-8 (no BOM)',
         ';',
-    );
-
-    /**
-     * Ignore list for
-     * @var array
-     */
-    protected $_excludePaths = array(
-        '.git',
-        '.idea',
-        'bin',
-        'bower_components',
-        'build',
-        'logs',
-        'node_modules',
-        'resources',
-        'vendor'
     );
 
     /**
