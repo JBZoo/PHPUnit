@@ -314,7 +314,8 @@ abstract class Codestyle extends PHPUnit
             ->files()
             ->in(PROJECT_ROOT)
             ->exclude($this->_excludePaths)
-            ->name('*.xml');
+            ->name('*.xml')
+            ->name('*.xml.dist');
 
         /** @var \SplFileInfo $file */
         foreach ($finder as $file) {
