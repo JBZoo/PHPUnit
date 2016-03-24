@@ -355,6 +355,7 @@ abstract class Codestyle extends PHPUnit
             ->in(PROJECT_ROOT)
             ->exclude($this->_excludePaths)
             ->notPath(basename(__FILE__))
+            ->notPath('README.md')
             ->exclude('tests');
 
         /** @var \SplFileInfo $file */
