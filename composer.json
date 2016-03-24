@@ -18,7 +18,7 @@
     "require"           : {
         "php"                       : ">=5.3",
 
-        "jbzoo/misc"                : "1.x-dev",
+        "jbzoo/misc"                : "^1.0",
         "jbzoo/console"             : "^1.0",
         "jbzoo/utils"               : "^1.6|1.x-dev",
         "jbzoo/pimpledumper"        : "^1.0",
