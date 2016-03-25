@@ -16,6 +16,8 @@
 namespace JBZoo\PHPUnit;
 
 /** @noinspection PhpUndefinedClassInspection */
+use JBZoo\Utils\Filter;
+use JBZoo\Utils\FS;
 use Symfony\Component\DomCrawler\Crawler;
 
 /**
@@ -369,7 +371,7 @@ function isNotContain($expected, $value, $ignoreCase = false, $msg = null)
 /**
  * Asserts HTML tags.
  * @param array $expected
- * @param $string
+ * @param       $string
  */
 function isHtml(array $expected, $string)
 {
@@ -471,4 +473,27 @@ function same($expected, $actual, $msg = null)
 function notSame($expected, $actual, $msg = null)
 {
     getTestcase()->assertNotSame($expected, $actual, $msg);
+}
+
+/**
+ * Normilize paths and compare them
+ *
+ * @param $expected
+ * @param $actual
+ */
+function isSamePath($expected, $actual)
+{
+    $cleanFunc = function ($paths) {
+        $return = array();
+        $paths  = (array)$paths;
+        foreach ($paths as $key => $path) {
+            $return[$key] = FS::clean($path, '/');
+        }
+        return $return;
+    };
+
+    $expected = Filter::_($expected, $cleanFunc);
+    $actual   = Filter::_($actual, $cleanFunc);
+
+    isSame($expected, $actual);
 }

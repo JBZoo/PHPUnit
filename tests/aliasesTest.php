@@ -157,4 +157,12 @@ class AliasesTest extends PHPUnit
         isHtmlNotContain($html, 'body .empty-undefined', ' ');
         isHtmlNotContain($html, 'body .empty-undefined', 123);
     }
+
+    public function testIsSamePath()
+    {
+        isSamePath(__DIR__, __DIR__);
+        isSamePath(array('some/path'), 'some\\path');
+        isSamePath('some/path', array('some\\path'));
+        isSamePath(array(__DIR__, 'some/path'), array(__DIR__, 'some\\path'));
+    }
 }
