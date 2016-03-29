@@ -205,6 +205,7 @@ abstract class Codestyle extends PHPUnit
         $finder
             ->files()
             ->in(PROJECT_ROOT)
+            ->notName('*.min.*')
             ->exclude($this->_excludePaths);
 
         /** @var \SplFileInfo $file */
@@ -249,8 +250,9 @@ abstract class Codestyle extends PHPUnit
             ->in(PROJECT_ROOT)
             ->exclude($this->_excludePaths)
             ->name('*.js')
+            ->notName('*.min.js')
             ->name('*.jsx')
-            ->notName('*.min.js');
+            ->notName('*.min.jsx');
 
         /** @var \SplFileInfo $file */
         foreach ($finder as $file) {
@@ -356,7 +358,7 @@ abstract class Codestyle extends PHPUnit
             ->in(PROJECT_ROOT)
             ->exclude($this->_excludePaths)
             ->notPath(basename(__FILE__))
-            ->notPath('README.md')
+            ->notPath('*.md')
             ->exclude('tests');
 
         /** @var \SplFileInfo $file */
