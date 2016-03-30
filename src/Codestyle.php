@@ -205,6 +205,17 @@ abstract class Codestyle extends PHPUnit
         $finder
             ->files()
             ->in(PROJECT_ROOT)
+            ->name('*.html')
+            ->name('*.xml')
+            ->name('*.js')
+            ->name('*.jsx')
+            ->name('*.css')
+            ->name('*.less')
+            ->name('*.php')
+            ->name('*.ini')
+            ->name('*.json')
+            ->name('*.txt')
+            ->name('*.md')
             ->notName('*.min.*')
             ->exclude($this->_excludePaths);
 
