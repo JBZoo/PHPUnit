@@ -51,7 +51,7 @@ abstract class Codestyle extends PHPUnit
         'bower_components',
         'build',
         'fonts',
-        'fixtures'
+        'fixtures',
         'logs',
         'node_modules',
         'resources',
