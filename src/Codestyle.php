@@ -55,7 +55,9 @@ abstract class Codestyle extends PHPUnit
         'logs',
         'node_modules',
         'resources',
-        'vendor'
+        'vendor',
+        'temp',
+        'tmp'
     );
 
     /**
@@ -369,14 +371,21 @@ abstract class Codestyle extends PHPUnit
             ->files()
             ->in(PROJECT_ROOT)
             ->exclude($this->_excludePaths)
+            ->exclude('tests')
             ->notPath(basename(__FILE__))
-            ->notPath('*.md')
-            ->exclude('tests');
+            ->notName('/\.md$/')
+            ->notName('/\.min\.(js|css)$/')
+            ->notName('/\.min\.(js|css)\.map$/');
 
         /** @var \SplFileInfo $file */
         foreach ($finder as $file) {
             $content = openFile($file->getPathname());
-            isNotLike('#[А-Яа-яЁё]#ius', $content, 'File has no valid chars: ' . $file);
+
+            if (preg_match('#[А-Яа-яЁё]#ius', $content)) {
+                fail('File contains cyrilic symbols: ' . $file); // Short message in terminal
+            } else {
+                success();
+            }
         }
     }
 
