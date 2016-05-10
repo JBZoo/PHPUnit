@@ -23,4 +23,17 @@ class CodeStyleTest extends Codestyle
 {
     protected $_packageName = "PHPUnit";
     protected $_packageAuthor = "Denis Smetannikov <denis@jbzoo.com>";
+
+    /**
+     * Ignore list for
+     * @var array
+     */
+    protected $_excludePaths = array(
+        '.git',
+        '.idea',
+        'bin',
+        'build',
+        'logs',
+        'vendor',
+    );
 }

@@ -168,6 +168,26 @@ abstract class Codestyle extends PHPUnit
     );
 
     /**
+     * Valid header for SH scripts
+     * @var array
+     */
+    protected $_validHeaderSH = array(
+        '#!/usr/bin/env sh',
+        '',
+        '#',
+        '# _VENDOR_ _PACKAGE_',
+        '#',
+        '# _DESCRIPTION_SH_',
+        '#',
+        '# @package   _PACKAGE_',
+        '# @license   _LICENSE_',
+        '# @copyright _COPYRIGHTS_',
+        '# @link      _LINK_',
+        '#',
+        '',
+    );
+
+    /**
      * @throws \Exception
      *
      * @SuppressWarnings(PHPMD.Superglobals)
@@ -196,6 +216,7 @@ abstract class Codestyle extends PHPUnit
             '_DESCRIPTION_LESS_' => implode($this->_le . '// ', $this->_packageDesc),
             '_DESCRIPTION_XML_'  => implode($this->_le . '    ', $this->_packageDesc),
             '_DESCRIPTION_INI_'  => implode($this->_le . '; ', $this->_packageDesc),
+            '_DESCRIPTION_SH_'   => implode($this->_le . '# ', $this->_packageDesc),
         );
     }
 
@@ -341,7 +362,7 @@ abstract class Codestyle extends PHPUnit
     }
 
     /**
-     * Test copyright headers of XML files
+     * Test copyright headers of INI files
      */
     public function testHeadersINI()
     {
@@ -353,6 +374,27 @@ abstract class Codestyle extends PHPUnit
             ->in(PROJECT_ROOT)
             ->exclude($this->_excludePaths)
             ->name('*.ini');
+
+        /** @var \SplFileInfo $file */
+        foreach ($finder as $file) {
+            $content = openFile($file->getPathname());
+            isContain($valid, $content, false, 'File has no valid header: ' . $file);
+        }
+    }
+
+    /**
+     * Test copyright headers of SH files
+     */
+    public function testHeadersSH()
+    {
+        $valid = $this->_prepareTemplate(implode($this->_validHeaderSH, $this->_le));
+
+        $finder = new Finder();
+        $finder
+            ->files()
+            ->in(PROJECT_ROOT)
+            ->exclude($this->_excludePaths)
+            ->name('*.sh');
 
         /** @var \SplFileInfo $file */
         foreach ($finder as $file) {
