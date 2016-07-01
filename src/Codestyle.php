@@ -188,6 +188,24 @@ abstract class Codestyle extends PHPUnit
     );
 
     /**
+     * Valid header for SQL scripts
+     * @var array
+     */
+    protected $_validHeaderSQL = array(
+        '--',
+        '-- _VENDOR_ _PACKAGE_',
+        '--',
+        '-- _DESCRIPTION_SQL_',
+        '--',
+        '-- @package   _PACKAGE_',
+        '-- @license   _LICENSE_',
+        '-- @copyright _COPYRIGHTS_',
+        '-- @link      _LINK_',
+        '--',
+        '',
+    );
+
+    /**
      * @throws \Exception
      *
      * @SuppressWarnings(PHPMD.Superglobals)
@@ -217,6 +235,7 @@ abstract class Codestyle extends PHPUnit
             '_DESCRIPTION_XML_'  => implode($this->_le . '    ', $this->_packageDesc),
             '_DESCRIPTION_INI_'  => implode($this->_le . '; ', $this->_packageDesc),
             '_DESCRIPTION_SH_'   => implode($this->_le . '# ', $this->_packageDesc),
+            '_DESCRIPTION_SQL_'  => implode($this->_le . '-- ', $this->_packageDesc),
         );
     }
 
@@ -395,6 +414,27 @@ abstract class Codestyle extends PHPUnit
             ->in(PROJECT_ROOT)
             ->exclude($this->_excludePaths)
             ->name('*.sh');
+
+        /** @var \SplFileInfo $file */
+        foreach ($finder as $file) {
+            $content = openFile($file->getPathname());
+            isContain($valid, $content, false, 'File has no valid header: ' . $file);
+        }
+    }
+
+    /**
+     * Test copyright headers of SH files
+     */
+    public function testHeadersSQL()
+    {
+        $valid = $this->_prepareTemplate(implode($this->_validHeaderSQL, $this->_le));
+
+        $finder = new Finder();
+        $finder
+            ->files()
+            ->in(PROJECT_ROOT)
+            ->exclude($this->_excludePaths)
+            ->name('*.sql');
 
         /** @var \SplFileInfo $file */
         foreach ($finder as $file) {
