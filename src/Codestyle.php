@@ -206,6 +206,24 @@ abstract class Codestyle extends PHPUnit
     );
 
     /**
+     * Valid header for .htaccess scripts
+     * @var array
+     */
+    protected $_validHeaderHtaccess = array(
+        '#',
+        '# _VENDOR_ _PACKAGE_',
+        '#',
+        '# _DESCRIPTION_HTACCESS_',
+        '#',
+        '# @package   _PACKAGE_',
+        '# @license   _LICENSE_',
+        '# @copyright _COPYRIGHTS_',
+        '# @link      _LINK_',
+        '#',
+        '',
+    );
+
+    /**
      * @throws \Exception
      *
      * @SuppressWarnings(PHPMD.Superglobals)
@@ -221,21 +239,22 @@ abstract class Codestyle extends PHPUnit
         //@codeCoverageIgnoreEnd
 
         $this->_replace = array(
-            '_LINK_'             => $this->_packageLink,
-            '_NAMESPACE_'        => '_VENDOR_\_PACKAGE_',
-            '_COPYRIGHTS_'       => $this->_packageCopyright,
-            '_PACKAGE_'          => $this->_packageName,
-            '_LICENSE_'          => $this->_packageLicense,
-            '_AUTHOR_'           => $this->_packageAuthor,
-            '_VENDOR_'           => $this->_packageVendor,
-            '_DESCRIPTION_PHP_'  => implode($this->_le . ' * ', $this->_packageDesc),
-            '_DESCRIPTION_JS_'   => implode($this->_le . ' * ', $this->_packageDesc),
-            '_DESCRIPTION_CSS_'  => implode($this->_le . ' * ', $this->_packageDesc),
-            '_DESCRIPTION_LESS_' => implode($this->_le . '// ', $this->_packageDesc),
-            '_DESCRIPTION_XML_'  => implode($this->_le . '    ', $this->_packageDesc),
-            '_DESCRIPTION_INI_'  => implode($this->_le . '; ', $this->_packageDesc),
-            '_DESCRIPTION_SH_'   => implode($this->_le . '# ', $this->_packageDesc),
-            '_DESCRIPTION_SQL_'  => implode($this->_le . '-- ', $this->_packageDesc),
+            '_LINK_'                 => $this->_packageLink,
+            '_NAMESPACE_'            => '_VENDOR_\_PACKAGE_',
+            '_COPYRIGHTS_'           => $this->_packageCopyright,
+            '_PACKAGE_'              => $this->_packageName,
+            '_LICENSE_'              => $this->_packageLicense,
+            '_AUTHOR_'               => $this->_packageAuthor,
+            '_VENDOR_'               => $this->_packageVendor,
+            '_DESCRIPTION_PHP_'      => implode($this->_le . ' * ', $this->_packageDesc),
+            '_DESCRIPTION_JS_'       => implode($this->_le . ' * ', $this->_packageDesc),
+            '_DESCRIPTION_CSS_'      => implode($this->_le . ' * ', $this->_packageDesc),
+            '_DESCRIPTION_LESS_'     => implode($this->_le . '// ', $this->_packageDesc),
+            '_DESCRIPTION_XML_'      => implode($this->_le . '    ', $this->_packageDesc),
+            '_DESCRIPTION_INI_'      => implode($this->_le . '; ', $this->_packageDesc),
+            '_DESCRIPTION_SH_'       => implode($this->_le . '# ', $this->_packageDesc),
+            '_DESCRIPTION_SQL_'      => implode($this->_le . '-- ', $this->_packageDesc),
+            '_DESCRIPTION_HTACCESS_' => implode($this->_le . '# ', $this->_packageDesc),
         );
     }
 
@@ -259,6 +278,7 @@ abstract class Codestyle extends PHPUnit
             ->name('*.json')
             ->name('*.txt')
             ->name('*.md')
+            ->ignoreDotFiles(false)
             ->notName('*.min.*')
             ->exclude($this->_excludePaths);
 
@@ -282,7 +302,8 @@ abstract class Codestyle extends PHPUnit
             ->files()
             ->in(PROJECT_ROOT)
             ->exclude($this->_excludePaths)
-            ->name('*.php');
+            ->name('*.php')
+            ->name('*.phtml');
 
         /** @var \SplFileInfo $file */
         foreach ($finder as $file) {
@@ -423,7 +444,7 @@ abstract class Codestyle extends PHPUnit
     }
 
     /**
-     * Test copyright headers of SH files
+     * Test copyright headers of SQL files
      */
     public function testHeadersSQL()
     {
@@ -444,6 +465,31 @@ abstract class Codestyle extends PHPUnit
     }
 
     /**
+     * Test copyright headers of .htaccess files
+     */
+    public function testHeadersHtaccess()
+    {
+        $valid = $this->_prepareTemplate(implode($this->_validHeaderHtaccess, $this->_le));
+
+        $finder = new Finder();
+        $finder
+            ->files()
+            ->in(PROJECT_ROOT)
+            ->exclude($this->_excludePaths)
+            ->ignoreDotFiles(false)
+            ->name('/\.htaccess/')
+            ->name('htaccess.*')
+            ->name('.htaccess.*')
+        ;
+
+        /** @var \SplFileInfo $file */
+        foreach ($finder as $file) {
+            $content = openFile($file->getPathname());
+            isContain($valid, $content, false, 'File has no valid header: ' . $file);
+        }
+    }
+
+    /**
      * Try to find cyrilic symbols in the code
      */
     public function testCyrillic()
@@ -455,6 +501,7 @@ abstract class Codestyle extends PHPUnit
             ->exclude($this->_excludePaths)
             ->exclude('tests')
             ->notPath(basename(__FILE__))
+            ->ignoreDotFiles(false)
             ->notName('/\.md$/')
             ->notName('/\.min\.(js|css)$/')
             ->notName('/\.min\.(js|css)\.map$/');
