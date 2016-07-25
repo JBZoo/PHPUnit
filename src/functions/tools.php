@@ -256,9 +256,13 @@ function openFile($path)
     $contents = null;
 
     if ($realPath = realpath($path)) {
-        $handle   = fopen($realPath, 'rb');
-        $contents = fread($handle, filesize($realPath));
-        fclose($handle);
+        $filesize = filesize($realPath);
+
+        if ($filesize > 0) {
+            $handle   = fopen($realPath, 'rb');
+            $contents = fread($handle, $filesize);
+            fclose($handle);
+        }
     }
 
     return $contents;

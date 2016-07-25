@@ -286,8 +286,10 @@ abstract class Codestyle extends PHPUnit
         /** @var \SplFileInfo $file */
         foreach ($finder as $file) {
             $content = openFile($file->getPathname());
-            isNotContain("\r", $content, false, 'File has \r symbol: ' . $file);
-            isNotContain("\t", $content, false, 'File has \t symbol: ' . $file);
+            if (strlen($content) > 0) {
+                isNotContain("\r", $content, false, 'File has \r symbol: ' . $file);
+                isNotContain("\t", $content, false, 'File has \t symbol: ' . $file);
+            }
         }
     }
 
@@ -480,8 +482,7 @@ abstract class Codestyle extends PHPUnit
             ->ignoreDotFiles(false)
             ->name('/\.htaccess/')
             ->name('htaccess.*')
-            ->name('.htaccess.*')
-        ;
+            ->name('.htaccess.*');
 
         /** @var \SplFileInfo $file */
         foreach ($finder as $file) {
