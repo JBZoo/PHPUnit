@@ -432,11 +432,17 @@ abstract class Codestyle extends PHPUnit
     {
         $valid = $this->_prepareTemplate(implode($this->_validHeaderSH, $this->_le));
 
+        $excludePaths = $this->_excludePaths;
+        $binIndex     = array_search('bin', $excludePaths);
+        if ($binIndex !== false) {
+            unset($excludePaths[$binIndex]);
+        }
+
         $finder = new Finder();
         $finder
             ->files()
             ->in(PROJECT_ROOT)
-            ->exclude($this->_excludePaths)
+            ->exclude($excludePaths)
             ->name('*.sh');
 
         /** @var \SplFileInfo $file */
