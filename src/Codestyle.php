@@ -274,6 +274,7 @@ abstract class Codestyle extends PHPUnit
             ->name('*.css')
             ->name('*.less')
             ->name('*.php')
+            ->name('*.phtml')
             ->name('*.ini')
             ->name('*.json')
             ->name('*.txt')
