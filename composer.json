@@ -65,7 +65,6 @@
             "@phploc"
         ],
         "update-all" : [
-            "composer self-update --no-interaction",
             "composer update --optimize-autoloader --no-interaction"
         ],
         "git-reset"  : "git reset --hard",

@@ -281,6 +281,7 @@ abstract class Codestyle extends PHPUnit
             ->name('*.md')
             ->ignoreDotFiles(false)
             ->notName('*.min.*')
+            ->exclude('Makefile')
             ->exclude($this->_excludePaths);
 
         /** @var \SplFileInfo $file */
@@ -465,6 +466,28 @@ abstract class Codestyle extends PHPUnit
             ->in(PROJECT_ROOT)
             ->exclude($this->_excludePaths)
             ->name('*.sql');
+
+        /** @var \SplFileInfo $file */
+        foreach ($finder as $file) {
+            $content = openFile($file->getPathname());
+            isContain($valid, $content, false, 'File has no valid header: ' . $file);
+        }
+    }
+
+    /**
+     * Test copyright headers of Makefile
+     */
+    public function testHeadersMakefile()
+    {
+        $valid = $this->_prepareTemplate(implode($this->_validHeaderHtaccess, $this->_le));
+
+        $finder = new Finder();
+        $finder
+            ->files()
+            ->in(PROJECT_ROOT)
+            ->exclude($this->_excludePaths)
+            ->ignoreDotFiles(false)
+            ->name('Makefile');
 
         /** @var \SplFileInfo $file */
         foreach ($finder as $file) {
