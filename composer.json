@@ -20,7 +20,7 @@
 
         "jbzoo/misc"                : "^1.0",
         "jbzoo/console"             : "^1.0",
-        "jbzoo/utils"               : "*",
+        "jbzoo/utils"               : "^1.7",
         "jbzoo/pimpledumper"        : "^1.0",
         "jbzoo/profiler"            : "^1.0.1",
 
