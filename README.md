@@ -204,5 +204,4 @@ class Test extends PHPUnit
 
 ### License
 
-The MIT License (MIT)
-Copyright (c) 2015 JBZoo Content Construction Kit (CCK)
+MIT

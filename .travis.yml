@@ -19,6 +19,7 @@ matrix:
       env: XDEBUG_OFF="yes"
 
 script:
+  - make
   - make test-all
 
 after_script:
