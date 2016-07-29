@@ -23,7 +23,7 @@ matrix:
 script:
   - sh -c 'if [ "$TRAVIS_PHP_VERSION" != "5.3" ]; then
         composer require guzzlehttp/guzzle --no-update;
-  fi;'
+    fi;'
   - make
   - make test-all
 
