@@ -23,6 +23,15 @@ use JBZoo\Utils\Url;
  */
 class HttpRequestTest extends PHPUnit
 {
+    protected function setUp()
+    {
+        parent::setUp();
+
+        if (!class_exists('GuzzleHttp\Client')) {
+            skip();
+        }
+    }
+
     public function testSimple()
     {
         $url    = 'http://www.mocky.io/v2/579b43a91100006f1bcb7734';
@@ -38,10 +47,10 @@ class HttpRequestTest extends PHPUnit
     {
         $uniq   = uniqid();
         $url    = 'http://httpbin.org/get';
-        $args   = ['qwerty' => $uniq];
-        $result = httpRequest($url, $args, [
+        $args   = array('qwerty' => $uniq);
+        $result = httpRequest($url, $args, array(
             'method' => 'get'
-        ]);
+        ));
 
         isSame(200, $result->code);
         isContain('application/json', $result->find('headers.content-type'));
@@ -55,11 +64,11 @@ class HttpRequestTest extends PHPUnit
     {
         $uniq = uniqid();
         $url  = 'http://httpbin.org/post';
-        $args = ['qwerty' => $uniq];
+        $args = array('qwerty' => $uniq);
 
-        $result = httpRequest($url, $args, [
+        $result = httpRequest($url, $args, array(
             'method' => 'post'
-        ]);
+        ));
 
         isSame(200, $result->code);
         isContain('application/json', $result->find('headers.content-type'));
@@ -85,7 +94,7 @@ class HttpRequestTest extends PHPUnit
 
     public function testRedirect()
     {
-        $url = Url::addArg(['url' => 'http://example.com'], 'http://httpbin.org/redirect-to');
+        $url = Url::addArg(array('url' => 'http://example.com'), 'http://httpbin.org/redirect-to');
 
         $result = httpRequest($url);
 
@@ -99,9 +108,9 @@ class HttpRequestTest extends PHPUnit
         $url = 'http://httpbin.org/headers';
 
         $uniq   = uniqid();
-        $result = httpRequest($url, null, [
-            'headers' => ['X-Custom-Header' => $uniq]
-        ]);
+        $result = httpRequest($url, null, array(
+            'headers' => array('X-Custom-Header' => $uniq)
+        ));
 
         isSame(200, $result->code);
 
@@ -139,9 +148,9 @@ class HttpRequestTest extends PHPUnit
      */
     public function testDelayError()
     {
-        httpRequest('http://httpbin.org/delay/5', null, [
+        httpRequest('http://httpbin.org/delay/5', null, array(
             'timeout' => 3
-        ]);
+        ));
     }
 
     public function testDelay()

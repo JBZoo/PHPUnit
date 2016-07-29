@@ -21,6 +21,7 @@ test-all:
 
 update:
 	@echo -e "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Update project \033[0m"
+	@composer require guzzlehttp/guzzle --no-update
 	@composer update --optimize-autoloader --no-interaction
 	@echo ""
 

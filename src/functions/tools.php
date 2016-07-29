@@ -561,25 +561,38 @@ function httpRequest($url, $args = null, array $options = array())
         $url = Url::addArg((array)$args, $url);
     }
 
-    $client = new Client([
+    $client = new Client(array(
         'connect_timeout' => $opts->get('timeout', 30, 'int'),
         'timeout'         => $opts->get('timeout', 30, 'int'),
         'verify'          => $opts->get('ssl', false, 'bool'),
         'debug'           => $opts->get('debug', false, 'bool'),
         'exceptions'      => $opts->get('exceptions', false, 'bool'),
-        'allow_redirects' => [
+        'allow_redirects' => array(
             'max' => 10,
-        ],
-    ]);
+        ),
+    ));
 
-    $httpResult = $client->request($method, $url, [
-        'form_params' => 'GET' !== $method ? (array)$args : null,
-        //'query'       => 'GET' === $method ? (array)$args : null,
-        'headers'     => $opts->get('headers', []),
-    ]);
+    if (method_exists($client, 'request')) {
+        $httpResult = $client->request($method, $url, array(
+            'form_params' => 'GET' !== $method ? (array)$args : null,
+            'headers'     => $opts->get('headers', array()),
+        ));
+
+    } else {
+        $httpRequest = $client->createRequest($method, $url, array(
+            'body'            => 'GET' !== $method ? (array)$args : null,
+            'headers'         => $opts->get('headers', array()),
+            'exceptions'      => $opts->get('exceptions', false, 'bool'),
+            'timeout'         => $opts->get('timeout', 30, 'int'),
+            'allow_redirects' => array(
+                'max' => 10,
+            ),
+        ));
+        $httpResult  = $client->send($httpRequest);
+    }
 
     // Prepare headers
-    $cleanHeaders = [];
+    $cleanHeaders = array();
     $rawHeaders   = $httpResult->getHeaders();
     foreach ($rawHeaders as $key => $value) {
         $key   = strtolower($key);
