@@ -15,8 +15,12 @@
 
 namespace JBZoo\PHPUnit;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Request;
+use JBZoo\Data\Data;
 use JBZoo\Profiler\Benchmark;
 use JBZoo\Utils\Cli;
+use JBZoo\Utils\Url;
 use Symfony\Component\VarDumper\VarDumper;
 
 // @codingStandardsIgnoreFile
@@ -539,4 +543,56 @@ function _getRegexByTagStr($tags, $count)
     }
 
     return array(sprintf('%s "%s"', $type, $tags), $tags, $count);
+}
+
+/**
+ * @param string       $url
+ * @param string|array $args
+ * @param array        $options
+ * @return Data
+ */
+function httpRequest($url, $args = null, array $options = array())
+{
+    $opts = new Data($options);
+
+    $method = $opts->get('method', 'get', 'up');
+
+    if ('GET' === $method) {
+        $url = Url::addArg((array)$args, $url);
+    }
+
+    $client = new Client([
+        'connect_timeout' => $opts->get('timeout', 30, 'int'),
+        'timeout'         => $opts->get('timeout', 30, 'int'),
+        'verify'          => $opts->get('ssl', false, 'bool'),
+        'debug'           => $opts->get('debug', false, 'bool'),
+        'exceptions'      => $opts->get('exceptions', false, 'bool'),
+        'allow_redirects' => [
+            'max' => 10,
+        ],
+    ]);
+
+    $httpResult = $client->request($method, $url, [
+        'form_params' => 'GET' !== $method ? (array)$args : null,
+        //'query'       => 'GET' === $method ? (array)$args : null,
+        'headers'     => $opts->get('headers', []),
+    ]);
+
+    // Prepare headers
+    $cleanHeaders = [];
+    $rawHeaders   = $httpResult->getHeaders();
+    foreach ($rawHeaders as $key => $value) {
+        $key   = strtolower($key);
+        $value = implode(';', $value);
+
+        $cleanHeaders[$key] = $value;
+    }
+
+    $result = new Data(array(
+        'code'    => $httpResult->getStatusCode(),
+        'headers' => $cleanHeaders,
+        'body'    => $httpResult->getBody()->getContents()
+    ));
+
+    return $result;
 }
