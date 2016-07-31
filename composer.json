@@ -38,7 +38,8 @@
         "symfony/finder"            : "^2.8|^3.1"
     },
     "suggest"           : {
-        "guzzlehttp/guzzle" : "For httpRequest() function(), use version ^5.3|^6.2"
+        "guzzlehttp/guzzle" : "For httpRequest() and PHP 5.4+, use version ^5.3|^6.2",
+        "rmccue/requests"   : "For httpRequest() and PHP 5.3, use version ^1.6"
     },
     "autoload"          : {
         "files" : [

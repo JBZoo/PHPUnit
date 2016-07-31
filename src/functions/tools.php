@@ -20,6 +20,8 @@ use GuzzleHttp\Psr7\Request;
 use JBZoo\Data\Data;
 use JBZoo\Profiler\Benchmark;
 use JBZoo\Utils\Cli;
+use JBZoo\Utils\Env;
+use JBZoo\Utils\Sys;
 use JBZoo\Utils\Url;
 use Symfony\Component\VarDumper\VarDumper;
 
@@ -561,51 +563,81 @@ function httpRequest($url, $args = null, array $options = array())
         $url = Url::addArg((array)$args, $url);
     }
 
-    $client = new Client();
+    if (0 && class_exists('\GuzzleHttp\Client') && version_compare(Env::getVersion(), '5.3', '>')) {
+        if (method_exists('\GuzzleHttp\Client', 'request')) { // Guzzle v6.2
+            $client     = new Client();
+            $httpResult = $client->request($method, $url, array(
+                'form_params'     => 'GET' !== $method ? (array)$args : null,
+                'headers'         => $opts->get('headers', array()),
+                'connect_timeout' => $opts->get('timeout', 30, 'int'),
+                'timeout'         => $opts->get('timeout', 30, 'int'),
+                'verify'          => $opts->get('verify', false, 'bool'),
+                'debug'           => $opts->get('debug', false, 'bool'),
+                'exceptions'      => $opts->get('exceptions', false, 'bool'),
+                'allow_redirects' => array(
+                    'max' => 10,
+                ),
+            ));
 
-    if (method_exists($client, 'request')) { // Guzzle v6.2
-        $httpResult = $client->request($method, $url, array(
-            'form_params'     => 'GET' !== $method ? (array)$args : null,
-            'headers'         => $opts->get('headers', array()),
-            'connect_timeout' => $opts->get('timeout', 30, 'int'),
-            'timeout'         => $opts->get('timeout', 30, 'int'),
-            'verify'          => $opts->get('ssl', false, 'bool'),
-            'debug'           => $opts->get('debug', false, 'bool'),
-            'exceptions'      => $opts->get('exceptions', false, 'bool'),
-            'allow_redirects' => array(
-                'max' => 10,
-            ),
+        } elseif (method_exists('\GuzzleHttp\Client', 'createRequest')) { // Guzzle v5.3
+            $client      = new Client();
+            $httpRequest = $client->createRequest($method, $url, array(
+                'body'            => 'GET' !== $method ? (array)$args : null,
+                'headers'         => $opts->get('headers', array()),
+                'exceptions'      => $opts->get('exceptions', false, 'bool'),
+                'timeout'         => $opts->get('timeout', 30, 'int'),
+                'verify'          => $opts->get('verify', false, 'bool'),
+                'allow_redirects' => array(
+                    'max' => 10,
+                ),
+            ));
+            $httpResult  = $client->send($httpRequest);
+        }
+
+        // Prepare headers
+        $cleanHeaders = array();
+        $rawHeaders   = $httpResult->getHeaders();
+        foreach ($rawHeaders as $key => $value) {
+            $key   = strtolower($key);
+            $value = implode(';', $value);
+
+            $cleanHeaders[$key] = $value;
+        }
+
+        $resultData = array(
+            'code'    => $httpResult->getStatusCode(),
+            'headers' => $cleanHeaders,
+            'body'    => $httpResult->getBody()->getContents()
+        );
+
+    } else {
+        $headers = $opts->get('headers', array());
+        $args    = 'GET' !== $method ? $args : array();
+
+        $result = \Requests::request($url, $headers, $args, $method, array(
+            'timeout'          => $opts->get('timeout', 30, 'int'),
+            'verify'           => $opts->get('verify', false, 'bool'),
+            'follow_redirects' => true,
+            'redirects'        => 10,
         ));
 
-    } else {  // Guzzle v5.3
-        $httpRequest = $client->createRequest($method, $url, array(
-            'body'            => 'GET' !== $method ? (array)$args : null,
-            'headers'         => $opts->get('headers', array()),
-            'exceptions'      => $opts->get('exceptions', false, 'bool'),
-            'timeout'         => $opts->get('timeout', 30, 'int'),
-            'verify'          => $opts->get('ssl', false, 'bool'),
-            'allow_redirects' => array(
-                'max' => 10,
-            ),
-        ));
-        $httpResult  = $client->send($httpRequest);
+        $rawHeaders   = $result->headers->getAll();
+        $cleanHeaders = array();
+        foreach ($rawHeaders as $key => $value) {
+            $key   = strtolower($key);
+            $value = implode(';', $value);
+
+            $cleanHeaders[$key] = $value;
+        }
+
+        $resultData = array(
+            'code'    => (int)$result->status_code,
+            'headers' => $cleanHeaders,
+            'body'    => $result->body,
+        );
     }
 
-    // Prepare headers
-    $cleanHeaders = array();
-    $rawHeaders   = $httpResult->getHeaders();
-    foreach ($rawHeaders as $key => $value) {
-        $key   = strtolower($key);
-        $value = implode(';', $value);
-
-        $cleanHeaders[$key] = $value;
-    }
-
-    $result = new Data(array(
-        'code'    => $httpResult->getStatusCode(),
-        'headers' => $cleanHeaders,
-        'body'    => $httpResult->getBody()->getContents()
-    ));
+    $result = new Data($resultData);
 
     return $result;
 }
