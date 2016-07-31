@@ -21,6 +21,7 @@ matrix:
       env: XDEBUG_OFF="yes"
 
 script:
+  - composer require jbzoo/http-client --no-update
   - sh -c 'if [ "$TRAVIS_PHP_VERSION" != "5.3" ]; then composer require guzzlehttp/guzzle --no-update;  fi;'
   - make
   - make test-all

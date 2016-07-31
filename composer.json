@@ -23,7 +23,6 @@
         "jbzoo/utils"               : "^1.7|1.x-dev",
         "jbzoo/pimpledumper"        : "^1.2|1.x-dev",
         "jbzoo/profiler"            : "^1.0.1|1.x-dev",
-        "jbzoo/http-client"         : "^1.0|1.x-dev",
         "jbzoo/jbdump"              : "^1.5|1.x-dev",
 
         "squizlabs/php_codesniffer" : "^2.6",
@@ -39,7 +38,7 @@
         "symfony/finder"            : "^2.8|^3.1"
     },
     "suggest"           : {
-        "guzzlehttp/guzzle" : "For httpRequest() and PHP 5.4+, use version ^5.3|^6.2"
+        "jbzoo/http-client" : "For httpRequest()"
     },
     "autoload"          : {
         "files" : [
