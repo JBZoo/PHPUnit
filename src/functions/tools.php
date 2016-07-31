@@ -561,21 +561,20 @@ function httpRequest($url, $args = null, array $options = array())
         $url = Url::addArg((array)$args, $url);
     }
 
-    $client = new Client(array(
-        'connect_timeout' => $opts->get('timeout', 30, 'int'),
-        'timeout'         => $opts->get('timeout', 30, 'int'),
-        'verify'          => $opts->get('ssl', false, 'bool'),
-        'debug'           => $opts->get('debug', false, 'bool'),
-        'exceptions'      => $opts->get('exceptions', false, 'bool'),
-        'allow_redirects' => array(
-            'max' => 10,
-        ),
-    ));
+    $client = new Client();
 
     if (method_exists($client, 'request')) { // Guzzle v6.2
         $httpResult = $client->request($method, $url, array(
-            'form_params' => 'GET' !== $method ? (array)$args : null,
-            'headers'     => $opts->get('headers', array()),
+            'form_params'     => 'GET' !== $method ? (array)$args : null,
+            'headers'         => $opts->get('headers', array()),
+            'connect_timeout' => $opts->get('timeout', 30, 'int'),
+            'timeout'         => $opts->get('timeout', 30, 'int'),
+            'verify'          => $opts->get('ssl', false, 'bool'),
+            'debug'           => $opts->get('debug', false, 'bool'),
+            'exceptions'      => $opts->get('exceptions', false, 'bool'),
+            'allow_redirects' => array(
+                'max' => 10,
+            ),
         ));
 
     } else {  // Guzzle v5.3
@@ -584,6 +583,7 @@ function httpRequest($url, $args = null, array $options = array())
             'headers'         => $opts->get('headers', array()),
             'exceptions'      => $opts->get('exceptions', false, 'bool'),
             'timeout'         => $opts->get('timeout', 30, 'int'),
+            'verify'          => $opts->get('ssl', false, 'bool'),
             'allow_redirects' => array(
                 'max' => 10,
             ),

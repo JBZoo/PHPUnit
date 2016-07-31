@@ -164,4 +164,12 @@ class HttpRequestTest extends PHPUnit
         isSame($url, $body->get('url'));
     }
 
+    public function testSSL()
+    {
+        $url    = 'https://www.google.com';
+        $result = httpRequest($url, null);
+
+        isSame(200, $result->code);
+        isContain('google', $result->body);
+    }
 }

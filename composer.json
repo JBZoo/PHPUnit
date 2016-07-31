@@ -35,10 +35,10 @@
         "symfony/var-dumper"        : "^2.8|^3.1",
         "symfony/dom-crawler"       : "^2.8|^3.1",
         "symfony/css-selector"      : "^2.8|^3.1",
-        "symfony/finder"            : "^2.8|^3.1"
+        "symfony/finder"            : "^2.8|^3.1",
     },
     "suggest"           : {
-        "guzzlehttp/guzzle" : "For httpRequest() function()"
+        "guzzlehttp/guzzle" : "For httpRequest() function(), use version ^5.3|^6.2"
     },
     "autoload"          : {
         "files" : [
