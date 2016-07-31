@@ -572,13 +572,13 @@ function httpRequest($url, $args = null, array $options = array())
         ),
     ));
 
-    if (method_exists($client, 'request')) {
+    if (method_exists($client, 'request')) { // Guzzle v6.2
         $httpResult = $client->request($method, $url, array(
             'form_params' => 'GET' !== $method ? (array)$args : null,
             'headers'     => $opts->get('headers', array()),
         ));
 
-    } else {
+    } else {  // Guzzle v5.3
         $httpRequest = $client->createRequest($method, $url, array(
             'body'            => 'GET' !== $method ? (array)$args : null,
             'headers'         => $opts->get('headers', array()),
