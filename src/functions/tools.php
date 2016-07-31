@@ -562,7 +562,9 @@ function httpRequest($url, $args = null, array $options = array())
         $url = Url::addArg((array)$args, $url);
     }
 
-    if (class_exists('\GuzzleHttp\Client') && version_compare(Env::getVersion(), '5.3', '>')) {
+    if (class_exists('\GuzzleHttp\Client')
+        && (version_compare(Env::getVersion(), '5.3', '>') || Env::isHHVM())
+    ) {
         if (method_exists('\GuzzleHttp\Client', 'request')) { // Guzzle v6.2
             $client     = new Client();
             $httpResult = $client->request($method, $url, array(

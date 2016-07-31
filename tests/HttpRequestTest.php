@@ -18,7 +18,7 @@ namespace JBZoo\PHPUnit;
 use JBZoo\Utils\Url;
 
 /**
- * Class ToolsTest
+ * Class HttpRequestTest
  * @package JBZoo\PHPUnit
  */
 class HttpRequestTest extends PHPUnit
