@@ -21,6 +21,22 @@ namespace JBZoo\PHPUnit;
  */
 class ToolsTest extends PHPUnit
 {
+    public function testHttpRequest()
+    {
+        $uniq = uniqid();
+        $url  = 'http://httpbin.org/post';
+        $args = array('qwerty' => $uniq);
+
+        $result = httpRequest($url, $args, 'post');
+
+        isSame(200, $result->code);
+        isContain('application/json', $result->find('headers.content-type'));
+
+        $body = $result->getJSON();
+        isSame($body->find('url'), $url);
+        isSame($body->find('form.qwerty'), $uniq);
+    }
+
     public function testLoopProfiler()
     {
         startProfiler();

@@ -15,13 +15,10 @@
 
 namespace JBZoo\PHPUnit;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Request;
-use JBZoo\Data\Data;
+use JBZoo\HttpClient\HttpClient;
+use JBZoo\HttpClient\Response;
 use JBZoo\Profiler\Benchmark;
 use JBZoo\Utils\Cli;
-use JBZoo\Utils\Env;
-use JBZoo\Utils\Url;
 use Symfony\Component\VarDumper\VarDumper;
 
 // @codingStandardsIgnoreFile
@@ -549,96 +546,12 @@ function _getRegexByTagStr($tags, $count)
 /**
  * @param string       $url
  * @param string|array $args
+ * @param string       $method
  * @param array        $options
- * @return Data
+ * @return Response
  */
-function httpRequest($url, $args = null, array $options = array())
+function httpRequest($url, $args = null, $method = 'GET', array $options = array())
 {
-    $opts = new Data($options);
-
-    $method = $opts->get('method', 'get', 'up');
-
-    if ('GET' === $method) {
-        $url = Url::addArg((array)$args, $url);
-    }
-
-    if (class_exists('\GuzzleHttp\Client')
-        && (version_compare(Env::getVersion(), '5.3', '>') || Env::isHHVM())
-    ) {
-        if (method_exists('\GuzzleHttp\Client', 'request')) { // Guzzle v6.2
-            $client     = new Client();
-            $httpResult = $client->request($method, $url, array(
-                'form_params'     => 'GET' !== $method ? (array)$args : null,
-                'headers'         => $opts->get('headers', array()),
-                'connect_timeout' => $opts->get('timeout', 30, 'int'),
-                'timeout'         => $opts->get('timeout', 30, 'int'),
-                'verify'          => $opts->get('verify', false, 'bool'),
-                'debug'           => $opts->get('debug', false, 'bool'),
-                'exceptions'      => $opts->get('exceptions', false, 'bool'),
-                'allow_redirects' => array(
-                    'max' => 10,
-                ),
-            ));
-
-        } elseif (method_exists('\GuzzleHttp\Client', 'createRequest')) { // Guzzle v5.3
-            $client      = new Client();
-            $httpRequest = $client->createRequest($method, $url, array(
-                'body'            => 'GET' !== $method ? (array)$args : null,
-                'headers'         => $opts->get('headers', array()),
-                'exceptions'      => $opts->get('exceptions', false, 'bool'),
-                'timeout'         => $opts->get('timeout', 30, 'int'),
-                'verify'          => $opts->get('verify', false, 'bool'),
-                'allow_redirects' => array(
-                    'max' => 10,
-                ),
-            ));
-            $httpResult  = $client->send($httpRequest);
-        }
-
-        // Prepare headers
-        $cleanHeaders = array();
-        $rawHeaders   = $httpResult->getHeaders();
-        foreach ($rawHeaders as $key => $value) {
-            $key   = strtolower($key);
-            $value = implode(';', $value);
-
-            $cleanHeaders[$key] = $value;
-        }
-
-        $resultData = array(
-            'code'    => $httpResult->getStatusCode(),
-            'headers' => $cleanHeaders,
-            'body'    => $httpResult->getBody()->getContents()
-        );
-
-    } else {
-        $headers = $opts->get('headers', array());
-        $args    = 'GET' !== $method ? $args : array();
-
-        $result = \Requests::request($url, $headers, $args, $method, array(
-            'timeout'          => $opts->get('timeout', 30, 'int'),
-            'verify'           => $opts->get('verify', false, 'bool'),
-            'follow_redirects' => true,
-            'redirects'        => 10,
-        ));
-
-        $rawHeaders   = $result->headers->getAll();
-        $cleanHeaders = array();
-        foreach ($rawHeaders as $key => $value) {
-            $key   = strtolower($key);
-            $value = implode(';', $value);
-
-            $cleanHeaders[$key] = $value;
-        }
-
-        $resultData = array(
-            'code'    => (int)$result->status_code,
-            'headers' => $cleanHeaders,
-            'body'    => $result->body,
-        );
-    }
-
-    $result = new Data($resultData);
-
-    return $result;
+    $httClient = new HttpClient();
+    return $httClient->request($url, $args, $method, $options);
 }
