@@ -23,15 +23,6 @@ use JBZoo\Utils\Url;
  */
 class HttpRequestTest extends PHPUnit
 {
-    protected function setUp()
-    {
-        parent::setUp();
-
-        if (!class_exists('GuzzleHttp\Client')) {
-            skip();
-        }
-    }
-
     public function testSimple()
     {
         $url    = 'http://www.mocky.io/v2/579b43a91100006f1bcb7734';
