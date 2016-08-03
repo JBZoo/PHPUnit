@@ -21,7 +21,7 @@
  */
 function showTestMessage($key)
 {
-    return isset($_REQUEST[$key]) ? $_REQUEST[$key] : 'UNDEFINED!';
+    return isset($_REQUEST[$key]) ? $_REQUEST[$key] : '200ok!';
 }
 
 echo showTestMessage('test');
