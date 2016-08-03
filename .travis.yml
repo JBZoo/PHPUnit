@@ -21,7 +21,7 @@ matrix:
       env: XDEBUG_OFF="yes"
 
 script:
-  - php -S localhost -t ./tests/fixtures/http-root
+  - php -S localhost -t ./tests/fixtures/http-root &
   - curl -S http://localhost
   - composer require jbzoo/http-client --no-update
   - sh -c 'if [ "$TRAVIS_PHP_VERSION" != "5.3" ]; then composer require guzzlehttp/guzzle --no-update;  fi;'
