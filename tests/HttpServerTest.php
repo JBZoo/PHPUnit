@@ -15,6 +15,7 @@
 
 namespace JBZoo\PHPUnit;
 
+use JBZoo\HttpClient\Response;
 use JBZoo\Utils\FS;
 
 /**
@@ -36,7 +37,7 @@ class HttpServerTest extends PHPUnit
     {
         $uniq = uniqid();
 
-        $result = httpRequest('http://127.0.0.1:8081', array(
+        $result = $this->_httpRequest('http://127.0.0.1:8081', array(
             'test' => $uniq
         ));
 
@@ -52,7 +53,7 @@ class HttpServerTest extends PHPUnit
     {
         $uniq = uniqid();
 
-        $result = httpRequest('http://127.0.0.1:8081/index.php', array(
+        $result = $this->_httpRequest('http://127.0.0.1:8081/index.php', array(
             'test' => $uniq
         ));
 
@@ -68,7 +69,7 @@ class HttpServerTest extends PHPUnit
     {
         $uniq = uniqid();
 
-        $result = httpRequest('http://127.0.0.1:8081/folder/index-second.php', array(
+        $result = $this->_httpRequest('http://127.0.0.1:8081/folder/index-second.php', array(
             'test' => $uniq
         ));
 
@@ -82,9 +83,25 @@ class HttpServerTest extends PHPUnit
 
     public function testAssets()
     {
-        $result = httpRequest('http://127.0.0.1:8081/robots.txt');
+        $result = $this->_httpRequest('http://127.0.0.1:8081/robots.txt');
 
         isSame(200, $result->getCode());
         isContain('User-agent: *', $result->getBody());
+    }
+
+    /**
+     * @param string $url
+     * @param array  $args
+     * @return Response
+     */
+    protected function _httpRequest($url, $args = array())
+    {
+        $result = file_get_contents($url . '?' . http_build_query($args));
+
+        $response = new Response();
+        $response->setCode(200);
+        $response->setBody($result);
+
+        return $response;
     }
 }
