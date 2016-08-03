@@ -25,7 +25,10 @@ script:
   - sh -c 'if [ "$TRAVIS_PHP_VERSION" != "5.3" ]; then composer require guzzlehttp/guzzle --no-update;  fi;'
   - make
   - make server
+  - curl -S http://127.0.0.1:8081
+  - curl -S http://127.0.0.1:8081?test=57a269bfa7025
   - make test-all
+  - curl -S http://127.0.0.1:8081?test=12321321
 
 after_script:
  - make coveralls
