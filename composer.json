@@ -59,6 +59,9 @@
             "dev-master" : "1.x-dev"
         }
     },
+    "bin"               : [
+        "bin/http-server.sh"
+    ],
     "config"            : {
         "optimize-autoloader" : true
     },

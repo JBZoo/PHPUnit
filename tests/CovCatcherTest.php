@@ -43,7 +43,8 @@ class CovCatcherTest extends PHPUnit
 
         ob_start();
         $return = $catcher->includeFile(PROJECT_TESTS . '/fixtures/includes/cov-catcher.php');
-        $echo   = ob_get_clean();
+        $echo   = ob_get_contents();
+        ob_end_clean();
 
         isSame(5, $return);
         isSame('Some text message', $echo);
