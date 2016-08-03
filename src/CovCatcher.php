@@ -174,7 +174,7 @@ class CovCatcher
         }
 
         $reportXmlDir = $this->_config->get('build_xml');
-        if ($this->_config->get('xml')) {
+        if ($this->_config->get('xml', true, 'bool')) {
             $this->_checkDir($reportXmlDir);
             $report = new \PHP_CodeCoverage_Report_Clover();
             $report->process($this->_coverage, $reportXmlDir . '/' . $this->_hash . '.xml');
@@ -182,7 +182,7 @@ class CovCatcher
 
 
         $reportCovDir = $this->_config->get('build_cov');
-        if ($this->_config->get('cov')) {
+        if ($this->_config->get('cov', false, 'bool')) {
             $this->_checkDir($reportCovDir);
             $report = new \PHP_CodeCoverage_Report_PHP();
             $report->process($this->_coverage, $reportCovDir . '/' . $this->_hash . '.cov');
@@ -190,7 +190,7 @@ class CovCatcher
 
 
         $reportHtmlDir = $this->_config->get('build_html');
-        if ($this->_config->get('html')) {
+        if ($this->_config->get('html', false, 'bool')) {
             $this->_checkDir($reportHtmlDir);
             $report = new \PHP_CodeCoverage_Report_HTML();
             $report->process($this->_coverage, $reportHtmlDir . '/' . $this->_hash);
