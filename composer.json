@@ -34,15 +34,17 @@
         "symfony/finder"            : "^2.8|^3.1"
     },
     "require-dev"       : {
-        "jbzoo/console"     : "^1.0|1.x-dev",
-        "jbzoo/http-client" : "^1.0|1.x-dev",
-        "jbzoo/profiler"    : "^1.0|1.x-dev",
-        "jbzoo/jbdump"      : "^1.5|1.x-dev"
+        "jbzoo/console"       : "^1.0|1.x-dev",
+        "jbzoo/http-client"   : "^1.0|1.x-dev",
+        "jbzoo/profiler"      : "^1.0|1.x-dev",
+        "jbzoo/jbdump"        : "^1.5|1.x-dev",
+        "ulrichsg/getopt-php" : "^2.3"
     },
     "suggest"           : {
-        "jbzoo/http-client"  : "For httpRequest()",
-        "jbzoo/pimpledumper" : "Dump pimple for autocomplete",
-        "jbzoo/console"      : "For cli function"
+        "jbzoo/http-client"   : "For httpRequest()",
+        "jbzoo/pimpledumper"  : "For pimple autocomplete",
+        "jbzoo/console"       : "For cli function",
+        "ulrichsg/getopt-php" : "For PHPUnit Server"
     },
     "autoload"          : {
         "files" : [
@@ -60,7 +62,7 @@
         }
     },
     "bin"               : [
-        "bin/http-server.sh"
+        "bin/phpunit-server.sh"
     ],
     "config"            : {
         "optimize-autoloader" : true
