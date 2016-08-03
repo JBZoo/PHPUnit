@@ -42,10 +42,10 @@ class CovCatcher
         'xml'        => true,
         'cov'        => false,
         'html'       => false,
-        'src'        => PROJECT_SRC,
-        'build_xml'  => PROJECT_BUILD . '/clover_xml',
-        'build_cov'  => PROJECT_BUILD . '/clover_cov',
-        'build_html' => PROJECT_BUILD . '/clover_html',
+        'src'        => './src',
+        'build_xml'  => './build/clover_xml',
+        'build_cov'  => './build/clover_cov',
+        'build_html' => './build/clover_html',
     );
 
     /**
