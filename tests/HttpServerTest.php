@@ -16,6 +16,7 @@
 namespace JBZoo\PHPUnit;
 
 use JBZoo\HttpClient\Response;
+use JBZoo\Utils\Env;
 use JBZoo\Utils\FS;
 
 /**
@@ -44,9 +45,11 @@ class HttpServerTest extends PHPUnit
         isSame($uniq, $result->getBody());
         isSame(200, $result->getCode());
 
-        isDir(PROJECT_BUILD . '/clover_cov');
-        isDir(PROJECT_BUILD . '/clover_html');
-        isDir(PROJECT_BUILD . '/clover_xml');
+        if (Env::hasXdebug()) {
+            isDir(PROJECT_BUILD . '/clover_cov');
+            isDir(PROJECT_BUILD . '/clover_html');
+            isDir(PROJECT_BUILD . '/clover_xml');
+        }
     }
 
     public function testDirectIndex()
@@ -60,9 +63,11 @@ class HttpServerTest extends PHPUnit
         isSame($uniq, $result->getBody());
         isSame(200, $result->getCode());
 
-        isDir(PROJECT_BUILD . '/clover_cov');
-        isDir(PROJECT_BUILD . '/clover_html');
-        isDir(PROJECT_BUILD . '/clover_xml');
+        if (Env::hasXdebug()) {
+            isDir(PROJECT_BUILD . '/clover_cov');
+            isDir(PROJECT_BUILD . '/clover_html');
+            isDir(PROJECT_BUILD . '/clover_xml');
+        }
     }
 
     public function testNestedIndex()
@@ -76,9 +81,11 @@ class HttpServerTest extends PHPUnit
         isSame($uniq, $result->getBody());
         isSame(200, $result->getCode());
 
-        isDir(PROJECT_BUILD . '/clover_cov');
-        isDir(PROJECT_BUILD . '/clover_html');
-        isDir(PROJECT_BUILD . '/clover_xml');
+        if (Env::hasXdebug()) {
+            isDir(PROJECT_BUILD . '/clover_cov');
+            isDir(PROJECT_BUILD . '/clover_html');
+            isDir(PROJECT_BUILD . '/clover_xml');
+        }
     }
 
     public function testAssets()
