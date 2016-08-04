@@ -12,6 +12,7 @@ php:
 matrix:
   fast_finish: true
   allow_failures:
+    - php: 7.0
     - php: '7.1.0alpha1'
     - php: hhvm
   include:
@@ -21,10 +22,10 @@ matrix:
       env: XDEBUG_OFF="yes"
 
 script:
-  - sh -c 'if [ "$TRAVIS_PHP_VERSION" != "5.3" ]; then composer require guzzlehttp/guzzle --no-update;  fi;'
   - if [[ $XDEBUG_OFF = yes ]]; then phpenv config-rm xdebug.ini; fi;
+  - sh -c 'if [ "$TRAVIS_PHP_VERSION" != "5.3" ]; then composer require guzzlehttp/guzzle --no-update;  fi;'
   - make
-  - make server
+  - sh -c 'if [ "$TRAVIS_PHP_VERSION" != "5.3" ]; then make server; fi;'
   - make test-all
 
 after_script:

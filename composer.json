@@ -41,10 +41,10 @@
         "ulrichsg/getopt-php" : "^2.3"
     },
     "suggest"           : {
-        "jbzoo/http-client"   : "For httpRequest()",
-        "jbzoo/pimpledumper"  : "For pimple autocomplete",
-        "jbzoo/console"       : "For cli function",
-        "ulrichsg/getopt-php" : "For PHPUnit Server"
+        "jbzoo/http-client"   : "For http-requests (^1.0)",
+        "jbzoo/pimpledumper"  : "For pimple autocomplete (^1.0)",
+        "jbzoo/console"       : "For cli functions (^1.0)",
+        "ulrichsg/getopt-php" : "For PHPUnit Server (^2.3)"
     },
     "autoload"          : {
         "files" : [
