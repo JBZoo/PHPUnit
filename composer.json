@@ -18,8 +18,9 @@
     "require"           : {
         "php"                       : ">=5.3",
 
-        "jbzoo/misc"                : "^1.1|1.x-dev",
+        "jbzoo/misc"                : "^1.2",
         "jbzoo/utils"               : "^1.7|1.x-dev",
+        "jbzoo/pimpledumper"        : "^1.2|1.x-dev",
 
         "squizlabs/php_codesniffer" : "^2.6",
         "sebastian/phpcpd"          : "^2.0",
@@ -42,7 +43,8 @@
     "suggest"           : {
         "jbzoo/http-client"  : "For httpRequest()",
         "jbzoo/pimpledumper" : "Dump pimple for autocomplete",
-        "jbzoo/console"      : "For cli function"
+        "jbzoo/console"      : "For cli function",
+        "guzzlehttp/guzzle"  : "For httpRequest() function()"
     },
     "autoload"          : {
         "files" : [
