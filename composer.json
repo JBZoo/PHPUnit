@@ -35,8 +35,8 @@
         "symfony/finder"            : "^2.8|^3.1"
     },
     "require-dev"       : {
-        "jbzoo/console"     : "^1.0",
-        "jbzoo/http-client" : "^1.0",
+        "jbzoo/console"     : "^1.1",
+        "jbzoo/http-client" : "^1.1",
         "jbzoo/profiler"    : "^1.0",
         "jbzoo/jbdump"      : "^1.5"
     },
