@@ -18,6 +18,7 @@ namespace JBZoo\PHPUnit;
 use JBZoo\HttpClient\Response;
 use JBZoo\Utils\Env;
 use JBZoo\Utils\FS;
+use JBZoo\Utils\Sys;
 
 /**
  * Class HttpServerTest
@@ -28,6 +29,10 @@ class HttpServerTest extends PHPUnit
     protected function setUp()
     {
         parent::setUp();
+
+        if (Sys::isPHP('5.3')) {
+            skip('PHP 5.3.x doen\'t support built-in web-server');
+        }
 
         FS::rmdir(PROJECT_BUILD . '/clover_cov');
         FS::rmdir(PROJECT_BUILD . '/clover_html');
@@ -91,7 +96,10 @@ class HttpServerTest extends PHPUnit
     public function testAssets()
     {
         $result = $this->_httpRequest('http://localhost:8888/robots.txt');
+        isSame(200, $result->getCode());
+        isContain('User-agent: *', $result->getBody());
 
+        $result = $this->_httpRequest('http://localhost:8888/robots.txt', array('test' => '123456'));
         isSame(200, $result->getCode());
         isContain('User-agent: *', $result->getBody());
     }
@@ -103,12 +111,6 @@ class HttpServerTest extends PHPUnit
      */
     protected function _httpRequest($url, $args = array())
     {
-        $result = file_get_contents($url . '?' . http_build_query($args));
-
-        $response = new Response();
-        $response->setCode(200);
-        $response->setBody($result);
-
-        return $response;
+        return httpRequest($url, $args);
     }
 }
