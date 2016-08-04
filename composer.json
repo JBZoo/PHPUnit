@@ -19,12 +19,8 @@
         "php"                       : ">=5.3",
 
         "jbzoo/misc"                : "^1.2",
-        "jbzoo/console"             : "^1.1|1.x-dev",
-        "jbzoo/misc"                : "^1.1|1.x-dev",
         "jbzoo/utils"               : "^1.7|1.x-dev",
         "jbzoo/pimpledumper"        : "^1.2|1.x-dev",
-        "jbzoo/profiler"            : "^1.0.1|1.x-dev",
-        "jbzoo/jbdump"              : "^1.5|1.x-dev",
 
         "squizlabs/php_codesniffer" : "^2.6",
         "sebastian/phpcpd"          : "^2.0",
@@ -38,8 +34,17 @@
         "symfony/css-selector"      : "^2.8|^3.1",
         "symfony/finder"            : "^2.8|^3.1"
     },
+    "require-dev"       : {
+        "jbzoo/console"     : "^1.0|1.x-dev",
+        "jbzoo/http-client" : "^1.0|1.x-dev",
+        "jbzoo/profiler"    : "^1.0|1.x-dev",
+        "jbzoo/jbdump"      : "^1.5|1.x-dev"
+    },
     "suggest"           : {
-        "guzzlehttp/guzzle" : "For httpRequest() function()"
+        "jbzoo/http-client"  : "For httpRequest()",
+        "jbzoo/pimpledumper" : "Dump pimple for autocomplete",
+        "jbzoo/console"      : "For cli function",
+        "guzzlehttp/guzzle"  : "For httpRequest() function()"
     },
     "autoload"          : {
         "files" : [
