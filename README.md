@@ -1,4 +1,4 @@
-# JBZoo PHPUnit  [![Build Status](https://travis-ci.org/JBZoo/PHPUnit.svg?branch=master)](https://travis-ci.org/JBZoo/PHPUnit)      [![Coverage Status](https://coveralls.io/repos/JBZoo/PHPUnit/badge.svg?branch=master&service=github)](https://coveralls.io/github/JBZoo/PHPUnit?branch=master)
+# JBZoo PHPUnit  [![Build Status](https://travis-ci.org/JBZoo/PHPUnit.svg?branch=master)](https://travis-ci.org/JBZoo/PHPUnit)      [![Coverage Status](https://coveralls.io/repos/github/JBZoo/PHPUnit/badge.svg?branch=master)](https://coveralls.io/github/JBZoo/PHPUnit?branch=master)
 
 PHPUnit Toolbox for simple syntax and dev
 
