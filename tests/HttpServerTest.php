@@ -37,7 +37,7 @@ class HttpServerTest extends PHPUnit
     {
         $uniq = uniqid();
 
-        $result = $this->_httpRequest('http://localhost:8081/', array(
+        $result = $this->_httpRequest('http://localhost:8888/', array(
             'test' => $uniq
         ));
 
@@ -53,7 +53,7 @@ class HttpServerTest extends PHPUnit
     {
         $uniq = uniqid();
 
-        $result = $this->_httpRequest('http://localhost:8081/index.php', array(
+        $result = $this->_httpRequest('http://localhost:8888/index.php', array(
             'test' => $uniq
         ));
 
@@ -69,7 +69,7 @@ class HttpServerTest extends PHPUnit
     {
         $uniq = uniqid();
 
-        $result = $this->_httpRequest('http://localhost:8081/folder/index-second.php', array(
+        $result = $this->_httpRequest('http://localhost:8888/folder/index-second.php', array(
             'test' => $uniq
         ));
 
@@ -83,7 +83,7 @@ class HttpServerTest extends PHPUnit
 
     public function testAssets()
     {
-        $result = $this->_httpRequest('http://localhost:8081/robots.txt');
+        $result = $this->_httpRequest('http://localhost:8888/robots.txt');
 
         isSame(200, $result->getCode());
         isContain('User-agent: *', $result->getBody());
