@@ -22,9 +22,9 @@ matrix:
 
 script:
   - sh -c 'if [ "$TRAVIS_PHP_VERSION" != "5.3" ]; then composer require guzzlehttp/guzzle --no-update;  fi;'
+  - if [[ $XDEBUG_OFF = yes ]]; then phpenv config-rm xdebug.ini; fi;
   - make
   - make server
-  - curl -S http://localhost:8888
   - make test-all
 
 after_script:
