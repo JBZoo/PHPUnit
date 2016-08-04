@@ -27,6 +27,4 @@ echo "";
 
 PHPUNINT_ARGUMENTS="$ARGUMENTS" php -S "$HTTP_HOST:$HTTP_PORT" -t "$HTTP_ROOT" "$HTTP_FILE" &
 
-sleep 1s
-
-curl -S "http://$HTTP_HOST:$HTTP_PORT"
+sleep 3s

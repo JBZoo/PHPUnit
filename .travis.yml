@@ -21,16 +21,11 @@ matrix:
       env: XDEBUG_OFF="yes"
 
 script:
-  - php -S localhost:8888 -t ./tests/fixtures/http-root &
-  - curl -S http://localhost:8888
-  - composer require jbzoo/http-client --no-update
   - sh -c 'if [ "$TRAVIS_PHP_VERSION" != "5.3" ]; then composer require guzzlehttp/guzzle --no-update;  fi;'
   - make
   - make server
-  - curl -S http://127.0.0.1:8081
-  - curl -S http://127.0.0.1:8081?test=57a269bfa7025
+  - curl -S http://localhost:8888
   - make test-all
-  - curl -S http://127.0.0.1:8081?test=12321321
 
 after_script:
  - make coveralls
