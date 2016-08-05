@@ -105,8 +105,3 @@ coveralls: phpcov
 	@echo -e "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Send coverage to coveralls.io \033[0m"
 	@php ./vendor/satooshi/php-coveralls/bin/coveralls -vvv
 	@echo ""
-
-coveralls-test: phpcov
-	@echo -e "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Send coverage to coveralls.io (Preview) \033[0m"
-	@php ./vendor/satooshi/php-coveralls/bin/coveralls -vvv --dry-run
-	@echo ""
