@@ -30,13 +30,13 @@ class HttpServerTest extends PHPUnit
     {
         parent::setUp();
 
-        if (Sys::isPhp53() || Sys::isPhp7() || Env::isHHVM()) {
-            skip('PHP 5.3.x doen\'t support built-in web-server');
+        if (Sys::isPhp53() || Env::isHHVM()) {
+            skip('PHP 5.3.x/7.0/hhvm doen\'t support built-in web-server');
         }
 
-        FS::rmdir(PROJECT_BUILD . '/clover_cov');
-        FS::rmdir(PROJECT_BUILD . '/clover_html');
-        FS::rmdir(PROJECT_BUILD . '/clover_xml');
+        FS::rmdir(PROJECT_BUILD . '/coverage_cov');
+        FS::rmdir(PROJECT_BUILD . '/coverage_html');
+        FS::rmdir(PROJECT_BUILD . '/coverage_xml');
     }
 
     public function testSimple()
@@ -50,10 +50,10 @@ class HttpServerTest extends PHPUnit
         isSame($uniq, $result->getBody());
         isSame(200, $result->getCode());
 
-        if (Env::hasXdebug()) {
-            isDir(PROJECT_BUILD . '/clover_cov');
-            isDir(PROJECT_BUILD . '/clover_html');
-            isDir(PROJECT_BUILD . '/clover_xml');
+        if (Env::hasXdebug() && !Sys::isPhp7()) {
+            isDir(PROJECT_BUILD . '/coverage_cov');
+            isDir(PROJECT_BUILD . '/coverage_html');
+            isDir(PROJECT_BUILD . '/coverage_xml');
         }
     }
 
@@ -68,10 +68,10 @@ class HttpServerTest extends PHPUnit
         isSame($uniq, $result->getBody());
         isSame(200, $result->getCode());
 
-        if (Env::hasXdebug()) {
-            isDir(PROJECT_BUILD . '/clover_cov');
-            isDir(PROJECT_BUILD . '/clover_html');
-            isDir(PROJECT_BUILD . '/clover_xml');
+        if (Env::hasXdebug() && !Sys::isPhp7()) {
+            isDir(PROJECT_BUILD . '/coverage_cov');
+            isDir(PROJECT_BUILD . '/coverage_html');
+            isDir(PROJECT_BUILD . '/coverage_xml');
         }
     }
 
@@ -86,10 +86,10 @@ class HttpServerTest extends PHPUnit
         isSame($uniq, $result->getBody());
         isSame(200, $result->getCode());
 
-        if (Env::hasXdebug()) {
-            isDir(PROJECT_BUILD . '/clover_cov');
-            isDir(PROJECT_BUILD . '/clover_html');
-            isDir(PROJECT_BUILD . '/clover_xml');
+        if (Env::hasXdebug() && !Sys::isPhp7()) {
+            isDir(PROJECT_BUILD . '/coverage_cov');
+            isDir(PROJECT_BUILD . '/coverage_html');
+            isDir(PROJECT_BUILD . '/coverage_xml');
         }
     }
 

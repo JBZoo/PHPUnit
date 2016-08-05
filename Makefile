@@ -16,16 +16,28 @@
 build: update
 
 server:
-	@echo -e "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Start server \033[0m"
+	@make server-fake-test
+	@make server-phpunit
+
+server-fake-test:
+	@echo -e "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Start server (Fake index) \033[0m"
 	@chmod +x ./bin/phpunit-server.sh
 	@./bin/phpunit-server.sh  "localhost" "8888"        \
         "`pwd`/tests/fixtures/http-root"                \
         "`pwd`/bin/fake-index.php"                      \
-        "--index=`pwd`/tests/fixtures/http-root/index.php --cov-src=`pwd`/tests/fixtures/http-root --cov-cov=1 --cov-xml=1 --cov-html=1"
+        "--index=`pwd`/tests/fixtures/http-root/index.php --cov-src=`pwd`/src --cov-cov=1 --cov-xml=1 --cov-html=1"
+
+server-phpunit:
+	@echo -e "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Start server (PHPUnit) \033[0m"
+	@chmod +x ./bin/phpunit-server.sh
+	@./bin/phpunit-server.sh  "localhost" "8889"        \
+        "`pwd`/tests/webroot"                           \
+        "`pwd`/bin/fake-index.php"                      \
+        "--index=`pwd`/tests/webroot/index.php --cov-cov=1 --cov-xml=1"
 
 test-all:
 	@echo -e "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Run all tests \033[0m"
-	@make validate test phpmd phpcs phpcpd phploc
+	@make clean-build validate test phpmd phpcs phpcpd phploc
 
 update:
 	@echo -e "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Update project \033[0m"
@@ -74,7 +86,24 @@ reset:
 	@echo -e "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Hard reset \033[0m"
 	@git reset --hard
 
-coveralls:
+clean-build:
+	@echo -e "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Cleanup build directory \033[0m"
+	@rm -fr ./build
+	@mkdir -pv ./build
+	@mkdir -pv ./build/logs
+
+phpcov:
+	@echo -e "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Merge coverage reports \033[0m"
+	@mkdir -pv ./build/coverage_total
+	@mkdir -pv ./build/coverage_cov
+	@php ./vendor/phpunit/phpcov/phpcov merge       \
+        --clover build/coverage_total/merge.xml     \
+        --html   build/coverage_total/merge-html    \
+        build/coverage_cov                          \
+        -v
+	@echo ""
+
+coveralls: phpcov
 	@echo -e "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Send coverage to coveralls.io \033[0m"
-	@php ./vendor/satooshi/php-coveralls/bin/coveralls --verbose
+	@php ./vendor/satooshi/php-coveralls/bin/coveralls -vvv
 	@echo ""

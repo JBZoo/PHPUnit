@@ -15,6 +15,9 @@
 
 namespace JBZoo\PHPUnit;
 
+use JBZoo\Utils\Env;
+use JBZoo\Utils\Sys;
+
 /**
  * Class ToolsTest
  * @package JBZoo\PHPUnit
@@ -68,30 +71,43 @@ class ToolsTest extends PHPUnit
         }
     }
 
-    public function testDump()
+    public function testJBDumpForWeb()
     {
-        $testObj = (object)array(
-            'string' => ' 123 ',
-            'int'    => 123,
-            'float'  => 123.456,
-            'null'   => null,
-            'bool'   => true,
-            'array'  => array(1, 2, 3),
-            'func'   => function () {
-                echo 42;
-            },
-        );
-
-        if (0) { // hide
-            dump($testObj->int, 0, 'Some integer');
-            dump($testObj->float, 0, 'Some float');
-            dump($testObj->null, 0, 'Null');
-            dump($testObj->bool, 0, 'Some boolean');
-            dump($testObj->array, 0, 'Some array');
+        if (Sys::isPhp53() || Sys::isPhp7() || Env::isHHVM()) {
+            skip('PHP 5.3.x/7.0/hhvm doen\'t support built-in web-server');
         }
 
-        dump($testObj->string, 0, 'Some string');
-        dump($testObj, 0);
+        $uniq   = uniqid();
+        $result = httpRequest('http://localhost:8889/', array(
+            'test'     => 'jbdump',
+            'test-var' => $uniq
+        ));
+
+        isSame(200, $result->getCode());
+        isContain('#jbdump', $result->getBody());
+        isContain('JBDump_die', $result->getBody());
+        isContain($uniq, $result->getBody());
+    }
+
+    /**
+     * @expectedException \Exception
+     */
+    public function testCliDumpExitCode()
+    {
+        $scriptPath = realpath(PROJECT_ROOT . '/tests/webroot/index.php');
+        cmd('php ' . $scriptPath);
+    }
+
+    public function testCliDump()
+    {
+        $uniq = uniqid();
+
+        $scriptPath = realpath(PROJECT_ROOT . '/tests/webroot/index.php');
+        $result     = cmd('php ' . $scriptPath . ' ' . $uniq);
+
+        isContain('webroot/index.php', $result);
+        isContain('cli arguments', $result);
+        isContain($uniq, $result);
     }
 
     public function testCliError()

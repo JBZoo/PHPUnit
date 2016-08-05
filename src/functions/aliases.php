@@ -386,7 +386,6 @@ function isHtmlContain($html, $selector, $expected = null, $msg = null)
         isSame((string)$expected, (string)$findText);
 
     } catch (\Exception $exception) {
-
         if (!$expected) {
             success($msg);
         } else {
@@ -417,7 +416,6 @@ function isHtmlNotContain($html, $selector, $expected, $msg = null)
         isNotSame((string)$expected, (string)$findText);
 
     } catch (\Exception $exception) {
-
         if (!$findText) {
             success($msg);
 

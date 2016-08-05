@@ -28,9 +28,9 @@ class CovCatcherTest extends PHPUnit
     {
         parent::setUp();
 
-        FS::rmdir(PROJECT_BUILD . '/clover_cov');
-        FS::rmdir(PROJECT_BUILD . '/clover_html');
-        FS::rmdir(PROJECT_BUILD . '/clover_xml');
+        FS::rmdir(PROJECT_BUILD . '/coverage_cov');
+        FS::rmdir(PROJECT_BUILD . '/coverage_html');
+        FS::rmdir(PROJECT_BUILD . '/coverage_xml');
     }
 
     public function testInclude()
@@ -53,9 +53,9 @@ class CovCatcherTest extends PHPUnit
         unset($catcher); // call destructor
 
         if (Env::hasXdebug()) {
-            isDir(PROJECT_BUILD . '/clover_cov');
-            isDir(PROJECT_BUILD . '/clover_html');
-            isDir(PROJECT_BUILD . '/clover_xml');
+            isDir(PROJECT_BUILD . '/coverage_cov');
+            isDir(PROJECT_BUILD . '/coverage_html');
+            isDir(PROJECT_BUILD . '/coverage_xml');
         }
     }
 
