@@ -56,6 +56,8 @@ function isWin()
  */
 function dump($var, $isDie = true, $label = '')
 {
+    $isCliMode = defined('STDOUT');
+
     // get trace mesage
     $trace     = debug_backtrace(false);
     $dirname   = pathinfo(dirname($trace[0]['file']), PATHINFO_BASENAME);
@@ -67,20 +69,52 @@ function dump($var, $isDie = true, $label = '')
     $message = ($label ? '--- "' . $label . '" ---' : str_repeat('-', 20));
     $message = PHP_EOL . $message . ' ' . $callplace;
 
-    fwrite(STDOUT, $message . PHP_EOL);
+    if ($isCliMode) {
+        fwrite(STDOUT, $message . PHP_EOL);
 
-    $isSimpleVar = is_string($var) || is_numeric($var) || is_bool($var) || null === $var;
+        $isSimpleVar = is_string($var) || is_numeric($var) || is_bool($var) || null === $var;
 
-    if ($isSimpleVar) {
-        ob_start();
-        var_dump($var);
-        $dump = ob_get_contents();
-        ob_end_clean();
+        if ($isSimpleVar) {
+            ob_start();
+            var_dump($var);
+            $dump = ob_get_contents();
+            ob_end_clean();
 
-        fwrite(STDOUT, $dump);
+            fwrite(STDOUT, $dump);
+
+        } else {
+            VarDumper::dump($var);
+        }
+
+    } elseif (class_exists('\JBDump')) {
+        $jbdump = \JBDump::i(array(
+            'log'      => array(
+                'path' => PROJECT_ROOT . '/logs',
+            ),
+            'profiler' => array(
+                'render'     => 4,
+                'auto'       => 1,
+                'showStart'  => 0,
+                'showEnd'    => 0,
+                'showOnAjax' => 1,
+            ),
+            'dump'     => array(
+                'die'         => 0,
+                'maxDepth'    => 5,
+                'expandLevel' => 3,
+            )
+        ));
+
+        if ($jbdump->isDebug()) {
+            $jbdump->dump($var, $label, array('trace' => debug_backtrace()));
+            if ($isDie) {
+                die('JBDump_die');
+            }
+        }
 
     } else {
-        VarDumper::dump($var);
+        echo $message . '<br/>';
+        var_dump($var);
     }
 
     if ($isDie) {
