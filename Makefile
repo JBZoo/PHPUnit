@@ -95,6 +95,7 @@ clean-build:
 phpcov:
 	@echo -e "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Merge coverage reports \033[0m"
 	@mkdir -pv ./build/coverage_total
+	@mkdir -pv ./build/coverage_cov
 	@php ./vendor/phpunit/phpcov/phpcov merge       \
         --clover build/coverage_total/total.xml     \
         --html   build/coverage_total/html          \
