@@ -42,8 +42,8 @@
     </filter>
 
     <logging>
-        <log type="coverage-php" target="build/coverage_cov/main.cov"/>
-        <log type="coverage-html" target="build/coverage_html/main"/>
+        <log type="coverage-php" target="build/coverage_total/main.xml"/>
+        <log type="coverage-html" target="build/coverage_total/main-html"/>
         <log type="coverage-text" target="php://stdout" showUncoveredFiles="false" showOnlySummary="true"/>
     </logging>
 

@@ -97,8 +97,8 @@ phpcov:
 	@mkdir -pv ./build/coverage_total
 	@mkdir -pv ./build/coverage_cov
 	@php ./vendor/phpunit/phpcov/phpcov merge       \
-        --clover build/coverage_total/total.xml     \
-        --html   build/coverage_total/html          \
+        --clover build/coverage_total/merge.xml     \
+        --html   build/coverage_total/merge-html    \
         build/coverage_cov                          \
         -v
 	@echo ""
