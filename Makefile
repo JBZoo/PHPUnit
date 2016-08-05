@@ -37,7 +37,7 @@ server-phpunit:
 
 test-all:
 	@echo -e "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Run all tests \033[0m"
-	@make validate test phpmd phpcs phpcpd phploc
+	@make clean-build validate test phpmd phpcs phpcpd phploc
 
 update:
 	@echo -e "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Update project \033[0m"
@@ -86,7 +86,27 @@ reset:
 	@echo -e "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Hard reset \033[0m"
 	@git reset --hard
 
-coveralls:
+clean-build:
+	@echo -e "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Cleanup build directory \033[0m"
+	@rm -fr ./build
+	@mkdir -pv ./build
+	@mkdir -pv ./build/logs
+
+phpcov:
+	@echo -e "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Merge coverage reports \033[0m"
+	@mkdir -pv ./build/total
+	@php ./vendor/phpunit/phpcov/phpcov merge \
+        --clover build/total/total.xml          \
+        build/coverage_cov                      \
+        -v
+	@echo ""
+
+coveralls: phpcov
 	@echo -e "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Send coverage to coveralls.io \033[0m"
-	@php ./vendor/satooshi/php-coveralls/bin/coveralls --verbose
+	@php ./vendor/satooshi/php-coveralls/bin/coveralls -vvv
+	@echo ""
+
+coveralls-test: phpcov
+	@echo -e "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Send coverage to coveralls.io (Preview) \033[0m"
+	@php ./vendor/satooshi/php-coveralls/bin/coveralls -vvv --dry-run
 	@echo ""
