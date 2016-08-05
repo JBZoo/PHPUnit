@@ -34,9 +34,9 @@ class HttpServerTest extends PHPUnit
             skip('PHP 5.3.x/7.0/hhvm doen\'t support built-in web-server');
         }
 
-        FS::rmdir(PROJECT_BUILD . '/clover_cov');
-        FS::rmdir(PROJECT_BUILD . '/clover_html');
-        FS::rmdir(PROJECT_BUILD . '/clover_xml');
+        FS::rmdir(PROJECT_BUILD . '/coverage_cov');
+        FS::rmdir(PROJECT_BUILD . '/coverage_html');
+        FS::rmdir(PROJECT_BUILD . '/coverage_xml');
     }
 
     public function testSimple()
@@ -51,9 +51,9 @@ class HttpServerTest extends PHPUnit
         isSame(200, $result->getCode());
 
         if (Env::hasXdebug()) {
-            isDir(PROJECT_BUILD . '/clover_cov');
-            isDir(PROJECT_BUILD . '/clover_html');
-            isDir(PROJECT_BUILD . '/clover_xml');
+            isDir(PROJECT_BUILD . '/coverage_cov');
+            isDir(PROJECT_BUILD . '/coverage_html');
+            isDir(PROJECT_BUILD . '/coverage_xml');
         }
     }
 
@@ -69,9 +69,9 @@ class HttpServerTest extends PHPUnit
         isSame(200, $result->getCode());
 
         if (Env::hasXdebug()) {
-            isDir(PROJECT_BUILD . '/clover_cov');
-            isDir(PROJECT_BUILD . '/clover_html');
-            isDir(PROJECT_BUILD . '/clover_xml');
+            isDir(PROJECT_BUILD . '/coverage_cov');
+            isDir(PROJECT_BUILD . '/coverage_html');
+            isDir(PROJECT_BUILD . '/coverage_xml');
         }
     }
 
@@ -87,9 +87,9 @@ class HttpServerTest extends PHPUnit
         isSame(200, $result->getCode());
 
         if (Env::hasXdebug()) {
-            isDir(PROJECT_BUILD . '/clover_cov');
-            isDir(PROJECT_BUILD . '/clover_html');
-            isDir(PROJECT_BUILD . '/clover_xml');
+            isDir(PROJECT_BUILD . '/coverage_cov');
+            isDir(PROJECT_BUILD . '/coverage_html');
+            isDir(PROJECT_BUILD . '/coverage_xml');
         }
     }
 

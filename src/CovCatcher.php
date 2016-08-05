@@ -43,9 +43,9 @@ class CovCatcher
         'cov'        => false,
         'html'       => false,
         'src'        => './src',
-        'build_xml'  => './build/clover_xml',
-        'build_cov'  => './build/clover_cov',
-        'build_html' => './build/clover_html',
+        'build_xml'  => './build/coverage_xml',
+        'build_cov'  => './build/coverage_cov',
+        'build_html' => './build/coverage_html',
     );
 
     /**
