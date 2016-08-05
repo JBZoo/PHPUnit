@@ -22,6 +22,8 @@ use JBZoo\Utils\Str;
 /**
  * Class CovCatcher
  * @package JBZoo\PHPUnit
+ *
+ * @codeCoverageIgnore
  */
 class CovCatcher
 {
