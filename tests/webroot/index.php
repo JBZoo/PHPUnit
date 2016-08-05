@@ -52,4 +52,4 @@ dump($testObj->null, 0, 'Null');
 dump($testObj->bool, 0, 'Some boolean');
 dump($testObj->array, 0, 'Some array');
 dump($testObj->string, 0, 'Some string');
-dump($testObj);
+dump($testObj, 0);
