@@ -15,6 +15,9 @@
 
 namespace JBZoo\PHPUnit;
 
+use JBZoo\Utils\Env;
+use JBZoo\Utils\Sys;
+
 /**
  * Class ToolsTest
  * @package JBZoo\PHPUnit
@@ -70,6 +73,10 @@ class ToolsTest extends PHPUnit
 
     public function testJBDumpForWeb()
     {
+        if (Sys::isPhp53() || Sys::isPhp7() || Env::isHHVM()) {
+            skip('PHP 5.3.x/7.0/hhvm doen\'t support built-in web-server');
+        }
+
         $uniq   = uniqid();
         $result = httpRequest('http://localhost:8889/', array(
             'test'     => 'jbdump',
