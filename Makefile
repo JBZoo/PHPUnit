@@ -56,7 +56,7 @@ autoload:
 
 test:
 	@echo -e "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Run unit-tests \033[0m"
-	@php-x ./vendor/phpunit/phpunit/phpunit --configuration ./phpunit.xml.dist
+	@php ./vendor/phpunit/phpunit/phpunit --configuration ./phpunit.xml.dist
 	@echo ""
 
 phpmd:
@@ -95,7 +95,7 @@ clean-build:
 phpcov:
 	@echo -e "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Merge coverage reports \033[0m"
 	@mkdir -pv ./build/coverage_total
-	@php-x ./vendor/phpunit/phpcov/phpcov merge       \
+	@php ./vendor/phpunit/phpcov/phpcov merge       \
         --clover build/coverage_total/total.xml     \
         --html   build/coverage_total/html          \
         build/coverage_cov                          \
