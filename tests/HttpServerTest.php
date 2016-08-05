@@ -30,7 +30,7 @@ class HttpServerTest extends PHPUnit
     {
         parent::setUp();
 
-        if (Sys::isPHP('5.3')) {
+        if (Sys::isPhp53() || Sys::isPhp7()) {
             skip('PHP 5.3.x doen\'t support built-in web-server');
         }
 
