@@ -20,7 +20,7 @@ server:
 	@make server-phpunit
 
 server-fake-test:
-	@echo -e "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Start server \033[0m"
+	@echo -e "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Start server (Fake index) \033[0m"
 	@chmod +x ./bin/phpunit-server.sh
 	@./bin/phpunit-server.sh  "localhost" "8888"        \
         "`pwd`/tests/fixtures/http-root"                \

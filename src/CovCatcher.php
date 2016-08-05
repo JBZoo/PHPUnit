@@ -65,8 +65,9 @@ class CovCatcher
      */
     public function __construct($testName = null, array $options = array())
     {
-        $this->_config = new Data(array_merge($this->_default, $options));
-        $this->_hash   = $this->_getPrefix($testName)
+        $this->_initConfig($options);
+
+        $this->_hash = $this->_getPrefix($testName)
             . '_' . md5(serialize($this->_config->getArrayCopy()) . '|' . $testName);
 
         if (Env::hasXdebug()) {
@@ -205,5 +206,18 @@ class CovCatcher
         if (!is_dir($dirPath)) {
             mkdir($dirPath, 0777, true);
         }
+    }
+
+    /**
+     * Prepare and init config
+     * @param array $options
+     */
+    protected function _initConfig(array $options)
+    {
+        $options = array_filter($options, function ($option) {
+            return (null === $option) ? false : true;
+        });
+
+        $this->_config = new Data(array_merge($this->_default, $options));
     }
 }
