@@ -1,0 +1,2 @@
+coverage_clover:
+  - build/coverage_total/*.xml

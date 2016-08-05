@@ -13,6 +13,8 @@
  */
 
 use JBZoo\PHPUnit\CovCatcher;
+use JBZoo\Utils\Env;
+use JBZoo\Utils\Sys;
 use Ulrichsg\Getopt\Getopt;
 
 $_SERVER['SCRIPT_NAME'] = '/index.php'; // #FUCK!!! https://bugs.php.net/bug.php?id=61286
@@ -60,8 +62,12 @@ $cliOptions->parse(getenv('PHPUNINT_ARGUMENTS'));
 
 $realIndex = isset($realIndex) ? $realIndex : realpath($cliOptions->getOption('index'));
 
-if (class_exists('\JBZoo\PHPUnit\CovCatcher')) {
-    $hash = md5(serialize($_REQUEST));
+if (class_exists('\JBZoo\PHPUnit\CovCatcher') && !(Sys::isPhp7() && Env::hasXdebug())) {
+    $hash = md5(implode('||', array(
+        serialize($_REQUEST),
+        serialize($_SERVER),
+        PHP_VERSION
+    )));
 
     $catcher = new CovCatcher($hash, array(
         'src'  => $cliOptions->getOption('cov-src'),

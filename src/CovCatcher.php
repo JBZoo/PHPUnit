@@ -22,6 +22,8 @@ use JBZoo\Utils\Str;
 /**
  * Class CovCatcher
  * @package JBZoo\PHPUnit
+ *
+ * @codeCoverageIgnore
  */
 class CovCatcher
 {
@@ -43,9 +45,9 @@ class CovCatcher
         'cov'        => false,
         'html'       => false,
         'src'        => './src',
-        'build_xml'  => './build/clover_xml',
-        'build_cov'  => './build/clover_cov',
-        'build_html' => './build/clover_html',
+        'build_xml'  => './build/coverage_xml',
+        'build_cov'  => './build/coverage_cov',
+        'build_html' => './build/coverage_html',
     );
 
     /**
@@ -65,13 +67,15 @@ class CovCatcher
      */
     public function __construct($testName = null, array $options = array())
     {
-        $this->_config = new Data(array_merge($this->_default, $options));
-        $this->_hash   = $this->_getPrefix($testName)
+        $this->_initConfig($options);
+
+        $this->_hash = $this->_getPrefix($testName)
             . '_' . md5(serialize($this->_config->getArrayCopy()) . '|' . $testName);
 
         if (Env::hasXdebug()) {
             $covFilter = new \PHP_CodeCoverage_Filter();
             $covFilter->addDirectoryToWhitelist($this->_config->get('src'));
+            $covFilter->addDirectoryToBlacklist(PROJECT_ROOT . '/tests');
             $this->_coverage = new \PHP_CodeCoverage(null, $covFilter);
         }
     }
@@ -205,5 +209,18 @@ class CovCatcher
         if (!is_dir($dirPath)) {
             mkdir($dirPath, 0777, true);
         }
+    }
+
+    /**
+     * Prepare and init config
+     * @param array $options
+     */
+    protected function _initConfig(array $options)
+    {
+        $options = array_filter($options, function ($option) {
+            return (null === $option) ? false : true;
+        });
+
+        $this->_config = new Data(array_merge($this->_default, $options));
     }
 }
