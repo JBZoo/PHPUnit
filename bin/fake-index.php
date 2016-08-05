@@ -61,7 +61,7 @@ $cliOptions->parse(getenv('PHPUNINT_ARGUMENTS'));
 $realIndex = isset($realIndex) ? $realIndex : realpath($cliOptions->getOption('index'));
 
 if (class_exists('\JBZoo\PHPUnit\CovCatcher')) {
-    $hash = md5(serialize($_REQUEST));
+    $hash = md5(serialize($_REQUEST) . '|' . $_SERVER['HTTP_HOST'] . '|' . $_SERVER['SERVER_PORT']);
 
     $catcher = new CovCatcher($hash, array(
         'src'  => $cliOptions->getOption('cov-src'),
