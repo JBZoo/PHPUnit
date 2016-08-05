@@ -15,6 +15,14 @@
 
 build: update
 
+server:
+	@echo -e "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Start server \033[0m"
+	@chmod +x ./bin/phpunit-server.sh
+	@./bin/phpunit-server.sh  "localhost" "8888"        \
+        "`pwd`/tests/fixtures/http-root"                \
+        "`pwd`/bin/fake-index.php"                      \
+        "--index=`pwd`/tests/fixtures/http-root/index.php --cov-src=`pwd`/tests/fixtures/http-root --cov-cov=1 --cov-xml=1 --cov-html=1"
+
 test-all:
 	@echo -e "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Run all tests \033[0m"
 	@make validate test phpmd phpcs phpcpd phploc

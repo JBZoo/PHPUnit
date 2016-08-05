@@ -20,7 +20,6 @@
 
         "jbzoo/misc"                : "^1.2",
         "jbzoo/utils"               : "^1.7",
-        "jbzoo/pimpledumper"        : "^1.2",
 
         "squizlabs/php_codesniffer" : "^2.6",
         "sebastian/phpcpd"          : "^2.0",
@@ -35,16 +34,17 @@
         "symfony/finder"            : "^2.8|^3.1"
     },
     "require-dev"       : {
-        "jbzoo/console"     : "^1.1",
-        "jbzoo/http-client" : "^1.1",
-        "jbzoo/profiler"    : "^1.0",
-        "jbzoo/jbdump"      : "^1.5"
+        "jbzoo/console"       : "^1.1",
+        "jbzoo/http-client"   : "^1.1",
+        "jbzoo/profiler"      : "^1.0",
+        "jbzoo/jbdump"        : "^1.5",
+        "ulrichsg/getopt-php" : "^2.3"
     },
     "suggest"           : {
-        "jbzoo/http-client"  : "For httpRequest()",
-        "jbzoo/pimpledumper" : "Dump pimple for autocomplete",
-        "jbzoo/console"      : "For cli function",
-        "guzzlehttp/guzzle"  : "For httpRequest() function()"
+        "jbzoo/http-client"   : "For http-requests (^1.0)",
+        "jbzoo/pimpledumper"  : "For pimple autocomplete (^1.0)",
+        "jbzoo/console"       : "For cli functions (^1.0)",
+        "ulrichsg/getopt-php" : "For PHPUnit Server (^2.3)"
     },
     "autoload"          : {
         "files" : [
@@ -61,6 +61,9 @@
             "dev-master" : "1.x-dev"
         }
     },
+    "bin"               : [
+        "bin/phpunit-server.sh"
+    ],
     "config"            : {
         "optimize-autoloader" : true
     },
