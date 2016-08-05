@@ -31,7 +31,7 @@ class HttpServerTest extends PHPUnit
         parent::setUp();
 
         if (Sys::isPhp53() || Sys::isPhp7() || Env::isHHVM()) {
-            skip('PHP 5.3.x doen\'t support built-in web-server');
+            skip('PHP 5.3.x/7.0/hhvm doen\'t support built-in web-server');
         }
 
         FS::rmdir(PROJECT_BUILD . '/clover_cov');
