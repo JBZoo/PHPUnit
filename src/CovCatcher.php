@@ -41,8 +41,8 @@ class CovCatcher
      * @var array
      */
     protected $_default = array(
-        'xml'        => true,
-        'cov'        => false,
+        'xml'        => false,
+        'cov'        => true,
         'html'       => false,
         'src'        => './src',
         'build_xml'  => './build/coverage_xml',
