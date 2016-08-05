@@ -11,9 +11,11 @@
  * @copyright Copyright (C) JBZoo.com,  All rights reserved.
  * @link      https://github.com/JBZoo/PHPUnit
  * @author    Denis Smetannikov <denis@jbzoo.com>
+ *
+ * @codeCoverageIgnore
+ * @codingStandardsIgnoreFile
  */
 
-// @codingStandardsIgnoreFile
 !defined('JBZOO_PHPUNIT') && define('JBZOO_PHPUNIT', true);
 
 // PHP 5.3.3 doesn't support this
