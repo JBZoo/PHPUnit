@@ -23,9 +23,9 @@ server-fake-test:
 	@echo -e "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Start server (Fake index) \033[0m"
 	@chmod +x ./bin/phpunit-server.sh
 	@./bin/phpunit-server.sh  "localhost" "8888"        \
-        "`pwd`"                                         \
+        "`pwd`/tests/fixtures/http-root"                \
         "`pwd`/bin/fake-index.php"                      \
-        "--index=`pwd`/tests/fixtures/http-root/index.php --cov-src=`pwd`/tests/fixtures/http-root --cov-cov=1 --cov-xml=1 --cov-html=1"
+        "--index=`pwd`/tests/fixtures/http-root/index.php --cov-src=`pwd` --cov-cov=1 --cov-xml=1 --cov-html=1"
 
 server-phpunit:
 	@echo -e "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Start server (PHPUnit) \033[0m"

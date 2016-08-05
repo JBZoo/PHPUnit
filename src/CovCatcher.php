@@ -73,6 +73,9 @@ class CovCatcher
         if (Env::hasXdebug()) {
             $covFilter = new \PHP_CodeCoverage_Filter();
             $covFilter->addDirectoryToWhitelist($this->_config->get('src'));
+            $covFilter->addDirectoryToBlacklist(PROJECT_ROOT . '/resources');
+            $covFilter->addDirectoryToBlacklist(PROJECT_ROOT . '/tests');
+            $covFilter->addDirectoryToBlacklist(PROJECT_ROOT . '/vendor');
             $this->_coverage = new \PHP_CodeCoverage(null, $covFilter);
         }
     }
