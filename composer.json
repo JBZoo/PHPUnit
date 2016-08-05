@@ -19,7 +19,7 @@
         "php"                       : ">=5.3",
 
         "jbzoo/misc"                : "^1.2",
-        "jbzoo/utils"               : "^1.7|1.x-dev",
+        "jbzoo/utils"               : "^1.7|1.x-dev|dev-develop",
 
         "squizlabs/php_codesniffer" : "^2.6",
         "phploc/phploc"             : "^2.1",
