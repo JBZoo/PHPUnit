@@ -33,7 +33,7 @@ server-phpunit:
 	@./bin/phpunit-server.sh  "localhost" "8889"        \
         "`pwd`/tests/webroot"                           \
         "`pwd`/bin/fake-index.php"                      \
-        "--index=`pwd`/tests/webroot/index.php --cov-cov=1 --cov-xml=1 --cov-html=1"
+        "--index=`pwd`/tests/webroot/index.php --cov-cov=1 --cov-xml=1"
 
 test-all:
 	@echo -e "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Run all tests \033[0m"

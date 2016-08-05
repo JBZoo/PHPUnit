@@ -30,7 +30,7 @@ class HttpServerTest extends PHPUnit
     {
         parent::setUp();
 
-        if (Sys::isPhp53() || Sys::isPhp7() || Env::isHHVM()) {
+        if (Sys::isPhp53() || Env::isHHVM()) {
             skip('PHP 5.3.x/7.0/hhvm doen\'t support built-in web-server');
         }
 
@@ -50,7 +50,7 @@ class HttpServerTest extends PHPUnit
         isSame($uniq, $result->getBody());
         isSame(200, $result->getCode());
 
-        if (Env::hasXdebug()) {
+        if (Env::hasXdebug() && !Sys::isPhp7()) {
             isDir(PROJECT_BUILD . '/coverage_cov');
             isDir(PROJECT_BUILD . '/coverage_html');
             isDir(PROJECT_BUILD . '/coverage_xml');
@@ -68,7 +68,7 @@ class HttpServerTest extends PHPUnit
         isSame($uniq, $result->getBody());
         isSame(200, $result->getCode());
 
-        if (Env::hasXdebug()) {
+        if (Env::hasXdebug() && !Sys::isPhp7()) {
             isDir(PROJECT_BUILD . '/coverage_cov');
             isDir(PROJECT_BUILD . '/coverage_html');
             isDir(PROJECT_BUILD . '/coverage_xml');
@@ -86,7 +86,7 @@ class HttpServerTest extends PHPUnit
         isSame($uniq, $result->getBody());
         isSame(200, $result->getCode());
 
-        if (Env::hasXdebug()) {
+        if (Env::hasXdebug() && !Sys::isPhp7()) {
             isDir(PROJECT_BUILD . '/coverage_cov');
             isDir(PROJECT_BUILD . '/coverage_html');
             isDir(PROJECT_BUILD . '/coverage_xml');
