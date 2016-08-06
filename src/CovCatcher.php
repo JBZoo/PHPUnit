@@ -41,8 +41,8 @@ class CovCatcher
      * @var array
      */
     protected $_default = array(
-        'xml'        => true,
-        'cov'        => false,
+        'cov'        => true,
+        'xml'        => false,
         'html'       => false,
         'src'        => './src',
         'build_xml'  => './build/coverage_xml',
@@ -64,9 +64,18 @@ class CovCatcher
      * CovCatcher constructor.
      * @param string $testName
      * @param array  $options
+     * @throws Exception
      */
     public function __construct($testName = null, array $options = array())
     {
+        if (!class_exists('\JBZoo\Data\Data')) {
+            throw new Exception('jbzoo/data required for CovCatcher');
+        }
+
+        if (!class_exists('\JBZoo\Utils\Env')) {
+            throw new Exception('jbzoo/utils required for CovCatcher');
+        }
+
         $this->_initConfig($options);
 
         $this->_hash = $this->_getPrefix($testName)
@@ -75,7 +84,6 @@ class CovCatcher
         if (Env::hasXdebug()) {
             $covFilter = new \PHP_CodeCoverage_Filter();
             $covFilter->addDirectoryToWhitelist($this->_config->get('src'));
-            $covFilter->addDirectoryToBlacklist(PROJECT_ROOT . '/tests');
             $this->_coverage = new \PHP_CodeCoverage(null, $covFilter);
         }
     }

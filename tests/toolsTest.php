@@ -57,7 +57,7 @@ class ToolsTest extends PHPUnit
 
     public function testXdebug()
     {
-        isXDebug();
+        isTrue(is_bool(isXDebug()));
     }
 
     public function testCmd()
@@ -73,6 +73,10 @@ class ToolsTest extends PHPUnit
 
     public function testJBDumpForWeb()
     {
+        if (!class_exists('\JBZoo\Utils\Sys')) {
+            throw new Exception('jbzoo/utils required for Tools unit-tests');
+        }
+
         if (Sys::isPhp53() || Sys::isPhp7() || Env::isHHVM()) {
             skip('PHP 5.3.x/7.0/hhvm doen\'t support built-in web-server');
         }
@@ -85,7 +89,7 @@ class ToolsTest extends PHPUnit
 
         isSame(200, $result->getCode());
         isContain('#jbdump', $result->getBody());
-        isContain('JBDump_die', $result->getBody());
+        isContain('Dump die', $result->getBody());
         isContain($uniq, $result->getBody());
     }
 

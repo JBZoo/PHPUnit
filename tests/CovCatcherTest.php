@@ -28,6 +28,10 @@ class CovCatcherTest extends PHPUnit
     {
         parent::setUp();
 
+        if (!class_exists('\JBZoo\Utils\FS')) {
+            throw new Exception('jbzoo/utils required for CovCatcher unit-tests');
+        }
+
         FS::rmdir(PROJECT_BUILD . '/coverage_cov');
         FS::rmdir(PROJECT_BUILD . '/coverage_html');
         FS::rmdir(PROJECT_BUILD . '/coverage_xml');
