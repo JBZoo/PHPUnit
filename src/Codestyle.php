@@ -232,11 +232,9 @@ abstract class Codestyle extends PHPUnit
     {
         parent::setUp();
 
-        //@codeCoverageIgnoreStart
         if (!$this->_packageName) {
-            throw new Exception('$this->_packageName is undefined!');
+            throw new Exception('$this->_packageName is undefined!'); // @codeCoverageIgnore
         }
-        //@codeCoverageIgnoreEnd
 
         $this->_replace = array(
             '_LINK_'                 => $this->_packageLink,
@@ -551,8 +549,8 @@ abstract class Codestyle extends PHPUnit
 
     /**
      * Render copyrights
-     * @param $text
-     * @return mixed
+     * @param string $text
+     * @return string
      */
     protected function _prepareTemplate($text)
     {
