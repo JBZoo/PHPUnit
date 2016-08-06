@@ -20,9 +20,9 @@
 
         "ulrichsg/getopt-php"       : "^2.3",
 
-        "jbzoo/misc"                : "^1.2",
         "squizlabs/php_codesniffer" : "^2.6",
         "phpmd/phpmd"               : "^2.4",
+        "jbzoo/misc"                : "^1.2",
 
         "phploc/phploc"             : "^2.1",
         "sebastian/phpcpd"          : "^2.0",
@@ -38,7 +38,8 @@
         "symfony/process"      : "^2.8|^3.1",
         "symfony/var-dumper"   : "^2.8|^3.1",
         "symfony/dom-crawler"  : "^2.8|^3.1",
-        "symfony/css-selector" : "^2.8|^3.1"
+        "symfony/css-selector" : "^2.8|^3.1",
+        "symfony/finder"       : "^2.8|^3.1"
     },
     "suggest"           : {
         "jbzoo/http-client"    : "For http-requests (^1.0)",
@@ -48,6 +49,7 @@
         "symfony/process"      : "For cli() function (^2.8|^3.1)",
         "symfony/dom-crawler"  : "For isHtml(not)Contain() function (^2.8|^3.1)",
         "symfony/css-selector" : "For isHtml(not)Contain() function (^2.8|^3.1)",
+        "symfony/finder"       : "For CodeStyle tests (^2.8|^3.1)",
         "ulrichsg/getopt-php"  : "For PHPUnit Server (^2.3)"
     },
     "autoload"          : {
