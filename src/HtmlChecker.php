@@ -63,7 +63,9 @@ class HtmlChecker
      * @param array  $expected An array, see above
      * @param string $string   An HTML/XHTML/XML string
      * @return bool
+     *
      * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function isHtml($expected, $string)
     {
