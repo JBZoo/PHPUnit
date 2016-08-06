@@ -22,7 +22,3 @@ if ($autoload = realpath('./vendor/autoload.php')) {
 } else {
     die('execute "composer update"');
 }
-
-if ($fixturesPath = realpath(PROJECT_TESTS . '/fixtures.php')) {
-    require_once PROJECT_TESTS . '/fixtures.php';
-}

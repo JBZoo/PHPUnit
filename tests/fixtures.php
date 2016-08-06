@@ -14,14 +14,3 @@
  */
 
 namespace JBZoo\PHPUnit;
-
-/**
- * Test function
- *
- * @param $string
- * @return string
- */
-function myTrim($string)
-{
-    return trim($string);
-}
