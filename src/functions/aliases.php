@@ -375,9 +375,18 @@ function isNotContain($expected, $value, $ignoreCase = false, $msg = null)
  * @param mixed  $expected
  * @param string $msg
  * @return bool
+ * @throws Exception
  */
 function isHtmlContain($html, $selector, $expected = null, $msg = null)
 {
+    if (!class_exists('\Symfony\Component\DomCrawler\Crawler')) {
+        throw new Exception('symfony/dom-crawler required for isHtmlContain() function');
+    }
+
+    if (!class_exists('\Symfony\Component\CssSelector\CssSelectorConverter')) {
+        throw new Exception('symfony/css-selector required for isHtmlContain() function');
+    }
+
     $findText = null;
 
     try {
@@ -405,9 +414,18 @@ function isHtmlContain($html, $selector, $expected = null, $msg = null)
  * @param mixed  $expected
  * @param string $msg
  * @return bool
+ * @throws Exception
  */
 function isHtmlNotContain($html, $selector, $expected, $msg = null)
 {
+    if (!class_exists('\Symfony\Component\DomCrawler\Crawler')) {
+        throw new Exception('symfony/dom-crawler required for isHtmlNotContain() function');
+    }
+
+    if (!class_exists('\Symfony\Component\CssSelector\CssSelectorConverter')) {
+        throw new Exception('symfony/css-selector required for isHtmlNotContain() function');
+    }
+
     $findText = null;
 
     try {
