@@ -20,5 +20,6 @@
 if ($autoload = realpath('./vendor/autoload.php')) {
     require_once $autoload;
 } else {
-    die('execute "composer update"');
+    echo 'execute "composer update"';
+    die(1);
 }
