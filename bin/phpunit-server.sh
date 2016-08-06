@@ -7,19 +7,19 @@
 # For the full copyright and license information, please view the LICENSE
 # file that was distributed with this source code.
 #
-# @package   PHPUnit
-# @license   MIT
-# @copyright Copyright (C) JBZoo.com,  All rights reserved.
-# @link      https://github.com/JBZoo/PHPUnit
+# @package    PHPUnit
+# @license    MIT
+# @copyright  Copyright (C) JBZoo.com, All rights reserved.
+# @link       https://github.com/JBZoo/PHPUnit
 #
 
-if [ "$1" != "" ]; then HTTP_HOST=$1; else  HTTP_HOST="127.0.0.1";      fi
-if [ "$2" != "" ]; then HTTP_PORT=$2; else  HTTP_PORT="8081";           fi
-if [ "$3" != "" ]; then HTTP_ROOT=$3; else  HTTP_ROOT=".";              fi
-if [ "$4" != "" ]; then HTTP_FILE=$4; else  HTTP_FILE="./index.php";    fi
-if [ "$5" != "" ]; then ARGUMENTS=$5; else  ARGUMENTS="";               fi
+if [ "$1" != "" ]; then HTTP_HOST=$1; else  HTTP_HOST="localhost";                                                      fi
+if [ "$2" != "" ]; then HTTP_PORT=$2; else  HTTP_PORT="8888";                                                           fi
+if [ "$3" != "" ]; then HTTP_ROOT=$3; else  HTTP_ROOT="`pwd`/public_html";                                              fi
+if [ "$4" != "" ]; then HTTP_FILE=$4; else  HTTP_FILE="`pwd`/vendor/jbzoo/phpunit/bin/fake-index.php";                  fi
+if [ "$5" != "" ]; then ARGUMENTS=$5; else  ARGUMENTS="--index=`pwd`/public_html/index.php --cov-html=1 --cov-cov=1";   fi
 
-echo "Host: $HTTP_HOST:$HTTP_PORT";
+echo "Site: http://$HTTP_HOST:$HTTP_PORT";
 echo "Root: $HTTP_ROOT";
 echo "File: $HTTP_FILE";
 echo "Args: $ARGUMENTS";
