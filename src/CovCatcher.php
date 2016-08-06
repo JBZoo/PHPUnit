@@ -41,8 +41,8 @@ class CovCatcher
      * @var array
      */
     protected $_default = array(
-        'xml'        => true,
-        'cov'        => false,
+        'cov'        => true,
+        'xml'        => false,
         'html'       => false,
         'src'        => './src',
         'build_xml'  => './build/coverage_xml',
@@ -84,7 +84,6 @@ class CovCatcher
         if (Env::hasXdebug()) {
             $covFilter = new \PHP_CodeCoverage_Filter();
             $covFilter->addDirectoryToWhitelist($this->_config->get('src'));
-            $covFilter->addDirectoryToBlacklist(PROJECT_ROOT . '/tests');
             $this->_coverage = new \PHP_CodeCoverage(null, $covFilter);
         }
     }

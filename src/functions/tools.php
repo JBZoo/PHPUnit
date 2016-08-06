@@ -54,6 +54,7 @@ function isWin()
  * @throws Exception
  *
  * @SuppressWarnings(PHPMD.ExitExpression)
+ * @SuppressWarnings(PHPMD.NPathComplexity)
  */
 function dump($var, $isDie = true, $label = '')
 {
@@ -82,7 +83,6 @@ function dump($var, $isDie = true, $label = '')
         fwrite(STDOUT, $message . PHP_EOL);
 
         $isSimpleVar = is_string($var) || is_numeric($var) || is_bool($var) || null === $var;
-
         if ($isSimpleVar) {
             ob_start();
             var_dump($var);
@@ -92,6 +92,7 @@ function dump($var, $isDie = true, $label = '')
             fwrite(STDOUT, $dump);
 
         } else {
+            putenv("ANSICON=on"); // Add colored output
             VarDumper::dump($var);
         }
 
@@ -116,9 +117,6 @@ function dump($var, $isDie = true, $label = '')
 
         if ($jbdump->isDebug()) {
             $jbdump->dump($var, $label, array('trace' => debug_backtrace()));
-            if ($isDie) {
-                die('JBDump_die');
-            }
         }
 
     } else {
@@ -127,14 +125,12 @@ function dump($var, $isDie = true, $label = '')
     }
 
     if ($isDie) {
-        //@codeCoverageIgnoreStart
         if ($isCliMode) {
             fwrite(STDOUT, 'Dump die!' . PHP_EOL);
             exit(255);
         } else {
             die('Dump die!' . PHP_EOL);
         }
-        //@codeCoverageIgnoreEnd
     }
 }
 

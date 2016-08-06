@@ -89,7 +89,7 @@ class ToolsTest extends PHPUnit
 
         isSame(200, $result->getCode());
         isContain('#jbdump', $result->getBody());
-        isContain('JBDump_die', $result->getBody());
+        isContain('Dump die', $result->getBody());
         isContain($uniq, $result->getBody());
     }
 
