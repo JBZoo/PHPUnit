@@ -233,7 +233,11 @@ abstract class Codestyle extends PHPUnit
         parent::setUp();
 
         if (!$this->_packageName) {
-            throw new Exception('$this->_packageName is undefined!'); // @codeCoverageIgnore
+            throw new Exception('$this->_packageName is undefined!');
+        }
+
+        if (!class_exists('\Symfony\Component\Finder\Finder')) {
+            throw new Exception('symfony/finder requreid for CodeStyle unit tests');
         }
 
         $this->_replace = array(
