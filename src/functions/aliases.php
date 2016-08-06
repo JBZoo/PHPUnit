@@ -32,10 +32,6 @@ function getTestcase()
             return $object['object'];
         }
     }
-
-    //@codeCoverageIgnoreStart
-    return null;
-    //@codeCoverageIgnoreEnd
 }
 
 /**** Controls ********************************************************************************************************/
@@ -313,9 +309,7 @@ function isDir($path, $msg = null)
 function isNotDir($path, $msg = null)
 {
     if (is_dir($path)) {
-        //@codeCoverageIgnoreStart
-        fail("\"{$path}\" is direcory");
-        //@codeCoverageIgnoreEnd
+        fail("\"{$path}\" is direcory"); //@codeCoverageIgnore
     } else {
         success($msg);
     }
@@ -336,9 +330,8 @@ function isFile($path, $msg = null)
  */
 function isNotFile($path, $msg = null)
 {
-    $test = getTestcase();
     if (!is_dir($path)) {
-        $test->assertFileNotExists($path, $msg);
+        getTestcase()->assertFileNotExists($path, $msg);
     } else {
         success($msg);
     }
@@ -351,7 +344,6 @@ function isNotFile($path, $msg = null)
  * @param null   $msg
  * @noinspection MoreThanThreeArgumentsInspection
  */
-/** @noinspection MoreThanThreeArgumentsInspection */
 function isContain($expected, $value, $ignoreCase = false, $msg = null)
 {
     getTestcase()->assertContains($expected, $value, $msg, $ignoreCase);
@@ -473,4 +465,16 @@ function isSamePath($expected, $actual, $message = null)
     $actual   = Filter::_($actual, $cleanFunc);
 
     isSame($expected, $actual, $message);
+}
+
+/**
+ * Asserts HTML tags.
+ * @param mixed $expected
+ * @param mixed $string
+ * @return bool
+ */
+function isHtml($expected, $string)
+{
+    $htmlChecker = new HtmlChecker();
+    return $htmlChecker->isHtml($expected, $string);
 }

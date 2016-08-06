@@ -18,6 +18,7 @@ namespace JBZoo\PHPUnit;
 use JBZoo\HttpClient\HttpClient;
 use JBZoo\HttpClient\Response;
 use JBZoo\Utils\Cli;
+use JBZoo\Utils\Sys;
 use Symfony\Component\VarDumper\VarDumper;
 
 /**
@@ -148,53 +149,7 @@ function cliError($message, $addEol = true)
  */
 function isXdebug()
 {
-    return extension_loaded('xdebug');
-}
-
-/**
- * Simple loop profiler
- * @param int       $count
- * @param bool|true $formated
- * @return array
- */
-function loopProfiler($count = 1, $formated = true)
-{
-    global $_jbzoo_profiler;
-
-    $time   = microtime(true);
-    $memory = memory_get_usage(false);
-
-    $_timeDiff   = $time - end($_jbzoo_profiler['times']);
-    $_memoryDiff = $memory - end($_jbzoo_profiler['memories']);
-
-    $_jbzoo_profiler['times'][]    = $time;
-    $_jbzoo_profiler['memories'][] = $memory;
-
-    // build report
-    $count = (int)abs($count);
-    if ($formated) {
-        $timeDiff = number_format($_timeDiff * 1000, 2, '.', ' ') . ' ms';
-        $timeOne  = number_format($_timeDiff * 1000 / $count, 2, '.', ' ') . ' ms';
-        $memoDiff = number_format($_memoryDiff / 1024, 2, '.', ' ') . ' KB';
-        $memoOne  = number_format($_memoryDiff / 1024 / $count, 2, '.', ' ') . ' KB';
-        $count    = number_format($count, 0, '', ' ');
-
-        $result = implode(';   ', array(
-            'TIME: ' . $timeDiff . '/' . $timeOne,
-            'MEMO: ' . $memoDiff . '/' . $memoOne,
-            'COUNT: ' . $count,
-        ));
-    } else {
-        $result = array(
-            'time-diff' => $_timeDiff,
-            'time-one'  => $_timeDiff / $count,
-            'memo-diff' => $_memoryDiff,
-            'memo-one'  => $_memoryDiff / $count,
-            'count'     => $count,
-        );
-    }
-
-    return $result;
+    return Sys::hasXdebug();
 }
 
 /**
@@ -238,18 +193,6 @@ function cmd($command, $args = array(), $cwd = null, $verbose = false)
     }
 
     return Cli::exec($command, $args, $cwd, $verbose);
-}
-
-/**
- * Asserts HTML tags.
- * @param mixed $expected
- * @param mixed $string
- * @return bool
- */
-function isHtml($expected, $string)
-{
-    $htmlChecker = new HtmlChecker();
-    return $htmlChecker->isHtml($expected, $string);
 }
 
 /**
