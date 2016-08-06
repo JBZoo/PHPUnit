@@ -54,10 +54,10 @@
     },
     "autoload"          : {
         "files" : [
-            "src/functions/global.php",
             "src/functions/defines.php",
             "src/functions/aliases.php",
-            "src/functions/tools.php"
+            "src/functions/tools.php",
+            "src/functions/global.php"
         ],
         "psr-4" : {
             "JBZoo\\PHPUnit\\" : "src"
