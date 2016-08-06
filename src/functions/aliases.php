@@ -466,11 +466,17 @@ function notSame($expected, $actual, $msg = null)
 /**
  * Normilize paths and compare them
  *
- * @param $expected
- * @param $actual
+ * @param string $expected
+ * @param string $actual
+ * @param string $message
+ * @throws Exception
  */
-function isSamePath($expected, $actual)
+function isSamePath($expected, $actual, $message = null)
 {
+    if (!class_exists('\JBZoo\Utils\Filter')) {
+        throw new Exception('jbzoo/utils required for isSamePath() function');
+    }
+
     $cleanFunc = function ($paths) {
         $return = array();
         $paths  = (array)$paths;
@@ -483,5 +489,5 @@ function isSamePath($expected, $actual)
     $expected = Filter::_($expected, $cleanFunc);
     $actual   = Filter::_($actual, $cleanFunc);
 
-    isSame($expected, $actual);
+    isSame($expected, $actual, $message);
 }

@@ -64,9 +64,18 @@ class CovCatcher
      * CovCatcher constructor.
      * @param string $testName
      * @param array  $options
+     * @throws Exception
      */
     public function __construct($testName = null, array $options = array())
     {
+        if (!class_exists('\JBZoo\Data\Data')) {
+            throw new Exception('jbzoo/data required for CovCatcher');
+        }
+
+        if (!class_exists('\JBZoo\Utils\Env')) {
+            throw new Exception('jbzoo/utils required for CovCatcher');
+        }
+
         $this->_initConfig($options);
 
         $this->_hash = $this->_getPrefix($testName)

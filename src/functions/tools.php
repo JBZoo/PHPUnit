@@ -51,11 +51,20 @@ function isWin()
  * @param mixed  $var
  * @param bool   $isDie
  * @param string $label
+ * @throws Exception
  *
  * @SuppressWarnings(PHPMD.ExitExpression)
  */
 function dump($var, $isDie = true, $label = '')
 {
+    if (!class_exists('\JBDump')) {
+        throw new Exception('jbzoo/jbdump required for dump() function');
+    }
+
+    if (!class_exists('\Symfony\Component\VarDumper\VarDumper')) {
+        throw new Exception('symfony/var-dumper required for dump() function');
+    }
+
     $isCliMode = defined('STDOUT');
 
     // get trace mesage
@@ -119,8 +128,12 @@ function dump($var, $isDie = true, $label = '')
 
     if ($isDie) {
         //@codeCoverageIgnoreStart
-        fwrite(STDOUT, 'Dump die!' . PHP_EOL);
-        exit(255);
+        if ($isCliMode) {
+            fwrite(STDOUT, 'Dump die!' . PHP_EOL);
+            exit(255);
+        } else {
+            die('Dump die!' . PHP_EOL);
+        }
         //@codeCoverageIgnoreEnd
     }
 }
@@ -312,9 +325,14 @@ function openFile($path)
  * @return array
  *
  * @deprecated
+ * @throws Exception
  */
 function runBench(array $tests, array $options = array())
 {
+    if (!class_exists('\JBZoo\Profiler\Benchmark')) {
+        throw new Exception('jbzoo/profiler required for runBench() function');
+    }
+
     return Benchmark::compare($tests, $options);
 }
 
@@ -324,9 +342,18 @@ function runBench(array $tests, array $options = array())
  * @param null   $cwd
  * @param bool   $verbose
  * @return string
+ * @throws Exception
  */
 function cmd($command, $args = array(), $cwd = null, $verbose = false)
 {
+    if (!class_exists('\JBZoo\Utils\Cli')) {
+        throw new Exception('jbzoo/utils required for cmd() function');
+    }
+
+    if (!class_exists('\Symfony\Component\Process\Process')) {
+        throw new Exception("symfony/process package required for cmd() function");
+    }
+
     return Cli::exec($command, $args, $cwd, $verbose);
 }
 
@@ -583,9 +610,14 @@ function _getRegexByTagStr($tags, $count)
  * @param string       $method
  * @param array        $options
  * @return Response
+ * @throws Exception
  */
 function httpRequest($url, $args = null, $method = 'GET', array $options = array())
 {
+    if (!class_exists('\JBZoo\HttpClient\HttpClient')) {
+        throw new Exception('jbzoo/http-client required for httpRequest() function');
+    }
+
     $httClient = new HttpClient();
     return $httClient->request($url, $args, $method, $options);
 }
