@@ -16,9 +16,6 @@
 namespace JBZoo\PHPUnit;
 
 use JBZoo\Profiler\Benchmark;
-use JBZoo\Utils\Arr;
-use JBZoo\Utils\FS;
-use JBZoo\Utils\Vars;
 
 /**
  * Class BenchmarkTest
@@ -42,79 +39,5 @@ class BenchmarkTest extends PHPUnit
                 return str_repeat(mt_rand(0, 9), 900000 * 16);
             },
         ), array('name' => 'runBench()'));
-    }
-
-    public function testFunctionWrapper()
-    {
-        $myTrim = function ($string) {
-            return trim($string);
-        };
-
-        $source = "\t" . '  trim ..   ' . "\t\n";
-        $obj    = $this;
-
-        Benchmark::compare(array(
-            'clean'           => function () use ($source) {
-                return trim($source);
-            },
-            '$obj->_myTrim()' => function () use ($source, $obj) {
-                return $obj->myTrim($source);
-            },
-            '$myTrim()'       => function () use ($source, $myTrim) {
-                return $myTrim($source);
-            },
-            'myTrim()'        => function () use ($source) {
-                return myTrim($source);
-            },
-            '..\myTrim()'     => function () use ($source) {
-                return \JBZoo\PHPUnit\myTrim($source);
-            },
-        ), array('name' => 'Function wrapper overhead', 'count' => 10000));
-    }
-
-    public function testFunctionOverhead()
-    {
-        Benchmark::compare(array(
-            'Clean'   => function () {
-                return pathinfo(__FILE__, PATHINFO_BASENAME);
-            },
-            'Wrapper' => function () {
-                return FS::base(__FILE__);
-            },
-        ), array('name' => 'Pathinfo overhead', 'count' => 10000));
-
-        Benchmark::compare(array(
-            'Vars::get' => function () {
-                return Vars::get($GLOBALS['somevar']);
-            },
-            'isset'     => function () {
-                return isset($GLOBALS['somevar']);
-            },
-        ), array('name' => 'Isset overhead', 'count' => 10000));
-
-
-        $randArr = array_fill(0, 100, null);
-
-        for ($i = 0; $i < 100; $i += 1) {
-            $randArr[$i] = mt_rand(0, 9);
-        }
-
-        Benchmark::compare(array(
-            'array_keys(+flip)' => function () use ($randArr) {
-                return Arr::unique($randArr, false);
-            },
-            'array_unique'      => function () use ($randArr) {
-                return Arr::unique($randArr, true);
-            },
-        ), array('name' => 'Isset overhead', 'count' => 1000));
-    }
-
-    /**
-     * @param $string
-     * @return string
-     */
-    public function myTrim($string)
-    {
-        return trim($string);
     }
 }
