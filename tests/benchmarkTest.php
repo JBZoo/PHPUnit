@@ -15,6 +15,7 @@
 
 namespace JBZoo\PHPUnit;
 
+use JBZoo\Profiler\Benchmark;
 use JBZoo\Utils\Arr;
 use JBZoo\Utils\FS;
 use JBZoo\Utils\Vars;
@@ -27,7 +28,7 @@ class BenchmarkTest extends PHPUnit
 {
     public function testBenchmarkMemory()
     {
-        runBench(array(
+        Benchmark::compare(array(
             'x1'  => function () {
                 return str_repeat(mt_rand(0, 9), 900000);
             },
@@ -52,7 +53,7 @@ class BenchmarkTest extends PHPUnit
         $source = "\t" . '  trim ..   ' . "\t\n";
         $obj    = $this;
 
-        runBench(array(
+        Benchmark::compare(array(
             'clean'           => function () use ($source) {
                 return trim($source);
             },
@@ -73,7 +74,7 @@ class BenchmarkTest extends PHPUnit
 
     public function testFunctionOverhead()
     {
-        runBench(array(
+        Benchmark::compare(array(
             'Clean'   => function () {
                 return pathinfo(__FILE__, PATHINFO_BASENAME);
             },
@@ -82,7 +83,7 @@ class BenchmarkTest extends PHPUnit
             },
         ), array('name' => 'Pathinfo overhead', 'count' => 10000));
 
-        runBench(array(
+        Benchmark::compare(array(
             'Vars::get' => function () {
                 return Vars::get($GLOBALS['somevar']);
             },
@@ -98,7 +99,7 @@ class BenchmarkTest extends PHPUnit
             $randArr[$i] = mt_rand(0, 9);
         }
 
-        runBench(array(
+        Benchmark::compare(array(
             'array_keys(+flip)' => function () use ($randArr) {
                 return Arr::unique($randArr, false);
             },

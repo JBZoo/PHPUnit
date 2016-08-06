@@ -446,41 +446,6 @@ function isHtmlNotContain($html, $selector, $expected, $msg = null)
     }
 }
 
-/**** Deprecated!******************************************************************************************************/
-
-/**
- * @param string $filePathOrig
- * @param string $filePathCopy
- * @param null   $msg
- * @deprecated Use isFileEq(), renamed
- */
-function fileEq($filePathOrig, $filePathCopy, $msg = null)
-{
-    getTestcase()->assertFileEquals($filePathOrig, $filePathCopy, $msg);
-}
-
-/**
- * @param $expected
- * @param $actual
- * @param $msg
- * @deprecated Use isSame(), renamed
- */
-function same($expected, $actual, $msg = null)
-{
-    getTestcase()->assertSame($expected, $actual, $msg);
-}
-
-/**
- * @param mixed $expected
- * @param mixed $actual
- * @param null  $msg
- * @deprecated Use isNotSame(), renamed
- */
-function notSame($expected, $actual, $msg = null)
-{
-    getTestcase()->assertNotSame($expected, $actual, $msg);
-}
-
 /**
  * Normilize paths and compare them
  *

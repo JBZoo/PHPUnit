@@ -30,7 +30,7 @@ abstract class Codestyle extends PHPUnit
     protected $_packageLicense = 'MIT';
     protected $_packageCopyright = 'Copyright (C) JBZoo.com,  All rights reserved.';
     protected $_packageLink = 'https://github.com/JBZoo/_PACKAGE_';
-    protected $_packageAuthor = ''; // Deprecated!
+    protected $_packageAuthor = '';
     protected $_packageDesc = array(
         'This file is part of the JBZoo CCK package.',
         'For the full copyright and license information, please view the LICENSE',

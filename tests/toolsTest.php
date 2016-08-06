@@ -40,21 +40,6 @@ class ToolsTest extends PHPUnit
         isSame($body->find('form.qwerty'), $uniq);
     }
 
-    public function testLoopProfiler()
-    {
-        startProfiler();
-
-        $max    = 100000;
-        $result = array();
-        for ($i = 0; $i < $max; $i++) {
-            $result[] = $i;
-        }
-
-        // just for coverage :)
-        loopProfiler($max, true);
-        loopProfiler($max, false);
-    }
-
     public function testXdebug()
     {
         isTrue(is_bool(isXDebug()));

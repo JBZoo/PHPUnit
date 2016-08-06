@@ -164,42 +164,11 @@ function cliError($message, $addEol = true)
 }
 
 /**
- * Show alert message
- * @param string $message
- * @param null   $label
- * @deprecated
- */
-function alert($message, $label = null)
-{
-    if (!is_string($message)) {
-        $message = print_r($message, true);
-    }
-
-    $message = PHP_EOL . ($label ? $label . ': ' : '') . $message;
-
-    cliError($message);
-}
-
-/**
  * @return bool
  */
 function isXdebug()
 {
     return extension_loaded('xdebug');
-}
-
-/**
- * Start profiler
- *
- * @SuppressWarnings(PHPMD.Superglobals)
- */
-function startProfiler()
-{
-    // cleanup and set first mark
-    $GLOBALS['_jbzoo_profiler'] = array(
-        'times'    => array(microtime(true)),
-        'memories' => array(memory_get_usage(false)),
-    );
 }
 
 /**
@@ -249,48 +218,6 @@ function loopProfiler($count = 1, $formated = true)
     return $result;
 }
 
-
-/**
- * Get file list in directory
- * @param       $dir
- * @param null  $filter
- * @param array $results
- * @return array
- *
- * @deprecated use symfony/finder
- */
-function getFileList($dir, $filter = null, &$results = array())
-{
-    global $_jbzoo_fileExcludes;
-
-    $files = scandir($dir);
-    foreach ($files as $value) {
-        $path = $dir . DIRECTORY_SEPARATOR . $value;
-
-        $path = realpath($path);
-
-        if (!in_array($value, $_jbzoo_fileExcludes, true)) {
-            if (is_dir($path)) {
-                return getFileList($path, $filter, $results);
-
-            } else {
-                if ($filter) {
-
-                    $regexp = '#' . $filter . '#u';
-                    if (preg_match($regexp, $path)) {
-                        $results[] = $path;
-                    }
-
-                } else {
-                    $results[] = $path;
-                }
-            }
-        }
-    }
-
-    return $results;
-}
-
 /**
  * Binary save to open file
  * @param $path
@@ -311,25 +238,6 @@ function openFile($path)
     }
 
     return $contents;
-}
-
-/**
- * @link http://www.php.net/manual/en/control-structures.declare.php#control-structures.declare.ticks
- *
- * @param array $tests
- * @param array $options
- * @return array
- *
- * @deprecated
- * @throws Exception
- */
-function runBench(array $tests, array $options = array())
-{
-    if (!class_exists('\JBZoo\Profiler\Benchmark')) {
-        throw new Exception('jbzoo/profiler required for runBench() function');
-    }
-
-    return Benchmark::compare($tests, $options);
 }
 
 /**
