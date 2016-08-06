@@ -83,6 +83,7 @@ function dump($var, $isDie = true, $label = '')
             fwrite(STDOUT, $dump);
 
         } else {
+            putenv("ANSICON=on"); // Add colored output
             VarDumper::dump($var);
         }
 
