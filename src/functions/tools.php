@@ -17,25 +17,8 @@ namespace JBZoo\PHPUnit;
 
 use JBZoo\HttpClient\HttpClient;
 use JBZoo\HttpClient\Response;
-use JBZoo\Profiler\Benchmark;
 use JBZoo\Utils\Cli;
 use Symfony\Component\VarDumper\VarDumper;
-
-// @codingStandardsIgnoreFile
-global $_jbzoo_profiler, $_jbzoo_fileExcludes; // Yes, this is not cool stuff...
-
-$_jbzoo_profiler     = array();
-$_jbzoo_fileExcludes = array(
-    '.',
-    '..',
-    '.git',
-    '.idea',
-    'logs',
-    'bin',
-    'build',
-    'vendor',
-    'resources',
-);
 
 /**
  * Check is current OS Windows
@@ -90,12 +73,10 @@ function dump($var, $isDie = true, $label = '')
             ob_end_clean();
 
             fwrite(STDOUT, $dump);
-
         } else {
             putenv("ANSICON=on"); // Add colored output
             VarDumper::dump($var);
         }
-
     } elseif (class_exists('\JBDump')) {
         $jbdump = \JBDump::i(array(
             'log'      => array(
@@ -118,7 +99,6 @@ function dump($var, $isDie = true, $label = '')
         if ($jbdump->isDebug()) {
             $jbdump->dump($var, $label, array('trace' => debug_backtrace()));
         }
-
     } else {
         echo $message . '<br/>';
         var_dump($var);
@@ -204,7 +184,6 @@ function loopProfiler($count = 1, $formated = true)
             'MEMO: ' . $memoDiff . '/' . $memoOne,
             'COUNT: ' . $count,
         ));
-
     } else {
         $result = array(
             'time-diff' => $_timeDiff,
@@ -409,11 +388,9 @@ function _checkArrayAttrs($attr, $val, array $explanations)
         $explanations[] = sprintf('Attribute "%s" present', $attr);
 
     } elseif (!empty($val) && preg_match('/^preg\:\/(.+)\/$/i', $val, $matches)) {
-        $val    = str_replace(array('.*', '.+'), array('.*?', '.+?'), $matches[1]);
-        $quotes = $val !== $matches[1] ? '["\']' : '["\']?';
-
+        $val            = str_replace(array('.*', '.+'), array('.*?', '.+?'), $matches[1]);
+        $quotes         = $val !== $matches[1] ? '["\']' : '["\']?';
         $explanations[] = sprintf('Attribute "%s" matches "%s"', $attr, $val);
-
     } else {
         $explanations[] = sprintf('Attribute "%s" == "%s"', $attr, $val);
         $val            = preg_quote($val, '/');
