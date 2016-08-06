@@ -16,8 +16,8 @@
 namespace JBZoo\PHPUnit;
 
 use JBZoo\Data\Data;
-use JBZoo\Utils\Env;
 use JBZoo\Utils\Str;
+use JBZoo\Utils\Sys;
 
 /**
  * Class CovCatcher
@@ -81,7 +81,7 @@ class CovCatcher
         $this->_hash = $this->_getPrefix($testName)
             . '_' . md5(serialize($this->_config->getArrayCopy()) . '|' . $testName);
 
-        if (Env::hasXdebug()) {
+        if (Sys::hasXdebug()) {
             $covFilter = new \PHP_CodeCoverage_Filter();
             $covFilter->addDirectoryToWhitelist($this->_config->get('src'));
             $this->_coverage = new \PHP_CodeCoverage(null, $covFilter);

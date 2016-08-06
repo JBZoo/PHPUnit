@@ -15,7 +15,7 @@
 
 namespace JBZoo\PHPUnit;
 
-use JBZoo\Utils\Env;
+use JBZoo\Utils\Sys;
 use JBZoo\Utils\FS;
 
 /**
@@ -56,7 +56,7 @@ class CovCatcherTest extends PHPUnit
 
         unset($catcher); // call destructor
 
-        if (Env::hasXdebug()) {
+        if (Sys::hasXdebug()) {
             isDir(PROJECT_BUILD . '/coverage_cov');
             isDir(PROJECT_BUILD . '/coverage_html');
             isDir(PROJECT_BUILD . '/coverage_xml');
