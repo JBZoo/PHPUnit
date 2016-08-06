@@ -30,6 +30,14 @@ class HttpServerTest extends PHPUnit
     {
         parent::setUp();
 
+        if (!class_exists('\JBZoo\Utils\Sys')) {
+            throw new Exception('jbzoo/utils required for HttpServer unit-tests');
+        }
+
+        if (!class_exists('\JBZoo\HttpClient\HttpClient')) {
+            throw new Exception('jbzoo/http-client required for HttpServer unit-tests');
+        }
+
         if (Sys::isPhp53() || Env::isHHVM()) {
             skip('PHP 5.3.x/7.0/hhvm doen\'t support built-in web-server');
         }
