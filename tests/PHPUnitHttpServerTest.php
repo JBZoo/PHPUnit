@@ -20,10 +20,10 @@ use JBZoo\Utils\FS;
 use JBZoo\Utils\Sys;
 
 /**
- * Class HttpServerTest
+ * Class PHPUnitHttpServerTest
  * @package JBZoo\PHPUnit
  */
-class HttpServerTest extends PHPUnit
+class PHPUnitHttpServerTest extends PHPUnit
 {
     protected function setUp()
     {

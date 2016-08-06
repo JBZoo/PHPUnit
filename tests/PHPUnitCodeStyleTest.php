@@ -15,24 +15,25 @@
 
 namespace JBZoo\PHPUnit;
 
-use JBZoo\Profiler\Benchmark;
-
 /**
- * Class BenchmarkTest
+ * Class PHPUnitCodeStyleTest
  * @package JBZoo\PHPUnit
  */
-class BenchmarkTest extends PHPUnit
+class PHPUnitCodeStyleTest extends Codestyle
 {
-    public function testBenchmarkMemory()
-    {
-        // Just try to execute it
-        Benchmark::compare(array(
-            'x1' => function () {
-                return str_repeat(mt_rand(0, 9), 900000);
-            },
-            'x2' => function () {
-                return str_repeat(mt_rand(0, 9), 900000 * 2);
-            },
-        ), array('name' => 'runBench()'));
-    }
+    protected $_packageName = "PHPUnit";
+    protected $_packageAuthor = "Denis Smetannikov <denis@jbzoo.com>";
+
+    /**
+     * Ignore list for
+     * @var array
+     */
+    protected $_excludePaths = array(
+        '.git',
+        '.idea',
+        'bin',
+        'build',
+        'logs',
+        'vendor',
+    );
 }

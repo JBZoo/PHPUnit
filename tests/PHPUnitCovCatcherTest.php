@@ -19,10 +19,10 @@ use JBZoo\Utils\Sys;
 use JBZoo\Utils\FS;
 
 /**
- * Class CovCatcherTest
+ * Class PHPUnitCovCatcherTest
  * @package JBZoo\PHPUnit
  */
-class CovCatcherTest extends PHPUnit
+class PHPUnitCovCatcherTest extends PHPUnit
 {
     protected function setUp()
     {

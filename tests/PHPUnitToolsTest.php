@@ -18,10 +18,10 @@ namespace JBZoo\PHPUnit;
 use JBZoo\Utils\Sys;
 
 /**
- * Class ToolsTest
+ * Class PHPUnitToolsTest
  * @package JBZoo\PHPUnit
  */
-class ToolsTest extends PHPUnit
+class PHPUnitToolsTest extends PHPUnit
 {
     public function testHttpRequest()
     {

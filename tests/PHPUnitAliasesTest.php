@@ -16,10 +16,10 @@
 namespace JBZoo\PHPUnit;
 
 /**
- * Class AliasesTest
+ * Class PHPUnitAliasesTest
  * @package JBZoo\PHPUnit
  */
-class AliasesTest extends PHPUnit
+class PHPUnitAliasesTest extends PHPUnit
 {
     public function testBoolean()
     {

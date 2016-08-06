@@ -16,16 +16,13 @@
 namespace JBZoo\PHPUnit;
 
 /**
- * Class AssertHtmlTest
+ * Class PHPUnitAssertHtmlTest
  * @package JBZoo\PHPUnit
  */
-class AssertHtmlTest extends PHPUnit
+class PHPUnitAssertHtmlTest extends PHPUnit
 {
-
     /**
      * Test that assertHtml knows how to handle correct quoting.
-     *
-     * @return void
      */
     public function testAssertHtmlQuotes()
     {
