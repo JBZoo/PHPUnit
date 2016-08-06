@@ -14,6 +14,7 @@
 
 use JBZoo\PHPUnit\CovCatcher;
 use JBZoo\Utils\Env;
+use JBZoo\Utils\Filter;
 use JBZoo\Utils\Sys;
 use Ulrichsg\Getopt\Getopt;
 
@@ -37,6 +38,7 @@ if (PHP_SAPI == 'cli-server') {
     }
 }
 
+// Try to find and load composer
 $vendorPaths = array(
     realpath(__DIR__ . '/vendor/autoload.php'),
     realpath(__DIR__ . '/../vendor/autoload.php'),
@@ -54,6 +56,7 @@ foreach ($vendorPaths as $vendorPath) {
     }
 }
 
+// Parse additional arguments
 $cliOptions = new Getopt(array(
     array(null, 'index', Getopt::OPTIONAL_ARGUMENT),
     array(null, 'cov-src', Getopt::OPTIONAL_ARGUMENT),
@@ -75,9 +78,9 @@ if (class_exists('\JBZoo\PHPUnit\CovCatcher') && !(Sys::isPhp7() && Env::hasXdeb
 
     $catcher = new CovCatcher($hash, array(
         'src'  => $cliOptions->getOption('cov-src'),
-        'xml'  => $cliOptions->getOption('cov-xml'),
-        'cov'  => $cliOptions->getOption('cov-cov'),
-        'html' => $cliOptions->getOption('cov-html'),
+        'xml'  => Filter::bool($cliOptions->getOption('cov-xml')),
+        'cov'  => Filter::bool($cliOptions->getOption('cov-cov')),
+        'html' => Filter::bool($cliOptions->getOption('cov-html')),
     ));
 
     $result = $catcher->includeFile($realIndex);
