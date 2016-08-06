@@ -25,18 +25,13 @@ class BenchmarkTest extends PHPUnit
 {
     public function testBenchmarkMemory()
     {
+        // Just try to execute it
         Benchmark::compare(array(
-            'x1'  => function () {
+            'x1' => function () {
                 return str_repeat(mt_rand(0, 9), 900000);
             },
-            'x2'  => function () {
+            'x2' => function () {
                 return str_repeat(mt_rand(0, 9), 900000 * 2);
-            },
-            'x3'  => function () {
-                return str_repeat(mt_rand(0, 9), 900000 * 3);
-            },
-            'x16' => function () {
-                return str_repeat(mt_rand(0, 9), 900000 * 16);
             },
         ), array('name' => 'runBench()'));
     }
