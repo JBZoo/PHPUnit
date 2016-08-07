@@ -17,19 +17,22 @@ use JBZoo\Utils\Env;
 use JBZoo\Utils\Sys;
 use Ulrichsg\Getopt\Getopt;
 
-$_SERVER['SCRIPT_NAME'] = '/index.php'; // #FUCK!!! https://bugs.php.net/bug.php?id=61286
+// $_SERVER['SCRIPT_NAME'] = '/index.php'; // #FUCK!!! https://bugs.php.net/bug.php?id=61286
 
 // To help the built-in PHP dev server, check if the request was actually for
 // something which should probably be served as a static file
 if (PHP_SAPI == 'cli-server') {
     $url  = parse_url($_SERVER['REQUEST_URI']);
-    $file = realpath($_SERVER['DOCUMENT_ROOT'] . $url['path']);
+    $path = realpath($_SERVER['DOCUMENT_ROOT'] . $url['path']);
 
-    if (is_file($file)) {
-        if (pathinfo($file, PATHINFO_EXTENSION) !== 'php') {
+    if (is_dir($path)) {
+        $realIndex = $path . '/index.php';
+
+    } elseif (is_file($path)) {
+        if (pathinfo($path, PATHINFO_EXTENSION) !== 'php') {
             return false;
         }
-        $realIndex = $file;
+        $realIndex = $path;
     }
 }
 

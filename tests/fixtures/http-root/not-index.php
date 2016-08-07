@@ -15,4 +15,4 @@
 
 include __DIR__ . './func.php';
 
-echo 'index: ' . showTestMessage();
+echo 'not-index: ' . showTestMessage();

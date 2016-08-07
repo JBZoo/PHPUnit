@@ -13,4 +13,11 @@
  * @author    Denis Smetannikov <denis@jbzoo.com>
  */
 
-require_once __DIR__ . '/../index.php';
+/**
+ * Show message
+ * @return string
+ */
+function showTestMessage()
+{
+    return isset($_GET['test']) ? $_GET['test'] : 'undefined!';
+}

@@ -13,6 +13,6 @@
  * @author    Denis Smetannikov <denis@jbzoo.com>
  */
 
-include __DIR__ . './func.php';
+include __DIR__ . '/../func.php';
 
-echo 'index: ' . showTestMessage();
+echo 'folder/index: ' . showTestMessage();
