@@ -102,7 +102,7 @@ class HttpServerTest extends PHPUnit
         isContain('text/html', $result->getHeader('content-type'));
         isSame('index: undefined!', $result->getBody());
 
-        $result = httpRequest('http://localhost:8888', ['test' => $uniq]);
+        $result = httpRequest('http://localhost:8888', array('test' => $uniq));
         isSame(200, $result->getCode());
         isContain('text/html', $result->getHeader('content-type'));
         isSame('index: ' . $uniq, $result->getBody());
@@ -112,7 +112,7 @@ class HttpServerTest extends PHPUnit
         isContain('text/html', $result->getHeader('content-type'));
         isSame('index: undefined!', $result->getBody());
 
-        $result = httpRequest('http://localhost:8888/index.php', ['test' => $uniq]);
+        $result = httpRequest('http://localhost:8888/index.php', array('test' => $uniq));
         isSame(200, $result->getCode());
         isContain('text/html', $result->getHeader('content-type'));
         isSame('index: ' . $uniq, $result->getBody());
