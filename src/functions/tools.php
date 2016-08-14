@@ -277,46 +277,6 @@ function loopProfiler($count = 1, $formated = true)
 
 
 /**
- * Get file list in directory
- * @param       $dir
- * @param null  $filter
- * @param array $results
- * @return array
- *
- * @deprecated use symfony/finder
- */
-function getFileList($dir, $filter = null, &$results = array())
-{
-    global $_jbzoo_fileExcludes;
-
-    $files = scandir($dir);
-    foreach ($files as $value) {
-        $path = $dir . DIRECTORY_SEPARATOR . $value;
-
-        $path = realpath($path);
-
-        if (!in_array($value, $_jbzoo_fileExcludes, true)) {
-            if (is_dir($path)) {
-                return getFileList($path, $filter, $results);
-
-            } else {
-                if ($filter) {
-                    $regexp = '#' . $filter . '#u';
-                    if (preg_match($regexp, $path)) {
-                        $results[] = $path;
-                    }
-
-                } else {
-                    $results[] = $path;
-                }
-            }
-        }
-    }
-
-    return $results;
-}
-
-/**
  * Binary save to open file
  * @param $path
  * @return null|string

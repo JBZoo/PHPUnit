@@ -108,10 +108,6 @@ class AliasesTest extends PHPUnit
 
         isNotDir(__FILE__);
         isNotDir(__DIR__ . '/qwerty');
-
-        isCount(1, getFileList(__DIR__, 'aliases'));
-        isCount(0, getFileList(__DIR__, '\.qwerty$'));
-        isCount(1, getFileList(__DIR__ . '/..', '\.travis'));
     }
 
     public function testSkip()
