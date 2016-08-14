@@ -225,8 +225,6 @@ abstract class Codestyle extends PHPUnit
 
     /**
      * @throws \Exception
-     *
-     * @SuppressWarnings(PHPMD.Superglobals)
      */
     public function setUp()
     {

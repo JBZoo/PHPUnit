@@ -21,21 +21,47 @@ use JBZoo\Profiler\Benchmark;
 use JBZoo\Utils\Cli;
 use Symfony\Component\VarDumper\VarDumper;
 
-// @codingStandardsIgnoreFile
-global $_jbzoo_profiler, $_jbzoo_fileExcludes; // Yes, this is not cool stuff...
+/**
+ * @return PHPUnit|null
+ */
+function getTestCase()
+{
+    $objects = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT);
 
-$_jbzoo_profiler     = array();
-$_jbzoo_fileExcludes = array(
-    '.',
-    '..',
-    '.git',
-    '.idea',
-    'logs',
-    'bin',
-    'build',
-    'vendor',
-    'resources',
-);
+    $result = null;
+    foreach ($objects as $object) {
+        if (isset($object['object']) && $object['object'] instanceof \PHPUnit_Framework_TestCase) {
+            $result = $object['object'];
+            break;
+        }
+    }
+
+    return $result;
+}
+
+/**
+ * @param bool $withNamespace
+ * @return null|string
+ */
+function getTestName($withNamespace = false)
+{
+    $objects = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT);
+
+    $result = null;
+    foreach ($objects as $object) {
+        if (isset($object['object']) && $object['object'] instanceof \PHPUnit_Framework_TestCase) {
+            $result = get_class($object['object']) . '::' . $object['function'];
+
+            if (!$withNamespace) {
+                $result = str_replace(__NAMESPACE__ . '\\', '', $result);
+            }
+
+            break;
+        }
+    }
+
+    return $result;
+}
 
 /**
  * Check is current OS Windows
@@ -275,7 +301,6 @@ function getFileList($dir, $filter = null, &$results = array())
 
             } else {
                 if ($filter) {
-
                     $regexp = '#' . $filter . '#u';
                     if (preg_match($regexp, $path)) {
                         $results[] = $path;

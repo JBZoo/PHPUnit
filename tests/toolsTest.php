@@ -118,4 +118,16 @@ class ToolsTest extends PHPUnit
     {
         //cliError('Some error message');
     }
+
+    public function testGetTestName()
+    {
+        isSame(__METHOD__, getTestName(true));
+        isContain(__FUNCTION__, getTestName(false));
+        isContain('ToolsTest::testGetTestName', getTestName());
+    }
+
+    public function testGetTestCase()
+    {
+        isSame($this, getTestCase());
+    }
 }
