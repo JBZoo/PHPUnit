@@ -15,8 +15,6 @@
 
 namespace JBZoo\PHPUnit;
 
-use JBZoo\HttpClient\Response;
-use JBZoo\Utils\Env;
 use JBZoo\Utils\FS;
 use JBZoo\Utils\Sys;
 
@@ -38,7 +36,7 @@ class HttpServerTest extends PHPUnit
             throw new Exception('jbzoo/http-client required for HttpServer unit-tests');
         }
 
-        if (Sys::isPhp53() || Env::isHHVM()) {
+        if (Sys::isPHP53() || Sys::isHHVM()) {
             skip('PHP 5.3.x/7.0/hhvm doen\'t support built-in web-server');
         }
 
@@ -51,14 +49,12 @@ class HttpServerTest extends PHPUnit
     {
         $uniq = uniqid();
 
-        $result = $this->_httpRequest('http://localhost:8888/', array(
-            'test' => $uniq
-        ));
+        $result = httpRequest('http://localhost:8888/', array('test' => $uniq));
 
-        isSame($uniq, $result->getBody());
+        isSame('index: ' . $uniq, $result->getBody());
         isSame(200, $result->getCode());
 
-        if (Env::hasXdebug() && !Sys::isPhp7()) {
+        if (Sys::hasXdebug() && !Sys::isPHP7()) {
             isDir(PROJECT_BUILD . '/coverage_cov');
             isDir(PROJECT_BUILD . '/coverage_html');
             isDir(PROJECT_BUILD . '/coverage_xml');
@@ -69,56 +65,107 @@ class HttpServerTest extends PHPUnit
     {
         $uniq = uniqid();
 
-        $result = $this->_httpRequest('http://localhost:8888/index.php', array(
-            'test' => $uniq
-        ));
+        $result = httpRequest('http://localhost:8888', array('test' => $uniq));
 
-        isSame($uniq, $result->getBody());
+        isSame('index: ' . $uniq, $result->getBody());
         isSame(200, $result->getCode());
 
-        if (Env::hasXdebug() && !Sys::isPhp7()) {
+        if (Sys::hasXdebug() && !Sys::isPHP7()) {
             isDir(PROJECT_BUILD . '/coverage_cov');
             isDir(PROJECT_BUILD . '/coverage_html');
             isDir(PROJECT_BUILD . '/coverage_xml');
         }
+    }
+
+    public function testNestedIndexCoverage()
+    {
+        $uniq = uniqid();
+
+        $result = httpRequest('http://localhost:8888/folder/not-index.php', array('test' => $uniq));
+
+        isSame('folder/not-index: ' . $uniq, $result->getBody());
+        isSame(200, $result->getCode());
+
+        if (Sys::hasXdebug() && !Sys::isPHP7()) {
+            isDir(PROJECT_BUILD . '/coverage_cov');
+            isDir(PROJECT_BUILD . '/coverage_html');
+            isDir(PROJECT_BUILD . '/coverage_xml');
+        }
+    }
+
+    public function testIndex()
+    {
+        $uniq = uniqid();
+
+        $result = httpRequest('http://localhost:8888');
+        isSame(200, $result->getCode());
+        isContain('text/html', $result->getHeader('content-type'));
+        isSame('index: undefined!', $result->getBody());
+
+        $result = httpRequest('http://localhost:8888', array('test' => $uniq));
+        isSame(200, $result->getCode());
+        isContain('text/html', $result->getHeader('content-type'));
+        isSame('index: ' . $uniq, $result->getBody());
+
+        $result = httpRequest('http://localhost:8888/index.php');
+        isSame(200, $result->getCode());
+        isContain('text/html', $result->getHeader('content-type'));
+        isSame('index: undefined!', $result->getBody());
+
+        $result = httpRequest('http://localhost:8888/index.php', array('test' => $uniq));
+        isSame(200, $result->getCode());
+        isContain('text/html', $result->getHeader('content-type'));
+        isSame('index: ' . $uniq, $result->getBody());
+    }
+
+    public function testIndexStatic()
+    {
+        $result = httpRequest('http://localhost:8888/file.txt');
+        isSame(200, $result->getCode());
+        isContain('text/plain', $result->getHeader('content-type'));
+        isSame('static file', $result->getBody());
+
+        $result = httpRequest('http://localhost:8888/file.txt', array('key' => 'value'));
+        isSame(200, $result->getCode());
+        isContain('text/plain', $result->getHeader('content-type'));
+        isSame('static file', $result->getBody());
     }
 
     public function testNestedIndex()
     {
         $uniq = uniqid();
 
-        $result = $this->_httpRequest('http://localhost:8888/folder/index-second.php', array(
-            'test' => $uniq
-        ));
-
-        isSame($uniq, $result->getBody());
+        $result = httpRequest('http://localhost:8888/folder');
         isSame(200, $result->getCode());
+        isContain('text/html', $result->getHeader('content-type'));
+        isSame('folder/index: undefined!', $result->getBody());
 
-        if (Env::hasXdebug() && !Sys::isPhp7()) {
-            isDir(PROJECT_BUILD . '/coverage_cov');
-            isDir(PROJECT_BUILD . '/coverage_html');
-            isDir(PROJECT_BUILD . '/coverage_xml');
-        }
+        $result = httpRequest('http://localhost:8888/folder', array('test' => $uniq));
+        isSame(200, $result->getCode());
+        isContain('text/html', $result->getHeader('content-type'));
+        isSame('folder/index: ' . $uniq, $result->getBody());
+
+        $result = httpRequest('http://localhost:8888/folder/index.php');
+        isSame(200, $result->getCode());
+        isContain('text/html', $result->getHeader('content-type'));
+        isSame('folder/index: undefined!', $result->getBody());
+
+        $result = httpRequest('http://localhost:8888/folder/index.php', array('test' => $uniq));
+        isSame(200, $result->getCode());
+        isContain('text/html', $result->getHeader('content-type'));
+        isSame('folder/index: ' . $uniq, $result->getBody());
     }
 
-    public function testAssets()
+    public function testNestedStatic()
     {
-        $result = $this->_httpRequest('http://localhost:8888/robots.txt');
+        $result = httpRequest('http://localhost:8888/folder/file.txt');
         isSame(200, $result->getCode());
-        isContain('User-agent: *', $result->getBody());
+        isContain('text/plain', $result->getHeader('content-type'));
+        isSame('static folder/file', $result->getBody());
 
-        $result = $this->_httpRequest('http://localhost:8888/robots.txt', array('test' => '123456'));
+        $result = httpRequest('http://localhost:8888/folder/file.txt', array('key' => 'value'));
         isSame(200, $result->getCode());
-        isContain('User-agent: *', $result->getBody());
-    }
-
-    /**
-     * @param string $url
-     * @param array  $args
-     * @return Response
-     */
-    protected function _httpRequest($url, $args = array())
-    {
-        return httpRequest($url, $args);
+        isContain('text/plain', $result->getHeader('content-type'));
+        isSame('static folder/file', $result->getBody());
     }
 }

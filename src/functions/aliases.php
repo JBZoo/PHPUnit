@@ -20,24 +20,6 @@ use JBZoo\Utils\Filter;
 use JBZoo\Utils\FS;
 use Symfony\Component\DomCrawler\Crawler;
 
-/**
- * @return PHPUnit|null
- */
-function getTestcase()
-{
-    $objects = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT);
-
-    foreach ($objects as $object) {
-        if (isset($object['object']) && $object['object'] instanceof \PHPUnit_Framework_TestCase) {
-            return $object['object'];
-        }
-    }
-
-    //@codeCoverageIgnoreStart
-    return null;
-    //@codeCoverageIgnoreEnd
-}
-
 /**** Controls ********************************************************************************************************/
 //@codeCoverageIgnoreStart
 
@@ -47,7 +29,7 @@ function getTestcase()
  */
 function skip($msg = null)
 {
-    getTestcase()->markTestSkipped($msg);
+    getTestCase()->markTestSkipped($msg);
 }
 
 /**
@@ -56,7 +38,7 @@ function skip($msg = null)
  */
 function incomplete($msg = null)
 {
-    getTestcase()->markTestIncomplete($msg);
+    getTestCase()->markTestIncomplete($msg);
 }
 
 /**
@@ -66,7 +48,7 @@ function incomplete($msg = null)
 //@codeCoverageIgnoreStart
 function fail($msg = null)
 {
-    getTestcase()->fail($msg);
+    getTestCase()->fail($msg);
 }
 
 /**
@@ -76,7 +58,7 @@ function fail($msg = null)
 function success($msg = null)
 {
     /** @noinspection PhpMethodParametersCountMismatchInspection */
-    getTestcase()->isTrue(true, $msg);
+    getTestCase()->isTrue(true, $msg);
 }
 
 //@codeCoverageIgnoreEnd
@@ -92,7 +74,7 @@ function success($msg = null)
  */
 function is($expected, $actual, $msg = null)
 {
-    getTestcase()->assertEquals($expected, $actual, $msg);
+    getTestCase()->assertEquals($expected, $actual, $msg);
     return $expected === $actual;
 }
 
@@ -104,7 +86,7 @@ function is($expected, $actual, $msg = null)
  */
 function isNot($expected, $actual, $msg = null)
 {
-    getTestcase()->assertNotEquals($expected, $actual, $msg);
+    getTestCase()->assertNotEquals($expected, $actual, $msg);
     return $expected === $actual;
 }
 
@@ -115,7 +97,7 @@ function isNot($expected, $actual, $msg = null)
  */
 function isBatch($testList, $msg = null)
 {
-    $test = getTestcase();
+    $test = getTestCase();
 
     foreach ($testList as $testItem) {
         $test->assertEquals($testItem[0], $testItem[1], $msg);
@@ -129,7 +111,7 @@ function isBatch($testList, $msg = null)
  */
 function isTrue($value, $msg = null)
 {
-    getTestcase()->assertTrue($value ? true : false, $msg);
+    getTestCase()->assertTrue($value ? true : false, $msg);
     return $value ? true : false;
 }
 
@@ -140,7 +122,7 @@ function isTrue($value, $msg = null)
  */
 function isFalse($value, $msg = null)
 {
-    getTestcase()->assertFalse($value ? true : false, $msg);
+    getTestCase()->assertFalse($value ? true : false, $msg);
     return $value ? true : false;
 }
 
@@ -152,7 +134,7 @@ function isFalse($value, $msg = null)
  */
 function isClass($expected, $className, $msg = null)
 {
-    getTestcase()->assertInstanceOf($expected, $className, $msg);
+    getTestCase()->assertInstanceOf($expected, $className, $msg);
 }
 
 /**
@@ -162,7 +144,7 @@ function isClass($expected, $className, $msg = null)
  */
 function isCount($expected, $actual, $msg = null)
 {
-    getTestcase()->assertCount($expected, $actual, $msg);
+    getTestCase()->assertCount($expected, $actual, $msg);
 }
 
 
@@ -173,7 +155,7 @@ function isCount($expected, $actual, $msg = null)
  */
 function isLike($pattern, $value, $msg = null)
 {
-    getTestcase()->assertRegExp($pattern, $value, $msg);
+    getTestCase()->assertRegExp($pattern, $value, $msg);
 }
 
 /**
@@ -183,7 +165,7 @@ function isLike($pattern, $value, $msg = null)
  */
 function isNotLike($pattern, $value, $msg = null)
 {
-    getTestcase()->assertNotRegExp($pattern, $value, $msg);
+    getTestCase()->assertNotRegExp($pattern, $value, $msg);
 }
 
 /**
@@ -194,7 +176,7 @@ function isNotLike($pattern, $value, $msg = null)
  */
 function isFileEq($filePathOrig, $filePathCopy, $msg = null)
 {
-    getTestcase()->assertFileEquals($filePathOrig, $filePathCopy, $msg);
+    getTestCase()->assertFileEquals($filePathOrig, $filePathCopy, $msg);
 }
 
 /**
@@ -204,7 +186,7 @@ function isFileEq($filePathOrig, $filePathCopy, $msg = null)
  */
 function isSame($expected, $actual, $msg = null)
 {
-    getTestcase()->assertSame($expected, $actual, $msg);
+    getTestCase()->assertSame($expected, $actual, $msg);
 }
 
 /**
@@ -214,7 +196,7 @@ function isSame($expected, $actual, $msg = null)
  */
 function isNotSame($expected, $actual, $msg = null)
 {
-    getTestcase()->assertNotSame($expected, $actual, $msg);
+    getTestCase()->assertNotSame($expected, $actual, $msg);
 }
 
 /**
@@ -222,7 +204,7 @@ function isNotSame($expected, $actual, $msg = null)
  */
 function isNull($expected)
 {
-    getTestcase()->assertNull($expected);
+    getTestCase()->assertNull($expected);
 }
 
 /**
@@ -230,7 +212,7 @@ function isNull($expected)
  */
 function isNotNull($expected)
 {
-    getTestcase()->assertNotNull($expected);
+    getTestCase()->assertNotNull($expected);
 }
 
 /**
@@ -239,7 +221,7 @@ function isNotNull($expected)
  */
 function isEmpty($expected, $msg = null)
 {
-    getTestcase()->assertEmpty($expected, $msg);
+    getTestCase()->assertEmpty($expected, $msg);
 }
 
 /**
@@ -248,7 +230,7 @@ function isEmpty($expected, $msg = null)
  */
 function isNotEmpty($expected, $msg = null)
 {
-    getTestcase()->assertNotEmpty($expected, $msg);
+    getTestCase()->assertNotEmpty($expected, $msg);
 }
 
 /**
@@ -258,7 +240,7 @@ function isNotEmpty($expected, $msg = null)
  */
 function isKey($key, $array, $msg = null)
 {
-    getTestcase()->assertArrayHasKey($key, $array, $msg);
+    getTestCase()->assertArrayHasKey($key, $array, $msg);
 }
 
 /**
@@ -268,7 +250,7 @@ function isKey($key, $array, $msg = null)
  */
 function isNotKey($key, $array, $msg = null)
 {
-    getTestcase()->assertArrayNotHasKey($key, $array, $msg);
+    getTestCase()->assertArrayNotHasKey($key, $array, $msg);
 }
 
 /**
@@ -278,7 +260,7 @@ function isNotKey($key, $array, $msg = null)
  */
 function isAttr($attrName, $object)
 {
-    $test = getTestcase();
+    $test = getTestCase();
     $test->assertNotNull($object, 'object ' . get_class($object) . ' is not empty');
     $test->assertObjectHasAttribute($attrName, $object);
 }
@@ -290,7 +272,7 @@ function isAttr($attrName, $object)
  */
 function isNotAttr($attrName, $object)
 {
-    $test = getTestcase();
+    $test = getTestCase();
     $test->assertNotNull($object, 'object ' . get_class($object) . ' is not empty');
     $test->assertObjectNotHasAttribute($attrName, $object);
 }
@@ -301,7 +283,7 @@ function isNotAttr($attrName, $object)
  */
 function isDir($path, $msg = null)
 {
-    $test = getTestcase();
+    $test = getTestCase();
     $test->assertFileExists($path, $msg);
     $test->assertTrue(is_dir($path));
 }
@@ -327,7 +309,7 @@ function isNotDir($path, $msg = null)
  */
 function isFile($path, $msg = null)
 {
-    getTestcase()->assertFileExists($path, $msg);
+    getTestCase()->assertFileExists($path, $msg);
 }
 
 /**
@@ -336,7 +318,7 @@ function isFile($path, $msg = null)
  */
 function isNotFile($path, $msg = null)
 {
-    $test = getTestcase();
+    $test = getTestCase();
     if (!is_dir($path)) {
         $test->assertFileNotExists($path, $msg);
     } else {
@@ -354,7 +336,7 @@ function isNotFile($path, $msg = null)
 /** @noinspection MoreThanThreeArgumentsInspection */
 function isContain($expected, $value, $ignoreCase = false, $msg = null)
 {
-    getTestcase()->assertContains($expected, $value, $msg, $ignoreCase);
+    getTestCase()->assertContains($expected, $value, $msg, $ignoreCase);
 }
 
 /**
@@ -365,7 +347,7 @@ function isContain($expected, $value, $ignoreCase = false, $msg = null)
  */
 function isNotContain($expected, $value, $ignoreCase = false, $msg = null)
 {
-    getTestcase()->assertNotContains($expected, $value, $msg, $ignoreCase);
+    getTestCase()->assertNotContains($expected, $value, $msg, $ignoreCase);
 }
 
 /**
@@ -456,7 +438,7 @@ function isHtmlNotContain($html, $selector, $expected, $msg = null)
  */
 function fileEq($filePathOrig, $filePathCopy, $msg = null)
 {
-    getTestcase()->assertFileEquals($filePathOrig, $filePathCopy, $msg);
+    getTestCase()->assertFileEquals($filePathOrig, $filePathCopy, $msg);
 }
 
 /**
@@ -467,7 +449,7 @@ function fileEq($filePathOrig, $filePathCopy, $msg = null)
  */
 function same($expected, $actual, $msg = null)
 {
-    getTestcase()->assertSame($expected, $actual, $msg);
+    getTestCase()->assertSame($expected, $actual, $msg);
 }
 
 /**
@@ -478,7 +460,7 @@ function same($expected, $actual, $msg = null)
  */
 function notSame($expected, $actual, $msg = null)
 {
-    getTestcase()->assertNotSame($expected, $actual, $msg);
+    getTestCase()->assertNotSame($expected, $actual, $msg);
 }
 
 /**

@@ -21,21 +21,47 @@ use JBZoo\Profiler\Benchmark;
 use JBZoo\Utils\Cli;
 use Symfony\Component\VarDumper\VarDumper;
 
-// @codingStandardsIgnoreFile
-global $_jbzoo_profiler, $_jbzoo_fileExcludes; // Yes, this is not cool stuff...
+/**
+ * @return PHPUnit|null
+ */
+function getTestCase()
+{
+    $objects = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT);
 
-$_jbzoo_profiler     = array();
-$_jbzoo_fileExcludes = array(
-    '.',
-    '..',
-    '.git',
-    '.idea',
-    'logs',
-    'bin',
-    'build',
-    'vendor',
-    'resources',
-);
+    $result = null;
+    foreach ($objects as $object) {
+        if (isset($object['object']) && $object['object'] instanceof \PHPUnit_Framework_TestCase) {
+            $result = $object['object'];
+            break;
+        }
+    }
+
+    return $result;
+}
+
+/**
+ * @param bool $withNamespace
+ * @return null|string
+ */
+function getTestName($withNamespace = false)
+{
+    $objects = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT);
+
+    $result = null;
+    foreach ($objects as $object) {
+        if (isset($object['object']) && $object['object'] instanceof \PHPUnit_Framework_TestCase) {
+            $result = get_class($object['object']) . '::' . $object['function'];
+
+            if (!$withNamespace) {
+                $result = str_replace(__NAMESPACE__ . '\\', '', $result);
+            }
+
+            break;
+        }
+    }
+
+    return $result;
+}
 
 /**
  * Check is current OS Windows
@@ -249,47 +275,6 @@ function loopProfiler($count = 1, $formated = true)
     return $result;
 }
 
-
-/**
- * Get file list in directory
- * @param       $dir
- * @param null  $filter
- * @param array $results
- * @return array
- *
- * @deprecated use symfony/finder
- */
-function getFileList($dir, $filter = null, &$results = array())
-{
-    global $_jbzoo_fileExcludes;
-
-    $files = scandir($dir);
-    foreach ($files as $value) {
-        $path = $dir . DIRECTORY_SEPARATOR . $value;
-
-        $path = realpath($path);
-
-        if (!in_array($value, $_jbzoo_fileExcludes, true)) {
-            if (is_dir($path)) {
-                return getFileList($path, $filter, $results);
-
-            } else {
-                if ($filter) {
-
-                    $regexp = '#' . $filter . '#u';
-                    if (preg_match($regexp, $path)) {
-                        $results[] = $path;
-                    }
-
-                } else {
-                    $results[] = $path;
-                }
-            }
-        }
-    }
-
-    return $results;
-}
 
 /**
  * Binary save to open file
