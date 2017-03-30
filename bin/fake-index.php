@@ -69,7 +69,7 @@ $cliOptions->parse(getenv('PHPUNINT_ARGUMENTS'));
 
 $realIndex = isset($realIndex) ? $realIndex : realpath($cliOptions->getOption('index'));
 
-if (class_exists('\JBZoo\PHPUnit\CovCatcher') && !(Sys::isPhp7() && Env::hasXdebug())) {
+if (class_exists('\JBZoo\PHPUnit\CovCatcher') && !(Sys::isPHP7() && Sys::hasXdebug())) {
     $hash = md5(implode('||', array(
         serialize($_REQUEST),
         serialize($_SERVER),
