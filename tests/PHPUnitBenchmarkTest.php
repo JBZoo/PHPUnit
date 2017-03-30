@@ -34,5 +34,7 @@ class PHPUnitBenchmarkTest extends PHPUnit
                 return str_repeat(mt_rand(0, 9), 900000 * 2);
             },
         ), array('name' => 'runBench()'));
+
+        isTrue(true);
     }
 }

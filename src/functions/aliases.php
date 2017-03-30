@@ -18,6 +18,7 @@ namespace JBZoo\PHPUnit;
 /** @noinspection PhpUndefinedClassInspection */
 use JBZoo\Utils\Filter;
 use JBZoo\Utils\FS;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DomCrawler\Crawler;
 
 /**
@@ -28,7 +29,7 @@ function getTestcase()
     $objects = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT);
 
     foreach ($objects as $object) {
-        if (isset($object['object']) && $object['object'] instanceof \PHPUnit_Framework_TestCase) {
+        if (isset($object['object']) && $object['object'] instanceof TestCase) {
             return $object['object'];
         }
     }

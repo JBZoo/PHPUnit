@@ -15,11 +15,13 @@
 
 namespace JBZoo\PHPUnit;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Class PHPUnit
  * @package JBZoo\PHPUnit
  */
-abstract class PHPUnit extends \PHPUnit_Framework_TestCase
+abstract class PHPUnit extends TestCase
 {
 
 }

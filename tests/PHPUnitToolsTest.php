@@ -56,10 +56,6 @@ class PHPUnitToolsTest extends PHPUnit
             throw new Exception('jbzoo/utils required for Tools unit-tests');
         }
 
-        if (Sys::isPHP53() || Sys::isPHP7() || Sys::isHHVM()) {
-            skip('PHP 5.3.x/7.0/hhvm doen\'t support built-in web-server');
-        }
-
         $uniq   = uniqid();
         $result = httpRequest('http://localhost:8889/', array(
             'test'     => 'jbdump',
@@ -95,6 +91,7 @@ class PHPUnitToolsTest extends PHPUnit
 
     public function testCliError()
     {
-        //cliError('Some error message');
+        skip();
+        cliError('Some error message');
     }
 }

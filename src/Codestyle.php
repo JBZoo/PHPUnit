@@ -549,6 +549,8 @@ abstract class Codestyle extends PHPUnit
                 success();
             }
         }
+
+        isTrue(true);
     }
 
     /**
