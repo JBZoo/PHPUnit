@@ -6,11 +6,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package   PHPUnit
- * @license   MIT
- * @copyright Copyright (C) JBZoo.com,  All rights reserved.
- * @link      https://github.com/JBZoo/PHPUnit
- * @author    Denis Smetannikov <denis@jbzoo.com>
+ * @package    PHPUnit
+ * @license    MIT
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/PHPUnit
+ * @author     Denis Smetannikov <denis@jbzoo.com>
  */
 
 namespace JBZoo\PHPUnit;
@@ -18,7 +18,22 @@ namespace JBZoo\PHPUnit;
 /** @noinspection PhpUndefinedClassInspection */
 use JBZoo\Utils\Filter;
 use JBZoo\Utils\FS;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DomCrawler\Crawler;
+
+/**
+ * @return PHPUnit|null
+ */
+function getTestcase()
+{
+    $objects = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT);
+
+    foreach ($objects as $object) {
+        if (isset($object['object']) && $object['object'] instanceof TestCase) {
+            return $object['object'];
+        }
+    }
+}
 
 /**** Controls ********************************************************************************************************/
 //@codeCoverageIgnoreStart
@@ -372,7 +387,7 @@ function isHtmlContain($html, $selector, $expected = null, $msg = null)
     $findText = null;
 
     try {
-        $crawler  = new Crawler($html);
+        $crawler = new Crawler($html);
         $findText = $crawler->filter($selector)->text();
         isSame((string)$expected, (string)$findText);
 
@@ -411,7 +426,7 @@ function isHtmlNotContain($html, $selector, $expected, $msg = null)
     $findText = null;
 
     try {
-        $crawler  = new Crawler($html);
+        $crawler = new Crawler($html);
         $findText = $crawler->filter($selector)->text();
         isNotSame((string)$expected, (string)$findText);
 
@@ -478,8 +493,8 @@ function isSamePath($expected, $actual, $message = null)
     }
 
     $cleanFunc = function ($paths) {
-        $return = array();
-        $paths  = (array)$paths;
+        $return = [];
+        $paths = (array)$paths;
         foreach ($paths as $key => $path) {
             $return[$key] = FS::clean($path, '/');
         }
@@ -487,7 +502,7 @@ function isSamePath($expected, $actual, $message = null)
     };
 
     $expected = Filter::_($expected, $cleanFunc);
-    $actual   = Filter::_($actual, $cleanFunc);
+    $actual = Filter::_($actual, $cleanFunc);
 
     isSame($expected, $actual, $message);
 }

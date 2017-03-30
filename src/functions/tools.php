@@ -6,11 +6,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package   PHPUnit
- * @license   MIT
- * @copyright Copyright (C) JBZoo.com,  All rights reserved.
- * @link      https://github.com/JBZoo/PHPUnit
- * @author    Denis Smetannikov <denis@jbzoo.com>
+ * @package    PHPUnit
+ * @license    MIT
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/PHPUnit
+ * @author     Denis Smetannikov <denis@jbzoo.com>
  */
 
 namespace JBZoo\PHPUnit;
@@ -19,6 +19,7 @@ use JBZoo\HttpClient\HttpClient;
 use JBZoo\HttpClient\Response;
 use JBZoo\Profiler\Benchmark;
 use JBZoo\Utils\Cli;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\VarDumper\VarDumper;
 
 /**
@@ -497,4 +498,24 @@ function httpRequest($url, $args = null, $method = 'GET', array $options = array
 
     $httClient = new HttpClient();
     return $httClient->request($url, $args, $method, $options);
+}
+
+/**
+ * @param bool $withNamespace
+ * @return null|string
+ */
+function getTestName($withNamespace = false)
+{
+    $objects = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT);
+    $result = null;
+    foreach ($objects as $object) {
+        if (isset($object['object']) && $object['object'] instanceof TestCase) {
+            $result = get_class($object['object']) . '::' . $object['function'];
+            if (!$withNamespace) {
+                $result = str_replace(__NAMESPACE__ . '\\', '', $result);
+            }
+            break;
+        }
+    }
+    return $result;
 }
