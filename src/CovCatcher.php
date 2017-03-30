@@ -16,8 +16,14 @@
 namespace JBZoo\PHPUnit;
 
 use JBZoo\Data\Data;
-use JBZoo\Utils\Env;
+use JBZoo\Utils\Sys;
 use JBZoo\Utils\Str;
+use PHPUnit\Framework\TestCase;
+use SebastianBergmann\CodeCoverage\CodeCoverage;
+use SebastianBergmann\CodeCoverage\Filter;
+use SebastianBergmann\CodeCoverage\Report\Clover;
+use SebastianBergmann\CodeCoverage\Report\Html\Facade;
+use SebastianBergmann\CodeCoverage\Report\PHP;
 
 /**
  * Class CovCatcher
@@ -33,14 +39,14 @@ class CovCatcher
     protected $_isStart = false;
 
     /**
-     * @var \PHP_CodeCoverage
+     * @var CodeCoverage
      */
     protected $_coverage;
 
     /**
      * @var array
      */
-    protected $_default = array(
+    protected $_default = [
         'cov'        => true,
         'xml'        => false,
         'html'       => false,
@@ -48,7 +54,7 @@ class CovCatcher
         'build_xml'  => './build/coverage_xml',
         'build_cov'  => './build/coverage_cov',
         'build_html' => './build/coverage_html',
-    );
+    ];
 
     /**
      * @var Data
@@ -66,7 +72,7 @@ class CovCatcher
      * @param array  $options
      * @throws Exception
      */
-    public function __construct($testName = null, array $options = array())
+    public function __construct($testName = null, array $options = [])
     {
         if (!class_exists('\JBZoo\Data\Data')) {
             throw new Exception('jbzoo/data required for CovCatcher');
@@ -81,10 +87,10 @@ class CovCatcher
         $this->_hash = $this->_getPrefix($testName)
             . '_' . md5(serialize($this->_config->getArrayCopy()) . '|' . $testName);
 
-        if (Env::hasXdebug()) {
-            $covFilter = new \PHP_CodeCoverage_Filter();
+        if (Sys::hasXdebug()) {
+            $covFilter = new Filter();
             $covFilter->addDirectoryToWhitelist($this->_config->get('src'));
-            $this->_coverage = new \PHP_CodeCoverage(null, $covFilter);
+            $this->_coverage = new CodeCoverage(null, $covFilter);
         }
     }
 
@@ -127,7 +133,7 @@ class CovCatcher
         if (null === $testName) {
             $objects = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT);
             foreach ($objects as $object) {
-                if (isset($object['object']) && $object['object'] instanceof \PHPUnit_Framework_TestCase) {
+                if (isset($object['object']) && $object['object'] instanceof TestCase) {
                     $testName = $object['class'] . '_' . $object['function'];
                     break;
                 }
@@ -139,7 +145,7 @@ class CovCatcher
         $testName = preg_replace('/^test_/', '', $testName);
         $testName = preg_replace('/_test$/', '', $testName);
         $testName = str_replace('_test_test_', '_', $testName);
-        $testName = str_replace(array('/', '\\', '_', '-'), '', $testName);
+        $testName = str_replace(['/', '\\', '_', '-'], '', $testName);
         $testName = strtolower($testName);
 
         if (!$testName) {
@@ -193,7 +199,7 @@ class CovCatcher
         $reportXmlDir = $this->_config->get('build_xml');
         if ($this->_config->get('xml', true, 'bool')) {
             $this->_checkDir($reportXmlDir);
-            $report = new \PHP_CodeCoverage_Report_Clover();
+            $report = new Clover();
             $report->process($this->_coverage, $reportXmlDir . '/' . $this->_hash . '.xml');
         }
 
@@ -201,7 +207,7 @@ class CovCatcher
         $reportCovDir = $this->_config->get('build_cov');
         if ($this->_config->get('cov', false, 'bool')) {
             $this->_checkDir($reportCovDir);
-            $report = new \PHP_CodeCoverage_Report_PHP();
+            $report = new PHP();
             $report->process($this->_coverage, $reportCovDir . '/' . $this->_hash . '.cov');
         }
 
@@ -209,7 +215,7 @@ class CovCatcher
         $reportHtmlDir = $this->_config->get('build_html');
         if ($this->_config->get('html', false, 'bool')) {
             $this->_checkDir($reportHtmlDir);
-            $report = new \PHP_CodeCoverage_Report_HTML();
+            $report = new Facade();
             $report->process($this->_coverage, $reportHtmlDir . '/' . $this->_hash);
         }
     }
