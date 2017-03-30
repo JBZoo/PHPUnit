@@ -7,7 +7,7 @@
  *
  * @package    PHPUnit
  * @license    MIT
- * @copyright  Copyright (C) JBZoo.com,  All rights reserved.
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
  * @link       https://github.com/JBZoo/PHPUnit
  */
 

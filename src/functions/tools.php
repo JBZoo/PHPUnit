@@ -22,48 +22,6 @@ use JBZoo\Utils\Cli;
 use Symfony\Component\VarDumper\VarDumper;
 
 /**
- * @return PHPUnit|null
- */
-function getTestCase()
-{
-    $objects = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT);
-
-    $result = null;
-    foreach ($objects as $object) {
-        if (isset($object['object']) && $object['object'] instanceof \PHPUnit_Framework_TestCase) {
-            $result = $object['object'];
-            break;
-        }
-    }
-
-    return $result;
-}
-
-/**
- * @param bool $withNamespace
- * @return null|string
- */
-function getTestName($withNamespace = false)
-{
-    $objects = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT);
-
-    $result = null;
-    foreach ($objects as $object) {
-        if (isset($object['object']) && $object['object'] instanceof \PHPUnit_Framework_TestCase) {
-            $result = get_class($object['object']) . '::' . $object['function'];
-
-            if (!$withNamespace) {
-                $result = str_replace(__NAMESPACE__ . '\\', '', $result);
-            }
-
-            break;
-        }
-    }
-
-    return $result;
-}
-
-/**
  * Check is current OS Windows
  * @return bool
  */
@@ -211,70 +169,8 @@ function alert($message, $label = null)
  */
 function isXdebug()
 {
-    return extension_loaded('xdebug');
+    return Sys::hasXdebug();
 }
-
-/**
- * Start profiler
- *
- * @SuppressWarnings(PHPMD.Superglobals)
- */
-function startProfiler()
-{
-    // cleanup and set first mark
-    $GLOBALS['_jbzoo_profiler'] = array(
-        'times'    => array(microtime(true)),
-        'memories' => array(memory_get_usage(false)),
-    );
-}
-
-/**
- * Simple loop profiler
- * @param int       $count
- * @param bool|true $formated
- * @return array
- */
-function loopProfiler($count = 1, $formated = true)
-{
-    global $_jbzoo_profiler;
-
-    $time   = microtime(true);
-    $memory = memory_get_usage(false);
-
-    $_timeDiff   = $time - end($_jbzoo_profiler['times']);
-    $_memoryDiff = $memory - end($_jbzoo_profiler['memories']);
-
-    $_jbzoo_profiler['times'][]    = $time;
-    $_jbzoo_profiler['memories'][] = $memory;
-
-    // build report
-    $count = (int)abs($count);
-    if ($formated) {
-        $timeDiff = number_format($_timeDiff * 1000, 2, '.', ' ') . ' ms';
-        $timeOne  = number_format($_timeDiff * 1000 / $count, 2, '.', ' ') . ' ms';
-        $memoDiff = number_format($_memoryDiff / 1024, 2, '.', ' ') . ' KB';
-        $memoOne  = number_format($_memoryDiff / 1024 / $count, 2, '.', ' ') . ' KB';
-        $count    = number_format($count, 0, '', ' ');
-
-        $result = implode(';   ', array(
-            'TIME: ' . $timeDiff . '/' . $timeOne,
-            'MEMO: ' . $memoDiff . '/' . $memoOne,
-            'COUNT: ' . $count,
-        ));
-
-    } else {
-        $result = array(
-            'time-diff' => $_timeDiff,
-            'time-one'  => $_timeDiff / $count,
-            'memo-diff' => $_memoryDiff,
-            'memo-one'  => $_memoryDiff / $count,
-            'count'     => $count,
-        );
-    }
-
-    return $result;
-}
-
 
 /**
  * Binary save to open file

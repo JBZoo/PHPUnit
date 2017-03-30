@@ -6,23 +6,23 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package   PHPUnit
- * @license   MIT
- * @copyright Copyright (C) JBZoo.com,  All rights reserved.
- * @link      https://github.com/JBZoo/PHPUnit
- * @author    Denis Smetannikov <denis@jbzoo.com>
+ * @package    PHPUnit
+ * @license    MIT
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/PHPUnit
+ * @author     Denis Smetannikov <denis@jbzoo.com>
  */
 
 namespace JBZoo\PHPUnit;
 
-use JBZoo\Utils\Env;
+use JBZoo\Utils\Sys;
 use JBZoo\Utils\FS;
 
 /**
- * Class CovCatcherTest
+ * Class PHPUnitCovCatcherTest
  * @package JBZoo\PHPUnit
  */
-class CovCatcherTest extends PHPUnit
+class PHPUnitCovCatcherTest extends PHPUnit
 {
     protected function setUp()
     {
@@ -56,7 +56,7 @@ class CovCatcherTest extends PHPUnit
 
         unset($catcher); // call destructor
 
-        if (Env::hasXdebug()) {
+        if (Sys::hasXdebug()) {
             isDir(PROJECT_BUILD . '/coverage_cov');
             isDir(PROJECT_BUILD . '/coverage_html');
             isDir(PROJECT_BUILD . '/coverage_xml');

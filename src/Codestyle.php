@@ -6,11 +6,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package   PHPUnit
- * @license   MIT
- * @copyright Copyright (C) JBZoo.com,  All rights reserved.
- * @link      https://github.com/JBZoo/PHPUnit
- * @author    Denis Smetannikov <denis@jbzoo.com>
+ * @package    PHPUnit
+ * @license    MIT
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/PHPUnit
+ * @author     Denis Smetannikov <denis@jbzoo.com>
  */
 
 namespace JBZoo\PHPUnit;
@@ -28,9 +28,9 @@ abstract class Codestyle extends PHPUnit
 
     protected $_packageVendor = 'JBZoo';
     protected $_packageLicense = 'MIT';
-    protected $_packageCopyright = 'Copyright (C) JBZoo.com,  All rights reserved.';
+    protected $_packageCopyright = 'Copyright (C) JBZoo.com, All rights reserved.';
     protected $_packageLink = 'https://github.com/JBZoo/_PACKAGE_';
-    protected $_packageAuthor = ''; // Deprecated!
+    protected $_packageAuthor = '';
     protected $_packageDesc = array(
         'This file is part of the JBZoo CCK package.',
         'For the full copyright and license information, please view the LICENSE',
@@ -71,10 +71,10 @@ abstract class Codestyle extends PHPUnit
         ' *',
         ' * _DESCRIPTION_PHP_',
         ' *',
-        ' * @package   _PACKAGE_',
-        ' * @license   _LICENSE_',
-        ' * @copyright _COPYRIGHTS_',
-        ' * @link      _LINK_',
+        ' * @package    _PACKAGE_',
+        ' * @license    _LICENSE_',
+        ' * @copyright  _COPYRIGHTS_',
+        ' * @link       _LINK_',
     );
 
     /**
@@ -179,10 +179,10 @@ abstract class Codestyle extends PHPUnit
         '#',
         '# _DESCRIPTION_SH_',
         '#',
-        '# @package   _PACKAGE_',
-        '# @license   _LICENSE_',
-        '# @copyright _COPYRIGHTS_',
-        '# @link      _LINK_',
+        '# @package    _PACKAGE_',
+        '# @license    _LICENSE_',
+        '# @copyright  _COPYRIGHTS_',
+        '# @link       _LINK_',
         '#',
         '',
     );
@@ -197,10 +197,10 @@ abstract class Codestyle extends PHPUnit
         '--',
         '-- _DESCRIPTION_SQL_',
         '--',
-        '-- @package   _PACKAGE_',
-        '-- @license   _LICENSE_',
-        '-- @copyright _COPYRIGHTS_',
-        '-- @link      _LINK_',
+        '-- @package    _PACKAGE_',
+        '-- @license    _LICENSE_',
+        '-- @copyright  _COPYRIGHTS_',
+        '-- @link       _LINK_',
         '--',
         '',
     );
@@ -215,10 +215,10 @@ abstract class Codestyle extends PHPUnit
         '#',
         '# _DESCRIPTION_HTACCESS_',
         '#',
-        '# @package   _PACKAGE_',
-        '# @license   _LICENSE_',
-        '# @copyright _COPYRIGHTS_',
-        '# @link      _LINK_',
+        '# @package    _PACKAGE_',
+        '# @license    _LICENSE_',
+        '# @copyright  _COPYRIGHTS_',
+        '# @link       _LINK_',
         '#',
         '',
     );
@@ -230,11 +230,13 @@ abstract class Codestyle extends PHPUnit
     {
         parent::setUp();
 
-        //@codeCoverageIgnoreStart
         if (!$this->_packageName) {
             throw new Exception('$this->_packageName is undefined!');
         }
-        //@codeCoverageIgnoreEnd
+
+        if (!class_exists('\Symfony\Component\Finder\Finder')) {
+            throw new Exception('symfony/finder requreid for CodeStyle unit tests');
+        }
 
         $this->_replace = array(
             '_LINK_'                 => $this->_packageLink,
@@ -545,12 +547,14 @@ abstract class Codestyle extends PHPUnit
                 success();
             }
         }
+
+        isTrue(true);
     }
 
     /**
      * Render copyrights
-     * @param $text
-     * @return mixed
+     * @param string $text
+     * @return string
      */
     protected function _prepareTemplate($text)
     {

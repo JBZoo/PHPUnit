@@ -13,6 +13,14 @@
  * @author    Denis Smetannikov <denis@jbzoo.com>
  */
 
-include __DIR__ . '/func.php';
+/**
+ * Show message
+ * @param string $key
+ * @return string|null
+ */
+function showTestMessage($key)
+{
+    return isset($_REQUEST[$key]) ? $_REQUEST[$key] : '200ok!';
+}
 
-echo 'index: ' . showTestMessage();
+echo showTestMessage('test');

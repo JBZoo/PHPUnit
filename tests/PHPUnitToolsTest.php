@@ -6,23 +6,22 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package   PHPUnit
- * @license   MIT
- * @copyright Copyright (C) JBZoo.com,  All rights reserved.
- * @link      https://github.com/JBZoo/PHPUnit
- * @author    Denis Smetannikov <denis@jbzoo.com>
+ * @package    PHPUnit
+ * @license    MIT
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/PHPUnit
+ * @author     Denis Smetannikov <denis@jbzoo.com>
  */
 
 namespace JBZoo\PHPUnit;
 
-use JBZoo\Utils\Env;
 use JBZoo\Utils\Sys;
 
 /**
- * Class ToolsTest
+ * Class PHPUnitToolsTest
  * @package JBZoo\PHPUnit
  */
-class ToolsTest extends PHPUnit
+class PHPUnitToolsTest extends PHPUnit
 {
     public function testHttpRequest()
     {
@@ -40,26 +39,6 @@ class ToolsTest extends PHPUnit
         isSame($body->find('form.qwerty'), $uniq);
     }
 
-    public function testLoopProfiler()
-    {
-        startProfiler();
-
-        $max    = 100000;
-        $result = array();
-        for ($i = 0; $i < $max; $i++) {
-            $result[] = $i;
-        }
-
-        // just for coverage :)
-        loopProfiler($max, true);
-        loopProfiler($max, false);
-    }
-
-    public function testXdebug()
-    {
-        isTrue(is_bool(isXDebug()));
-    }
-
     public function testCmd()
     {
         if (!defined('HHVM_VERSION')) {
@@ -75,10 +54,6 @@ class ToolsTest extends PHPUnit
     {
         if (!class_exists('\JBZoo\Utils\Sys')) {
             throw new Exception('jbzoo/utils required for Tools unit-tests');
-        }
-
-        if (Sys::isPhp53() || Sys::isPhp7() || Env::isHHVM()) {
-            skip('PHP 5.3.x/7.0/hhvm doen\'t support built-in web-server');
         }
 
         $uniq   = uniqid();
@@ -116,7 +91,8 @@ class ToolsTest extends PHPUnit
 
     public function testCliError()
     {
-        //cliError('Some error message');
+        skip();
+        cliError('Some error message');
     }
 
     public function testGetTestName()

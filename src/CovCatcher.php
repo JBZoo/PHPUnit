@@ -141,7 +141,7 @@ class CovCatcher
         $testName = str_replace('_test_test_', '_', $testName);
         $testName = str_replace(array('/', '\\', '_', '-'), '', $testName);
         $testName = strtolower($testName);
-        
+
         if (!$testName) {
             $testName = uniqid('', true);
             $testName = str_replace('.', '', $testName);
