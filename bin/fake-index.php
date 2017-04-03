@@ -66,7 +66,7 @@ $cliOptions->parse(getenv('PHPUNINT_ARGUMENTS'));
 
 $realIndex = isset($realIndex) ? $realIndex : realpath($cliOptions->getOption('index'));
 
-if (class_exists('\JBZoo\PHPUnit\CovCatcher') && !(Sys::isPHP7() && Sys::hasXdebug())) {
+if (class_exists('\JBZoo\PHPUnit\CovCatcher') && Sys::hasXdebug()) {
     $testname = (new Data($_REQUEST))->get('testname');
 
     $coverHash = md5(implode('||', [serialize($_REQUEST), serialize($_SERVER), PHP_VERSION]));
