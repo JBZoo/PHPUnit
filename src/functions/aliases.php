@@ -42,7 +42,7 @@ function getTestcase()
  * Skip current test
  * @param $msg
  */
-function skip($msg = null)
+function skip($msg)
 {
     getTestCase()->markTestSkipped($msg);
 }
@@ -51,7 +51,7 @@ function skip($msg = null)
  * Incomplete current test
  * @param $msg
  */
-function incomplete($msg = null)
+function incomplete($msg)
 {
     getTestCase()->markTestIncomplete($msg);
 }
@@ -61,7 +61,7 @@ function incomplete($msg = null)
  * @param $msg
  */
 //@codeCoverageIgnoreStart
-function fail($msg = null)
+function fail($msg)
 {
     getTestCase()->fail($msg);
 }
