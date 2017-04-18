@@ -91,7 +91,7 @@ class PHPUnitToolsTest extends PHPUnit
 
     public function testCliError()
     {
-        skip();
+        skip('Some message...');
         cliError('Some error message');
     }
 
