@@ -84,8 +84,7 @@ class CovCatcher
 
         $this->_initConfig($options);
 
-        $this->_hash = $this->_getPrefix($testName)
-            . '_' . md5(serialize($this->_config->getArrayCopy()) . '|' . $testName);
+        $this->_hash = $testName . '__' . time();
 
         if (Sys::hasXdebug()) {
             $covFilter = new Filter();
