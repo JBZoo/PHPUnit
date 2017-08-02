@@ -84,7 +84,7 @@ class CovCatcher
 
         $this->_initConfig($options);
 
-        $this->_hash = $testName . '__' . time();
+        $this->_hash = $testName . '__' . str_replace('.', '', uniqid('', true));
 
         if (Sys::hasXdebug()) {
             $covFilter = new Filter();
