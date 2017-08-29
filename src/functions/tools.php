@@ -41,7 +41,7 @@ function isWin()
  * @SuppressWarnings(PHPMD.ExitExpression)
  * @SuppressWarnings(PHPMD.NPathComplexity)
  */
-function dump($var, $isDie = true, $label = '')
+function dumpOld($var, $isDie = true, $label = '')
 {
     if (!class_exists('\JBDump')) {
         throw new Exception('jbzoo/jbdump required for dump() function');
