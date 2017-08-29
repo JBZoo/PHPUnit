@@ -16,7 +16,7 @@
  * @codingStandardsIgnoreFile
  */
 
-if (!function_exists('dump')) {
+if (!function_exists('dumpOld')) {
 
     /**
      * Useful console dump
@@ -24,7 +24,7 @@ if (!function_exists('dump')) {
      * @param bool   $isDie
      * @param string $label
      */
-    function dump($var, $isDie = true, $label = '')
+    function dumpOld($var, $isDie = true, $label = '')
     {
         \JBZoo\PHPunit\dump($var, $isDie, $label);
     }
