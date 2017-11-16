@@ -78,4 +78,10 @@ class PHPUnitToolsTest extends PHPUnit
     {
         isFalse(isWin());
     }
+
+    public function testMessages()
+    {
+        cliMessage('cliMessage');
+        cliError('cliError');
+    }
 }

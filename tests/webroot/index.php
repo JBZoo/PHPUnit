@@ -17,22 +17,6 @@ namespace JBZoo\PHPunit;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-$isCli = defined('STDOUT');
-
-// For unit tests
-if ($isCli) {
-    if ($_SERVER['argc'] === 1) {
-        dump($_SERVER['argv']); // exit code
-
-    } elseif ($_SERVER['argc'] === 2) {
-        dump($_SERVER['argv'], 0, 'cli arguments'); // no exit code
-    }
-
-} elseif (isset($_REQUEST['test']) && $_REQUEST['test'] === 'jbdump') {
-    dump($_REQUEST['test-var']);
-}
-
-
 // Something complex
 $testObj = (object)[
     'string' => ' 123 ',

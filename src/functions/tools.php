@@ -61,24 +61,6 @@ function cliError($message, $addEol = true)
 }
 
 /**
- * Show alert message
- *
- * @param string $message
- * @param null   $label
- * @deprecated
- */
-function alert($message, $label = null)
-{
-    if (!is_string($message)) {
-        $message = print_r($message, true);
-    }
-
-    $message = PHP_EOL . ($label ? $label . ': ' : '') . $message;
-
-    cliError($message);
-}
-
-/**
  * Binary save to open file
  *
  * @param $path
