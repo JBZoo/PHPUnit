@@ -16,6 +16,8 @@
  * @codingStandardsIgnoreFile
  */
 
+// @codeCoverageIgnoreStart
+
 !defined('JBZOO_PHPUNIT') && define('JBZOO_PHPUNIT', true);
 
 // System
@@ -29,3 +31,5 @@
 !defined('PROJECT_SRC')     && define('PROJECT_SRC',    PROJECT_ROOT . DS . 'src');
 !defined('PROJECT_TESTS')   && define('PROJECT_TESTS',  PROJECT_ROOT . DS . 'tests');
 !defined('PROJECT_RES')     && define('PROJECT_RES',    PROJECT_ROOT . DS . 'resources');
+
+// @codeCoverageIgnoreEnd

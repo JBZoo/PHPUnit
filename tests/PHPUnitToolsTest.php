@@ -59,4 +59,23 @@ class PHPUnitToolsTest extends PHPUnit
         isContain(__FUNCTION__, getTestName(false));
         isContain('ToolsTest::testGetTestName', getTestName());
     }
+
+    public function testHtml()
+    {
+        $html = '<body>
+            <div class="test-class">
+                <p>qwerty</p>
+            </div>
+            <span class="empty-1"> </span>
+            <span class="empty-2"></span>
+        </body>';
+
+        isHtmlContain($html, 'body > div.test-class p', 'qwerty');
+        isHtmlNotContain($html, 'body > div.test-class p', 'qwerty-123');
+    }
+
+    public function testIsWin()
+    {
+        isFalse(isWin());
+    }
 }

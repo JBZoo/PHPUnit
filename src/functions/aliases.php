@@ -360,11 +360,11 @@ function isNotContain($expected, $value, $ignoreCase = false, $msg = null)
 function isHtmlContain($html, $selector, $expected = null, $msg = null)
 {
     if (!class_exists(Crawler::class)) {
-        throw new Exception('symfony/dom-crawler required for isHtmlContain() function');
+        throw new Exception('symfony/dom-crawler required for isHtmlContain() function'); // @codeCoverageIgnore
     }
 
     if (!class_exists(CssSelectorConverter::class)) {
-        throw new Exception('symfony/css-selector required for isHtmlContain() function');
+        throw new Exception('symfony/css-selector required for isHtmlContain() function'); // @codeCoverageIgnore
     }
 
     $findText = null;
@@ -400,11 +400,11 @@ function isHtmlContain($html, $selector, $expected = null, $msg = null)
 function isHtmlNotContain($html, $selector, $expected, $msg = null)
 {
     if (!class_exists(Crawler::class)) {
-        throw new Exception('symfony/dom-crawler required for isHtmlNotContain() function');
+        throw new Exception('symfony/dom-crawler required for isHtmlNotContain() function'); // @codeCoverageIgnore
     }
 
     if (!class_exists(CssSelectorConverter::class)) {
-        throw new Exception('symfony/css-selector required for isHtmlNotContain() function');
+        throw new Exception('symfony/css-selector required for isHtmlNotContain() function'); // @codeCoverageIgnore
     }
 
     $findText = null;

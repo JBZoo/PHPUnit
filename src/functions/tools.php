@@ -17,7 +17,6 @@ namespace JBZoo\PHPUnit;
 
 use JBZoo\HttpClient\HttpClient;
 use JBZoo\HttpClient\Response;
-use JBZoo\Profiler\Benchmark;
 use JBZoo\Utils\Cli;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Process\Process;
@@ -103,25 +102,6 @@ function openFile($path)
 }
 
 /**
- * @link http://www.php.net/manual/en/control-structures.declare.php#control-structures.declare.ticks
- *
- * @param array $tests
- * @param array $options
- * @return array
- *
- * @deprecated
- * @throws Exception
- */
-function runBench(array $tests, array $options = [])
-{
-    if (!class_exists(Benchmark::class)) {
-        throw new Exception('jbzoo/profiler required for runBench() function');
-    }
-
-    return Benchmark::compare($tests, $options);
-}
-
-/**
  * @param string $command
  * @param array  $args
  * @param null   $cwd
@@ -136,7 +116,7 @@ function cmd($command, $args = [], $cwd = null)
     }
 
     if (!class_exists(Process::class)) {
-        throw new Exception('symfony/process package required for cmd() function');
+        throw new Exception('symfony/process package required for cmd() function'); // @codeCoverageIgnore
     }
 
     return Cli::exec($command, $args, $cwd);
@@ -153,11 +133,10 @@ function cmd($command, $args = [], $cwd = null)
 function httpRequest($url, $args = null, $method = 'GET', array $options = [])
 {
     if (!class_exists(HttpClient::class)) {
-        throw new Exception('jbzoo/http-client required for httpRequest() function');
+        throw new Exception('jbzoo/http-client required for httpRequest() function'); // @codeCoverageIgnore
     }
 
-    $httClient = new HttpClient();
-    return $httClient->request($url, $args, $method, $options);
+    return (new HttpClient())->request($url, $args, $method, $options);
 }
 
 /**
