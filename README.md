@@ -9,11 +9,8 @@ PHPUnit Toolbox for simple syntax and dev
 #### Composer.json content
 ```js
 {
-    "require": {
-        "php": ">=5.3.10"
-    },
     "require-dev": {
-        "jbzoo/phpunit": "^1.x-dev"
+        "jbzoo/phpunit": "^2.1"
     }
 }
 ```
