@@ -19,7 +19,7 @@
  */
 function showError()
 {
-    throw new \Exception('Some exception');
+    throw new \RuntimeException('Some exception');
 }
 
 echo 'Some text message';

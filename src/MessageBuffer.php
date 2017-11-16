@@ -19,6 +19,7 @@ use JBZoo\Utils\Cli;
 
 /**
  * Class MessageCollector
+ *
  * @package JBZoo\PHPUnit
  * @codeCoverageIgnore
  */
@@ -27,12 +28,12 @@ class MessageBuffer
     /**
      * @var array
      */
-    protected $_info = array();
+    protected $_info = [];
 
     /**
      * @var array
      */
-    protected $_error = array();
+    protected $_error = [];
 
     /**
      * @return MessageBuffer
@@ -41,7 +42,7 @@ class MessageBuffer
     {
         static $instance;
 
-        if (!isset($instance)) {
+        if (null === $instance) {
             $instance = new self();
         }
 

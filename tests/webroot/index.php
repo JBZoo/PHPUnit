@@ -34,17 +34,17 @@ if ($isCli) {
 
 
 // Something complex
-$testObj = (object)array(
+$testObj = (object)[
     'string' => ' 123 ',
     'int'    => 123,
     'float'  => 123.456,
     'null'   => null,
     'bool'   => true,
-    'array'  => array(1, 2, 3),
+    'array'  => [1, 2, 3],
     'func'   => function () {
         echo 42;
     },
-);
+];
 
 dump($testObj->int, 0, 'Some integer');
 dump($testObj->float, 0, 'Some float');

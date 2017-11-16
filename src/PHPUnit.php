@@ -19,6 +19,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Class PHPUnit
+ *
  * @package JBZoo\PHPUnit
  */
 abstract class PHPUnit extends TestCase

@@ -17,15 +17,17 @@ namespace JBZoo\PHPUnit;
 
 /**
  * Class PHPUnitCodeStyleTest
+ *
  * @package JBZoo\PHPUnit
  */
 class PHPUnitCodeStyleTest extends Codestyle
 {
-    protected $_packageName = "PHPUnit";
-    protected $_packageAuthor = "Denis Smetannikov <denis@jbzoo.com>";
+    protected $_packageName   = 'PHPUnit';
+    protected $_packageAuthor = 'Denis Smetannikov <denis@jbzoo.com>';
 
     /**
      * Ignore list for
+     *
      * @var array
      */
     protected $_excludePaths = array(

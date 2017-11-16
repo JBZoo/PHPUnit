@@ -20,13 +20,14 @@ use JBZoo\Utils\Filter;
 use JBZoo\Utils\FS;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\CssSelector\CssSelectorConverter;
 
 /**
  * @return PHPUnit|null
  */
 function getTestcase()
 {
-    $objects = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT);
+    $objects = debug_backtrace();
 
     foreach ($objects as $object) {
         if (isset($object['object']) && $object['object'] instanceof TestCase) {
@@ -40,6 +41,7 @@ function getTestcase()
 
 /**
  * Skip current test
+ *
  * @param $msg
  */
 function skip($msg)
@@ -49,6 +51,7 @@ function skip($msg)
 
 /**
  * Incomplete current test
+ *
  * @param $msg
  */
 function incomplete($msg)
@@ -58,6 +61,7 @@ function incomplete($msg)
 
 /**
  * Fail current test
+ *
  * @param $msg
  */
 //@codeCoverageIgnoreStart
@@ -68,6 +72,7 @@ function fail($msg)
 
 /**
  * Success current test
+ *
  * @param $msg
  */
 function success($msg = null)
@@ -270,6 +275,7 @@ function isNotKey($key, $array, $msg = null)
 
 /**
  * Assert object has an attribute
+ *
  * @param string $attrName
  * @param mixed  $object
  */
@@ -282,6 +288,7 @@ function isAttr($attrName, $object)
 
 /**
  * Assert object has an attribute
+ *
  * @param string $attrName
  * @param mixed  $object
  */
@@ -367,6 +374,7 @@ function isNotContain($expected, $value, $ignoreCase = false, $msg = null)
 
 /**
  * Is CSS selector find in the HTML code
+ *
  * @param string $html
  * @param string $selector
  * @param mixed  $expected
@@ -376,11 +384,11 @@ function isNotContain($expected, $value, $ignoreCase = false, $msg = null)
  */
 function isHtmlContain($html, $selector, $expected = null, $msg = null)
 {
-    if (!class_exists('\Symfony\Component\DomCrawler\Crawler')) {
+    if (!class_exists(Crawler::class)) {
         throw new Exception('symfony/dom-crawler required for isHtmlContain() function');
     }
 
-    if (!class_exists('\Symfony\Component\CssSelector\CssSelectorConverter')) {
+    if (!class_exists(CssSelectorConverter::class)) {
         throw new Exception('symfony/css-selector required for isHtmlContain() function');
     }
 
@@ -406,6 +414,7 @@ function isHtmlContain($html, $selector, $expected = null, $msg = null)
 
 /**
  * Is NOT find CSS-selector find in the HTML code
+ *
  * @param string $html
  * @param string $selector
  * @param mixed  $expected
@@ -415,11 +424,11 @@ function isHtmlContain($html, $selector, $expected = null, $msg = null)
  */
 function isHtmlNotContain($html, $selector, $expected, $msg = null)
 {
-    if (!class_exists('\Symfony\Component\DomCrawler\Crawler')) {
+    if (!class_exists(Crawler::class)) {
         throw new Exception('symfony/dom-crawler required for isHtmlNotContain() function');
     }
 
-    if (!class_exists('\Symfony\Component\CssSelector\CssSelectorConverter')) {
+    if (!class_exists(CssSelectorConverter::class)) {
         throw new Exception('symfony/css-selector required for isHtmlNotContain() function');
     }
 
@@ -481,14 +490,14 @@ function notSame($expected, $actual, $msg = null)
 /**
  * Normilize paths and compare them
  *
- * @param string $expected
- * @param string $actual
- * @param string $message
+ * @param string|array $expected
+ * @param string|array $actual
+ * @param string       $message
  * @throws Exception
  */
 function isSamePath($expected, $actual, $message = null)
 {
-    if (!class_exists('\JBZoo\Utils\Filter')) {
+    if (!class_exists(Filter::class)) {
         throw new Exception('jbzoo/utils required for isSamePath() function');
     }
 

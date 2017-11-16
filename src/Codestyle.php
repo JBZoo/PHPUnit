@@ -19,6 +19,7 @@ use Symfony\Component\Finder\Finder;
 
 /**
  * Class Codestyle
+ *
  * @package JBZoo\PHPUnit
  * @codeCoverageIgnore
  */
@@ -26,25 +27,26 @@ abstract class Codestyle extends PHPUnit
 {
     protected $_packageName = ''; // Overload me!
 
-    protected $_packageVendor = 'JBZoo';
-    protected $_packageLicense = 'MIT';
+    protected $_packageVendor    = 'JBZoo';
+    protected $_packageLicense   = 'MIT';
     protected $_packageCopyright = 'Copyright (C) JBZoo.com, All rights reserved.';
-    protected $_packageLink = 'https://github.com/JBZoo/_PACKAGE_';
-    protected $_packageAuthor = '';
-    protected $_packageDesc = array(
+    protected $_packageLink      = 'https://github.com/JBZoo/_PACKAGE_';
+    protected $_packageAuthor    = '';
+    protected $_packageDesc      = [
         'This file is part of the JBZoo CCK package.',
         'For the full copyright and license information, please view the LICENSE',
         'file that was distributed with this source code.',
-    );
+    ];
 
-    protected $_le = "\n";
-    protected $_replace = array();
+    protected $_le      = "\n";
+    protected $_replace = [];
 
     /**
      * Ignore list for
+     *
      * @var array
      */
-    protected $_excludePaths = array(
+    protected $_excludePaths = [
         '.git',
         '.idea',
         'bin',
@@ -57,14 +59,15 @@ abstract class Codestyle extends PHPUnit
         'resources',
         'vendor',
         'temp',
-        'tmp'
-    );
+        'tmp',
+    ];
 
     /**
      * Valid header for PHP files
+     *
      * @var array
      */
-    protected $_validHeaderPHP = array(
+    protected $_validHeaderPHP = [
         '<?php',
         '/**',
         ' * _VENDOR_ _PACKAGE_',
@@ -75,13 +78,14 @@ abstract class Codestyle extends PHPUnit
         ' * @license    _LICENSE_',
         ' * @copyright  _COPYRIGHTS_',
         ' * @link       _LINK_',
-    );
+    ];
 
     /**
      * Valid header for JavaScript files
+     *
      * @var array
      */
-    protected $_validHeaderJS = array(
+    protected $_validHeaderJS = [
         '/**',
         ' * _VENDOR_ _PACKAGE_',
         ' *',
@@ -93,13 +97,14 @@ abstract class Codestyle extends PHPUnit
         ' * @link       _LINK_',
         ' */',
         '',
-    );
+    ];
 
     /**
      * Valid header for CSS files (if not mimified)
+     *
      * @var array
      */
-    protected $_validHeaderCSS = array(
+    protected $_validHeaderCSS = [
         '/**',
         ' * _VENDOR_ _PACKAGE_',
         ' *',
@@ -111,13 +116,14 @@ abstract class Codestyle extends PHPUnit
         ' * @link       _LINK_',
         ' */',
         '',
-    );
+    ];
 
     /**
      * Valid header for LESS files
+     *
      * @var array
      */
-    protected $_validHeaderLESS = array(
+    protected $_validHeaderLESS = [
         '//',
         '// _VENDOR_ _PACKAGE_',
         '//',
@@ -128,13 +134,14 @@ abstract class Codestyle extends PHPUnit
         '// @copyright  _COPYRIGHTS_',
         '// @link       _LINK_',
         '//',
-    );
+    ];
 
     /**
      * Valid header for XML files
+     *
      * @var array
      */
-    protected $_validHeaderXML = array(
+    protected $_validHeaderXML = [
         '<?xml version="1.0" encoding="UTF-8" ?>',
         '<!--',
         '    _VENDOR_ _PACKAGE_',
@@ -146,13 +153,14 @@ abstract class Codestyle extends PHPUnit
         '    @copyright  _COPYRIGHTS_',
         '    @link       _LINK_',
         '-->',
-    );
+    ];
 
     /**
      * Valid header for INI files
+     *
      * @var array
      */
-    protected $_validHeaderINI = array(
+    protected $_validHeaderINI = [
         ';',
         '; _VENDOR_ _PACKAGE_',
         ';',
@@ -165,13 +173,14 @@ abstract class Codestyle extends PHPUnit
         ';',
         '; Note: All ini files need to be saved as UTF-8 (no BOM)',
         ';',
-    );
+    ];
 
     /**
      * Valid header for SH scripts
+     *
      * @var array
      */
-    protected $_validHeaderSH = array(
+    protected $_validHeaderSH = [
         '#!/usr/bin/env sh',
         '',
         '#',
@@ -185,13 +194,14 @@ abstract class Codestyle extends PHPUnit
         '# @link       _LINK_',
         '#',
         '',
-    );
+    ];
 
     /**
      * Valid header for SQL scripts
+     *
      * @var array
      */
-    protected $_validHeaderSQL = array(
+    protected $_validHeaderSQL = [
         '--',
         '-- _VENDOR_ _PACKAGE_',
         '--',
@@ -203,13 +213,14 @@ abstract class Codestyle extends PHPUnit
         '-- @link       _LINK_',
         '--',
         '',
-    );
+    ];
 
     /**
      * Valid header for .htaccess scripts
+     *
      * @var array
      */
-    protected $_validHeaderHtaccess = array(
+    protected $_validHeaderHtaccess = [
         '#',
         '# _VENDOR_ _PACKAGE_',
         '#',
@@ -221,7 +232,7 @@ abstract class Codestyle extends PHPUnit
         '# @link       _LINK_',
         '#',
         '',
-    );
+    ];
 
     /**
      * @throws \Exception
@@ -234,11 +245,11 @@ abstract class Codestyle extends PHPUnit
             throw new Exception('$this->_packageName is undefined!');
         }
 
-        if (!class_exists('\Symfony\Component\Finder\Finder')) {
+        if (!class_exists(Finder::class)) {
             throw new Exception('symfony/finder requreid for CodeStyle unit tests');
         }
 
-        $this->_replace = array(
+        $this->_replace = [
             '_LINK_'                 => $this->_packageLink,
             '_NAMESPACE_'            => '_VENDOR_\_PACKAGE_',
             '_COPYRIGHTS_'           => $this->_packageCopyright,
@@ -255,7 +266,7 @@ abstract class Codestyle extends PHPUnit
             '_DESCRIPTION_SH_'       => implode($this->_le . '# ', $this->_packageDesc),
             '_DESCRIPTION_SQL_'      => implode($this->_le . '-- ', $this->_packageDesc),
             '_DESCRIPTION_HTACCESS_' => implode($this->_le . '# ', $this->_packageDesc),
-        );
+        ];
     }
 
     /**
@@ -434,7 +445,7 @@ abstract class Codestyle extends PHPUnit
         $valid = $this->_prepareTemplate(implode($this->_validHeaderSH, $this->_le));
 
         $excludePaths = $this->_excludePaths;
-        $binIndex     = array_search('bin', $excludePaths);
+        $binIndex = array_search('bin', $excludePaths);
         if ($binIndex !== false) {
             unset($excludePaths[$binIndex]);
         }
@@ -553,6 +564,7 @@ abstract class Codestyle extends PHPUnit
 
     /**
      * Render copyrights
+     *
      * @param string $text
      * @return string
      */

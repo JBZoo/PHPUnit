@@ -21,9 +21,11 @@ use JBZoo\Profiler\Benchmark;
 use JBZoo\Utils\Cli;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\VarDumper\VarDumper;
+use Symfony\Component\Process\Process;
 
 /**
  * Check is current OS Windows
+ *
  * @return bool
  */
 function isWin()
@@ -33,6 +35,7 @@ function isWin()
 
 /**
  * Useful console dump
+ *
  * @param mixed  $var
  * @param bool   $isDie
  * @param string $label
@@ -43,21 +46,21 @@ function isWin()
  */
 function dumpOld($var, $isDie = true, $label = '')
 {
-    if (!class_exists('\JBDump')) {
+    if (!class_exists(\JBDump::class)) {
         throw new Exception('jbzoo/jbdump required for dump() function');
     }
 
-    if (!class_exists('\Symfony\Component\VarDumper\VarDumper')) {
+    if (!class_exists(VarDumper::class)) {
         throw new Exception('symfony/var-dumper required for dump() function');
     }
 
     $isCliMode = defined('STDOUT');
 
     // get trace mesage
-    $trace     = debug_backtrace(false);
-    $dirname   = pathinfo(dirname($trace[0]['file']), PATHINFO_BASENAME);
-    $filename  = pathinfo($trace[0]['file'], PATHINFO_BASENAME);
-    $line      = $trace[0]['line'];
+    $trace = debug_backtrace(false);
+    $dirname = pathinfo(dirname($trace[0]['file']), PATHINFO_BASENAME);
+    $filename = pathinfo($trace[0]['file'], PATHINFO_BASENAME);
+    $line = $trace[0]['line'];
     $callplace = "({$dirname}/{$filename}:{$line})";
 
     // output backtrace information
@@ -77,31 +80,31 @@ function dumpOld($var, $isDie = true, $label = '')
             fwrite(STDOUT, $dump);
 
         } else {
-            putenv("ANSICON=on"); // Add colored output
+            putenv('ANSICON=on'); // Add colored output
             VarDumper::dump($var);
         }
 
-    } elseif (class_exists('\JBDump')) {
-        $jbdump = \JBDump::i(array(
-            'log'      => array(
+    } elseif (class_exists(\JBDump::class)) {
+        $jbdump = \JBDump::i([
+            'log'      => [
                 'path' => PROJECT_ROOT . '/logs',
-            ),
-            'profiler' => array(
+            ],
+            'profiler' => [
                 'render'     => 4,
                 'auto'       => 1,
                 'showStart'  => 0,
                 'showEnd'    => 0,
                 'showOnAjax' => 1,
-            ),
-            'dump'     => array(
+            ],
+            'dump'     => [
                 'die'         => 0,
                 'maxDepth'    => 5,
                 'expandLevel' => 3,
-            )
-        ));
+            ],
+        ]);
 
         if ($jbdump->isDebug()) {
-            $jbdump->dump($var, $label, array('trace' => debug_backtrace()));
+            $jbdump->dump($var, $label, ['trace' => debug_backtrace()]);
         }
 
     } else {
@@ -150,6 +153,7 @@ function cliError($message, $addEol = true)
 
 /**
  * Show alert message
+ *
  * @param string $message
  * @param null   $label
  * @deprecated
@@ -175,6 +179,7 @@ function isXdebug()
 
 /**
  * Binary save to open file
+ *
  * @param $path
  * @return null|string
  */
@@ -186,7 +191,7 @@ function openFile($path)
         $filesize = filesize($realPath);
 
         if ($filesize > 0) {
-            $handle   = fopen($realPath, 'rb');
+            $handle = fopen($realPath, 'rb');
             $contents = fread($handle, $filesize);
             fclose($handle);
         }
@@ -205,9 +210,9 @@ function openFile($path)
  * @deprecated
  * @throws Exception
  */
-function runBench(array $tests, array $options = array())
+function runBench(array $tests, array $options = [])
 {
-    if (!class_exists('\JBZoo\Profiler\Benchmark')) {
+    if (!class_exists(Benchmark::class)) {
         throw new Exception('jbzoo/profiler required for runBench() function');
     }
 
@@ -222,14 +227,14 @@ function runBench(array $tests, array $options = array())
  * @return string
  * @throws Exception
  */
-function cmd($command, $args = array(), $cwd = null, $verbose = false)
+function cmd($command, $args = [], $cwd = null, $verbose = false)
 {
-    if (!class_exists('\JBZoo\Utils\Cli')) {
+    if (!class_exists(Cli::class)) {
         throw new Exception('jbzoo/utils required for cmd() function');
     }
 
-    if (!class_exists('\Symfony\Component\Process\Process')) {
-        throw new Exception("symfony/process package required for cmd() function");
+    if (!class_exists(Process::class)) {
+        throw new Exception('symfony/process package required for cmd() function');
     }
 
     return Cli::exec($command, $args, $cwd, $verbose);
@@ -281,29 +286,29 @@ function cmd($command, $args = array(), $cwd = null, $verbose = false)
  */
 function isHtml($expected, $string)
 {
-    $count      = 0;
-    $regex      = array();
+    $count = 0;
+    $regex = [];
     $normalized = _normalizeHtmlExp($expected);
 
     foreach ($normalized as $tags) {
         $tags = _tagsToString($tags);
         $count++;
         if (is_string($tags) && $tags{0} === '<') {
-            $tags = array(substr($tags, 1) => array());
+            $tags = [substr($tags, 1) => []];
         } elseif (is_string($tags)) {
             $tagsTrimmed = preg_replace('/\s+/m', '', $tags);
 
             if (preg_match('/^\*?\//', $tags, $match) && $tagsTrimmed !== '//') {
-                $prefix = array(null, null);
+                $prefix = [null, null];
 
                 if ($match[0] === '*/') {
-                    $prefix = array('Anything, ', '.*?');
+                    $prefix = ['Anything, ', '.*?'];
                 }
-                $regex[] = array(
+                $regex[] = [
                     sprintf('%sClose %s tag', $prefix[0], substr($tags, strlen($match[0]))),
                     sprintf('%s<[\s]*\/[\s]*%s[\s]*>[\n\r]*', $prefix[1], substr($tags, strlen($match[0]))),
                     $count,
-                );
+                ];
                 continue;
             }
 
@@ -311,18 +316,18 @@ function isHtml($expected, $string)
             continue;
         }
         foreach ($tags as $tag => $attributes) {
-            $regex[] = array(sprintf('Open %s tag', $tag), sprintf('[\s]*<%s', preg_quote($tag, '/')), $count);
+            $regex[] = [sprintf('Open %s tag', $tag), sprintf('[\s]*<%s', preg_quote($tag, '/')), $count];
 
             if ($attributes === true) {
-                $attributes = array();
+                $attributes = [];
             }
 
-            $count        = 1;
-            $attrs        = array();
-            $explanations = array();
+            $count = 1;
+            $attrs = [];
+            $explanations = [];
             foreach ($attributes as $attr => $val) {
                 if (is_numeric($attr) && preg_match('/^preg\:\/(.+)\/$/i', $val, $matches)) {
-                    $attrs[]        = $matches[1];
+                    $attrs[] = $matches[1];
                     $explanations[] = sprintf('Regex "%s" matches', $matches[1]);
                     continue;
                 } else {
@@ -332,9 +337,9 @@ function isHtml($expected, $string)
                 $count++;
             }
             if ($attrs) {
-                $regex[] = array('explains' => $explanations, 'attrs' => $attrs);
+                $regex[] = ['explains' => $explanations, 'attrs' => $attrs];
             }
-            $regex[] = array(sprintf('End %s tag', $tag), '[\s]*\/?[\s]*>[\n\r]*', $count);
+            $regex[] = [sprintf('End %s tag', $tag), '[\s]*\/?[\s]*>[\n\r]*', $count];
         }
     }
     foreach ($regex as $count => $assertion) {
@@ -349,7 +354,7 @@ function isHtml($expected, $string)
             $expression = sprintf('/^%s/s', $expression);
             if (preg_match($expression, $string, $match)) {
                 $matches = true;
-                $string  = substr($string, strlen($match[0]));
+                $string = substr($string, strlen($match[0]));
                 break;
             }
         }
@@ -378,25 +383,25 @@ function _checkArrayAttrs($attr, $val, array $explanations)
     $quotes = '["\']';
     if (is_numeric($attr)) {
         $attr = $val;
-        $val  = '.+?';
+        $val = '.+?';
 
         $explanations[] = sprintf('Attribute "%s" present', $attr);
 
     } elseif (!empty($val) && preg_match('/^preg\:\/(.+)\/$/i', $val, $matches)) {
-        $val    = str_replace(array('.*', '.+'), array('.*?', '.+?'), $matches[1]);
+        $val = str_replace(['.*', '.+'], ['.*?', '.+?'], $matches[1]);
         $quotes = $val !== $matches[1] ? '["\']' : '["\']?';
 
         $explanations[] = sprintf('Attribute "%s" matches "%s"', $attr, $val);
 
     } else {
         $explanations[] = sprintf('Attribute "%s" == "%s"', $attr, $val);
-        $val            = preg_quote($val, '/');
+        $val = preg_quote($val, '/');
     }
 
-    return array(
+    return [
         $explanations,
         '[\s]+' . preg_quote($attr, '/') . '=' . $quotes . $val . $quotes,
-    );
+    ];
 }
 
 /**
@@ -408,7 +413,7 @@ function _checkArrayAttrs($attr, $val, array $explanations)
  */
 function _assertAttributes(array $assertions, $string)
 {
-    $asserts  = $assertions['attrs'];
+    $asserts = $assertions['attrs'];
     $explains = $assertions['explains'];
 
     do {
@@ -416,7 +421,7 @@ function _assertAttributes(array $assertions, $string)
         foreach ($asserts as $j => $assert) {
             if (preg_match(sprintf('/^%s/s', $assert), $string, $match)) {
                 $matches = true;
-                $string  = substr($string, strlen($match[0]));
+                $string = substr($string, strlen($match[0]));
                 array_splice($asserts, $j, 1);
                 array_splice($explains, $j, 1);
                 break;
@@ -439,10 +444,10 @@ function _assertAttributes(array $assertions, $string)
  */
 function _normalizeHtmlExp(array $expected)
 {
-    $normalized = array();
+    $normalized = [];
     foreach ((array)$expected as $key => $val) {
         if (!is_numeric($key)) {
-            $normalized[] = array($key => $val);
+            $normalized[] = [$key => $val];
         } else {
             $normalized[] = $val;
         }
@@ -479,7 +484,7 @@ function _getRegexByTagStr($tags, $count)
         $type = 'Text equals';
     }
 
-    return array(sprintf('%s "%s"', $type, $tags), $tags, $count);
+    return [sprintf('%s "%s"', $type, $tags), $tags, $count];
 }
 
 /**
@@ -490,9 +495,9 @@ function _getRegexByTagStr($tags, $count)
  * @return Response
  * @throws Exception
  */
-function httpRequest($url, $args = null, $method = 'GET', array $options = array())
+function httpRequest($url, $args = null, $method = 'GET', array $options = [])
 {
-    if (!class_exists('\JBZoo\HttpClient\HttpClient')) {
+    if (!class_exists(HttpClient::class)) {
         throw new Exception('jbzoo/http-client required for httpRequest() function');
     }
 
@@ -506,7 +511,7 @@ function httpRequest($url, $args = null, $method = 'GET', array $options = array
  */
 function getTestName($withNamespace = false)
 {
-    $objects = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT);
+    $objects = debug_backtrace();
     $result = null;
     foreach ($objects as $object) {
         if (isset($object['object']) && $object['object'] instanceof TestCase) {

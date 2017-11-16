@@ -16,45 +16,44 @@
         }
     ],
     "require"           : {
-        "php"                       : ">=5.5",
+        "php"                       : ">=7.0",
         "phpunit/phpcov"            : "^4.0",
-        "phpunit/phpunit"           : "^6.0",
-        "phploc/phploc"             : "^3.0|^4.0",
+        "phpunit/phpunit"           : "^6.4.4",
+        "phploc/phploc"             : "^4.0",
         "phpmd/phpmd"               : "^2.6",
-        "sebastian/phpcpd"          : "^3.0",
-        "squizlabs/php_codesniffer" : "^2.8|^3.0",
-        "ulrichsg/getopt-php"       : "^3.0|^2.3",
-        "jbzoo/misc"                : "^1.2"
+        "sebastian/phpcpd"          : "^3.0.1",
+        "squizlabs/php_codesniffer" : "^3.1.1",
+        "ulrichsg/getopt-php"       : "^3.0.3"
     },
     "require-dev"       : {
-        "guzzlehttp/guzzle"    : "^6.2",
-        "jbzoo/utils"          : "^1.7",
+        "guzzlehttp/guzzle"    : "^6.3",
+        "jbzoo/utils"          : "^1.7.11",
         "jbzoo/http-client"    : "^1.1",
         "jbzoo/profiler"       : "^1.0",
         "jbzoo/jbdump"         : "^1.5",
-        "symfony/process"      : "^3.2",
-        "symfony/var-dumper"   : "^3.2",
-        "symfony/dom-crawler"  : "^3.2",
-        "symfony/css-selector" : "^3.2",
-        "symfony/finder"       : "^3.2"
+        "symfony/process"      : "^3.3",
+        "symfony/var-dumper"   : "^3.3",
+        "symfony/dom-crawler"  : "^3.3",
+        "symfony/css-selector" : "^3.3",
+        "symfony/finder"       : "^3.3",
+        "jbzoo/misc"           : "^1.2"
+
     },
     "suggest"           : {
         "jbzoo/http-client"    : "For http-requests (^1.0)",
         "jbzoo/profiler"       : "For runBench() function (^1.0)",
         "jbzoo/jbdump"         : "For dump() function (^1.5)",
-        "symfony/var-dumper"   : "For dump() function (^2.8|^3.1)",
-        "symfony/process"      : "For cli() function (^2.8|^3.1)",
-        "symfony/dom-crawler"  : "For isHtml(not)Contain() function (^2.8|^3.1)",
-        "symfony/css-selector" : "For isHtml(not)Contain() function (^2.8|^3.1)",
-        "symfony/finder"       : "For CodeStyle tests (^2.8|^3.1)",
-        "ulrichsg/getopt-php"  : "For PHPUnit Server (^2.3)"
+        "symfony/var-dumper"   : "For dump() function (^3.3)",
+        "symfony/process"      : "For cli() function (^3.3)",
+        "symfony/dom-crawler"  : "For isHtml(not)Contain() function (^3.3)",
+        "symfony/css-selector" : "For isHtml(not)Contain() function (^3.3)",
+        "symfony/finder"       : "For CodeStyle tests (^3.3)"
     },
     "autoload"          : {
         "files" : [
             "src/functions/defines.php",
             "src/functions/aliases.php",
-            "src/functions/tools.php",
-            "src/functions/global.php"
+            "src/functions/tools.php"
         ],
         "psr-4" : {
             "JBZoo\\PHPUnit\\" : "src"

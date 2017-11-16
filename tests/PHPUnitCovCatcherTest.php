@@ -20,6 +20,7 @@ use JBZoo\Utils\FS;
 
 /**
  * Class PHPUnitCovCatcherTest
+ *
  * @package JBZoo\PHPUnit
  */
 class PHPUnitCovCatcherTest extends PHPUnit
@@ -28,7 +29,7 @@ class PHPUnitCovCatcherTest extends PHPUnit
     {
         parent::setUp();
 
-        if (!class_exists('\JBZoo\Utils\FS')) {
+        if (!class_exists(FS::class)) {
             throw new Exception('jbzoo/utils required for CovCatcher unit-tests');
         }
 
@@ -39,16 +40,16 @@ class PHPUnitCovCatcherTest extends PHPUnit
 
     public function testInclude()
     {
-        $catcher = new CovCatcher(null, array(
+        $catcher = new CovCatcher(null, [
             'src'  => PROJECT_TESTS . '/fixtures/includes',
             'xml'  => true,
             'cov'  => true,
             'html' => true,
-        ));
+        ]);
 
         ob_start();
         $return = $catcher->includeFile(PROJECT_TESTS . '/fixtures/includes/cov-catcher.php');
-        $echo   = ob_get_contents();
+        $echo = ob_get_contents();
         ob_end_clean();
 
         isSame(5, $return);
@@ -68,12 +69,12 @@ class PHPUnitCovCatcherTest extends PHPUnit
      */
     public function testIncludeWithException()
     {
-        $catcher = new CovCatcher(null, array(
+        $catcher = new CovCatcher(null, [
             'src'  => PROJECT_TESTS . '/fixtures/includes',
             'xml'  => true,
             'cov'  => true,
             'html' => true,
-        ));
+        ]);
 
         $catcher->includeFile(PROJECT_TESTS . '/fixtures/includes/cov-catcher-exception.php');
     }

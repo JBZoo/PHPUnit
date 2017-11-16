@@ -17,6 +17,7 @@ namespace JBZoo\PHPUnit;
 
 /**
  * Class PHPUnitAliasesTest
+ *
  * @package JBZoo\PHPUnit
  */
 class PHPUnitAliasesTest extends PHPUnit
@@ -40,9 +41,9 @@ class PHPUnitAliasesTest extends PHPUnit
         isEmpty(null);
         isEmpty('0');
         isEmpty(.0);
-        isEmpty(array());
+        isEmpty([]);
 
-        isNotEmpty(array(0));
+        isNotEmpty([0]);
         isNotEmpty(true);
         isNotEmpty('1');
         isNotEmpty(1);
@@ -51,39 +52,39 @@ class PHPUnitAliasesTest extends PHPUnit
     public function testEquals()
     {
         is(1, true);
-        is(array(1, 2, 3), array(1, 2, 3));
-        is(array('a' => 1, 'b' => 2), array('b' => 2, 'a' => 1));
+        is([1, 2, 3], [1, 2, 3]);
+        is(['a' => 1, 'b' => 2], ['b' => 2, 'a' => 1]);
         isNot(1, 2);
 
-        isSame(array(1, 2, 3), array(1, 2, 3));
-        isNotSame(array(1, 2, 3), array(3, 2, 1));
+        isSame([1, 2, 3], [1, 2, 3]);
+        isNotSame([1, 2, 3], [3, 2, 1]);
 
-        isKey('test', array('test' => true));
-        isNotKey('undefined', array('test' => true));
+        isKey('test', ['test' => true]);
+        isNotKey('undefined', ['test' => true]);
 
-        isAttr('test', (object)array('test' => true));
-        isNotAttr('undefined', (object)array('test' => true));
+        isAttr('test', (object)['test' => true]);
+        isNotAttr('undefined', (object)['test' => true]);
 
-        isBatch(array(
-            array(1, 1),
-            array(2, 2),
-        ));
+        isBatch([
+            [1, 1],
+            [2, 2],
+        ]);
 
     }
 
     public function testObjects()
     {
         isClass('stdClass', new \stdClass());
-        isClass('\stdClass', new \stdClass());
-        isClass('\JBZoo\PHPUnit\PHPUnit', $this);
-        isClass('JBZoo\PHPUnit\PHPUnit', $this);
+        isClass(\stdClass::class, new \stdClass());
+        isClass(PHPUnit::class, $this);
+        isClass(PHPUnit::class, $this);
     }
 
     public function testArray()
     {
-        isCount(0, array());
-        isCount(1, array(1));
-        isCount(2, array(1, 3));
+        isCount(0, []);
+        isCount(1, [1]);
+        isCount(2, [1, 3]);
     }
 
     public function testString()
@@ -157,8 +158,8 @@ class PHPUnitAliasesTest extends PHPUnit
     public function testIsSamePath()
     {
         isSamePath(__DIR__, __DIR__);
-        isSamePath(array('some/path'), 'some\\path');
-        isSamePath('some/path', array('some\\path'));
-        isSamePath(array(__DIR__, 'some/path'), array(__DIR__, 'some\\path'));
+        isSamePath(['some/path'], 'some\\path');
+        isSamePath('some/path', ['some\\path']);
+        isSamePath([__DIR__, 'some/path'], [__DIR__, 'some\\path']);
     }
 }

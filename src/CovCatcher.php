@@ -24,9 +24,11 @@ use SebastianBergmann\CodeCoverage\Filter;
 use SebastianBergmann\CodeCoverage\Report\Clover;
 use SebastianBergmann\CodeCoverage\Report\Html\Facade;
 use SebastianBergmann\CodeCoverage\Report\PHP;
+use JBZoo\Utils\Env;
 
 /**
  * Class CovCatcher
+ *
  * @package JBZoo\PHPUnit
  *
  * @codeCoverageIgnore
@@ -68,17 +70,18 @@ class CovCatcher
 
     /**
      * CovCatcher constructor.
+     *
      * @param string $testName
      * @param array  $options
      * @throws Exception
      */
     public function __construct($testName = null, array $options = [])
     {
-        if (!class_exists('\JBZoo\Data\Data')) {
+        if (!class_exists(Data::class)) {
             throw new Exception('jbzoo/data required for CovCatcher');
         }
 
-        if (!class_exists('\JBZoo\Utils\Env')) {
+        if (!class_exists(Env::class)) {
             throw new Exception('jbzoo/utils required for CovCatcher');
         }
 
@@ -231,12 +234,13 @@ class CovCatcher
 
     /**
      * Prepare and init config
+     *
      * @param array $options
      */
     protected function _initConfig(array $options)
     {
         $options = array_filter($options, function ($option) {
-            return (null === $option) ? false : true;
+            return null !== $option;
         });
 
         $this->_config = new Data(array_merge($this->_default, $options));

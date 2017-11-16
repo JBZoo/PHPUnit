@@ -18,9 +18,11 @@ namespace JBZoo\PHPUnit;
 use JBZoo\HttpClient\Response;
 use JBZoo\Utils\FS;
 use JBZoo\Utils\Sys;
+use JBZoo\HttpClient\HttpClient;
 
 /**
  * Class HttpServerTest
+ *
  * @package JBZoo\PHPUnit
  */
 class HttpServerTest extends PHPUnit
@@ -29,11 +31,11 @@ class HttpServerTest extends PHPUnit
     {
         parent::setUp();
 
-        if (!class_exists('\JBZoo\Utils\Sys')) {
+        if (!class_exists(Sys::class)) {
             throw new Exception('jbzoo/utils required for HttpServer unit-tests');
         }
 
-        if (!class_exists('\JBZoo\HttpClient\HttpClient')) {
+        if (!class_exists(HttpClient::class)) {
             throw new Exception('jbzoo/http-client required for HttpServer unit-tests');
         }
 
@@ -46,9 +48,9 @@ class HttpServerTest extends PHPUnit
     {
         $uniq = uniqid();
 
-        $result = $this->_httpRequest('http://localhost:8888/', array(
-            'test' => $uniq
-        ));
+        $result = $this->_httpRequest('http://localhost:8888/', [
+            'test' => $uniq,
+        ]);
 
         isSame($uniq, $result->getBody());
         isSame(200, $result->getCode());
@@ -64,9 +66,9 @@ class HttpServerTest extends PHPUnit
     {
         $uniq = uniqid();
 
-        $result = $this->_httpRequest('http://localhost:8888/index.php', array(
-            'test' => $uniq
-        ));
+        $result = $this->_httpRequest('http://localhost:8888/index.php', [
+            'test' => $uniq,
+        ]);
 
         isSame($uniq, $result->getBody());
         isSame(200, $result->getCode());
@@ -82,9 +84,9 @@ class HttpServerTest extends PHPUnit
     {
         $uniq = uniqid();
 
-        $result = $this->_httpRequest('http://localhost:8888/folder/index-second.php', array(
-            'test' => $uniq
-        ));
+        $result = $this->_httpRequest('http://localhost:8888/folder/index-second.php', [
+            'test' => $uniq,
+        ]);
 
         isSame($uniq, $result->getBody());
         isSame(200, $result->getCode());
@@ -102,7 +104,7 @@ class HttpServerTest extends PHPUnit
         isSame(200, $result->getCode());
         //isContain('User-agent: *', $result->getBody());
 
-        $result = $this->_httpRequest('http://localhost:8888/robots.txt', array('test' => '123456'));
+        $result = $this->_httpRequest('http://localhost:8888/robots.txt', ['test' => '123456']);
         isSame(200, $result->getCode());
         //isContain('User-agent: *', $result->getBody());
     }
@@ -112,7 +114,7 @@ class HttpServerTest extends PHPUnit
      * @param array  $args
      * @return Response
      */
-    protected function _httpRequest($url, $args = array())
+    protected function _httpRequest($url, $args = [])
     {
         return httpRequest($url, $args);
     }

@@ -15,9 +15,10 @@
 
 /**
  * Show message
+ *
  * @return string
  */
 function showTestMessage()
 {
-    return isset($_GET['test']) ? $_GET['test'] : 'undefined!';
+    return $_GET['test'] ?? 'undefined!';
 }

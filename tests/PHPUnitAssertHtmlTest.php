@@ -17,6 +17,7 @@ namespace JBZoo\PHPUnit;
 
 /**
  * Class PHPUnitAssertHtmlTest
+ *
  * @package JBZoo\PHPUnit
  */
 class PHPUnitAssertHtmlTest extends PHPUnit
@@ -26,107 +27,109 @@ class PHPUnitAssertHtmlTest extends PHPUnit
      */
     public function testAssertHtmlQuotes()
     {
-        $input   = '<a href="/test.html" class="active">My link</a>';
-        $pattern = array(
-            'a' => array('href' => '/test.html', 'class' => 'active'),
-                'My link',
-            '/a'
-        );
+        $input = '<a href="/test.html" class="active">My link</a>';
+        $pattern = [
+            'a' => ['href' => '/test.html', 'class' => 'active'],
+            'My link',
+            '/a',
+        ];
         isHtml($pattern, $input);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        $input   = "<a href='/test.html' class='active'>My link</a>";
-        $pattern = array(
-            'a' => array('href' => '/test.html', 'class' => 'active'),
-                'My link',
-            '/a'
-        );
+        $input = "<a href='/test.html' class='active'>My link</a>";
+        $pattern = [
+            'a' => ['href' => '/test.html', 'class' => 'active'],
+            'My link',
+            '/a',
+        ];
         isHtml($pattern, $input);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        $input   = '<link rel="stylesheet" type="text/css" href="path/css/libs/font-awesome.css?387456735964" />';
-        $pattern = array(
-            'link' => array(
-                'rel' => 'stylesheet', 'type' => 'text/css', 'href' => 'preg:/.*css\/libs\/font-awesome\.css\?[0-9]+/'
-            )
-        );
+        $input = '<link rel="stylesheet" type="text/css" href="path/css/libs/font-awesome.css?387456735964" />';
+        $pattern = [
+            'link' => [
+                'rel'  => 'stylesheet',
+                'type' => 'text/css',
+                'href' => 'preg:/.*css\/libs\/font-awesome\.css\?[0-9]+/',
+            ],
+        ];
         isHtml($pattern, $input);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        $input   = "<span><strong>Text</strong></span>";
-        $pattern = array(
+        $input = "<span><strong>Text</strong></span>";
+        $pattern = [
             '<span',
-                '<strong',
-                    'Text',
-                '/strong',
-            '/span'
-        );
+            '<strong',
+            'Text',
+            '/strong',
+            '/span',
+        ];
         isHtml($pattern, $input);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        $input   = "<span class='active'><strong>Text</strong></span>";
-        $pattern = array(
-            'span' => array('class'),
-                '<strong',
-                    'Text',
-                '/strong',
-            '/span'
-        );
+        $input = "<span class='active'><strong>Text</strong></span>";
+        $pattern = [
+            'span' => ['class'],
+            '<strong',
+            'Text',
+            '/strong',
+            '/span',
+        ];
         isHtml($pattern, $input);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         $value = 220985;
         $input = '<p><strong>' . $value . '</strong></p>';
-        $pattern = array(
+        $pattern = [
             '<p',
-                '<strong',
-                    $value,
-                '/strong',
-            '/p'
-        );
+            '<strong',
+            $value,
+            '/strong',
+            '/p',
+        ];
         isHtml($pattern, $input);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        $input   = '<p><strong>' . $value . '</strong></p><p><strong>' . $value . '</strong></p>';
-        $pattern = array(
+        $input = '<p><strong>' . $value . '</strong></p><p><strong>' . $value . '</strong></p>';
+        $pattern = [
             '<p',
-                '<strong',
-                    $value,
-                '/strong',
+            '<strong',
+            $value,
+            '/strong',
             '/p',
             '<p',
-                '<strong',
-                    $value,
-                '/strong',
+            '<strong',
+            $value,
+            '/strong',
             '/p',
-        );
+        ];
         isHtml($pattern, $input);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        $input   = '<p><strong>' . $value . '</strong></p><p id="' . $value . '"><strong>' . $value . '</strong></p>';
-        $pattern = array(
+        $input = '<p><strong>' . $value . '</strong></p><p id="' . $value . '"><strong>' . $value . '</strong></p>';
+        $pattern = [
             '<p',
-                '<strong',
-                    $value,
-                '/strong',
+            '<strong',
+            $value,
+            '/strong',
             '/p',
-            'p' => array('id' => $value),
-                '<strong',
-                    $value,
-                '/strong',
+            'p' => ['id' => $value],
+            '<strong',
+            $value,
+            '/strong',
             '/p',
-        );
+        ];
         isHtml($pattern, $input);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        $input = implode('', array(
+        $input = implode('', [
             '<link rel="stylesheet" type="text/css" href="path/styles.css" />',
             '<link rel="stylesheet" type="text/css" href="path/css/libs/font-awesome.css" />',
-        ));
-        $pattern = array(
-            array('link' => array('rel' => 'stylesheet', 'href' => 'path/styles.css', 'type' => 'text/css')),
-            array('link' => array('rel' => 'stylesheet', 'type' => 'text/css', 'href' => 'path/css/libs/font-awesome.css')),
-        );
+        ]);
+        $pattern = [
+            ['link' => ['rel' => 'stylesheet', 'href' => 'path/styles.css', 'type' => 'text/css']],
+            ['link' => ['rel' => 'stylesheet', 'type' => 'text/css', 'href' => 'path/css/libs/font-awesome.css']],
+        ];
         isHtml($pattern, $input);
     }
 }

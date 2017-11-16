@@ -19,6 +19,7 @@ use JBZoo\Profiler\Benchmark;
 
 /**
  * Class PHPUnitBenchmarkTest
+ *
  * @package JBZoo\PHPUnit
  */
 class PHPUnitBenchmarkTest extends PHPUnit
@@ -26,14 +27,14 @@ class PHPUnitBenchmarkTest extends PHPUnit
     public function testBenchmarkMemory()
     {
         // Just try to execute it
-        Benchmark::compare(array(
+        Benchmark::compare([
             'x1' => function () {
-                return str_repeat(mt_rand(0, 9), 900000);
+                return str_repeat(random_int(0, 9), 900000);
             },
             'x2' => function () {
-                return str_repeat(mt_rand(0, 9), 900000 * 2);
+                return str_repeat(random_int(0, 9), 900000 * 2);
             },
-        ), array('name' => 'runBench()'));
+        ], ['name' => 'runBench()']);
 
         isTrue(true);
     }
