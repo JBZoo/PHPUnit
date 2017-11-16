@@ -23,7 +23,7 @@
         "phpmd/phpmd"               : "^2.6",
         "sebastian/phpcpd"          : "^3.0",
         "squizlabs/php_codesniffer" : "^2.8|^3.0",
-        "ulrichsg/getopt-php"       : "^2.3",
+        "ulrichsg/getopt-php"       : "^3.0",
         "jbzoo/misc"                : "^1.2"
     },
     "require-dev"       : {
