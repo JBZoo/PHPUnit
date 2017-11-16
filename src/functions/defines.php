@@ -18,9 +18,6 @@
 
 !defined('JBZOO_PHPUNIT') && define('JBZOO_PHPUNIT', true);
 
-// PHP 5.3.3 doesn't support this
-!defined('DEBUG_BACKTRACE_PROVIDE_OBJECT') && define('DEBUG_BACKTRACE_PROVIDE_OBJECT', true);
-
 // System
 !defined('CRLF') && define('CRLF',  "\r\n");
 !defined('LF')   && define('LF',    "\n");

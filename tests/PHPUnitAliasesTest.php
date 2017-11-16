@@ -42,6 +42,7 @@ class PHPUnitAliasesTest extends PHPUnit
         isEmpty('0');
         isEmpty(.0);
         isEmpty([]);
+        isEmpty(false);
 
         isNotEmpty([0]);
         isNotEmpty(true);
@@ -69,7 +70,6 @@ class PHPUnitAliasesTest extends PHPUnit
             [1, 1],
             [2, 2],
         ]);
-
     }
 
     public function testObjects()
@@ -116,50 +116,10 @@ class PHPUnitAliasesTest extends PHPUnit
         skip('Some reason to skip this test');
     }
 
-    public function testHtmlContain()
+    public function testOthers()
     {
-        $html = '<body>
-            <div class="test-class">
-                <p>qwerty</p>
-            </div>
-            <span class="empty-1"> </span>
-            <span class="empty-2"></span>
-        </body>';
-
-        isHtmlContain($html, 'body > div.test-class p', 'qwerty');
-        isHtmlContain($html, 'body .empty-1', ' ');
-        isHtmlContain($html, 'body .empty-2', '');
-
-        isHtmlContain($html, 'body .empty-undefined', '', 'Empty string should be success');
-        isHtmlContain($html, 'body .empty-undefined', null, 'NULL should be success');
-        isHtmlContain($html, 'body .empty-undefined', false, 'FALSE should be success');
-        isHtmlContain($html, 'body .empty-undefined', 0, 'FALSE should be success');
-    }
-
-    public function testHtmlNotContain()
-    {
-        $html = '<body>
-            <div class="test-class">
-                <p>qwerty</p>
-            </div>
-            <span class="empty-1"> </span>
-            <span class="empty-2"></span>
-        </body>';
-
-        isHtmlNotContain($html, 'body > div.test-class p', 'qwerty-123');
-        isHtmlNotContain($html, 'body .empty-1', 'qwerty');
-        isHtmlNotContain($html, 'body .empty-2', ' ');
-
-        isHtmlNotContain($html, 'body .empty-undefined', '');
-        isHtmlNotContain($html, 'body .empty-undefined', ' ');
-        isHtmlNotContain($html, 'body .empty-undefined', 123);
-    }
-
-    public function testIsSamePath()
-    {
-        isSamePath(__DIR__, __DIR__);
-        isSamePath(['some/path'], 'some\\path');
-        isSamePath('some/path', ['some\\path']);
-        isSamePath([__DIR__, 'some/path'], [__DIR__, 'some\\path']);
+        isEmail('e@mail.com');
+        iCurrentDate('now');
+        isNotEmail('email.com');
     }
 }
