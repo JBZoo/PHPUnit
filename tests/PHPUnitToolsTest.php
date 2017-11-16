@@ -59,9 +59,4 @@ class PHPUnitToolsTest extends PHPUnit
         isContain(__FUNCTION__, getTestName(false));
         isContain('ToolsTest::testGetTestName', getTestName());
     }
-
-    public function testGetTestCase()
-    {
-        isSame($this, getTestcase());
-    }
 }

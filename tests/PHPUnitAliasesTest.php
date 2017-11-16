@@ -119,7 +119,7 @@ class PHPUnitAliasesTest extends PHPUnit
     public function testOthers()
     {
         isEmail('e@mail.com');
-        iCurrentDate('now');
+        isCurrentDate('now');
         isNotEmail('email.com');
     }
 }

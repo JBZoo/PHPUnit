@@ -30,12 +30,12 @@ class PHPUnitCodeStyleTest extends Codestyle
      *
      * @var array
      */
-    protected $_excludePaths = array(
+    protected $_excludePaths = [
         '.git',
         '.idea',
         'bin',
         'build',
         'logs',
         'vendor',
-    );
+    ];
 }

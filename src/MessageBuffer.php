@@ -38,7 +38,7 @@ class MessageBuffer
     /**
      * @return MessageBuffer
      */
-    public static function getInstance()
+    public static function getInstance(): MessageBuffer
     {
         static $instance;
 

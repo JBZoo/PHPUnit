@@ -46,9 +46,9 @@ class HttpServerTest extends PHPUnit
 
     public function testSimple()
     {
-        $uniq = uniqid();
+        $uniq = uniqid('', true);
 
-        $result = $this->_httpRequest('http://localhost:8888/', [
+        $result = $this->httpRequest('http://localhost:8888/', [
             'test' => $uniq,
         ]);
 
@@ -64,9 +64,9 @@ class HttpServerTest extends PHPUnit
 
     public function testDirectIndex()
     {
-        $uniq = uniqid();
+        $uniq = uniqid('', true);
 
-        $result = $this->_httpRequest('http://localhost:8888/index.php', [
+        $result = $this->httpRequest('http://localhost:8888/index.php', [
             'test' => $uniq,
         ]);
 
@@ -82,9 +82,9 @@ class HttpServerTest extends PHPUnit
 
     public function testNestedIndex()
     {
-        $uniq = uniqid();
+        $uniq = uniqid('', true);
 
-        $result = $this->_httpRequest('http://localhost:8888/folder/index-second.php', [
+        $result = $this->httpRequest('http://localhost:8888/folder/index-second.php', [
             'test' => $uniq,
         ]);
 
@@ -100,11 +100,11 @@ class HttpServerTest extends PHPUnit
 
     public function testAssets()
     {
-        $result = $this->_httpRequest('http://localhost:8888/robots.txt');
+        $result = $this->httpRequest('http://localhost:8888/robots.txt');
         isSame(200, $result->getCode());
         //isContain('User-agent: *', $result->getBody());
 
-        $result = $this->_httpRequest('http://localhost:8888/robots.txt', ['test' => '123456']);
+        $result = $this->httpRequest('http://localhost:8888/robots.txt', ['test' => '123456']);
         isSame(200, $result->getCode());
         //isContain('User-agent: *', $result->getBody());
     }
@@ -114,7 +114,7 @@ class HttpServerTest extends PHPUnit
      * @param array  $args
      * @return Response
      */
-    protected function _httpRequest($url, $args = [])
+    protected function httpRequest($url, $args = []): Response
     {
         return httpRequest($url, $args);
     }

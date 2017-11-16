@@ -452,7 +452,7 @@ function isNotEmail($mixedVar, $message = null)
  * @param int    $timeDiff
  * @param string $message
  */
-function iCurrentDate($date, $timeDiff = 300, $message = null)
+function isCurrentDate($date, $timeDiff = 300, $message = null)
 {
     $nowDate = new \DateTime('now');
     $checkDate = new \DateTime($date);
