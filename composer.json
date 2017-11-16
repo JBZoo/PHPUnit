@@ -26,17 +26,18 @@
         "ulrichsg/getopt-php"       : "^3.0.3"
     },
     "require-dev"       : {
-        "guzzlehttp/guzzle"    : "^6.3",
-        "jbzoo/utils"          : "^1.7.11",
-        "jbzoo/http-client"    : "^1.1",
-        "jbzoo/profiler"       : "^1.0",
-        "jbzoo/jbdump"         : "^1.5",
-        "symfony/process"      : "^3.3",
-        "symfony/var-dumper"   : "^3.3",
-        "symfony/dom-crawler"  : "^3.3",
-        "symfony/css-selector" : "^3.3",
-        "symfony/finder"       : "^3.3",
-        "jbzoo/misc"           : "^1.2"
+        "guzzlehttp/guzzle"      : "^6.3",
+        "jbzoo/utils"            : "^1.7.11",
+        "jbzoo/http-client"      : "^1.1",
+        "jbzoo/profiler"         : "^1.0",
+        "jbzoo/jbdump"           : "^1.5",
+        "symfony/process"        : "^3.3",
+        "symfony/var-dumper"     : "^3.3",
+        "symfony/dom-crawler"    : "^3.3",
+        "symfony/css-selector"   : "^3.3",
+        "symfony/finder"         : "^3.3",
+        "jbzoo/misc"             : "^1.2",
+        "satooshi/php-coveralls" : "^1.0.2"
 
     },
     "suggest"           : {
