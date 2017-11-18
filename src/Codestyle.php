@@ -303,6 +303,8 @@ abstract class Codestyle extends PHPUnit
                 isNotContain("\t", $content, false, 'File has \t symbol: ' . $file);
             }
         }
+
+        isTrue(true); // One assert is a minimum for test complete
     }
 
     /**
@@ -325,6 +327,8 @@ abstract class Codestyle extends PHPUnit
             $content = openFile($file->getPathname());
             isContain($valid, $content, false, 'File has no valid header: ' . $file);
         }
+
+        isTrue(true); // One assert is a minimum for test complete
     }
 
     /**
@@ -349,6 +353,8 @@ abstract class Codestyle extends PHPUnit
             $content = openFile($file->getPathname());
             isContain($valid, $content, false, 'File has no valid header: ' . $file);
         }
+
+        isTrue(true); // One assert is a minimum for test complete
     }
 
     /**
@@ -371,6 +377,8 @@ abstract class Codestyle extends PHPUnit
             $content = openFile($file->getPathname());
             isContain($valid, $content, false, 'File has no valid header: ' . $file);
         }
+
+        isTrue(true); // One assert is a minimum for test complete
     }
 
     /**
@@ -392,6 +400,8 @@ abstract class Codestyle extends PHPUnit
             $content = openFile($file->getPathname());
             isContain($valid, $content, false, 'File has no valid header: ' . $file);
         }
+
+        isTrue(true); // One assert is a minimum for test complete
     }
 
     /**
@@ -414,6 +424,8 @@ abstract class Codestyle extends PHPUnit
             $content = openFile($file->getPathname());
             isContain($valid, $content, false, 'File has no valid header: ' . $file);
         }
+
+        isTrue(true); // One assert is a minimum for test complete
     }
 
     /**
@@ -435,6 +447,8 @@ abstract class Codestyle extends PHPUnit
             $content = openFile($file->getPathname());
             isContain($valid, $content, false, 'File has no valid header: ' . $file);
         }
+
+        isTrue(true); // One assert is a minimum for test complete
     }
 
     /**
@@ -445,7 +459,7 @@ abstract class Codestyle extends PHPUnit
         $valid = $this->_prepareTemplate(implode($this->_validHeaderSH, $this->_le));
 
         $excludePaths = $this->_excludePaths;
-        $binIndex = array_search('bin', $excludePaths);
+        $binIndex = array_search('bin', $excludePaths, true);
         if ($binIndex !== false) {
             unset($excludePaths[$binIndex]);
         }
@@ -462,6 +476,8 @@ abstract class Codestyle extends PHPUnit
             $content = openFile($file->getPathname());
             isContain($valid, $content, false, 'File has no valid header: ' . $file);
         }
+
+        isTrue(true); // One assert is a minimum for test complete
     }
 
     /**
@@ -483,6 +499,8 @@ abstract class Codestyle extends PHPUnit
             $content = openFile($file->getPathname());
             isContain($valid, $content, false, 'File has no valid header: ' . $file);
         }
+
+        isTrue(true); // One assert is a minimum for test complete
     }
 
     /**
@@ -505,6 +523,8 @@ abstract class Codestyle extends PHPUnit
             $content = openFile($file->getPathname());
             isContain($valid, $content, false, 'File has no valid header: ' . $file);
         }
+
+        isTrue(true); // One assert is a minimum for test complete
     }
 
     /**
@@ -529,6 +549,8 @@ abstract class Codestyle extends PHPUnit
             $content = openFile($file->getPathname());
             isContain($valid, $content, false, 'File has no valid header: ' . $file);
         }
+
+        isTrue(true); // One assert is a minimum for test complete
     }
 
     /**
@@ -559,7 +581,7 @@ abstract class Codestyle extends PHPUnit
             }
         }
 
-        isTrue(true);
+        isTrue(true); // One assert is a minimum for test complete
     }
 
     /**
@@ -568,7 +590,7 @@ abstract class Codestyle extends PHPUnit
      * @param string $text
      * @return string
      */
-    protected function _prepareTemplate($text)
+    protected function _prepareTemplate($text): string
     {
         foreach ($this->_replace as $const => $value) {
             $text = str_replace($const, $value, $text);
