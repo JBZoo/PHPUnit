@@ -18,7 +18,7 @@
     "require"           : {
         "php"                       : ">=7.0",
         "phpunit/phpcov"            : "^4.0",
-        "phpunit/phpunit"           : "^6.4.4|^7.0",
+        "phpunit/phpunit"           : "^7.0",
         "phploc/phploc"             : "^4.0",
         "phpmd/phpmd"               : "^2.6",
         "sebastian/phpcpd"          : "^3.0.1",
