@@ -16,7 +16,7 @@
         }
     ],
     "require"           : {
-        "php"                       : ">=7.0",
+        "php"                       : ">=7.1",
         "phpunit/phpcov"            : "^5.0",
         "phpunit/phpunit"           : "^7.0",
         "phploc/phploc"             : "^4.0",
