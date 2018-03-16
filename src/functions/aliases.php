@@ -58,7 +58,7 @@ function fail($msg)
  *
  * @param $msg
  */
-function success($msg = null)
+function success(string $msg = '')
 {
     /** @noinspection PhpMethodParametersCountMismatchInspection */
     Assert::isTrue(true, $msg);
@@ -68,37 +68,37 @@ function success($msg = null)
 /**** Asserts *********************************************************************************************************/
 
 /**
- * @param mixed $expected
- * @param mixed $actual
- * @param null  $msg
+ * @param mixed  $expected
+ * @param mixed  $actual
+ * @param string $msg
  * @return bool
  *
  * @SuppressWarnings(PHPMD.ShortMethodName)
  */
-function is($expected, $actual, $msg = null)
+function is($expected, $actual, string $msg = '')
 {
     Assert::assertEquals($expected, $actual, $msg);
     return $expected === $actual;
 }
 
 /**
- * @param mixed $expected
- * @param mixed $actual
- * @param null  $msg
+ * @param mixed  $expected
+ * @param mixed  $actual
+ * @param string $msg
  * @return bool
  */
-function isNot($expected, $actual, $msg = null)
+function isNot($expected, $actual, string $msg = '')
 {
     Assert::assertNotEquals($expected, $actual, $msg);
     return $expected === $actual;
 }
 
 /**
- * @param array $testList
- * @param null  $msg
+ * @param array  $testList
+ * @param string $msg
  * @return bool
  */
-function isBatch($testList, $msg = null)
+function isBatch($testList, string $msg = '')
 {
     foreach ($testList as $testItem) {
         Assert::assertEquals($testItem[0], $testItem[1], $msg);
@@ -106,22 +106,22 @@ function isBatch($testList, $msg = null)
 }
 
 /**
- * @param bool $value
- * @param null $msg
+ * @param bool   $value
+ * @param string $msg
  * @return bool
  */
-function isTrue($value, $msg = null)
+function isTrue($value, string $msg = '')
 {
     Assert::assertTrue($value ? true : false, $msg);
     return $value ? true : false;
 }
 
 /**
- * @param bool $value
- * @param null $msg
+ * @param bool   $value
+ * @param string $msg
  * @return bool
  */
-function isFalse($value, $msg = null)
+function isFalse($value, string $msg = '')
 {
     Assert::assertFalse($value ? true : false, $msg);
     return $value ? true : false;
@@ -131,19 +131,19 @@ function isFalse($value, $msg = null)
 /**
  * @param mixed  $expected
  * @param string $className
- * @param null   $msg
+ * @param string $msg
  */
-function isClass($expected, $className, $msg = null)
+function isClass($expected, $className, string $msg = '')
 {
     Assert::assertInstanceOf($expected, $className, $msg);
 }
 
 /**
- * @param int   $expected
- * @param mixed $actual
- * @param null  $msg
+ * @param int    $expected
+ * @param mixed  $actual
+ * @param string $msg
  */
-function isCount($expected, $actual, $msg = null)
+function isCount($expected, $actual, string $msg = '')
 {
     Assert::assertCount($expected, $actual, $msg);
 }
@@ -152,9 +152,9 @@ function isCount($expected, $actual, $msg = null)
 /**
  * @param string $pattern
  * @param string $value
- * @param null   $msg
+ * @param string $msg
  */
-function isLike($pattern, $value, $msg = null)
+function isLike($pattern, $value, string $msg = '')
 {
     Assert::assertRegExp($pattern, $value, $msg);
 }
@@ -162,9 +162,9 @@ function isLike($pattern, $value, $msg = null)
 /**
  * @param string $pattern
  * @param string $value
- * @param null   $msg
+ * @param string $msg
  */
-function isNotLike($pattern, $value, $msg = null)
+function isNotLike($pattern, $value, string $msg = '')
 {
     Assert::assertNotRegExp($pattern, $value, $msg);
 }
@@ -172,10 +172,10 @@ function isNotLike($pattern, $value, $msg = null)
 /**
  * @param string $filePathOrig
  * @param string $filePathCopy
- * @param null   $msg
+ * @param string $msg
  *
  */
-function isFileEq($filePathOrig, $filePathCopy, $msg = null)
+function isFileEq($filePathOrig, $filePathCopy, string $msg = '')
 {
     Assert::assertFileEquals($filePathOrig, $filePathCopy, $msg);
 }
@@ -185,17 +185,17 @@ function isFileEq($filePathOrig, $filePathCopy, $msg = null)
  * @param $actual
  * @param $msg
  */
-function isSame($expected, $actual, $msg = null)
+function isSame($expected, $actual, string $msg = '')
 {
     Assert::assertSame($expected, $actual, $msg);
 }
 
 /**
- * @param mixed $expected
- * @param mixed $actual
- * @param null  $msg
+ * @param mixed  $expected
+ * @param mixed  $actual
+ * @param string $msg
  */
-function isNotSame($expected, $actual, $msg = null)
+function isNotSame($expected, $actual, string $msg = '')
 {
     Assert::assertNotSame($expected, $actual, $msg);
 }
@@ -217,19 +217,19 @@ function isNotNull($expected)
 }
 
 /**
- * @param mixed $expected
- * @param null  $msg
+ * @param mixed  $expected
+ * @param string $msg
  */
-function isEmpty($expected, $msg = null)
+function isEmpty($expected, string $msg = '')
 {
     Assert::assertEmpty($expected, $msg);
 }
 
 /**
- * @param mixed $expected
- * @param null  $msg
+ * @param mixed  $expected
+ * @param string $msg
  */
-function isNotEmpty($expected, $msg = null)
+function isNotEmpty($expected, string $msg = '')
 {
     Assert::assertNotEmpty($expected, $msg);
 }
@@ -237,9 +237,9 @@ function isNotEmpty($expected, $msg = null)
 /**
  * @param string $key
  * @param array  $array
- * @param null   $msg
+ * @param string $msg
  */
-function isKey($key, $array, $msg = null)
+function isKey($key, $array, string $msg = '')
 {
     Assert::assertArrayHasKey($key, $array, $msg);
 }
@@ -247,9 +247,9 @@ function isKey($key, $array, $msg = null)
 /**
  * @param string $key
  * @param array  $array
- * @param null   $msg
+ * @param string $msg
  */
-function isNotKey($key, $array, $msg = null)
+function isNotKey($key, $array, string $msg = '')
 {
     Assert::assertArrayNotHasKey($key, $array, $msg);
 }
@@ -280,9 +280,9 @@ function isNotAttr($attrName, $object)
 
 /**
  * @param string $path
- * @param null   $msg
+ * @param string $msg
  */
-function isDir($path, $msg = null)
+function isDir($path, string $msg = '')
 {
     Assert::assertFileExists($path, $msg);
     Assert::assertTrue(is_dir($path));
@@ -290,9 +290,9 @@ function isDir($path, $msg = null)
 
 /**
  * @param string $path
- * @param null   $msg
+ * @param string $msg
  */
-function isNotDir($path, $msg = null)
+function isNotDir($path, string $msg = '')
 {
     if (is_dir($path)) {
         //@codeCoverageIgnoreStart
@@ -305,18 +305,18 @@ function isNotDir($path, $msg = null)
 
 /**
  * @param string $path
- * @param null   $msg
+ * @param string $msg
  */
-function isFile($path, $msg = null)
+function isFile($path, string $msg = '')
 {
     Assert::assertFileExists($path, $msg);
 }
 
 /**
  * @param string $path
- * @param null   $msg
+ * @param string $msg
  */
-function isNotFile($path, $msg = null)
+function isNotFile($path, string $msg = '')
 {
     if (!is_dir($path)) {
         Assert::assertFileNotExists($path, $msg);
@@ -329,9 +329,9 @@ function isNotFile($path, $msg = null)
  * @param string $expected
  * @param string $value
  * @param bool   $ignoreCase
- * @param null   $msg
+ * @param string $msg
  */
-function isContain($expected, $value, $ignoreCase = false, $msg = null)
+function isContain($expected, $value, $ignoreCase = false, string $msg = '')
 {
     Assert::assertContains($expected, $value, $msg, $ignoreCase);
 }
@@ -340,9 +340,9 @@ function isContain($expected, $value, $ignoreCase = false, $msg = null)
  * @param string $expected
  * @param string $value
  * @param bool   $ignoreCase
- * @param null   $msg
+ * @param string $msg
  */
-function isNotContain($expected, $value, $ignoreCase = false, $msg = null)
+function isNotContain($expected, $value, $ignoreCase = false, string $msg = '')
 {
     Assert::assertNotContains($expected, $value, $msg, $ignoreCase);
 }
@@ -357,7 +357,7 @@ function isNotContain($expected, $value, $ignoreCase = false, $msg = null)
  * @return bool
  * @throws Exception
  */
-function isHtmlContain($html, $selector, $expected = null, $msg = null)
+function isHtmlContain($html, $selector, $expected = null, string $msg = '')
 {
     if (!class_exists(Crawler::class)) {
         throw new Exception('symfony/dom-crawler required for isHtmlContain() function'); // @codeCoverageIgnore
@@ -397,7 +397,7 @@ function isHtmlContain($html, $selector, $expected = null, $msg = null)
  * @return bool
  * @throws Exception
  */
-function isHtmlNotContain($html, $selector, $expected, $msg = null)
+function isHtmlNotContain($html, $selector, $expected, string $msg = '')
 {
     if (!class_exists(Crawler::class)) {
         throw new Exception('symfony/dom-crawler required for isHtmlNotContain() function'); // @codeCoverageIgnore
@@ -429,32 +429,32 @@ function isHtmlNotContain($html, $selector, $expected, $msg = null)
 
 /**
  * @param string $mixedVar
- * @param string $message
+ * @param string $msg
  * @return bool
  */
-function isEmail($mixedVar, $message = null)
+function isEmail($mixedVar, string $msg = '')
 {
-    isTrue(filter_var($mixedVar, FILTER_VALIDATE_EMAIL), $message);
+    isTrue(filter_var($mixedVar, FILTER_VALIDATE_EMAIL), $msg);
 }
 
 /**
  * @param string $mixedVar
- * @param string $message
+ * @param string $msg
  * @return bool
  */
-function isNotEmail($mixedVar, $message = null)
+function isNotEmail($mixedVar, string $msg = '')
 {
-    isFalse(filter_var($mixedVar, FILTER_VALIDATE_EMAIL), $message);
+    isFalse(filter_var($mixedVar, FILTER_VALIDATE_EMAIL), $msg);
 }
 
 /**
  * @param string $date
  * @param int    $timeDiff
- * @param string $message
+ * @param string $msg
  */
-function isCurrentDate($date, $timeDiff = 300, $message = null)
+function isCurrentDate($date, $timeDiff = 300, string $msg = '')
 {
     $nowDate = new \DateTime('now');
     $checkDate = new \DateTime($date);
-    Assert::assertEquals($nowDate->getTimestamp(), $checkDate->getTimestamp(), $message, $timeDiff);
+    Assert::assertEquals($nowDate->getTimestamp(), $checkDate->getTimestamp(), $msg, $timeDiff);
 }
