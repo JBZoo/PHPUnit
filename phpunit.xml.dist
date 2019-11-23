@@ -17,7 +17,6 @@
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          processIsolation="false"
-         syntaxCheck="true"
          stopOnError="true"
          stopOnFailure="true"
          stopOnIncomplete="true"
@@ -36,9 +35,6 @@
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">src</directory>
         </whitelist>
-        <exclude>
-            <directory suffix=".php">src/Console</directory>
-        </exclude>
     </filter>
 
     <logging>

@@ -25,7 +25,7 @@ class PHPUnitToolsTest extends PHPUnit
     public function testHttpRequest()
     {
         $uniq = uniqid('', true);
-        $url = 'http://httpbin.org/post';
+        $url = 'https://httpbin.org/post';
         $args = ['qwerty' => $uniq];
 
         $result = httpRequest($url, $args, 'post');
@@ -83,5 +83,6 @@ class PHPUnitToolsTest extends PHPUnit
     {
         cliMessage('cliMessage');
         cliError('cliError');
+        isTrue(true);
     }
 }
