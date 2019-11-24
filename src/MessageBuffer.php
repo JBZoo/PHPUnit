@@ -33,7 +33,7 @@ class MessageBuffer
     /**
      * @var array
      */
-    protected $Аerror = [];
+    protected $error = [];
 
     /**
      * @return MessageBuffer
