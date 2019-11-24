@@ -333,7 +333,11 @@ function isNotFile($path, string $msg = '')
  */
 function isContain($expected, $value, $ignoreCase = false, string $msg = '')
 {
-    Assert::assertContains($expected, $value, $msg, $ignoreCase);
+    if ($ignoreCase) {
+        Assert::assertStringContainsStringIgnoringCase($expected, $value, $msg);
+    } else {
+        Assert::assertStringContainsString($expected, $value, $msg);
+    }
 }
 
 /**
@@ -344,7 +348,11 @@ function isContain($expected, $value, $ignoreCase = false, string $msg = '')
  */
 function isNotContain($expected, $value, $ignoreCase = false, string $msg = '')
 {
-    Assert::assertNotContains($expected, $value, $msg, $ignoreCase);
+    if ($ignoreCase) {
+        Assert::assertStringNotContainsStringIgnoringCase($expected, $value, $msg);
+    } else {
+        Assert::assertStringNotContainsString($expected, $value, $msg);
+    }
 }
 
 /**
@@ -453,5 +461,5 @@ function isCurrentDate($date, $timeDiff = 300, string $msg = '')
 {
     $nowDate = new DateTime('now');
     $checkDate = new DateTime($date);
-    Assert::assertEquals($nowDate->getTimestamp(), $checkDate->getTimestamp(), $msg, $timeDiff);
+    Assert::assertEqualsWithDelta($nowDate->getTimestamp(), $checkDate->getTimestamp(), $timeDiff, $msg);
 }

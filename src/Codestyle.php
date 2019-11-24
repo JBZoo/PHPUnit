@@ -238,7 +238,7 @@ abstract class Codestyle extends PHPUnit
     /**
      * @throws \Exception
      */
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

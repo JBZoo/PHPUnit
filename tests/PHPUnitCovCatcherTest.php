@@ -15,8 +15,10 @@
 
 namespace JBZoo\PHPUnit;
 
-use JBZoo\Utils\Sys;
 use JBZoo\Utils\FS;
+use JBZoo\Utils\Sys;
+use ReflectionException;
+use RuntimeException;
 
 /**
  * Class PHPUnitCovCatcherTest
@@ -25,7 +27,10 @@ use JBZoo\Utils\FS;
  */
 class PHPUnitCovCatcherTest extends PHPUnit
 {
-    protected function setUp()
+    /**
+     * @throws Exception
+     */
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -33,11 +38,15 @@ class PHPUnitCovCatcherTest extends PHPUnit
             throw new Exception('jbzoo/utils required for CovCatcher unit-tests');
         }
 
-        FS::rmdir(PROJECT_BUILD . '/coverage_cov');
-        FS::rmdir(PROJECT_BUILD . '/coverage_html');
-        FS::rmdir(PROJECT_BUILD . '/coverage_xml');
+        FS::rmDir(PROJECT_BUILD . '/coverage_cov');
+        FS::rmDir(PROJECT_BUILD . '/coverage_html');
+        FS::rmDir(PROJECT_BUILD . '/coverage_xml');
     }
 
+    /**
+     * @throws Exception
+     * @throws ReflectionException
+     */
     public function testInclude()
     {
         $catcher = new CovCatcher(null, [
@@ -49,8 +58,7 @@ class PHPUnitCovCatcherTest extends PHPUnit
 
         ob_start();
         $return = $catcher->includeFile(PROJECT_TESTS . '/fixtures/includes/cov-catcher.php');
-        $echo = ob_get_contents();
-        ob_end_clean();
+        $echo = ob_get_clean();
 
         isSame(5, $return);
         isSame('Some text message', $echo);
@@ -64,11 +72,10 @@ class PHPUnitCovCatcherTest extends PHPUnit
         }
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function testIncludeWithException()
     {
+        $this->expectException(RuntimeException::class);
+
         $catcher = new CovCatcher(null, [
             'src'  => PROJECT_TESTS . '/fixtures/includes',
             'xml'  => true,

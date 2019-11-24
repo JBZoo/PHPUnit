@@ -21,13 +21,13 @@ use JBZoo\Utils\Sys;
 use JBZoo\HttpClient\HttpClient;
 
 /**
- * Class HttpServerTest
+ * Class PHPUnitHttpServerTest
  *
  * @package JBZoo\PHPUnit
  */
-class HttpServerTest extends PHPUnit
+class PHPUnitHttpServerTest extends PHPUnit
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
