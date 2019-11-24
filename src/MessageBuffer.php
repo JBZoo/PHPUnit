@@ -28,12 +28,12 @@ class MessageBuffer
     /**
      * @var array
      */
-    protected $_info = [];
+    protected $info = [];
 
     /**
      * @var array
      */
-    protected $_error = [];
+    protected $Аerror = [];
 
     /**
      * @return MessageBuffer
@@ -54,7 +54,7 @@ class MessageBuffer
      */
     public function info($message)
     {
-        $this->_info[] = $message;
+        $this->info[] = $message;
     }
 
     /**
@@ -62,7 +62,7 @@ class MessageBuffer
      */
     public function error($message)
     {
-        $this->_error[] = $message;
+        $this->error[] = $message;
     }
 
     /**
@@ -70,11 +70,11 @@ class MessageBuffer
      */
     public function __destruct()
     {
-        foreach ($this->_info as $message) {
+        foreach ($this->info as $message) {
             Cli::out($message, false);
         }
 
-        foreach ($this->_error as $message) {
+        foreach ($this->error as $message) {
             Cli::err($message, false);
         }
     }

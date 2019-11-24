@@ -87,9 +87,9 @@ function openFile($path)
  * @param string $command
  * @param array  $args
  * @param null   $cwd
- * @param bool   $verbose
  * @return string
  * @throws Exception
+ * @throws \JBZoo\Utils\Exception
  */
 function cmd($command, $args = [], $cwd = null)
 {
@@ -111,6 +111,7 @@ function cmd($command, $args = [], $cwd = null)
  * @param array        $options
  * @return Response
  * @throws Exception
+ * @throws \JBZoo\HttpClient\Exception
  */
 function httpRequest($url, $args = null, $method = 'GET', array $options = [])
 {

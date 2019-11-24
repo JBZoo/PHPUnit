@@ -15,6 +15,7 @@
 
 namespace JBZoo\PHPUnit;
 
+use SplFileInfo;
 use Symfony\Component\Finder\Finder;
 
 /**
@@ -295,10 +296,10 @@ abstract class Codestyle extends PHPUnit
             ->exclude('Makefile')
             ->exclude($this->_excludePaths);
 
-        /** @var \SplFileInfo $file */
+        /** @var SplFileInfo $file */
         foreach ($finder as $file) {
             $content = openFile($file->getPathname());
-            if (strlen($content) > 0) {
+            if ($content) {
                 isNotContain("\r", $content, false, 'File has \r symbol: ' . $file);
                 isNotContain("\t", $content, false, 'File has \t symbol: ' . $file);
             }
@@ -322,7 +323,7 @@ abstract class Codestyle extends PHPUnit
             ->name('*.php')
             ->name('*.phtml');
 
-        /** @var \SplFileInfo $file */
+        /** @var SplFileInfo $file */
         foreach ($finder as $file) {
             $content = openFile($file->getPathname());
             isContain($valid, $content, false, 'File has no valid header: ' . $file);
@@ -348,7 +349,7 @@ abstract class Codestyle extends PHPUnit
             ->name('*.jsx')
             ->notName('*.min.jsx');
 
-        /** @var \SplFileInfo $file */
+        /** @var SplFileInfo $file */
         foreach ($finder as $file) {
             $content = openFile($file->getPathname());
             isContain($valid, $content, false, 'File has no valid header: ' . $file);
@@ -372,7 +373,7 @@ abstract class Codestyle extends PHPUnit
             ->name('*.css')
             ->notName('*.min.css');
 
-        /** @var \SplFileInfo $file */
+        /** @var SplFileInfo $file */
         foreach ($finder as $file) {
             $content = openFile($file->getPathname());
             isContain($valid, $content, false, 'File has no valid header: ' . $file);
@@ -395,7 +396,7 @@ abstract class Codestyle extends PHPUnit
             ->exclude($this->_excludePaths)
             ->name('*.less');
 
-        /** @var \SplFileInfo $file */
+        /** @var SplFileInfo $file */
         foreach ($finder as $file) {
             $content = openFile($file->getPathname());
             isContain($valid, $content, false, 'File has no valid header: ' . $file);
@@ -419,7 +420,7 @@ abstract class Codestyle extends PHPUnit
             ->name('*.xml')
             ->name('*.xml.dist');
 
-        /** @var \SplFileInfo $file */
+        /** @var SplFileInfo $file */
         foreach ($finder as $file) {
             $content = openFile($file->getPathname());
             isContain($valid, $content, false, 'File has no valid header: ' . $file);
@@ -442,7 +443,7 @@ abstract class Codestyle extends PHPUnit
             ->exclude($this->_excludePaths)
             ->name('*.ini');
 
-        /** @var \SplFileInfo $file */
+        /** @var SplFileInfo $file */
         foreach ($finder as $file) {
             $content = openFile($file->getPathname());
             isContain($valid, $content, false, 'File has no valid header: ' . $file);
@@ -471,7 +472,7 @@ abstract class Codestyle extends PHPUnit
             ->exclude($excludePaths)
             ->name('*.sh');
 
-        /** @var \SplFileInfo $file */
+        /** @var SplFileInfo $file */
         foreach ($finder as $file) {
             $content = openFile($file->getPathname());
             isContain($valid, $content, false, 'File has no valid header: ' . $file);
@@ -494,7 +495,7 @@ abstract class Codestyle extends PHPUnit
             ->exclude($this->_excludePaths)
             ->name('*.sql');
 
-        /** @var \SplFileInfo $file */
+        /** @var SplFileInfo $file */
         foreach ($finder as $file) {
             $content = openFile($file->getPathname());
             isContain($valid, $content, false, 'File has no valid header: ' . $file);
@@ -518,7 +519,7 @@ abstract class Codestyle extends PHPUnit
             ->ignoreDotFiles(false)
             ->name('Makefile');
 
-        /** @var \SplFileInfo $file */
+        /** @var SplFileInfo $file */
         foreach ($finder as $file) {
             $content = openFile($file->getPathname());
             isContain($valid, $content, false, 'File has no valid header: ' . $file);
@@ -544,7 +545,7 @@ abstract class Codestyle extends PHPUnit
             ->name('htaccess.*')
             ->name('.htaccess.*');
 
-        /** @var \SplFileInfo $file */
+        /** @var SplFileInfo $file */
         foreach ($finder as $file) {
             $content = openFile($file->getPathname());
             isContain($valid, $content, false, 'File has no valid header: ' . $file);
@@ -570,10 +571,11 @@ abstract class Codestyle extends PHPUnit
             ->notName('/\.min\.(js|css)$/')
             ->notName('/\.min\.(js|css)\.map$/');
 
-        /** @var \SplFileInfo $file */
+        /** @var SplFileInfo $file */
         foreach ($finder as $file) {
             $content = openFile($file->getPathname());
 
+            /** @noinspection NotOptimalRegularExpressionsInspection */
             if (preg_match('#[А-Яа-яЁё]#ius', $content)) {
                 fail('File contains cyrilic symbols: ' . $file); // Short message in terminal
             } else {

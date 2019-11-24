@@ -20,6 +20,8 @@ use JBZoo\Utils\Env;
 use JBZoo\Utils\Str;
 use JBZoo\Utils\Sys;
 use PHPUnit\Framework\TestCase;
+use ReflectionException;
+use RuntimeException;
 use SebastianBergmann\CodeCoverage\CodeCoverage;
 use SebastianBergmann\CodeCoverage\Filter;
 use SebastianBergmann\CodeCoverage\Report\Clover;
@@ -101,6 +103,7 @@ class CovCatcher
      * @param string $mode
      * @return mixed
      * @throws Exception
+     * @throws ReflectionException
      */
     public function includeFile($filename, $mode = self::MODE_REQUIRE)
     {
@@ -149,8 +152,7 @@ class CovCatcher
         $testName = Str::splitCamelCase($testName, '_', true);
         $testName = preg_replace('/^test_/', '', $testName);
         $testName = preg_replace('/_test$/', '', $testName);
-        $testName = str_replace('_test_test_', '_', $testName);
-        $testName = str_replace(['/', '\\', '_', '-'], '', $testName);
+        $testName = str_replace(['_test_test_', '/', '\\', '_', '-'], ['_', '', '', '', ''], $testName);
         $testName = strtolower($testName);
 
         if (!$testName) {
@@ -163,6 +165,7 @@ class CovCatcher
 
     /**
      * Save report
+     * @throws ReflectionException
      */
     public function __destruct()
     {
@@ -183,6 +186,7 @@ class CovCatcher
 
     /**
      * Stop or pause coverage proccess
+     * @throws ReflectionException
      */
     protected function _stop()
     {
@@ -231,7 +235,7 @@ class CovCatcher
     protected function _checkDir($dirPath)
     {
         if (!mkdir($dirPath, 0777, true) && !is_dir($dirPath)) {
-            throw new \RuntimeException(sprintf('Directory "%s" was not created', $dirPath));
+            throw new RuntimeException(sprintf('Directory "%s" was not created', $dirPath));
         }
     }
 
