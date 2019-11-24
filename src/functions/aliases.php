@@ -15,6 +15,7 @@
 
 namespace JBZoo\PHPUnit;
 
+use DateTime;
 use PHPUnit\Framework\Assert;
 use Symfony\Component\CssSelector\CssSelectorConverter;
 use Symfony\Component\DomCrawler\Crawler;
@@ -96,7 +97,6 @@ function isNot($expected, $actual, string $msg = '')
 /**
  * @param array  $testList
  * @param string $msg
- * @return bool
  */
 function isBatch($testList, string $msg = '')
 {
@@ -285,7 +285,7 @@ function isNotAttr($attrName, $object)
 function isDir($path, string $msg = '')
 {
     Assert::assertFileExists($path, $msg);
-    Assert::assertTrue(is_dir($path));
+    Assert::assertDirectoryExists($path);
 }
 
 /**
@@ -325,7 +325,7 @@ function isNotFile($path, string $msg = '')
     }
 }
 
-/** @noinspection MoreThanThreeArgumentsInspection
+/**
  * @param string $expected
  * @param string $value
  * @param bool   $ignoreCase
@@ -354,7 +354,6 @@ function isNotContain($expected, $value, $ignoreCase = false, string $msg = '')
  * @param string $selector
  * @param mixed  $expected
  * @param string $msg
- * @return bool
  * @throws Exception
  */
 function isHtmlContain($html, $selector, $expected = null, string $msg = '')
@@ -372,7 +371,7 @@ function isHtmlContain($html, $selector, $expected = null, string $msg = '')
     try {
         $crawler = new Crawler($html);
         $findText = $crawler->filter($selector)->text();
-        isSame((string)$expected, (string)$findText);
+        isSame((string)$expected, $findText);
 
     } catch (\Exception $exception) {
         if (!$expected) {
@@ -394,7 +393,6 @@ function isHtmlContain($html, $selector, $expected = null, string $msg = '')
  * @param string $selector
  * @param mixed  $expected
  * @param string $msg
- * @return bool
  * @throws Exception
  */
 function isHtmlNotContain($html, $selector, $expected, string $msg = '')
@@ -412,7 +410,7 @@ function isHtmlNotContain($html, $selector, $expected, string $msg = '')
     try {
         $crawler = new Crawler($html);
         $findText = $crawler->filter($selector)->text();
-        isNotSame((string)$expected, (string)$findText);
+        isNotSame((string)$expected, $findText);
 
     } catch (\Exception $exception) {
         if (!$findText) {
@@ -430,7 +428,6 @@ function isHtmlNotContain($html, $selector, $expected, string $msg = '')
 /**
  * @param string $mixedVar
  * @param string $msg
- * @return bool
  */
 function isEmail($mixedVar, string $msg = '')
 {
@@ -440,7 +437,6 @@ function isEmail($mixedVar, string $msg = '')
 /**
  * @param string $mixedVar
  * @param string $msg
- * @return bool
  */
 function isNotEmail($mixedVar, string $msg = '')
 {
@@ -451,10 +447,11 @@ function isNotEmail($mixedVar, string $msg = '')
  * @param string $date
  * @param int    $timeDiff
  * @param string $msg
+ * @throws \Exception
  */
 function isCurrentDate($date, $timeDiff = 300, string $msg = '')
 {
-    $nowDate = new \DateTime('now');
-    $checkDate = new \DateTime($date);
+    $nowDate = new DateTime('now');
+    $checkDate = new DateTime($date);
     Assert::assertEquals($nowDate->getTimestamp(), $checkDate->getTimestamp(), $msg, $timeDiff);
 }

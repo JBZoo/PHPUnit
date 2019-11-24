@@ -16,15 +16,15 @@
 namespace JBZoo\PHPUnit;
 
 use JBZoo\Data\Data;
-use JBZoo\Utils\Sys;
+use JBZoo\Utils\Env;
 use JBZoo\Utils\Str;
+use JBZoo\Utils\Sys;
 use PHPUnit\Framework\TestCase;
 use SebastianBergmann\CodeCoverage\CodeCoverage;
 use SebastianBergmann\CodeCoverage\Filter;
 use SebastianBergmann\CodeCoverage\Report\Clover;
 use SebastianBergmann\CodeCoverage\Report\Html\Facade;
 use SebastianBergmann\CodeCoverage\Report\PHP;
-use JBZoo\Utils\Env;
 
 /**
  * Class CovCatcher
@@ -35,8 +35,8 @@ use JBZoo\Utils\Env;
  */
 class CovCatcher
 {
-    const MODE_REQUIRE      = 'require';
-    const MODE_REQUIRE_ONCE = 'require_once';
+    public const MODE_REQUIRE      = 'require';
+    public const MODE_REQUIRE_ONCE = 'require_once';
 
     protected $_isStart = false;
 
@@ -112,9 +112,12 @@ class CovCatcher
         }
 
         if (self::MODE_REQUIRE === $mode) {
+            /** @noinspection PhpIncludeInspection */
             $result = require $realpath;
 
         } elseif (self::MODE_REQUIRE_ONCE === $mode) {
+            /** @noinspection PhpIncludeInspection */
+            /** @noinspection UsingInclusionOnceReturnValueInspection */
             $result = require_once $realpath;
 
         } else {
@@ -227,8 +230,8 @@ class CovCatcher
      */
     protected function _checkDir($dirPath)
     {
-        if (!is_dir($dirPath)) {
-            mkdir($dirPath, 0777, true);
+        if (!mkdir($dirPath, 0777, true) && !is_dir($dirPath)) {
+            throw new \RuntimeException(sprintf('Directory "%s" was not created', $dirPath));
         }
     }
 
