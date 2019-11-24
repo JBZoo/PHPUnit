@@ -313,7 +313,7 @@ abstract class Codestyle extends PHPUnit
      */
     public function testHeadersPHP()
     {
-        $valid = $this->_prepareTemplate(implode($this->_validHeaderPHP, $this->_le));
+        $valid = $this->_prepareTemplate(implode($this->_le, $this->_validHeaderPHP));
 
         $finder = new Finder();
         $finder
@@ -337,7 +337,7 @@ abstract class Codestyle extends PHPUnit
      */
     public function testHeadersJS()
     {
-        $valid = $this->_prepareTemplate(implode($this->_validHeaderJS, $this->_le));
+        $valid = $this->_prepareTemplate(implode($this->_le, $this->_validHeaderJS));
 
         $finder = new Finder();
         $finder
@@ -363,7 +363,7 @@ abstract class Codestyle extends PHPUnit
      */
     public function testHeadersCSS()
     {
-        $valid = $this->_prepareTemplate(implode($this->_validHeaderCSS, $this->_le));
+        $valid = $this->_prepareTemplate(implode($this->_le, $this->_validHeaderCSS));
 
         $finder = new Finder();
         $finder
@@ -387,7 +387,7 @@ abstract class Codestyle extends PHPUnit
      */
     public function testHeadersLESS()
     {
-        $valid = $this->_prepareTemplate(implode($this->_validHeaderLESS, $this->_le));
+        $valid = $this->_prepareTemplate(implode($this->_le, $this->_validHeaderLESS));
 
         $finder = new Finder();
         $finder
@@ -410,7 +410,7 @@ abstract class Codestyle extends PHPUnit
      */
     public function testHeadersXML()
     {
-        $valid = $this->_prepareTemplate(implode($this->_validHeaderXML, $this->_le));
+        $valid = $this->_prepareTemplate(implode($this->_le, $this->_validHeaderXML));
 
         $finder = new Finder();
         $finder
@@ -434,7 +434,7 @@ abstract class Codestyle extends PHPUnit
      */
     public function testHeadersINI()
     {
-        $valid = $this->_prepareTemplate(implode($this->_validHeaderINI, $this->_le));
+        $valid = $this->_prepareTemplate(implode($this->_le, $this->_validHeaderINI));
 
         $finder = new Finder();
         $finder
@@ -457,7 +457,7 @@ abstract class Codestyle extends PHPUnit
      */
     public function testHeadersSH()
     {
-        $valid = $this->_prepareTemplate(implode($this->_validHeaderSH, $this->_le));
+        $valid = $this->_prepareTemplate(implode($this->_le, $this->_validHeaderSH));
 
         $excludePaths = $this->_excludePaths;
         $binIndex = array_search('bin', $excludePaths, true);
@@ -486,7 +486,7 @@ abstract class Codestyle extends PHPUnit
      */
     public function testHeadersSQL()
     {
-        $valid = $this->_prepareTemplate(implode($this->_validHeaderSQL, $this->_le));
+        $valid = $this->_prepareTemplate(implode($this->_le, $this->_validHeaderSQL));
 
         $finder = new Finder();
         $finder
@@ -509,7 +509,7 @@ abstract class Codestyle extends PHPUnit
      */
     public function testHeadersMakefile()
     {
-        $valid = $this->_prepareTemplate(implode($this->_validHeaderHtaccess, $this->_le));
+        $valid = $this->_prepareTemplate(implode($this->_le, $this->_validHeaderHtaccess));
 
         $finder = new Finder();
         $finder
@@ -533,7 +533,7 @@ abstract class Codestyle extends PHPUnit
      */
     public function testHeadersHtaccess()
     {
-        $valid = $this->_prepareTemplate(implode($this->_validHeaderHtaccess, $this->_le));
+        $valid = $this->_prepareTemplate(implode($this->_le, $this->_validHeaderHtaccess));
 
         $finder = new Finder();
         $finder
