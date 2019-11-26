@@ -12,16 +12,18 @@
     @link       https://github.com/JBZoo/PHPUnit
 -->
 <phpunit bootstrap="tests/autoload.php"
-         colors="true"
+         colors="false"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
+         convertDeprecationsToExceptions="true"
+         executionOrder="defects"
          processIsolation="false"
          stopOnError="false"
          stopOnFailure="false"
          stopOnIncomplete="false"
-         stopOnRisky="false"
          stopOnSkipped="false"
+         stopOnRisky="false"
          verbose="false"
 >
 

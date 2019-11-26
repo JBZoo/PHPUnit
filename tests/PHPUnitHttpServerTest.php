@@ -15,10 +15,10 @@
 
 namespace JBZoo\PHPUnit;
 
+use JBZoo\HttpClient\HttpClient;
 use JBZoo\HttpClient\Response;
 use JBZoo\Utils\FS;
 use JBZoo\Utils\Sys;
-use JBZoo\HttpClient\HttpClient;
 
 /**
  * Class PHPUnitHttpServerTest
@@ -39,9 +39,9 @@ class PHPUnitHttpServerTest extends PHPUnit
             throw new Exception('jbzoo/http-client required for HttpServer unit-tests');
         }
 
-        FS::rmdir(PROJECT_BUILD . '/coverage_cov');
-        FS::rmdir(PROJECT_BUILD . '/coverage_html');
-        FS::rmdir(PROJECT_BUILD . '/coverage_xml');
+        FS::rmDir(PROJECT_BUILD . '/coverage_cov');
+        FS::rmDir(PROJECT_BUILD . '/coverage_html');
+        FS::rmDir(PROJECT_BUILD . '/coverage_xml');
     }
 
     public function testSimple()
@@ -55,7 +55,7 @@ class PHPUnitHttpServerTest extends PHPUnit
         isSame($uniq, $result->getBody());
         isSame(200, $result->getCode());
 
-        if (Sys::hasXdebug() && !Sys::isPHP7()) {
+        if (Sys::hasXdebug() && !Sys::isPHP('7.4')) {
             isDir(PROJECT_BUILD . '/coverage_cov');
             isDir(PROJECT_BUILD . '/coverage_html');
             isDir(PROJECT_BUILD . '/coverage_xml');
@@ -113,6 +113,8 @@ class PHPUnitHttpServerTest extends PHPUnit
      * @param string $url
      * @param array  $args
      * @return Response
+     * @throws Exception
+     * @throws \JBZoo\HttpClient\Exception
      */
     protected function httpRequest($url, $args = []): Response
     {

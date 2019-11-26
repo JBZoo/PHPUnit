@@ -122,4 +122,23 @@ class PHPUnitAliasesTest extends PHPUnit
         isCurrentDate('now');
         isNotEmail('email.com');
     }
+
+    public function testIsAmount()
+    {
+        isAmount('100.99', 100.98);
+        isAmount('100.99', '100.97');
+
+        isAmount(['100.99', 'USD'], [100.98, 'USD']);
+        isNotAmount(['100.99', 'USD'], [100, 'USD']);
+    }
+
+    public function testIsSameDate()
+    {
+        isSameDate('now', 'now');
+    }
+
+    public function testIsDiffBetweenDates()
+    {
+        isDiffBetweenDates('now', '- 5min');
+    }
 }

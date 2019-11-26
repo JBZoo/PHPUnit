@@ -26,9 +26,9 @@
     },
     "require-dev" : {
         "guzzlehttp/guzzle"    : "^6.4.1",
-        "jbzoo/utils"          : "^3.0",
-        "jbzoo/data"           : "^3.0",
-        "jbzoo/http-client"    : "^2.0",
+        "jbzoo/utils"          : "^3.1",
+        "jbzoo/data"           : "^3.0.1",
+        "jbzoo/http-client"    : "^2.1",
         "jbzoo/profiler"       : "^1.0.5",
         "jbzoo/jbdump"         : "^1.5.3",
         "symfony/process"      : "^4.4",
@@ -39,11 +39,11 @@
         "jbzoo/misc"           : "^1.2"
     },
     "suggest"     : {
-        "jbzoo/http-client"    : "For http-requests (^1.0)",
+        "jbzoo/http-client"    : "For http-requests (^2.0)",
         "jbzoo/profiler"       : "For runBench() function (^1.0)",
         "jbzoo/jbdump"         : "For dump() function (^1.5)",
-        "symfony/var-dumper"   : "For dump() function (^3.3)",
-        "symfony/process"      : "For cli() function (^3.3)",
+        "symfony/var-dumper"   : "For dump() function (^4.4)",
+        "symfony/process"      : "For cli() function (^4.4)",
         "symfony/dom-crawler"  : "For isHtml(not)Contain() function (^3.3)",
         "symfony/css-selector" : "For isHtml(not)Contain() function (^3.3)",
         "symfony/finder"       : "For CodeStyle tests (^3.3)"

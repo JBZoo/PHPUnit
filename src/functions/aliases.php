@@ -28,7 +28,7 @@ use Symfony\Component\DomCrawler\Crawler;
  *
  * @param $msg
  */
-function skip($msg)
+function skip(string $msg)
 {
     Assert::markTestSkipped($msg);
 }
@@ -38,7 +38,7 @@ function skip($msg)
  *
  * @param $msg
  */
-function incomplete($msg)
+function incomplete(string $msg)
 {
     Assert::markTestIncomplete($msg);
 }
@@ -49,7 +49,7 @@ function incomplete($msg)
  * @param $msg
  */
 //@codeCoverageIgnoreStart
-function fail($msg)
+function fail(string $msg = '')
 {
     Assert::fail($msg);
 }
@@ -259,11 +259,12 @@ function isNotKey($key, $array, string $msg = '')
  *
  * @param string $attrName
  * @param mixed  $object
+ * @param string $msg
  */
-function isAttr($attrName, $object)
+function isAttr($attrName, $object, string $msg = '')
 {
-    Assert::assertNotNull($object, 'object ' . get_class($object) . ' is not empty');
-    Assert::assertObjectHasAttribute($attrName, $object);
+    Assert::assertNotNull($object, 'object ' . get_class($object) . " is not empty. {$msg}");
+    Assert::assertObjectHasAttribute($attrName, $object, $msg);
 }
 
 /**
@@ -271,11 +272,12 @@ function isAttr($attrName, $object)
  *
  * @param string $attrName
  * @param mixed  $object
+ * @param string $msg
  */
-function isNotAttr($attrName, $object)
+function isNotAttr($attrName, $object, string $msg = '')
 {
-    Assert::assertNotNull($object, 'object ' . get_class($object) . ' is not empty');
-    Assert::assertObjectNotHasAttribute($attrName, $object);
+    Assert::assertNotNull($object, 'object ' . get_class($object) . " is not empty. {$msg}");
+    Assert::assertObjectNotHasAttribute($attrName, $object, $msg);
 }
 
 /**
@@ -462,4 +464,75 @@ function isCurrentDate($date, $timeDiff = 300, string $msg = '')
     $nowDate = new DateTime('now');
     $checkDate = new DateTime($date);
     Assert::assertEqualsWithDelta($nowDate->getTimestamp(), $checkDate->getTimestamp(), $timeDiff, $msg);
+}
+
+/**
+ * @param float|array $expected
+ * @param float|array $actual
+ * @param string      $msg
+ * @param float       $allowableDiff
+ */
+function isAmount($expected, $actual, string $msg = '', $allowableDiff = 0.03)
+{
+    if (\is_array($expected) || \is_array($actual)) {
+        $msg = $msg ?: 'Actual diff=' . ((float)$expected[0] - (float)$actual[0])
+            . "; Expected diff={$allowableDiff}";
+        Assert::assertEqualsWithDelta((float)$expected[0], (float)$actual[0], $allowableDiff, $msg);
+        isSame($expected[1], $actual[1], $msg);
+    } else {
+        $msg = $msg ?: 'Diff: ' . ((float)$expected - (float)$actual)
+            . "; Expected diff={$allowableDiff}";
+        Assert::assertEqualsWithDelta((float)$expected, (float)$actual, $allowableDiff, $msg);
+    }
+}
+
+/**
+ * @param mixed  $expected
+ * @param mixed  $actual
+ * @param string $msg
+ * @param float  $allowableDiff
+ */
+function isNotAmount($expected, $actual, string $msg = '', $allowableDiff = 0.03)
+{
+    if (\is_array($expected) || \is_array($actual)) {
+        $msg = $msg ?: 'Actual diff=' . ((float)$expected[0] - (float)$actual[0])
+            . "; Expected diff={$allowableDiff}";
+        Assert::assertNotEqualsWithDelta((float)$expected[0], (float)$actual[0], $allowableDiff, $msg);
+        isSame($expected[1], $actual[1], $msg);
+    } else {
+        $msg = $msg ?: 'Diff: ' . ((float)$expected - (float)$actual)
+            . "; Expected diff={$allowableDiff}";
+        Assert::assertNotEqualsWithDelta((float)$expected, (float)$actual, $allowableDiff, $msg);
+    }
+}
+
+/**
+ * @param string $date1
+ * @param string $date2
+ * @param int    $timeDiff
+ * @param string $msg
+ * @throws \Exception
+ */
+function isDiffBetweenDates($date1, $date2, $timeDiff = 300, string $msg = '')
+{
+    $dateObj1 = new \DateTime($date1);
+    $dateObj2 = new \DateTime($date2);
+    isTrue(
+        abs((int)$dateObj1->getTimestamp() - (int)$dateObj2->getTimestamp()) === $timeDiff,
+        "Diff between dates: {$date1} and {$date2} is more then {$timeDiff} seconds. {$msg}"
+    );
+}
+
+/**
+ * @param string $expected
+ * @param string $actual
+ * @param string $format
+ * @param string $msg
+ * @throws \Exception
+ */
+function isSameDate($expected, $actual, $format = 'Y-m-d', string $msg = '')
+{
+    $expectedObj = new \DateTime($expected);
+    $actualObj = new \DateTime($actual);
+    isSame('' . $expectedObj->format($format), '' . $actualObj->format($format), $msg);
 }
