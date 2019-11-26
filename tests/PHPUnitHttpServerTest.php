@@ -37,7 +37,7 @@ class PHPUnitHttpServerTest extends PHPUnit
 
     public function testSimple()
     {
-        if (!Sys::isPHP('7.4')) {
+        if (Sys::isPHP('7.4')) {
             skip('Not supported yet in PHP 7.4');
         }
 
