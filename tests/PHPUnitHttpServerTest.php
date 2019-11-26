@@ -15,7 +15,6 @@
 
 namespace JBZoo\PHPUnit;
 
-use JBZoo\HttpClient\HttpClient;
 use JBZoo\HttpClient\Response;
 use JBZoo\Utils\FS;
 use JBZoo\Utils\Sys;
@@ -31,14 +30,6 @@ class PHPUnitHttpServerTest extends PHPUnit
     {
         parent::setUp();
 
-        if (!class_exists(Sys::class)) {
-            throw new Exception('jbzoo/utils required for HttpServer unit-tests');
-        }
-
-        if (!class_exists(HttpClient::class)) {
-            throw new Exception('jbzoo/http-client required for HttpServer unit-tests');
-        }
-
         FS::rmDir(PROJECT_BUILD . '/coverage_cov');
         FS::rmDir(PROJECT_BUILD . '/coverage_html');
         FS::rmDir(PROJECT_BUILD . '/coverage_xml');
@@ -46,6 +37,10 @@ class PHPUnitHttpServerTest extends PHPUnit
 
     public function testSimple()
     {
+        if (!Sys::isPHP('7.4')) {
+            skip('Not supported yet in PHP 7.4');
+        }
+
         $uniq = uniqid('', true);
 
         $result = $this->httpRequest('http://localhost:8888/', [
@@ -55,7 +50,7 @@ class PHPUnitHttpServerTest extends PHPUnit
         isSame($uniq, $result->getBody());
         isSame(200, $result->getCode());
 
-        if (Sys::hasXdebug() && !Sys::isPHP('7.4')) {
+        if (Sys::hasXdebug()) {
             isDir(PROJECT_BUILD . '/coverage_cov');
             isDir(PROJECT_BUILD . '/coverage_html');
             isDir(PROJECT_BUILD . '/coverage_xml');
