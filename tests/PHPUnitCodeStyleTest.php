@@ -1,4 +1,5 @@
 <?php
+
 /**
  * JBZoo PHPUnit
  *
@@ -22,8 +23,8 @@ namespace JBZoo\PHPUnit;
  */
 class PHPUnitCodeStyleTest extends Codestyle
 {
-    protected $_packageName   = 'PHPUnit';
-    protected $_packageAuthor = 'Denis Smetannikov <denis@jbzoo.com>';
+    protected $packageName   = 'PHPUnit';
+    protected $packageAuthor = 'Denis Smetannikov <denis@jbzoo.com>';
 
     /**
      * Ignore list for

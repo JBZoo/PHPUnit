@@ -1,4 +1,5 @@
 <?php
+
 /**
  * JBZoo PHPUnit
  *
@@ -21,17 +22,16 @@ use JBZoo\Utils\Cli;
  * Class MessageCollector
  *
  * @package JBZoo\PHPUnit
- * @codeCoverageIgnore
  */
 class MessageBuffer
 {
     /**
-     * @var array
+     * @var string[]
      */
     protected $info = [];
 
     /**
-     * @var array
+     * @var string[]
      */
     protected $error = [];
 
@@ -52,7 +52,7 @@ class MessageBuffer
     /**
      * @param string $message
      */
-    public function info($message)
+    public function info($message): void
     {
         $this->info[] = $message;
     }
@@ -60,7 +60,7 @@ class MessageBuffer
     /**
      * @param string $message
      */
-    public function error($message)
+    public function error($message): void
     {
         $this->error[] = $message;
     }

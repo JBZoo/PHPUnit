@@ -1,4 +1,5 @@
 <?php
+
 /**
  * JBZoo PHPUnit
  *
@@ -21,14 +22,12 @@ use Symfony\Component\CssSelector\CssSelectorConverter;
 use Symfony\Component\DomCrawler\Crawler;
 
 /**** Controls ********************************************************************************************************/
-//@codeCoverageIgnoreStart
-
 /**
  * Skip current test
  *
- * @param $msg
+ * @param string $msg
  */
-function skip(string $msg)
+function skip(string $msg): void
 {
     Assert::markTestSkipped($msg);
 }
@@ -36,9 +35,9 @@ function skip(string $msg)
 /**
  * Incomplete current test
  *
- * @param $msg
+ * @param string $msg
  */
-function incomplete(string $msg)
+function incomplete(string $msg): void
 {
     Assert::markTestIncomplete($msg);
 }
@@ -46,10 +45,9 @@ function incomplete(string $msg)
 /**
  * Fail current test
  *
- * @param $msg
+ * @param string $msg
  */
-//@codeCoverageIgnoreStart
-function fail(string $msg = '')
+function fail(string $msg = ''): void
 {
     Assert::fail($msg);
 }
@@ -57,48 +55,42 @@ function fail(string $msg = '')
 /**
  * Success current test
  *
- * @param $msg
+ * @param string $msg
  */
-function success(string $msg = '')
+function success(string $msg = ''): void
 {
-    /** @noinspection PhpMethodParametersCountMismatchInspection */
-    Assert::isTrue(true, $msg);
+    isTrue(true, $msg);
 }
 
-//@codeCoverageIgnoreEnd
 /**** Asserts *********************************************************************************************************/
 
 /**
  * @param mixed  $expected
  * @param mixed  $actual
  * @param string $msg
- * @return bool
  *
  * @SuppressWarnings(PHPMD.ShortMethodName)
  */
-function is($expected, $actual, string $msg = '')
+function is($expected, $actual, string $msg = ''): void
 {
     Assert::assertEquals($expected, $actual, $msg);
-    return $expected === $actual;
 }
 
 /**
  * @param mixed  $expected
  * @param mixed  $actual
  * @param string $msg
- * @return bool
  */
-function isNot($expected, $actual, string $msg = '')
+function isNot($expected, $actual, string $msg = ''): void
 {
     Assert::assertNotEquals($expected, $actual, $msg);
-    return $expected === $actual;
 }
 
 /**
  * @param array  $testList
  * @param string $msg
  */
-function isBatch($testList, string $msg = '')
+function isBatch($testList, string $msg = ''): void
 {
     foreach ($testList as $testItem) {
         Assert::assertEquals($testItem[0], $testItem[1], $msg);
@@ -108,32 +100,28 @@ function isBatch($testList, string $msg = '')
 /**
  * @param bool   $value
  * @param string $msg
- * @return bool
  */
-function isTrue($value, string $msg = '')
+function isTrue($value, string $msg = ''): void
 {
     Assert::assertTrue($value ? true : false, $msg);
-    return $value ? true : false;
 }
 
 /**
  * @param bool   $value
  * @param string $msg
- * @return bool
  */
-function isFalse($value, string $msg = '')
+function isFalse($value, string $msg = ''): void
 {
     Assert::assertFalse($value ? true : false, $msg);
-    return $value ? true : false;
 }
 
 
 /**
- * @param mixed  $expected
- * @param string $className
+ * @param string $expected
+ * @param mixed  $className
  * @param string $msg
  */
-function isClass($expected, $className, string $msg = '')
+function isClass($expected, $className, string $msg = ''): void
 {
     Assert::assertInstanceOf($expected, $className, $msg);
 }
@@ -143,7 +131,7 @@ function isClass($expected, $className, string $msg = '')
  * @param mixed  $actual
  * @param string $msg
  */
-function isCount($expected, $actual, string $msg = '')
+function isCount($expected, $actual, string $msg = ''): void
 {
     Assert::assertCount($expected, $actual, $msg);
 }
@@ -154,7 +142,7 @@ function isCount($expected, $actual, string $msg = '')
  * @param string $value
  * @param string $msg
  */
-function isLike($pattern, $value, string $msg = '')
+function isLike($pattern, $value, string $msg = ''): void
 {
     Assert::assertRegExp($pattern, $value, $msg);
 }
@@ -164,7 +152,7 @@ function isLike($pattern, $value, string $msg = '')
  * @param string $value
  * @param string $msg
  */
-function isNotLike($pattern, $value, string $msg = '')
+function isNotLike($pattern, $value, string $msg = ''): void
 {
     Assert::assertNotRegExp($pattern, $value, $msg);
 }
@@ -175,17 +163,17 @@ function isNotLike($pattern, $value, string $msg = '')
  * @param string $msg
  *
  */
-function isFileEq($filePathOrig, $filePathCopy, string $msg = '')
+function isFileEq($filePathOrig, $filePathCopy, string $msg = ''): void
 {
     Assert::assertFileEquals($filePathOrig, $filePathCopy, $msg);
 }
 
 /**
- * @param $expected
- * @param $actual
- * @param $msg
+ * @param mixed  $expected
+ * @param mixed  $actual
+ * @param string $msg
  */
-function isSame($expected, $actual, string $msg = '')
+function isSame($expected, $actual, string $msg = ''): void
 {
     Assert::assertSame($expected, $actual, $msg);
 }
@@ -195,7 +183,7 @@ function isSame($expected, $actual, string $msg = '')
  * @param mixed  $actual
  * @param string $msg
  */
-function isNotSame($expected, $actual, string $msg = '')
+function isNotSame($expected, $actual, string $msg = ''): void
 {
     Assert::assertNotSame($expected, $actual, $msg);
 }
@@ -203,7 +191,7 @@ function isNotSame($expected, $actual, string $msg = '')
 /**
  * @param mixed $expected
  */
-function isNull($expected)
+function isNull($expected): void
 {
     Assert::assertNull($expected);
 }
@@ -211,7 +199,7 @@ function isNull($expected)
 /**
  * @param mixed $expected
  */
-function isNotNull($expected)
+function isNotNull($expected): void
 {
     Assert::assertNotNull($expected);
 }
@@ -220,7 +208,7 @@ function isNotNull($expected)
  * @param mixed  $expected
  * @param string $msg
  */
-function isEmpty($expected, string $msg = '')
+function isEmpty($expected, string $msg = ''): void
 {
     Assert::assertEmpty($expected, $msg);
 }
@@ -229,7 +217,7 @@ function isEmpty($expected, string $msg = '')
  * @param mixed  $expected
  * @param string $msg
  */
-function isNotEmpty($expected, string $msg = '')
+function isNotEmpty($expected, string $msg = ''): void
 {
     Assert::assertNotEmpty($expected, $msg);
 }
@@ -239,7 +227,7 @@ function isNotEmpty($expected, string $msg = '')
  * @param array  $array
  * @param string $msg
  */
-function isKey($key, $array, string $msg = '')
+function isKey($key, $array, string $msg = ''): void
 {
     Assert::assertArrayHasKey($key, $array, $msg);
 }
@@ -249,7 +237,7 @@ function isKey($key, $array, string $msg = '')
  * @param array  $array
  * @param string $msg
  */
-function isNotKey($key, $array, string $msg = '')
+function isNotKey($key, $array, string $msg = ''): void
 {
     Assert::assertArrayNotHasKey($key, $array, $msg);
 }
@@ -261,7 +249,7 @@ function isNotKey($key, $array, string $msg = '')
  * @param mixed  $object
  * @param string $msg
  */
-function isAttr($attrName, $object, string $msg = '')
+function isAttr($attrName, $object, string $msg = ''): void
 {
     Assert::assertNotNull($object, 'object ' . get_class($object) . " is not empty. {$msg}");
     Assert::assertObjectHasAttribute($attrName, $object, $msg);
@@ -274,7 +262,7 @@ function isAttr($attrName, $object, string $msg = '')
  * @param mixed  $object
  * @param string $msg
  */
-function isNotAttr($attrName, $object, string $msg = '')
+function isNotAttr($attrName, $object, string $msg = ''): void
 {
     Assert::assertNotNull($object, 'object ' . get_class($object) . " is not empty. {$msg}");
     Assert::assertObjectNotHasAttribute($attrName, $object, $msg);
@@ -284,7 +272,7 @@ function isNotAttr($attrName, $object, string $msg = '')
  * @param string $path
  * @param string $msg
  */
-function isDir($path, string $msg = '')
+function isDir($path, string $msg = ''): void
 {
     Assert::assertFileExists($path, $msg);
     Assert::assertDirectoryExists($path);
@@ -294,12 +282,10 @@ function isDir($path, string $msg = '')
  * @param string $path
  * @param string $msg
  */
-function isNotDir($path, string $msg = '')
+function isNotDir($path, string $msg = ''): void
 {
     if (is_dir($path)) {
-        //@codeCoverageIgnoreStart
-        fail("\"{$path}\" is direcory");
-        //@codeCoverageIgnoreEnd
+        fail("\"{$path}\" is directory");
     } else {
         success($msg);
     }
@@ -309,7 +295,7 @@ function isNotDir($path, string $msg = '')
  * @param string $path
  * @param string $msg
  */
-function isFile($path, string $msg = '')
+function isFile($path, string $msg = ''): void
 {
     Assert::assertFileExists($path, $msg);
 }
@@ -318,7 +304,7 @@ function isFile($path, string $msg = '')
  * @param string $path
  * @param string $msg
  */
-function isNotFile($path, string $msg = '')
+function isNotFile($path, string $msg = ''): void
 {
     if (!is_dir($path)) {
         Assert::assertFileNotExists($path, $msg);
@@ -333,7 +319,7 @@ function isNotFile($path, string $msg = '')
  * @param bool   $ignoreCase
  * @param string $msg
  */
-function isContain($expected, $value, $ignoreCase = false, string $msg = '')
+function isContain($expected, $value, $ignoreCase = false, string $msg = ''): void
 {
     if ($ignoreCase) {
         Assert::assertStringContainsStringIgnoringCase($expected, $value, $msg);
@@ -348,7 +334,7 @@ function isContain($expected, $value, $ignoreCase = false, string $msg = '')
  * @param bool   $ignoreCase
  * @param string $msg
  */
-function isNotContain($expected, $value, $ignoreCase = false, string $msg = '')
+function isNotContain($expected, $value, $ignoreCase = false, string $msg = ''): void
 {
     if ($ignoreCase) {
         Assert::assertStringNotContainsStringIgnoringCase($expected, $value, $msg);
@@ -366,14 +352,14 @@ function isNotContain($expected, $value, $ignoreCase = false, string $msg = '')
  * @param string $msg
  * @throws Exception
  */
-function isHtmlContain($html, $selector, $expected = null, string $msg = '')
+function isHtmlContain($html, $selector, $expected = null, string $msg = ''): void
 {
     if (!class_exists(Crawler::class)) {
-        throw new Exception('symfony/dom-crawler required for isHtmlContain() function'); // @codeCoverageIgnore
+        throw new Exception('symfony/dom-crawler required for isHtmlContain() function');
     }
 
     if (!class_exists(CssSelectorConverter::class)) {
-        throw new Exception('symfony/css-selector required for isHtmlContain() function'); // @codeCoverageIgnore
+        throw new Exception('symfony/css-selector required for isHtmlContain() function');
     }
 
     $findText = null;
@@ -382,17 +368,13 @@ function isHtmlContain($html, $selector, $expected = null, string $msg = '')
         $crawler = new Crawler($html);
         $findText = $crawler->filter($selector)->text();
         isSame((string)$expected, $findText);
-
     } catch (\Exception $exception) {
         if (!$expected) {
             success($msg);
         } else {
-            //@codeCoverageIgnoreStart
             $msg = $msg ? $msg . ' // ' : '';
             fail($msg . 'Crawler: ' . $exception->getMessage());
-            //@codeCoverageIgnoreEnd
         }
-
     }
 }
 
@@ -405,14 +387,14 @@ function isHtmlContain($html, $selector, $expected = null, string $msg = '')
  * @param string $msg
  * @throws Exception
  */
-function isHtmlNotContain($html, $selector, $expected, string $msg = '')
+function isHtmlNotContain($html, $selector, $expected, string $msg = ''): void
 {
     if (!class_exists(Crawler::class)) {
-        throw new Exception('symfony/dom-crawler required for isHtmlNotContain() function'); // @codeCoverageIgnore
+        throw new Exception('symfony/dom-crawler required for isHtmlNotContain() function');
     }
 
     if (!class_exists(CssSelectorConverter::class)) {
-        throw new Exception('symfony/css-selector required for isHtmlNotContain() function'); // @codeCoverageIgnore
+        throw new Exception('symfony/css-selector required for isHtmlNotContain() function');
     }
 
     $findText = null;
@@ -421,16 +403,12 @@ function isHtmlNotContain($html, $selector, $expected, string $msg = '')
         $crawler = new Crawler($html);
         $findText = $crawler->filter($selector)->text();
         isNotSame((string)$expected, $findText);
-
     } catch (\Exception $exception) {
         if (!$findText) {
             success($msg);
-
         } else {
-            //@codeCoverageIgnoreStart
             $msg = $msg ? $msg . ' // ' : '';
             fail($msg . 'Crawler: ' . $exception->getMessage());
-            //@codeCoverageIgnoreEnd
         }
     }
 }
@@ -439,7 +417,7 @@ function isHtmlNotContain($html, $selector, $expected, string $msg = '')
  * @param string $mixedVar
  * @param string $msg
  */
-function isEmail($mixedVar, string $msg = '')
+function isEmail($mixedVar, string $msg = ''): void
 {
     isTrue(filter_var($mixedVar, FILTER_VALIDATE_EMAIL), $msg);
 }
@@ -448,7 +426,7 @@ function isEmail($mixedVar, string $msg = '')
  * @param string $mixedVar
  * @param string $msg
  */
-function isNotEmail($mixedVar, string $msg = '')
+function isNotEmail($mixedVar, string $msg = ''): void
 {
     isFalse(filter_var($mixedVar, FILTER_VALIDATE_EMAIL), $msg);
 }
@@ -459,7 +437,7 @@ function isNotEmail($mixedVar, string $msg = '')
  * @param string $msg
  * @throws \Exception
  */
-function isCurrentDate($date, $timeDiff = 300, string $msg = '')
+function isCurrentDate($date, $timeDiff = 300, string $msg = ''): void
 {
     $nowDate = new DateTime('now');
     $checkDate = new DateTime($date);
@@ -472,7 +450,7 @@ function isCurrentDate($date, $timeDiff = 300, string $msg = '')
  * @param string      $msg
  * @param float       $allowableDiff
  */
-function isAmount($expected, $actual, string $msg = '', $allowableDiff = 0.03)
+function isAmount($expected, $actual, string $msg = '', $allowableDiff = 0.03): void
 {
     if (\is_array($expected) || \is_array($actual)) {
         $msg = $msg ?: 'Actual diff=' . ((float)$expected[0] - (float)$actual[0])
@@ -492,7 +470,7 @@ function isAmount($expected, $actual, string $msg = '', $allowableDiff = 0.03)
  * @param string $msg
  * @param float  $allowableDiff
  */
-function isNotAmount($expected, $actual, string $msg = '', $allowableDiff = 0.03)
+function isNotAmount($expected, $actual, string $msg = '', $allowableDiff = 0.03): void
 {
     if (\is_array($expected) || \is_array($actual)) {
         $msg = $msg ?: 'Actual diff=' . ((float)$expected[0] - (float)$actual[0])
@@ -513,7 +491,7 @@ function isNotAmount($expected, $actual, string $msg = '', $allowableDiff = 0.03
  * @param string $msg
  * @throws \Exception
  */
-function isDiffBetweenDates($date1, $date2, $timeDiff = 300, string $msg = '')
+function isDiffBetweenDates($date1, $date2, $timeDiff = 300, string $msg = ''): void
 {
     $dateObj1 = new \DateTime($date1);
     $dateObj2 = new \DateTime($date2);
@@ -530,7 +508,7 @@ function isDiffBetweenDates($date1, $date2, $timeDiff = 300, string $msg = '')
  * @param string $msg
  * @throws \Exception
  */
-function isSameDate($expected, $actual, $format = 'Y-m-d', string $msg = '')
+function isSameDate($expected, $actual, $format = 'Y-m-d', string $msg = ''): void
 {
     $expectedObj = new \DateTime($expected);
     $actualObj = new \DateTime($actual);

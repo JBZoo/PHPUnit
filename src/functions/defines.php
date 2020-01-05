@@ -1,4 +1,5 @@
 <?php
+
 /**
  * JBZoo PHPUnit
  *
@@ -12,24 +13,19 @@
  * @link       https://github.com/JBZoo/PHPUnit
  * @author     Denis Smetannikov <denis@jbzoo.com>
  *
- * @codeCoverageIgnore
  * @codingStandardsIgnoreFile
  */
-
-// @codeCoverageIgnoreStart
 
 !defined('JBZOO_PHPUNIT') && define('JBZOO_PHPUNIT', true);
 
 // System
-!defined('CRLF') && define('CRLF',  "\r\n");
-!defined('LF')   && define('LF',    "\n");
-!defined('DS')   && define('DS',    DIRECTORY_SEPARATOR);
+!defined('CRLF') && define('CRLF', "\r\n");
+!defined('LF') && define('LF', "\n");
+!defined('DS') && define('DS', DIRECTORY_SEPARATOR);
 
 // Paths
-!defined('PROJECT_ROOT')    && define('PROJECT_ROOT',   realpath('.'));
-!defined('PROJECT_BUILD')   && define('PROJECT_BUILD',  PROJECT_ROOT . DS . 'build');
-!defined('PROJECT_SRC')     && define('PROJECT_SRC',    PROJECT_ROOT . DS . 'src');
-!defined('PROJECT_TESTS')   && define('PROJECT_TESTS',  PROJECT_ROOT . DS . 'tests');
-!defined('PROJECT_RES')     && define('PROJECT_RES',    PROJECT_ROOT . DS . 'resources');
-
-// @codeCoverageIgnoreEnd
+!defined('PROJECT_ROOT') && define('PROJECT_ROOT', realpath('.'));
+!defined('PROJECT_BUILD') && define('PROJECT_BUILD', PROJECT_ROOT . DS . 'build');
+!defined('PROJECT_SRC') && define('PROJECT_SRC', PROJECT_ROOT . DS . 'src');
+!defined('PROJECT_TESTS') && define('PROJECT_TESTS', PROJECT_ROOT . DS . 'tests');
+!defined('PROJECT_RES') && define('PROJECT_RES', PROJECT_ROOT . DS . 'resources');

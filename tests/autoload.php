@@ -1,4 +1,5 @@
 <?php
+
 /**
  * JBZoo PHPUnit
  *
@@ -14,7 +15,6 @@
  *
  * @codingStandardsIgnoreFile
  */
-
 
 // main autoload
 if ($autoload = realpath('./vendor/autoload.php')) {

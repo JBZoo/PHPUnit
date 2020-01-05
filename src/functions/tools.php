@@ -1,4 +1,5 @@
 <?php
+
 /**
  * JBZoo PHPUnit
  *
@@ -28,14 +29,14 @@ use Symfony\Component\Process\Process;
  */
 function isWin()
 {
-    return strncasecmp(PHP_OS, 'WIN', 3) === 0;
+    return strncasecmp(PHP_OS_FAMILY, 'WIN', 3) === 0;
 }
 
 /**
  * @param string $message
  * @param bool   $addEol
  */
-function cliMessage($message, $addEol = true)
+function cliMessage($message, $addEol = true): void
 {
     $message = (string)$message;
     if ($addEol) {
@@ -48,9 +49,8 @@ function cliMessage($message, $addEol = true)
 /**
  * @param string $message
  * @param bool   $addEol
- * @codeCoverageIgnore
  */
-function cliError($message, $addEol = true)
+function cliError($message, $addEol = true): void
 {
     $message = (string)$message;
     if ($addEol) {
@@ -63,7 +63,7 @@ function cliError($message, $addEol = true)
 /**
  * Binary save to open file
  *
- * @param $path
+ * @param string $path
  * @return null|string
  */
 function openFile($path)
@@ -71,11 +71,11 @@ function openFile($path)
     $contents = null;
 
     if ($realPath = realpath($path)) {
-        $filesize = filesize($realPath);
+        $fileSize = filesize($realPath);
 
-        if ($filesize > 0) {
+        if ($fileSize > 0) {
             $handle = fopen($realPath, 'rb');
-            $contents = fread($handle, $filesize);
+            $contents = fread($handle, $fileSize);
             fclose($handle);
         }
     }
@@ -98,7 +98,7 @@ function cmd($command, $args = [], $cwd = null)
     }
 
     if (!class_exists(Process::class)) {
-        throw new Exception('symfony/process package required for cmd() function'); // @codeCoverageIgnore
+        throw new Exception('symfony/process package required for cmd() function');
     }
 
     return Cli::exec($command, $args, $cwd);
@@ -116,7 +116,7 @@ function cmd($command, $args = [], $cwd = null)
 function httpRequest($url, $args = null, $method = 'GET', array $options = [])
 {
     if (!class_exists(HttpClient::class)) {
-        throw new Exception('jbzoo/http-client required for httpRequest() function'); // @codeCoverageIgnore
+        throw new Exception('jbzoo/http-client required for httpRequest() function');
     }
 
     return (new HttpClient())->request($url, $args, $method, $options);

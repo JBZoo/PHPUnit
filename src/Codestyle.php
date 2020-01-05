@@ -1,4 +1,5 @@
 <?php
+
 /**
  * JBZoo PHPUnit
  *
@@ -22,32 +23,69 @@ use Symfony\Component\Finder\Finder;
  * Class Codestyle
  *
  * @package JBZoo\PHPUnit
- * @codeCoverageIgnore
  */
 abstract class Codestyle extends PHPUnit
 {
-    protected $_packageName = ''; // Overload me!
+    /**
+     * @var string
+     */
+    protected $packageName = ''; // Overload me!
 
-    protected $_packageVendor    = 'JBZoo';
-    protected $_packageLicense   = 'MIT';
-    protected $_packageCopyright = 'Copyright (C) JBZoo.com, All rights reserved.';
-    protected $_packageLink      = 'https://github.com/JBZoo/_PACKAGE_';
-    protected $_packageAuthor    = '';
-    protected $_packageDesc      = [
+    /**
+     * @var bool
+     */
+    protected $isPsr12 = true;
+
+    /**
+     * @var string
+     */
+    protected $packageVendor = 'JBZoo';
+
+    /**
+     * @var string
+     */
+    protected $packageLicense = 'MIT';
+
+    /**
+     * @var string
+     */
+    protected $packageCopyright = 'Copyright (C) JBZoo.com, All rights reserved.';
+
+    /**
+     * @var string
+     */
+    protected $packageLink = 'https://github.com/JBZoo/_PACKAGE_';
+
+    /**
+     * @var string
+     */
+    protected $packageAuthor = '';
+
+    /**
+     * @var array
+     */
+    protected $packageDesc = [
         'This file is part of the JBZoo CCK package.',
         'For the full copyright and license information, please view the LICENSE',
         'file that was distributed with this source code.',
     ];
 
-    protected $_le      = "\n";
-    protected $_replace = [];
+    /**
+     * @var string
+     */
+    protected $eol = "\n";
+
+    /**
+     * @var array
+     */
+    protected $replace = [];
 
     /**
      * Ignore list for
      *
      * @var array
      */
-    protected $_excludePaths = [
+    protected $excludePaths = [
         '.git',
         '.idea',
         'bin',
@@ -68,8 +106,7 @@ abstract class Codestyle extends PHPUnit
      *
      * @var array
      */
-    protected $_validHeaderPHP = [
-        '<?php',
+    protected $validHeaderPHP = [
         '/**',
         ' * _VENDOR_ _PACKAGE_',
         ' *',
@@ -86,7 +123,7 @@ abstract class Codestyle extends PHPUnit
      *
      * @var array
      */
-    protected $_validHeaderJS = [
+    protected $validHeaderJS = [
         '/**',
         ' * _VENDOR_ _PACKAGE_',
         ' *',
@@ -105,7 +142,7 @@ abstract class Codestyle extends PHPUnit
      *
      * @var array
      */
-    protected $_validHeaderCSS = [
+    protected $validHeaderCSS = [
         '/**',
         ' * _VENDOR_ _PACKAGE_',
         ' *',
@@ -124,7 +161,7 @@ abstract class Codestyle extends PHPUnit
      *
      * @var array
      */
-    protected $_validHeaderLESS = [
+    protected $validHeaderLESS = [
         '//',
         '// _VENDOR_ _PACKAGE_',
         '//',
@@ -142,7 +179,7 @@ abstract class Codestyle extends PHPUnit
      *
      * @var array
      */
-    protected $_validHeaderXML = [
+    protected $validHeaderXML = [
         '<?xml version="1.0" encoding="UTF-8" ?>',
         '<!--',
         '    _VENDOR_ _PACKAGE_',
@@ -161,7 +198,7 @@ abstract class Codestyle extends PHPUnit
      *
      * @var array
      */
-    protected $_validHeaderINI = [
+    protected $validHeaderINI = [
         ';',
         '; _VENDOR_ _PACKAGE_',
         ';',
@@ -181,7 +218,7 @@ abstract class Codestyle extends PHPUnit
      *
      * @var array
      */
-    protected $_validHeaderSH = [
+    protected $validHeaderSH = [
         '#!/usr/bin/env sh',
         '',
         '#',
@@ -202,7 +239,7 @@ abstract class Codestyle extends PHPUnit
      *
      * @var array
      */
-    protected $_validHeaderSQL = [
+    protected $validHeaderSQL = [
         '--',
         '-- _VENDOR_ _PACKAGE_',
         '--',
@@ -221,7 +258,7 @@ abstract class Codestyle extends PHPUnit
      *
      * @var array
      */
-    protected $_validHeaderHtaccess = [
+    protected $validHeaderHtaccess = [
         '#',
         '# _VENDOR_ _PACKAGE_',
         '#',
@@ -242,7 +279,7 @@ abstract class Codestyle extends PHPUnit
     {
         parent::setUp();
 
-        if (!$this->_packageName) {
+        if (!$this->packageName) {
             throw new Exception('$this->_packageName is undefined!');
         }
 
@@ -250,30 +287,30 @@ abstract class Codestyle extends PHPUnit
             throw new Exception('symfony/finder requreid for CodeStyle unit tests');
         }
 
-        $this->_replace = [
-            '_LINK_'                 => $this->_packageLink,
+        $this->replace = [
+            '_LINK_'                 => $this->packageLink,
             '_NAMESPACE_'            => '_VENDOR_\_PACKAGE_',
-            '_COPYRIGHTS_'           => $this->_packageCopyright,
-            '_PACKAGE_'              => $this->_packageName,
-            '_LICENSE_'              => $this->_packageLicense,
-            '_AUTHOR_'               => $this->_packageAuthor,
-            '_VENDOR_'               => $this->_packageVendor,
-            '_DESCRIPTION_PHP_'      => implode($this->_le . ' * ', $this->_packageDesc),
-            '_DESCRIPTION_JS_'       => implode($this->_le . ' * ', $this->_packageDesc),
-            '_DESCRIPTION_CSS_'      => implode($this->_le . ' * ', $this->_packageDesc),
-            '_DESCRIPTION_LESS_'     => implode($this->_le . '// ', $this->_packageDesc),
-            '_DESCRIPTION_XML_'      => implode($this->_le . '    ', $this->_packageDesc),
-            '_DESCRIPTION_INI_'      => implode($this->_le . '; ', $this->_packageDesc),
-            '_DESCRIPTION_SH_'       => implode($this->_le . '# ', $this->_packageDesc),
-            '_DESCRIPTION_SQL_'      => implode($this->_le . '-- ', $this->_packageDesc),
-            '_DESCRIPTION_HTACCESS_' => implode($this->_le . '# ', $this->_packageDesc),
+            '_COPYRIGHTS_'           => $this->packageCopyright,
+            '_PACKAGE_'              => $this->packageName,
+            '_LICENSE_'              => $this->packageLicense,
+            '_AUTHOR_'               => $this->packageAuthor,
+            '_VENDOR_'               => $this->packageVendor,
+            '_DESCRIPTION_PHP_'      => implode($this->eol . ' * ', $this->packageDesc),
+            '_DESCRIPTION_JS_'       => implode($this->eol . ' * ', $this->packageDesc),
+            '_DESCRIPTION_CSS_'      => implode($this->eol . ' * ', $this->packageDesc),
+            '_DESCRIPTION_LESS_'     => implode($this->eol . '// ', $this->packageDesc),
+            '_DESCRIPTION_XML_'      => implode($this->eol . '    ', $this->packageDesc),
+            '_DESCRIPTION_INI_'      => implode($this->eol . '; ', $this->packageDesc),
+            '_DESCRIPTION_SH_'       => implode($this->eol . '# ', $this->packageDesc),
+            '_DESCRIPTION_SQL_'      => implode($this->eol . '-- ', $this->packageDesc),
+            '_DESCRIPTION_HTACCESS_' => implode($this->eol . '# ', $this->packageDesc),
         ];
     }
 
     /**
      * Test line endings
      */
-    public function testFiles()
+    public function testFiles(): void
     {
         $finder = new Finder();
         $finder
@@ -294,7 +331,7 @@ abstract class Codestyle extends PHPUnit
             ->ignoreDotFiles(false)
             ->notName('*.min.*')
             ->exclude('Makefile')
-            ->exclude($this->_excludePaths);
+            ->exclude($this->excludePaths);
 
         /** @var SplFileInfo $file */
         foreach ($finder as $file) {
@@ -311,15 +348,21 @@ abstract class Codestyle extends PHPUnit
     /**
      * Test copyright headers of PHP files
      */
-    public function testHeadersPHP()
+    public function testHeadersPHP(): void
     {
-        $valid = $this->_prepareTemplate(implode($this->_le, $this->_validHeaderPHP));
+        $valid = $this->prepareTemplate(implode($this->eol, $this->validHeaderPHP));
+
+        if ($this->isPsr12) {
+            $valid = "<?php{$this->eol}{$this->eol}{$valid}";
+        } else {
+            $valid = "<?php{$this->eol}{$valid}";
+        }
 
         $finder = new Finder();
         $finder
             ->files()
             ->in(PROJECT_ROOT)
-            ->exclude($this->_excludePaths)
+            ->exclude($this->excludePaths)
             ->name('*.php')
             ->name('*.phtml');
 
@@ -335,15 +378,15 @@ abstract class Codestyle extends PHPUnit
     /**
      * Test copyright headers of JS files (not minified)
      */
-    public function testHeadersJS()
+    public function testHeadersJS(): void
     {
-        $valid = $this->_prepareTemplate(implode($this->_le, $this->_validHeaderJS));
+        $valid = $this->prepareTemplate(implode($this->eol, $this->validHeaderJS));
 
         $finder = new Finder();
         $finder
             ->files()
             ->in(PROJECT_ROOT)
-            ->exclude($this->_excludePaths)
+            ->exclude($this->excludePaths)
             ->name('*.js')
             ->notName('*.min.js')
             ->name('*.jsx')
@@ -361,15 +404,15 @@ abstract class Codestyle extends PHPUnit
     /**
      * Test copyright headers of CSS files (not minified)
      */
-    public function testHeadersCSS()
+    public function testHeadersCSS(): void
     {
-        $valid = $this->_prepareTemplate(implode($this->_le, $this->_validHeaderCSS));
+        $valid = $this->prepareTemplate(implode($this->eol, $this->validHeaderCSS));
 
         $finder = new Finder();
         $finder
             ->files()
             ->in(PROJECT_ROOT)
-            ->exclude($this->_excludePaths)
+            ->exclude($this->excludePaths)
             ->name('*.css')
             ->notName('*.min.css');
 
@@ -385,15 +428,15 @@ abstract class Codestyle extends PHPUnit
     /**
      * Test copyright headers of LESS files (not minified)
      */
-    public function testHeadersLESS()
+    public function testHeadersLESS(): void
     {
-        $valid = $this->_prepareTemplate(implode($this->_le, $this->_validHeaderLESS));
+        $valid = $this->prepareTemplate(implode($this->eol, $this->validHeaderLESS));
 
         $finder = new Finder();
         $finder
             ->files()
             ->in(PROJECT_ROOT)
-            ->exclude($this->_excludePaths)
+            ->exclude($this->excludePaths)
             ->name('*.less');
 
         /** @var SplFileInfo $file */
@@ -408,15 +451,15 @@ abstract class Codestyle extends PHPUnit
     /**
      * Test copyright headers of XML files
      */
-    public function testHeadersXML()
+    public function testHeadersXML(): void
     {
-        $valid = $this->_prepareTemplate(implode($this->_le, $this->_validHeaderXML));
+        $valid = $this->prepareTemplate(implode($this->eol, $this->validHeaderXML));
 
         $finder = new Finder();
         $finder
             ->files()
             ->in(PROJECT_ROOT)
-            ->exclude($this->_excludePaths)
+            ->exclude($this->excludePaths)
             ->name('*.xml')
             ->name('*.xml.dist');
 
@@ -432,15 +475,15 @@ abstract class Codestyle extends PHPUnit
     /**
      * Test copyright headers of INI files
      */
-    public function testHeadersINI()
+    public function testHeadersINI(): void
     {
-        $valid = $this->_prepareTemplate(implode($this->_le, $this->_validHeaderINI));
+        $valid = $this->prepareTemplate(implode($this->eol, $this->validHeaderINI));
 
         $finder = new Finder();
         $finder
             ->files()
             ->in(PROJECT_ROOT)
-            ->exclude($this->_excludePaths)
+            ->exclude($this->excludePaths)
             ->name('*.ini');
 
         /** @var SplFileInfo $file */
@@ -455,11 +498,11 @@ abstract class Codestyle extends PHPUnit
     /**
      * Test copyright headers of SH files
      */
-    public function testHeadersSH()
+    public function testHeadersSH(): void
     {
-        $valid = $this->_prepareTemplate(implode($this->_le, $this->_validHeaderSH));
+        $valid = $this->prepareTemplate(implode($this->eol, $this->validHeaderSH));
 
-        $excludePaths = $this->_excludePaths;
+        $excludePaths = $this->excludePaths;
         $binIndex = array_search('bin', $excludePaths, true);
         if ($binIndex !== false) {
             unset($excludePaths[$binIndex]);
@@ -484,15 +527,15 @@ abstract class Codestyle extends PHPUnit
     /**
      * Test copyright headers of SQL files
      */
-    public function testHeadersSQL()
+    public function testHeadersSQL(): void
     {
-        $valid = $this->_prepareTemplate(implode($this->_le, $this->_validHeaderSQL));
+        $valid = $this->prepareTemplate(implode($this->eol, $this->validHeaderSQL));
 
         $finder = new Finder();
         $finder
             ->files()
             ->in(PROJECT_ROOT)
-            ->exclude($this->_excludePaths)
+            ->exclude($this->excludePaths)
             ->name('*.sql');
 
         /** @var SplFileInfo $file */
@@ -507,15 +550,15 @@ abstract class Codestyle extends PHPUnit
     /**
      * Test copyright headers of Makefile
      */
-    public function testHeadersMakefile()
+    public function testHeadersMakefile(): void
     {
-        $valid = $this->_prepareTemplate(implode($this->_le, $this->_validHeaderHtaccess));
+        $valid = $this->prepareTemplate(implode($this->eol, $this->validHeaderHtaccess));
 
         $finder = new Finder();
         $finder
             ->files()
             ->in(PROJECT_ROOT)
-            ->exclude($this->_excludePaths)
+            ->exclude($this->excludePaths)
             ->ignoreDotFiles(false)
             ->name('Makefile');
 
@@ -531,15 +574,15 @@ abstract class Codestyle extends PHPUnit
     /**
      * Test copyright headers of .htaccess files
      */
-    public function testHeadersHtaccess()
+    public function testHeadersHtaccess(): void
     {
-        $valid = $this->_prepareTemplate(implode($this->_le, $this->_validHeaderHtaccess));
+        $valid = $this->prepareTemplate(implode($this->eol, $this->validHeaderHtaccess));
 
         $finder = new Finder();
         $finder
             ->files()
             ->in(PROJECT_ROOT)
-            ->exclude($this->_excludePaths)
+            ->exclude($this->excludePaths)
             ->ignoreDotFiles(false)
             ->name('/\.htaccess/')
             ->name('htaccess.*')
@@ -557,13 +600,13 @@ abstract class Codestyle extends PHPUnit
     /**
      * Try to find cyrilic symbols in the code
      */
-    public function testCyrillic()
+    public function testCyrillic(): void
     {
         $finder = new Finder();
         $finder
             ->files()
             ->in(PROJECT_ROOT)
-            ->exclude($this->_excludePaths)
+            ->exclude($this->excludePaths)
             ->exclude('tests')
             ->notPath(basename(__FILE__))
             ->ignoreDotFiles(false)
@@ -592,9 +635,9 @@ abstract class Codestyle extends PHPUnit
      * @param string $text
      * @return string
      */
-    protected function _prepareTemplate($text): string
+    protected function prepareTemplate($text): string
     {
-        foreach ($this->_replace as $const => $value) {
+        foreach ($this->replace as $const => $value) {
             $text = str_replace($const, $value, $text);
         }
 
