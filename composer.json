@@ -18,9 +18,9 @@
 
     "require"     : {
         "php"                 : ">=7.2",
-        "ulrichsg/getopt-php" : "^3.3.0",
-        "phpunit/phpcov"      : "^5.0|^6.0",
-        "phpunit/phpunit"     : "^8.5|^9.1"
+        "phpunit/phpunit"     : "*",
+        "ulrichsg/getopt-php" : "*",
+        "phpunit/phpcov"      : "*"
     },
 
     "require-dev" : {
@@ -33,11 +33,11 @@
         "phpstan/phpstan"           : "*",
         "vimeo/psalm"               : "*",
 
-        "jbzoo/utils"               : "^3.1.2",
-        "jbzoo/data"                : "^3.0.1",
-        "jbzoo/http-client"         : "^2.1.0",
-        "jbzoo/profiler"            : "^1.0.5",
-        "jbzoo/jbdump"              : "^1.5.3",
+        "jbzoo/utils"               : "*",
+        "jbzoo/data"                : "*",
+        "jbzoo/http-client"         : "*",
+        "jbzoo/profiler"            : "*",
+        "jbzoo/jbdump"              : "*",
 
         "symfony/process"           : "^4.0|^5.0",
         "symfony/var-dumper"        : "^4.0|^5.0",
