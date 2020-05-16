@@ -109,8 +109,9 @@ psalm: ## Check PHP code by PHPStan
 	@php `pwd`/vendor/bin/psalm         \
         --config=`pwd`/psalm.xml        \
         --output-format=compact         \
+        --show-info=true                \
         --find-unused-psalm-suppress    \
-        --show-info=false
+        --stats
 
 
 phpcpd:
