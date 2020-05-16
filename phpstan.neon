@@ -11,5 +11,6 @@
 # @link       https://github.com/JBZoo/PHPUnit
 #
 
-coverage_clover:
-  - build/coverage_total/*.xml
+parameters:
+    checkMissingIterableValueType: false
+    checkGenericClassInNonGenericObjectType: false

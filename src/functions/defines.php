@@ -16,6 +16,8 @@
  * @codingStandardsIgnoreFile
  */
 
+declare(strict_types=1);
+
 !defined('JBZOO_PHPUNIT') && define('JBZOO_PHPUNIT', true);
 
 // System

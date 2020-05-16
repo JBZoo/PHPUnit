@@ -11,5 +11,4 @@
 # @link       https://github.com/JBZoo/PHPUnit
 #
 
-coverage_clover:
-  - build/coverage_total/*.xml
+.PHONY: build

@@ -14,6 +14,8 @@
  * @author     Denis Smetannikov <denis@jbzoo.com>
  */
 
+declare(strict_types=1);
+
 namespace JBZoo\PHPUnit;
 
 use JBZoo\HttpClient\HttpClient;
@@ -71,22 +73,28 @@ function openFile($path)
     $contents = null;
 
     if ($realPath = realpath($path)) {
-        $fileSize = filesize($realPath);
+        $fileSize = (int)filesize($realPath);
 
         if ($fileSize > 0) {
             $handle = fopen($realPath, 'rb');
-            $contents = fread($handle, $fileSize);
-            fclose($handle);
+            if ($handle) {
+                $contents = fread($handle, $fileSize);
+                fclose($handle);
+            }
         }
+    }
+
+    if ($contents === false) {
+        $contents = null;
     }
 
     return $contents;
 }
 
 /**
- * @param string $command
- * @param array  $args
- * @param null   $cwd
+ * @param string        $command
+ * @param array<string> $args
+ * @param null          $cwd
  * @return string
  * @throws Exception
  * @throws \JBZoo\Utils\Exception
@@ -105,21 +113,22 @@ function cmd($command, $args = [], $cwd = null)
 }
 
 /**
- * @param string       $url
- * @param string|array $args
- * @param string       $method
- * @param array        $options
+ * @param string                 $url
+ * @param string|array<mixed>    $args
+ * @param string                 $method
+ * @param array<string|bool|int> $options
  * @return Response
  * @throws Exception
  * @throws \JBZoo\HttpClient\Exception
  */
-function httpRequest($url, $args = null, $method = 'GET', array $options = [])
+function httpRequest(string $url, $args = null, $method = 'GET', array $options = [])
 {
     if (!class_exists(HttpClient::class)) {
         throw new Exception('jbzoo/http-client required for httpRequest() function');
     }
 
-    return (new HttpClient())->request($url, $args, $method, $options);
+    $client = new HttpClient($options);
+    return $client->request($url, $args, $method, $options);
 }
 
 /**
@@ -130,6 +139,7 @@ function getTestName($withNamespace = false)
 {
     $objects = debug_backtrace();
     $result = null;
+
     foreach ($objects as $object) {
         if (isset($object['object']) && $object['object'] instanceof TestCase) {
             $result = get_class($object['object']) . '::' . $object['function'];
@@ -139,5 +149,6 @@ function getTestName($withNamespace = false)
             break;
         }
     }
+
     return $result;
 }

@@ -14,6 +14,8 @@
  * @author     Denis Smetannikov <denis@jbzoo.com>
  */
 
+declare(strict_types=1);
+
 namespace JBZoo\PHPUnit;
 
 use JBZoo\Data\Data;
@@ -29,8 +31,9 @@ use SebastianBergmann\CodeCoverage\Report\PHP;
 
 /**
  * Class CovCatcher
- *
  * @package JBZoo\PHPUnit
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class CovCatcher
 {
@@ -40,7 +43,7 @@ class CovCatcher
     /**
      * @var bool
      */
-    protected $isStart = false;
+    protected $isStarted = false;
 
     /**
      * @var CodeCoverage|null
@@ -48,7 +51,7 @@ class CovCatcher
     protected $coverage;
 
     /**
-     * @var array
+     * @var array<bool|string>
      */
     protected $default = [
         'cov'        => true,
@@ -61,7 +64,7 @@ class CovCatcher
     ];
 
     /**
-     * @var Data|null
+     * @var Data
      */
     protected $config;
 
@@ -73,8 +76,8 @@ class CovCatcher
     /**
      * CovCatcher constructor.
      *
-     * @param string $testName
-     * @param array  $options
+     * @param string             $testName
+     * @param array<bool|string> $options
      * @throws Exception
      */
     public function __construct($testName = null, array $options = [])
@@ -89,8 +92,10 @@ class CovCatcher
 
         $this->initConfig($options);
 
-        $this->hash = $testName . '__' . str_replace('.', '', uniqid('', true));
+        $postFixName = str_replace('.', '', uniqid('', true));
+        $this->hash = $testName ? "{$testName}__{$postFixName}" : $postFixName;
 
+        $this->coverage = null;
         if (Sys::hasXdebug()) {
             $covFilter = new Filter();
             $covFilter->addDirectoryToWhitelist($this->config->get('src'));
@@ -109,19 +114,22 @@ class CovCatcher
         $this->start();
 
         $realpath = realpath($filename);
-        if (!file_exists($realpath)) {
-            throw new Exception("Included file not found: \"{$filename}\"");
-        }
 
-        if (self::MODE_REQUIRE === $mode) {
-            /** @noinspection PhpIncludeInspection */
-            $result = require $realpath;
-        } elseif (self::MODE_REQUIRE_ONCE === $mode) {
-            /** @noinspection PhpIncludeInspection */
-            /** @noinspection UsingInclusionOnceReturnValueInspection */
-            $result = require_once $realpath;
+        if ($realpath && file_exists($realpath)) {
+            if (self::MODE_REQUIRE === $mode) {
+                /** @noinspection PhpIncludeInspection */
+                /** @psalm-suppress UnresolvableInclude */
+                $result = require $realpath;
+            } elseif (self::MODE_REQUIRE_ONCE === $mode) {
+                /** @noinspection PhpIncludeInspection */
+                /** @noinspection UsingInclusionOnceReturnValueInspection */
+                /** @psalm-suppress UnresolvableInclude */
+                $result = require_once $realpath;
+            } else {
+                throw new Exception("Undefined mode to include file: \"{$filename}\"");
+            }
         } else {
-            throw new Exception("Undefined mode to include file: \"{$filename}\"");
+            throw new Exception("Included file not found: \"{$filename}\"");
         }
 
         $this->stop();
@@ -145,11 +153,11 @@ class CovCatcher
             }
         }
 
-        $testName = str_replace(__NAMESPACE__ . '\\', '', $testName);
+        $testName = str_replace(__NAMESPACE__ . '\\', '', (string)$testName);
         $testName = Str::splitCamelCase($testName, '_', true);
-        $testName = preg_replace('/^test_/', '', $testName);
-        $testName = preg_replace('/_test$/', '', $testName);
-        $testName = str_replace(['_test_test_', '/', '\\', '_', '-'], ['_', '', '', '', ''], $testName);
+        $testName = preg_replace('/^test_/', '', (string)$testName);
+        $testName = preg_replace('/_test$/', '', (string)$testName);
+        $testName = str_replace(['_test_test_', '/', '\\', '_', '-'], ['_', '', '', '', ''], (string)$testName);
         $testName = strtolower($testName);
 
         if (!$testName) {
@@ -175,9 +183,11 @@ class CovCatcher
      */
     protected function start(): void
     {
-        if (!$this->isStart && $this->coverage) {
-            $this->isStart = true;
-            $this->coverage->start($this->hash, true);
+        if (!$this->isStarted) {
+            $this->isStarted = true;
+            if ($this->coverage) {
+                $this->coverage->start($this->hash, true);
+            }
         }
     }
 
@@ -186,9 +196,11 @@ class CovCatcher
      */
     protected function stop(): void
     {
-        if ($this->isStart && $this->coverage) {
-            $this->isStart = false;
-            $this->coverage->stop();
+        if ($this->isStarted) {
+            $this->isStarted = false;
+            if ($this->coverage) {
+                $this->coverage->stop();
+            }
         }
     }
 
@@ -197,38 +209,41 @@ class CovCatcher
      */
     protected function createReports(): void
     {
-        if (!$this->coverage) {
-            return;
-        }
-
         $reportXmlDir = $this->config->get('build_xml');
-        if ($this->config->get('xml', true, 'bool')) {
-            $this->checkDir($reportXmlDir);
+        $isXmlEnabled = $this->config->get('xml', false, 'bool');
+        if ($isXmlEnabled) {
+            $this->prepareDirectory($reportXmlDir);
             $report = new Clover();
-            $report->process($this->coverage, $reportXmlDir . '/' . $this->hash . '.xml');
+            if ($this->coverage) {
+                $report->process($this->coverage, $reportXmlDir . '/' . $this->hash . '.xml');
+            }
         }
-
 
         $reportCovDir = $this->config->get('build_cov');
-        if ($this->config->get('cov', false, 'bool')) {
-            $this->checkDir($reportCovDir);
+        $isCovEnabled = $this->config->get('cov', false, 'bool');
+        if ($isCovEnabled) {
+            $this->prepareDirectory($reportCovDir);
             $report = new PHP();
-            $report->process($this->coverage, $reportCovDir . '/' . $this->hash . '.cov');
+            if ($this->coverage) {
+                $report->process($this->coverage, $reportCovDir . '/' . $this->hash . '.cov');
+            }
         }
 
-
         $reportHtmlDir = $this->config->get('build_html');
-        if ($this->config->get('html', false, 'bool')) {
-            $this->checkDir($reportHtmlDir);
+        $isHtmlEnabled = $this->config->get('html', false, 'bool');
+        if ($isHtmlEnabled) {
+            $this->prepareDirectory($reportHtmlDir);
             $report = new Facade();
-            $report->process($this->coverage, $reportHtmlDir . '/' . $this->hash);
+            if ($this->coverage) {
+                $report->process($this->coverage, $reportHtmlDir . '/' . $this->hash);
+            }
         }
     }
 
     /**
      * @param string $dirPath
      */
-    protected function checkDir($dirPath): void
+    protected function prepareDirectory($dirPath): void
     {
         if (!mkdir($dirPath, 0777, true) && !is_dir($dirPath)) {
             throw new \RuntimeException(sprintf('Directory "%s" was not created', $dirPath));
@@ -237,7 +252,7 @@ class CovCatcher
 
     /**
      * Prepare and init config
-     * @param array $options
+     * @param array<bool|string|null> $options
      */
     protected function initConfig(array $options): void
     {

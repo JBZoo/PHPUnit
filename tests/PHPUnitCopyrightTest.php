@@ -17,11 +17,26 @@
 namespace JBZoo\PHPUnit;
 
 /**
- * Class PHPUnitCodeStyleTest
+ * Class PHPUnitCopyrightTest
  *
  * @package JBZoo\PHPUnit
  */
-class PHPUnitCodeStyleTest extends AbstractCodestyleTest
+class PHPUnitCopyrightTest extends AbstractCopyrightTest
 {
+    protected $packageName   = 'PHPUnit';
+    protected $packageAuthor = 'Denis Smetannikov <denis@jbzoo.com>';
 
+    /**
+     * Ignore list for
+     *
+     * @var array
+     */
+    protected $excludePaths = [
+        '.git',
+        '.idea',
+        'bin',
+        'build',
+        'logs',
+        'vendor',
+    ];
 }

@@ -128,9 +128,11 @@ class PHPUnitAliasesTest extends PHPUnit
     {
         isAmount('100.99', 100.98);
         isAmount('100.99', '100.97');
+        isNotAmount('100.99', '100');
+        isNotAmount('100.99', 100);
 
-        isAmount(['100.99', 'USD'], [100.98, 'USD']);
-        isNotAmount(['100.99', 'USD'], [100, 'USD']);
+        isAmountCur(['100.99', 'USD'], [100.98, 'USD']);
+        isNotAmountCur(['100.99', 'USD'], [100, 'USD']);
     }
 
     public function testIsSameDate()

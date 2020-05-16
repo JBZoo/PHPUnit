@@ -1,4 +1,5 @@
 <?php
+
 /**
  * JBZoo PHPUnit
  *
@@ -12,7 +13,6 @@
  * @link       https://github.com/JBZoo/PHPUnit
  * @author     Denis Smetannikov <denis@jbzoo.com>
  */
-
 
 /**
  * @throws Exception

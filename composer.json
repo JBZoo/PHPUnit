@@ -7,6 +7,7 @@
         "phpunit", "jbzoo", "aliases", "short-syntax", "testing", "assert", "assertion", "validation",
         "benchmark", "performance", "speed", "debug", "dump", "jbdump"
     ],
+
     "authors"     : [
         {
             "name"  : "SmetDenis",
@@ -14,30 +15,37 @@
             "role"  : "lead"
         }
     ],
+
     "require"     : {
-        "php"                       : ">=7.1",
-        "phpunit/phpcov"            : "^5.0|^6.0",
-        "phpunit/phpunit"           : "^7.5|^8.4",
-        "phploc/phploc"             : "^4.0|^5.0",
-        "phpmd/phpmd"               : "^2.7",
-        "sebastian/phpcpd"          : "^4.1",
-        "squizlabs/php_codesniffer" : "^3.5.2",
-        "ulrichsg/getopt-php"       : "^3.2.2"
+        "php"                 : ">=7.1",
+        "ulrichsg/getopt-php" : "^3.3.0",
+        "phpunit/phpcov"      : "^5.0|^6.0",
+        "phpunit/phpunit"     : "^8.5|^9.1"
     },
+
     "require-dev" : {
-        "guzzlehttp/guzzle"    : "^6.4.1",
-        "jbzoo/utils"          : "^3.1",
-        "jbzoo/data"           : "^3.0.1",
-        "jbzoo/http-client"    : "^2.1",
-        "jbzoo/profiler"       : "^1.0.5",
-        "jbzoo/jbdump"         : "^1.5.3",
-        "symfony/process"      : "^4.4.1",
-        "symfony/var-dumper"   : "^4.4.1",
-        "symfony/dom-crawler"  : "^4.4.1",
-        "symfony/css-selector" : "^4.4.1",
-        "symfony/finder"       : "^4.4.1",
-        "jbzoo/misc"           : "^1.2"
+        "guzzlehttp/guzzle"         : "^6.5.3",
+
+        "phploc/phploc"             : "*",
+        "phpmd/phpmd"               : "*",
+        "sebastian/phpcpd"          : "*",
+        "squizlabs/php_codesniffer" : "*",
+        "phpstan/phpstan"           : "*",
+        "vimeo/psalm"               : "*",
+
+        "jbzoo/utils"               : "^3.1.2",
+        "jbzoo/data"                : "^3.0.1",
+        "jbzoo/http-client"         : "^2.1.0",
+        "jbzoo/profiler"            : "^1.0.5",
+        "jbzoo/jbdump"              : "^1.5.3",
+
+        "symfony/process"           : "^5.0.8",
+        "symfony/var-dumper"        : "^5.0.8",
+        "symfony/dom-crawler"       : "^5.0.8",
+        "symfony/css-selector"      : "^5.0.8",
+        "symfony/finder"            : "^5.0.8"
     },
+
     "suggest"     : {
         "jbzoo/http-client"    : "For http-requests (^2.0)",
         "jbzoo/profiler"       : "For runBench() function (^1.0)",
@@ -48,6 +56,7 @@
         "symfony/css-selector" : "For isHtml(not)Contain() function (^3.3)",
         "symfony/finder"       : "For CodeStyle tests (^3.3)"
     },
+
     "autoload"    : {
         "files" : [
             "src/functions/defines.php",
@@ -58,12 +67,15 @@
             "JBZoo\\PHPUnit\\" : "src"
         }
     },
+
     "bin"         : [
         "bin/phpunit-server.sh"
     ],
+
     "config"      : {
         "optimize-autoloader" : true
     },
+
     "support"     : {
         "issues" : "https://github.com/JBZoo/PHPUnit/issues"
     }
