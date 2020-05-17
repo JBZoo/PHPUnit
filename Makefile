@@ -68,7 +68,6 @@ test-all:
 
 validate:
 	@echo "$(C_AR)>>> >>> >>> >>> $(C_T) Composer validate $(CE)"
-	@composer diagnose
 	@composer check-platform-reqs
 	@composer validate --strict --no-check-all
 	@php `pwd`/vendor/bin/security-checker security:check `pwd`/composer.lock
