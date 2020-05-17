@@ -12,7 +12,6 @@
     @link       https://github.com/JBZoo/PHPUnit
 -->
 <phpunit bootstrap="tests/autoload.php"
-         colors="false"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
@@ -41,8 +40,7 @@
 
     <logging>
         <log type="coverage-clover" target="build/coverage_total/main.xml"/>
-        <log type="coverage-html" target="build/coverage_total/main-html"/>
-        <log type="coverage-text" target="php://stdout" showUncoveredFiles="false" showOnlySummary="true"/>
+        <log type="coverage-text" target="php://stdout" showUncoveredFiles="true" showOnlySummary="true"/>
     </logging>
 
 </phpunit>
