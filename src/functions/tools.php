@@ -35,35 +35,7 @@ function isWin()
 }
 
 /**
- * @param string $message
- * @param bool   $addEol
- */
-function cliMessage($message, $addEol = true): void
-{
-    $message = (string)$message;
-    if ($addEol) {
-        $message .= PHP_EOL;
-    }
-
-    MessageBuffer::getInstance()->info($message);
-}
-
-/**
- * @param string $message
- * @param bool   $addEol
- */
-function cliError($message, $addEol = true): void
-{
-    $message = (string)$message;
-    if ($addEol) {
-        $message .= PHP_EOL;
-    }
-
-    MessageBuffer::getInstance()->error($message);
-}
-
-/**
- * Binary save to open file
+ * Read file in binary save mode
  *
  * @param string $path
  * @return null|string
@@ -99,14 +71,14 @@ function openFile($path)
  * @throws Exception
  * @throws \JBZoo\Utils\Exception
  */
-function cmd($command, $args = [], $cwd = null)
+function cmd(string $command, $args = [], $cwd = null)
 {
     if (!class_exists(Cli::class)) {
-        throw new Exception('jbzoo/utils required for cmd() function');
+        throw new Exception('jbzoo/utils is required for cmd() function');
     }
 
     if (!class_exists(Process::class)) {
-        throw new Exception('symfony/process package required for cmd() function');
+        throw new Exception('symfony/process package is required for cmd() function');
     }
 
     return Cli::exec($command, $args, $cwd);
@@ -124,7 +96,7 @@ function cmd($command, $args = [], $cwd = null)
 function httpRequest(string $url, $args = null, $method = 'GET', array $options = [])
 {
     if (!class_exists(HttpClient::class)) {
-        throw new Exception('jbzoo/http-client required for httpRequest() function');
+        throw new Exception('jbzoo/http-client is required for httpRequest() function');
     }
 
     $client = new HttpClient($options);

@@ -14,6 +14,8 @@
  * @author     Denis Smetannikov <denis@jbzoo.com>
  */
 
+declare(strict_types=1);
+
 use GetOpt\GetOpt;
 use JBZoo\Data\Data;
 use JBZoo\PHPUnit\CovCatcher;
@@ -25,25 +27,27 @@ if (PHP_SAPI === 'cli-server') {
     $url = parse_url($_SERVER['REQUEST_URI']);
     $path = realpath($_SERVER['DOCUMENT_ROOT'] . $url['path']);
 
-    if (is_dir($path)) {
-        $realIndex = $path . '/index.php';
+    if ($path) {
+        if (is_dir($path)) {
+            $realIndex = $path . '/index.php';
 
-    } elseif (is_file($path)) {
-        if (pathinfo($path, PATHINFO_EXTENSION) !== 'php') {
-            return false;
+        } elseif (is_file($path)) {
+            if (pathinfo($path, PATHINFO_EXTENSION) !== 'php') {
+                return false;
+            }
+            $realIndex = $path;
         }
-        $realIndex = $path;
     }
 }
 
 // Try to find and load composer autoloader
 $vendorPaths = [
     realpath(__DIR__ . '/vendor/autoload.php'),
-    realpath(__DIR__ . '/../vendor/autoload.php'),
-    realpath(__DIR__ . '/../../vendor/autoload.php'),
-    realpath(__DIR__ . '/../../../vendor/autoload.php'),
-    realpath(__DIR__ . '/../../../../vendor/autoload.php'),
-    realpath(__DIR__ . '/../../../../../vendor/autoload.php'),
+    dirname(__DIR__) . '/vendor/autoload.php',
+    dirname(__DIR__, 2) . '/vendor/autoload.php',
+    dirname(__DIR__, 3) . '/vendor/autoload.php',
+    dirname(__DIR__, 4) . '/vendor/autoload.php',
+    dirname(__DIR__, 5) . '/vendor/autoload.php',
     realpath('./vendor/autoload.php'),
 ];
 

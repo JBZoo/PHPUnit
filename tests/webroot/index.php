@@ -14,7 +14,7 @@
  * @author     Denis Smetannikov <denis@jbzoo.com>
  */
 
-namespace JBZoo\PHPunit;
+namespace JBZoo\PHPUnit;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 

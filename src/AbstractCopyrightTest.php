@@ -262,26 +262,7 @@ abstract class AbstractCopyrightTest extends PHPUnit
      *
      * @var string[]
      */
-    protected $validHeaderHtaccess = [
-        '#',
-        '# _VENDOR_ _PACKAGE_',
-        '#',
-        '# _DESCRIPTION_HTACCESS_',
-        '#',
-        '# @package    _PACKAGE_',
-        '# @license    _LICENSE_',
-        '# @copyright  _COPYRIGHTS_',
-        '# @link       _LINK_',
-        '#',
-        '',
-    ];
-
-    /**
-     * Valid header for .yaml, .yml files
-     *
-     * @var string[]
-     */
-    protected $validHeaderYaml = [
+    protected $validHeaderHash = [
         '#',
         '# _VENDOR_ _PACKAGE_',
         '#',
@@ -311,7 +292,7 @@ abstract class AbstractCopyrightTest extends PHPUnit
         }
 
         if (!class_exists(Finder::class)) {
-            throw new Exception('symfony/finder requreid for CodeStyle unit tests');
+            throw new Exception('symfony/finder is required for CodeStyle unit tests');
         }
     }
 
@@ -410,7 +391,7 @@ abstract class AbstractCopyrightTest extends PHPUnit
     {
         $finder = $this->createFinder(['Makefile']);
 
-        $this->checkHeaderInFiles($finder, $this->prepareTemplate(implode($this->eol, $this->validHeaderHtaccess)));
+        $this->checkHeaderInFiles($finder, $this->prepareTemplate(implode($this->eol, $this->validHeaderHash)));
     }
 
     /**
@@ -420,7 +401,7 @@ abstract class AbstractCopyrightTest extends PHPUnit
     {
         $finder = $this->createFinder(['yml', 'yaml', 'neon']);
 
-        $this->checkHeaderInFiles($finder, $this->prepareTemplate(implode($this->eol, $this->validHeaderYaml)));
+        $this->checkHeaderInFiles($finder, $this->prepareTemplate(implode($this->eol, $this->validHeaderHash)));
     }
 
     /**
@@ -430,7 +411,17 @@ abstract class AbstractCopyrightTest extends PHPUnit
     {
         $finder = $this->createFinder(['htaccess', '.htaccess']);
 
-        $this->checkHeaderInFiles($finder, $this->prepareTemplate(implode($this->eol, $this->validHeaderHtaccess)));
+        $this->checkHeaderInFiles($finder, $this->prepareTemplate(implode($this->eol, $this->validHeaderHash)));
+    }
+
+    /**
+     * Test copyright headers of .htaccess files
+     */
+    public function testHeadersConfigs(): void
+    {
+        $finder = $this->createFinder(['editorconfig', 'gitattributes', 'gitignore']);
+
+        $this->checkHeaderInFiles($finder, $this->prepareTemplate(implode($this->eol, $this->validHeaderHash)));
     }
 
     #### Internal tools for test case ##################################################################################

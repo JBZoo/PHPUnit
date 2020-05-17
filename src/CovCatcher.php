@@ -83,11 +83,11 @@ class CovCatcher
     public function __construct($testName = null, array $options = [])
     {
         if (!class_exists(Data::class)) {
-            throw new Exception('jbzoo/data required for CovCatcher');
+            throw new Exception('jbzoo/data is required for CovCatcher');
         }
 
         if (!class_exists(Env::class)) {
-            throw new Exception('jbzoo/utils required for CovCatcher');
+            throw new Exception('jbzoo/utils is required for CovCatcher');
         }
 
         $this->initConfig($options);

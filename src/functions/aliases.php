@@ -24,6 +24,7 @@ use Symfony\Component\CssSelector\CssSelectorConverter;
 use Symfony\Component\DomCrawler\Crawler;
 
 /**** Controls ********************************************************************************************************/
+
 /**
  * Skip current test
  *
@@ -364,11 +365,11 @@ function isNotContain($expected, $value, $ignoreCase = false, string $message = 
 function isHtmlContain($html, $selector, $expected = null, string $message = ''): void
 {
     if (!class_exists(Crawler::class)) {
-        throw new Exception('symfony/dom-crawler required for isHtmlContain() function');
+        throw new Exception('symfony/dom-crawler is required for isHtmlContain() function');
     }
 
     if (!class_exists(CssSelectorConverter::class)) {
-        throw new Exception('symfony/css-selector required for isHtmlContain() function');
+        throw new Exception('symfony/css-selector is required for isHtmlContain() function');
     }
 
     $findText = null;
@@ -399,11 +400,11 @@ function isHtmlContain($html, $selector, $expected = null, string $message = '')
 function isHtmlNotContain($html, $selector, $expected, string $message = ''): void
 {
     if (!class_exists(Crawler::class)) {
-        throw new Exception('symfony/dom-crawler required for isHtmlNotContain() function');
+        throw new Exception('symfony/dom-crawler is required for isHtmlNotContain() function');
     }
 
     if (!class_exists(CssSelectorConverter::class)) {
-        throw new Exception('symfony/css-selector required for isHtmlNotContain() function');
+        throw new Exception('symfony/css-selector is required for isHtmlNotContain() function');
     }
 
     $findText = null;

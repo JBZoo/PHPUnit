@@ -31,11 +31,11 @@ use Symfony\Component\VarDumper\VarDumper;
 abstract class PHPUnit extends TestCase
 {
     // Example to init var dumper
-    //protected function setUp(): void
-    //{
-    //    parent::setUp();
-    //    $this->initVarDumper();
-    //}
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->initVarDumper();
+    }
 
     /**
      * @return bool

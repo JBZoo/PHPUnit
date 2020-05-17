@@ -11,7 +11,7 @@
 # @link       https://github.com/JBZoo/PHPUnit
 #
 
-.PHONY: build update test-all validate autoload test phpmd phpcs phpcpd phploc reset coveralls
+.PHONY: autoload clean-build phpcov phpcpd phpcs phploc phpmd reset server server-fake-test server-phpunit test test-all update validate
 
 SRC_PATH ?= `pwd`/src
 
@@ -21,7 +21,7 @@ C_T  = \033[0;30;46m
 
 update:
 	@echo "$(C_AR)>>> >>> >>> >>> $(C_T) Update project $(CE)"
-	@composer update --optimize-autoloader --no-interaction
+	@composer update --optimize-autoloader
 
 
 server:
@@ -71,21 +71,21 @@ autoload:
 
 test:
 	@echo "$(C_AR)>>> >>> >>> >>> $(C_T) Run unit-tests $(CE)"
-	@php ./vendor/phpunit/phpunit/phpunit --configuration ./phpunit.xml.dist
+	@php `pwd`/vendor/phpunit/phpunit/phpunit --configuration ./phpunit.xml.dist
 
 
 phpmd:
 	@echo "$(C_AR)>>> >>> >>> >>> $(C_T) Check PHPmd $(CE)"
-	@php ./vendor/phpmd/phpmd/src/bin/phpmd $(SRC_PATH) ansi \
+	@php `pwd`/vendor/phpmd/phpmd/src/bin/phpmd $(SRC_PATH) ansi \
         controversial,design,naming,unusedcode --verbose
 
 
 phpcs:
 	@echo "$(C_AR)>>> >>> >>> >>> $(C_T) Check Code Style $(CE)"
-	@php ./vendor/squizlabs/php_codesniffer/bin/phpcs $(SRC_PATH) \
-        --standard=PSR12                                        \
-        --report=full                                           \
-        --colors                                                \
+	@php `pwd`/vendor/squizlabs/php_codesniffer/bin/phpcs $(SRC_PATH)   \
+        --standard=PSR12                                                \
+        --report=full                                                   \
+        --colors                                                        \
         -p
 
 
@@ -99,8 +99,8 @@ phpstan: ## Check PHP code by PHPStan
 
 phpmnd: ## Check by PHP Magic Number Detector
 	@echo "$(C_AR)>>> >>> >>> >>> $(C_T) Checking by PHP Magic Number Detector (phpmnd) $(CE)"
-	@php `pwd`/vendor/bin/phpmnd $(SRC_PATH)  \
-        --progress                          \
+	@php `pwd`/vendor/bin/phpmnd $(SRC_PATH)    \
+        --progress                              \
         --hint
 
 
@@ -116,12 +116,12 @@ psalm: ## Check PHP code by PHPStan
 
 phpcpd:
 	@echo "$(C_AR)>>> >>> >>> >>> $(C_T) Check Copy&Paste $(CE)"
-	@php ./vendor/sebastian/phpcpd/phpcpd $(SRC_PATH) --verbose
+	@php `pwd`/vendor/sebastian/phpcpd/phpcpd $(SRC_PATH) --verbose
 
 
 phploc:
 	@echo "$(C_AR)>>> >>> >>> >>> $(C_T) Show stats $(CE)"
-	@php ./vendor/phploc/phploc/phploc $(SRC_PATH) --verbose
+	@php `pwd`/vendor/phploc/phploc/phploc $(SRC_PATH) --verbose
 
 
 reset:
@@ -140,7 +140,7 @@ phpcov:
 	@echo "$(C_AR)>>> >>> >>> >>> $(C_T) Merge coverage reports $(CE)"
 	@mkdir -pv ./build/coverage_total
 	@mkdir -pv ./build/coverage_cov
-	@php ./vendor/phpunit/phpcov/phpcov merge       \
+	@php `pwd`/vendor/phpunit/phpcov/phpcov merge   \
         --clover build/coverage_total/merge.xml     \
         --html   build/coverage_total/merge-html    \
         build/coverage_cov                          \
@@ -149,4 +149,4 @@ phpcov:
 
 coveralls: phpcov
 	@echo "$(C_AR)>>> >>> >>> >>> $(C_T) Send coverage to coveralls.io $(CE)"
-	@php ./vendor/satooshi/php-coveralls/bin/coveralls -vvv
+	@php `pwd`/vendor/satooshi/php-coveralls/bin/coveralls -vvv

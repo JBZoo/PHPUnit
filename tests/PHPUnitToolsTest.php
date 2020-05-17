@@ -51,7 +51,6 @@ class PHPUnitToolsTest extends PHPUnit
     public function testCliError()
     {
         skip('Some message...');
-        cliError('Some error message');
     }
 
     public function testGetTestName()
@@ -78,12 +77,5 @@ class PHPUnitToolsTest extends PHPUnit
     public function testIsWin()
     {
         isFalse(isWin());
-    }
-
-    public function testMessages()
-    {
-        cliMessage('cliMessage');
-        cliError('cliError');
-        isTrue(true);
     }
 }

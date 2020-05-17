@@ -66,7 +66,7 @@ abstract class AbstractCodestyleTest extends PHPUnit
         }
 
         if (!class_exists(Finder::class)) {
-            throw new Exception('symfony/finder requreid for CodeStyle unit tests');
+            throw new Exception('symfony/finder is required for CodeStyle unit tests');
         }
     }
 
@@ -122,7 +122,7 @@ abstract class AbstractCodestyleTest extends PHPUnit
     }
 
     /**
-     * Try to find cyrilic symbols in the code
+     * Try to find cyrillic symbols in the code
      */
     public function testCyrillic(): void
     {
@@ -142,7 +142,39 @@ abstract class AbstractCodestyleTest extends PHPUnit
 
             /** @noinspection NotOptimalRegularExpressionsInspection */
             if (preg_match('#[А-Яа-яЁё]#ius', (string)$content)) {
-                fail('File contains cyrilic symbols: ' . $file); // Short message in terminal
+                fail('File contains cyrillic symbols: ' . $file); // Short message in terminal
+            }
+        }
+
+        isTrue(true); // One assert is a minimum for test complete
+    }
+
+    /**
+     * Try to find cyrillic symbols in the code
+     */
+    public function testMakefilePhony(): void
+    {
+        $finder = (new Finder())
+            ->files()
+            ->in($this->projectRoot)
+            ->exclude($this->excludePaths)
+            ->ignoreDotFiles(false)
+            ->name('Makefile');
+
+        /** @var SplFileInfo $file */
+        foreach ($finder as $file) {
+            $content = openFile($file->getPathname());
+
+            $commands = [];
+            if (preg_match_all('/^([0-9a-z\-\_]*):$/m', $content, $matches)) {
+                foreach (array_keys($matches[0]) as $index) {
+                    $commands[] = trim($matches[1][$index]);
+                }
+            }
+
+            if (count($commands) > 0) {
+                sort($commands);
+                isContain('.PHONY: ' . implode(' ', $commands) . "\n", $content);
             }
         }
 
