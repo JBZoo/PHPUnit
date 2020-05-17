@@ -245,7 +245,7 @@ class CovCatcher
      */
     protected function prepareDirectory($dirPath): void
     {
-        if (!mkdir($dirPath, 0777, true) && !is_dir($dirPath)) {
+        if (!is_dir($dirPath) && !mkdir($dirPath, 0777, true) && !is_dir($dirPath)) {
             throw new \RuntimeException(sprintf('Directory "%s" was not created', $dirPath));
         }
     }
