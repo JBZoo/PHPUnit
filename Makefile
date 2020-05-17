@@ -14,6 +14,7 @@
 .PHONY: autoload clean-build phpcov phpcpd phpcs phploc phpmd reset server server-fake-test server-phpunit test test-all update validate
 
 SRC_PATH ?= `pwd`/src
+BIN_PATH ?= `pwd`/bin
 
 CE   = \033[0m
 C_AR = \033[0;33m
@@ -58,9 +59,10 @@ test-all:
 	@make test
 	@make phpcs
 	@make phpmd
+	@make phpmnd
+	@make phpcpd
 	@make phpstan
 	@make psalm
-	@make phpcpd
 	@make phploc
 
 
@@ -84,17 +86,17 @@ test:
 
 phpmd:
 	@echo "$(C_AR)>>> >>> >>> >>> $(C_T) Check PHPmd $(CE)"
-	@php `pwd`/vendor/phpmd/phpmd/src/bin/phpmd $(SRC_PATH) ansi \
+	@php `pwd`/vendor/phpmd/phpmd/src/bin/phpmd $(SRC_PATH),$(BIN_PATH) ansi \
         controversial,design,naming,unusedcode --verbose
 
 
 phpcs:
 	@echo "$(C_AR)>>> >>> >>> >>> $(C_T) Check Code Style $(CE)"
-	@php `pwd`/vendor/squizlabs/php_codesniffer/bin/phpcs $(SRC_PATH)   \
-        --standard=PSR12                                                \
-        --report=full                                                   \
-        --colors                                                        \
-        -p
+	@php `pwd`/vendor/squizlabs/php_codesniffer/bin/phpcs $(SRC_PATH) $(BIN_PATH)   \
+        --standard=PSR12                                                            \
+        --report=full                                                               \
+        --colors                                                                    \
+        -p -s
 
 
 phpstan: ## Check PHP code by PHPStan
@@ -102,14 +104,15 @@ phpstan: ## Check PHP code by PHPStan
 	@php `pwd`/vendor/bin/phpstan analyse   \
         --level=max                         \
         --error-format=table                \
-        $(SRC_PATH)
+        $(SRC_PATH) $(BIN_PATH)
 
 
 phpmnd: ## Check by PHP Magic Number Detector
 	@echo "$(C_AR)>>> >>> >>> >>> $(C_T) Checking by PHP Magic Number Detector (phpmnd) $(CE)"
-	@php `pwd`/vendor/bin/phpmnd $(SRC_PATH)    \
-        --progress                              \
-        --hint
+	@php `pwd`/vendor/bin/phpmnd    \
+        --progress                  \
+        --hint                      \
+        $(SRC_PATH) $(BIN_PATH)
 
 
 psalm: ## Check PHP code by PHPStan
@@ -126,12 +129,12 @@ psalm: ## Check PHP code by PHPStan
 
 phpcpd:
 	@echo "$(C_AR)>>> >>> >>> >>> $(C_T) Check Copy&Paste $(CE)"
-	@php `pwd`/vendor/sebastian/phpcpd/phpcpd $(SRC_PATH) --verbose
+	@php `pwd`/vendor/sebastian/phpcpd/phpcpd $(SRC_PATH) $(BIN_PATH) --verbose --progress
 
 
 phploc:
 	@echo "$(C_AR)>>> >>> >>> >>> $(C_T) Show stats $(CE)"
-	@php `pwd`/vendor/phploc/phploc/phploc $(SRC_PATH) --verbose
+	@php `pwd`/vendor/phploc/phploc/phploc $(SRC_PATH) $(BIN_PATH) --verbose
 
 
 reset:

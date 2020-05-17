@@ -27,6 +27,7 @@
 
         "phploc/phploc"                  : "*",
         "phpmd/phpmd"                    : "*",
+        "povils/phpmnd"                  : "*",
         "sebastian/phpcpd"               : "*",
         "squizlabs/php_codesniffer"      : "*",
         "phpstan/phpstan"                : "*",
@@ -35,17 +36,18 @@
         "davidrjonas/composer-lock-diff" : "*",
         "sensiolabs/security-checker"    : "*",
 
+
         "jbzoo/utils"                    : "*",
         "jbzoo/data"                     : "*",
         "jbzoo/http-client"              : "*",
         "jbzoo/profiler"                 : "*",
         "jbzoo/jbdump"                   : "*",
 
-        "symfony/process"                : "^4.0|^5.0",
-        "symfony/var-dumper"             : "^4.0|^5.0",
-        "symfony/dom-crawler"            : "^4.0|^5.0",
-        "symfony/css-selector"           : "^4.0|^5.0",
-        "symfony/finder"                 : "^4.0|^5.0",
+        "symfony/process"                : "^4.0||^5.0",
+        "symfony/var-dumper"             : "^4.0||^5.0",
+        "symfony/dom-crawler"            : "^4.0||^5.0",
+        "symfony/css-selector"           : "^4.0||^5.0",
+        "symfony/finder"                 : "^4.0||^5.0",
 
         "roave/security-advisories"      : "dev-master"
     },

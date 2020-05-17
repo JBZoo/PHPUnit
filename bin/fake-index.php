@@ -17,15 +17,17 @@
 declare(strict_types=1);
 
 use GetOpt\GetOpt;
-use JBZoo\Data\Data;
 use JBZoo\PHPUnit\CovCatcher;
 use JBZoo\Utils\Sys;
+
+use function JBZoo\Data\data;
 
 // To help the built-in PHP dev server, check if the request was actually for
 // something which should probably be served as a static file
 if (PHP_SAPI === 'cli-server') {
-    $url = parse_url($_SERVER['REQUEST_URI']);
+    $url = (array)parse_url($_SERVER['REQUEST_URI']);
     $path = null;
+
     if (array_key_exists('path', $url)) {
         $path = realpath($_SERVER['DOCUMENT_ROOT'] . $url['path']);
     }
@@ -33,7 +35,6 @@ if (PHP_SAPI === 'cli-server') {
     if ($path) {
         if (is_dir($path)) {
             $realIndex = $path . '/index.php';
-
         } elseif (is_file($path)) {
             if (pathinfo($path, PATHINFO_EXTENSION) !== 'php') {
                 return false;
@@ -57,6 +58,7 @@ $vendorPaths = [
 foreach ($vendorPaths as $vendorPath) {
     /** @psalm-suppress UnresolvableInclude */
     if ($vendorPath && file_exists($vendorPath)) {
+        /** @noinspection PhpIncludeInspection */
         require_once $vendorPath;
         break;
     }
@@ -73,10 +75,10 @@ $cliOptions = new Getopt([
 
 $cliOptions->process((string)getenv('PHPUNINT_ARGUMENTS'));
 
-$realIndex = $realIndex ?? realpath($cliOptions->getOption('index'));
+$realIndex = (string)($realIndex ?? realpath($cliOptions->getOption('index')));
 
 if (class_exists(CovCatcher::class) && Sys::hasXdebug()) {
-    $testname = (new Data($_REQUEST))->get('testname');
+    $testname = data($_REQUEST)->get('testname');
 
     $coverHash = md5(implode('||', [serialize($_REQUEST), serialize($_SERVER), PHP_VERSION]));
     $coverHash = $testname ? $testname . '-' . $coverHash : $testname;
@@ -89,9 +91,9 @@ if (class_exists(CovCatcher::class) && Sys::hasXdebug()) {
     ]);
 
     $result = $covCatcher->includeFile($realIndex);
-
 } elseif (file_exists($realIndex)) {
-    $result = require_once $realIndex;
+    /** @noinspection PhpIncludeInspection */
+    $result = require $realIndex;
 } else {
     $result = null;
 }
