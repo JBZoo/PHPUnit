@@ -163,18 +163,19 @@ abstract class AbstractCodestyleTest extends PHPUnit
 
         /** @var SplFileInfo $file */
         foreach ($finder as $file) {
-            $content = openFile($file->getPathname());
+            if ($content = openFile($file->getPathname())) {
+                $commands = [];
 
-            $commands = [];
-            if (preg_match_all('/^([0-9a-z\-\_]*):$/m', $content, $matches)) {
-                foreach (array_keys($matches[0]) as $index) {
-                    $commands[] = trim($matches[1][$index]);
+                if (preg_match_all('/^([0-9a-z\-\_]*):$/m', $content, $matches)) {
+                    foreach (array_keys($matches[0]) as $index) {
+                        $commands[] = trim($matches[1][$index]);
+                    }
                 }
-            }
 
-            if (count($commands) > 0) {
-                sort($commands);
-                isContain('.PHONY: ' . implode(' ', $commands) . "\n", $content);
+                if (count($commands) > 0) {
+                    sort($commands);
+                    isContain('.PHONY: ' . implode(' ', $commands) . "\n", $content);
+                }
             }
         }
 
