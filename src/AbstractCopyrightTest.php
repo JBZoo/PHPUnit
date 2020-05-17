@@ -103,11 +103,9 @@ abstract class AbstractCopyrightTest extends PHPUnit
         'tmp',
     ];
 
-    #### Paterns of copyrights. ########################################################################################
+    #### Patterns of copyrights. #######################################################################################
 
     /**
-     * Valid header for PHP files
-     *
      * @var string[]
      */
     protected $validHeaderPHP = [
@@ -123,8 +121,6 @@ abstract class AbstractCopyrightTest extends PHPUnit
     ];
 
     /**
-     * Valid header for JavaScript files
-     *
      * @var string[]
      */
     protected $validHeaderJS = [
@@ -137,13 +133,9 @@ abstract class AbstractCopyrightTest extends PHPUnit
         ' * @license    _LICENSE_',
         ' * @copyright  _COPYRIGHTS_',
         ' * @link       _LINK_',
-        ' */',
-        '',
     ];
 
     /**
-     * Valid header for CSS files (if not mimified)
-     *
      * @var string[]
      */
     protected $validHeaderCSS = [
@@ -161,8 +153,6 @@ abstract class AbstractCopyrightTest extends PHPUnit
     ];
 
     /**
-     * Valid header for LESS files
-     *
      * @var string[]
      */
     protected $validHeaderLESS = [
@@ -179,8 +169,6 @@ abstract class AbstractCopyrightTest extends PHPUnit
     ];
 
     /**
-     * Valid header for XML files
-     *
      * @var string[]
      */
     protected $validHeaderXML = [
@@ -198,8 +186,6 @@ abstract class AbstractCopyrightTest extends PHPUnit
     ];
 
     /**
-     * Valid header for INI files
-     *
      * @var string[]
      */
     protected $validHeaderINI = [
@@ -218,8 +204,6 @@ abstract class AbstractCopyrightTest extends PHPUnit
     ];
 
     /**
-     * Valid header for SH scripts
-     *
      * @var string[]
      */
     protected $validHeaderSH = [
@@ -239,8 +223,6 @@ abstract class AbstractCopyrightTest extends PHPUnit
     ];
 
     /**
-     * Valid header for SQL scripts
-     *
      * @var string[]
      */
     protected $validHeaderSQL = [
@@ -258,8 +240,6 @@ abstract class AbstractCopyrightTest extends PHPUnit
     ];
 
     /**
-     * Valid header for .htaccess scripts
-     *
      * @var string[]
      */
     protected $validHeaderHash = [
@@ -296,10 +276,7 @@ abstract class AbstractCopyrightTest extends PHPUnit
         }
     }
 
-    /**
-     * Test copyright headers of PHP files
-     */
-    public function testHeadersPHP(): void
+    public function testHeadersPhp(): void
     {
         $valid = $this->prepareTemplate(implode($this->eol, $this->validHeaderPHP));
 
@@ -314,40 +291,28 @@ abstract class AbstractCopyrightTest extends PHPUnit
         $this->checkHeaderInFiles($finder, $valid);
     }
 
-    /**
-     * Test copyright headers of JS files (not minified)
-     */
-    public function testHeadersJS(): void
+    public function testHeadersJs(): void
     {
         $finder = $this->createFinder(['js', 'jsx'], ['*.min.js', '*.min.jsx']);
 
         $this->checkHeaderInFiles($finder, $this->prepareTemplate(implode($this->eol, $this->validHeaderJS)));
     }
 
-    /**
-     * Test copyright headers of CSS files (not minified)
-     */
-    public function testHeadersCSS(): void
+    public function testHeadersCss(): void
     {
         $finder = $this->createFinder(['css'], ['*.min.css']);
 
         $this->checkHeaderInFiles($finder, $this->prepareTemplate(implode($this->eol, $this->validHeaderCSS)));
     }
 
-    /**
-     * Test copyright headers of LESS files (not minified)
-     */
-    public function testHeadersLESS(): void
+    public function testHeadersLess(): void
     {
         $finder = $this->createFinder(['less']);
 
         $this->checkHeaderInFiles($finder, $this->prepareTemplate(implode($this->eol, $this->validHeaderLESS)));
     }
 
-    /**
-     * Test copyright headers of XML files
-     */
-    public function testHeadersXML(): void
+    public function testHeadersXml(): void
     {
         $finder = $this->createFinder(['xml.dist', 'xml']);
 
@@ -357,7 +322,7 @@ abstract class AbstractCopyrightTest extends PHPUnit
     /**
      * Test copyright headers of INI files
      */
-    public function testHeadersINI(): void
+    public function testHeadersIni(): void
     {
         $finder = $this->createFinder(['ini']);
 
@@ -367,7 +332,7 @@ abstract class AbstractCopyrightTest extends PHPUnit
     /**
      * Test copyright headers of SH files
      */
-    public function testHeadersSH(): void
+    public function testHeadersSh(): void
     {
         $finder = $this->createFinder(['sh']);
 
@@ -377,7 +342,7 @@ abstract class AbstractCopyrightTest extends PHPUnit
     /**
      * Test copyright headers of SQL files
      */
-    public function testHeadersSQL(): void
+    public function testHeadersSql(): void
     {
         $finder = $this->createFinder(['sql']);
 

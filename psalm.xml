@@ -13,13 +13,15 @@
 -->
 <psalm
         errorLevel="2"
-        resolveFromConfigFile="true"
+        useDocblockPropertyTypes="true"
+        allowPhpStormGenerics="true"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns="https://getpsalm.org/schema/config"
         xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
 >
     <projectFiles>
         <directory name="src"/>
+        <directory name="bin"/>
         <ignoreFiles>
             <directory name="vendor"/>
         </ignoreFiles>

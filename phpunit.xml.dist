@@ -24,7 +24,12 @@
          stopOnSkipped="false"
          stopOnRisky="false"
          verbose="false"
+         printerClass="Sempro\PHPUnitPrettyPrinter\PrettyPrinter"
 >
+
+    <php>
+        <env name="PHPUNIT_PRETTY_PRINT_PROGRESS" value="true"/>
+    </php>
 
     <testsuites>
         <testsuite name="JBZoo PHPUnit suite">

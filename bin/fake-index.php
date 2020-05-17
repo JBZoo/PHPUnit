@@ -25,7 +25,10 @@ use JBZoo\Utils\Sys;
 // something which should probably be served as a static file
 if (PHP_SAPI === 'cli-server') {
     $url = parse_url($_SERVER['REQUEST_URI']);
-    $path = realpath($_SERVER['DOCUMENT_ROOT'] . $url['path']);
+    $path = null;
+    if (array_key_exists('path', $url)) {
+        $path = realpath($_SERVER['DOCUMENT_ROOT'] . $url['path']);
+    }
 
     if ($path) {
         if (is_dir($path)) {
@@ -52,6 +55,7 @@ $vendorPaths = [
 ];
 
 foreach ($vendorPaths as $vendorPath) {
+    /** @psalm-suppress UnresolvableInclude */
     if ($vendorPath && file_exists($vendorPath)) {
         require_once $vendorPath;
         break;
@@ -67,7 +71,7 @@ $cliOptions = new Getopt([
     [null, 'cov-html', GetOpt::OPTIONAL_ARGUMENT],
 ]);
 
-$cliOptions->parse(getenv('PHPUNINT_ARGUMENTS'));
+$cliOptions->process((string)getenv('PHPUNINT_ARGUMENTS'));
 
 $realIndex = $realIndex ?? realpath($cliOptions->getOption('index'));
 
@@ -86,8 +90,10 @@ if (class_exists(CovCatcher::class) && Sys::hasXdebug()) {
 
     $result = $covCatcher->includeFile($realIndex);
 
-} else {
+} elseif (file_exists($realIndex)) {
     $result = require_once $realIndex;
+} else {
+    $result = null;
 }
 
 return $result;

@@ -1,12 +1,9 @@
 {
     "name"        : "jbzoo/phpunit",
     "type"        : "library",
-    "description" : "PHPUnit toolbox with short assert aliases and useful functions",
+    "description" : "PHPUnit toolbox with short assert aliases and useful functions around PhpUnit",
     "license"     : "MIT",
-    "keywords"    : [
-        "phpunit", "jbzoo", "aliases", "short-syntax", "testing", "assert", "assertion", "validation",
-        "benchmark", "performance", "speed", "debug", "dump", "jbdump"
-    ],
+    "keywords"    : ["phpunit", "jbzoo", "aliases", "short-syntax", "testing", "assert", "assertion", "debug"],
 
     "authors"     : [
         {
@@ -17,33 +14,40 @@
     ],
 
     "require"     : {
-        "php"                 : ">=7.2",
-        "phpunit/phpunit"     : "^8.5|^9.1",
-        "ulrichsg/getopt-php" : "^3.3.0",
-        "phpunit/phpcov"      : "^6.0"
+        "php"                         : ">=7.2",
+        "phpunit/phpunit"             : "^8.5|^9.1",
+        "phpunit/phpcov"              : "^6.0.1",
+        "sempro/phpunit-pretty-print" : "^1.2.2",
+
+        "ulrichsg/getopt-php"         : "^3.3.0"
     },
 
     "require-dev" : {
-        "guzzlehttp/guzzle"         : "^6.5.3",
+        "guzzlehttp/guzzle"              : "^6.5.3",
 
-        "phploc/phploc"             : "*",
-        "phpmd/phpmd"               : "*",
-        "sebastian/phpcpd"          : "*",
-        "squizlabs/php_codesniffer" : "*",
-        "phpstan/phpstan"           : "*",
-        "vimeo/psalm"               : "*",
+        "phploc/phploc"                  : "*",
+        "phpmd/phpmd"                    : "*",
+        "sebastian/phpcpd"               : "*",
+        "squizlabs/php_codesniffer"      : "*",
+        "phpstan/phpstan"                : "*",
+        "vimeo/psalm"                    : "*",
+        "clue/graph-composer"            : "*",
+        "davidrjonas/composer-lock-diff" : "*",
+        "sensiolabs/security-checker"    : "*",
 
-        "jbzoo/utils"               : "*",
-        "jbzoo/data"                : "*",
-        "jbzoo/http-client"         : "*",
-        "jbzoo/profiler"            : "*",
-        "jbzoo/jbdump"              : "*",
+        "jbzoo/utils"                    : "*",
+        "jbzoo/data"                     : "*",
+        "jbzoo/http-client"              : "*",
+        "jbzoo/profiler"                 : "*",
+        "jbzoo/jbdump"                   : "*",
 
-        "symfony/process"           : "^4.0|^5.0",
-        "symfony/var-dumper"        : "^4.0|^5.0",
-        "symfony/dom-crawler"       : "^4.0|^5.0",
-        "symfony/css-selector"      : "^4.0|^5.0",
-        "symfony/finder"            : "^4.0|^5.0"
+        "symfony/process"                : "^4.0|^5.0",
+        "symfony/var-dumper"             : "^4.0|^5.0",
+        "symfony/dom-crawler"            : "^4.0|^5.0",
+        "symfony/css-selector"           : "^4.0|^5.0",
+        "symfony/finder"                 : "^4.0|^5.0",
+
+        "roave/security-advisories"      : "dev-master"
     },
 
     "suggest"     : {

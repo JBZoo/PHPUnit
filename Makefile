@@ -19,9 +19,13 @@ CE   = \033[0m
 C_AR = \033[0;33m
 C_T  = \033[0;30;46m
 
+define title
+    @echo "$(C_AR)>>> >>> >>> >>> $(C_T) $(1) $(CE)"
+endef
+
 update:
-	@echo "$(C_AR)>>> >>> >>> >>> $(C_T) Update project $(CE)"
-	@composer update --optimize-autoloader
+	$(call title,"Update 3rd party dependencies")
+	@composer update
 
 
 server:
@@ -49,9 +53,11 @@ server-phpunit:
 
 test-all:
 	@echo "$(C_AR)>>> >>> >>> >>> $(C_T) Run all tests $(CE)"
-	@make clean-build validate test
-	@make phpmd
+	@make clean-build
+	@make validate
+	@make test
 	@make phpcs
+	@make phpmd
 	@make phpstan
 	@make psalm
 	@make phpcpd
@@ -60,18 +66,20 @@ test-all:
 
 validate:
 	@echo "$(C_AR)>>> >>> >>> >>> $(C_T) Composer validate $(CE)"
+	@composer diagnose
 	@composer check-platform-reqs
-	@composer validate
+	@composer validate --strict --no-check-all
+	@php `pwd`/vendor/bin/security-checker security:check `pwd`/composer.lock
 
 
 autoload:
-	@echo "$(C_AR)>>> >>> >>> >>> $(C_T) Composer autoload $(CE)"
+	$(call title,"Composer autoload")
 	@composer dump-autoload --optimize --no-interaction
 
 
 test:
 	@echo "$(C_AR)>>> >>> >>> >>> $(C_T) Run unit-tests $(CE)"
-	@php `pwd`/vendor/phpunit/phpunit/phpunit --configuration ./phpunit.xml.dist
+	@php `pwd`/vendor/phpunit/phpunit/phpunit --configuration ./phpunit.xml.dist --color --verbose --order-by=random
 
 
 phpmd:
@@ -109,8 +117,10 @@ psalm: ## Check PHP code by PHPStan
 	@php `pwd`/vendor/bin/psalm         \
         --config=`pwd`/psalm.xml        \
         --output-format=compact         \
-        --show-info=true                \
+        --show-info=true               \
+        --show-snippet=true             \
         --find-unused-psalm-suppress    \
+        --long-progress                 \
         --stats
 
 
