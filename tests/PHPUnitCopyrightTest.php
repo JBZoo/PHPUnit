@@ -25,8 +25,7 @@ namespace JBZoo\PHPUnit;
  */
 class PHPUnitCopyrightTest extends AbstractCopyrightTest
 {
-    protected $packageName   = 'PHPUnit';
-    protected $packageAuthor = 'Denis Smetannikov <denis@jbzoo.com>';
+    protected $packageName = 'PHPUnit';
 
     /**
      * Ignore list for
