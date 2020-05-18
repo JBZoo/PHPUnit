@@ -1,9 +1,9 @@
 <?php
 
 /**
- * JBZoo PHPUnit
+ * JBZoo Toolbox - PHPUnit
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
@@ -12,9 +12,9 @@
  * @copyright  Copyright (C) JBZoo.com, All rights reserved.
  * @link       https://github.com/JBZoo/PHPUnit
  * @author     Denis Smetannikov <denis@jbzoo.com>
- *
- * @codingStandardsIgnoreFile
  */
+
+declare(strict_types=1);
 
 // main autoload
 if ($autoload = realpath('./vendor/autoload.php')) {

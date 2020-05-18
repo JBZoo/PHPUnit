@@ -1,9 +1,9 @@
 <?php
 
 /**
- * JBZoo PHPUnit
+ * JBZoo Toolbox - PHPUnit
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
@@ -13,6 +13,8 @@
  * @link       https://github.com/JBZoo/PHPUnit
  * @author     Denis Smetannikov <denis@jbzoo.com>
  */
+
+declare(strict_types=1);
 
 namespace JBZoo\PHPUnit;
 
@@ -58,20 +60,6 @@ class PHPUnitToolsTest extends PHPUnit
         isSame(__METHOD__, getTestName(true));
         isContain(__FUNCTION__, getTestName(false));
         isContain('ToolsTest::testGetTestName', getTestName());
-    }
-
-    public function testHtml()
-    {
-        $html = '<body>
-            <div class="test-class">
-                <p>qwerty</p>
-            </div>
-            <span class="empty-1"> </span>
-            <span class="empty-2"></span>
-        </body>';
-
-        isHtmlContain($html, 'body > div.test-class p', 'qwerty');
-        isHtmlNotContain($html, 'body > div.test-class p', 'qwerty-123');
     }
 
     public function testIsWin()

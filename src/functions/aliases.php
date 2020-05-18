@@ -1,9 +1,9 @@
 <?php
 
 /**
- * JBZoo PHPUnit
+ * JBZoo Toolbox - PHPUnit
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
@@ -20,8 +20,6 @@ namespace JBZoo\PHPUnit;
 
 use DateTime;
 use PHPUnit\Framework\Assert;
-use Symfony\Component\CssSelector\CssSelectorConverter;
-use Symfony\Component\DomCrawler\Crawler;
 
 /**** Controls ********************************************************************************************************/
 
@@ -352,76 +350,6 @@ function isNotContain($expected, $value, $ignoreCase = false, string $message = 
 }
 
 /**** Custom Asserts **************************************************************************************************/
-
-/**
- * Is CSS selector find in the HTML code
- *
- * @param string $html
- * @param string $selector
- * @param mixed  $expected
- * @param string $message
- * @throws Exception
- */
-function isHtmlContain($html, $selector, $expected = null, string $message = ''): void
-{
-    if (!class_exists(Crawler::class)) {
-        throw new Exception('symfony/dom-crawler is required for isHtmlContain() function');
-    }
-
-    if (!class_exists(CssSelectorConverter::class)) {
-        throw new Exception('symfony/css-selector is required for isHtmlContain() function');
-    }
-
-    $findText = null;
-
-    try {
-        $crawler = new Crawler($html);
-        $findText = $crawler->filter($selector)->text();
-        isSame((string)$expected, $findText);
-    } catch (\Exception $exception) {
-        if (!$expected) {
-            success($message);
-        } else {
-            $message = $message ? $message . ' // ' : '';
-            fail($message . 'Crawler: ' . $exception->getMessage());
-        }
-    }
-}
-
-/**
- * Is NOT find CSS-selector find in the HTML code
- *
- * @param string $html
- * @param string $selector
- * @param mixed  $expected
- * @param string $message
- * @throws Exception
- */
-function isHtmlNotContain($html, $selector, $expected, string $message = ''): void
-{
-    if (!class_exists(Crawler::class)) {
-        throw new Exception('symfony/dom-crawler is required for isHtmlNotContain() function');
-    }
-
-    if (!class_exists(CssSelectorConverter::class)) {
-        throw new Exception('symfony/css-selector is required for isHtmlNotContain() function');
-    }
-
-    $findText = null;
-
-    try {
-        $crawler = new Crawler($html);
-        $findText = $crawler->filter($selector)->text();
-        isNotSame((string)$expected, $findText);
-    } catch (\Exception $exception) {
-        if (!$findText) {
-            success($message);
-        } else {
-            $message = $message ? $message . ' // ' : '';
-            fail($message . 'Crawler: ' . $exception->getMessage());
-        }
-    }
-}
 
 /**
  * @param string $mixedVar

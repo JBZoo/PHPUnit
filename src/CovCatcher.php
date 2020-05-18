@@ -1,9 +1,9 @@
 <?php
 
 /**
- * JBZoo PHPUnit
+ * JBZoo Toolbox - PHPUnit
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
@@ -20,9 +20,7 @@ namespace JBZoo\PHPUnit;
 
 use JBZoo\Data\Data;
 use JBZoo\Utils\Env;
-use JBZoo\Utils\Str;
 use JBZoo\Utils\Sys;
-use PHPUnit\Framework\TestCase;
 use SebastianBergmann\CodeCoverage\CodeCoverage;
 use SebastianBergmann\CodeCoverage\Filter;
 use SebastianBergmann\CodeCoverage\Report\Clover;
@@ -135,37 +133,6 @@ class CovCatcher
         $this->stop();
 
         return $result;
-    }
-
-    /**
-     * @param null|string $testName
-     * @return string
-     */
-    protected function getPrefix($testName = null)
-    {
-        if (null === $testName) {
-            $objects = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT);
-            foreach ($objects as $object) {
-                if (isset($object['object']) && $object['object'] instanceof TestCase) {
-                    $testName = $object['class'] . '_' . $object['function'];
-                    break;
-                }
-            }
-        }
-
-        $testName = str_replace(__NAMESPACE__ . '\\', '', (string)$testName);
-        $testName = Str::splitCamelCase($testName, '_', true);
-        $testName = preg_replace('/^test_/', '', (string)$testName);
-        $testName = preg_replace('/_test$/', '', (string)$testName);
-        $testName = str_replace(['_test_test_', '/', '\\', '_', '-'], ['_', '', '', '', ''], (string)$testName);
-        $testName = strtolower($testName);
-
-        if (!$testName) {
-            $testName = uniqid('', true);
-            $testName = str_replace('.', '', $testName);
-        }
-
-        return $testName;
     }
 
     /**

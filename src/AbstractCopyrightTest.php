@@ -1,9 +1,9 @@
 <?php
 
 /**
- * JBZoo PHPUnit
+ * JBZoo Toolbox - PHPUnit
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
@@ -18,13 +18,14 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit;
 
-use SplFileInfo;
 use Symfony\Component\Finder\Finder;
 
 /**
  * Class AbstractCopyrightTest
  *
  * @package JBZoo\PHPUnit
+ * @SuppressWarnings(PHPMD.TooManyFields)
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 abstract class AbstractCopyrightTest extends PHPUnit
 {
@@ -48,7 +49,7 @@ abstract class AbstractCopyrightTest extends PHPUnit
     /**
      * @var string
      */
-    protected $packageVendor = 'JBZoo';
+    protected $packageVendor = 'JBZoo Toolbox';
 
     /**
      * @var string
@@ -74,7 +75,7 @@ abstract class AbstractCopyrightTest extends PHPUnit
      * @var string[]
      */
     protected $packageDesc = [
-        'This file is part of the JBZoo CCK package.',
+        'This file is part of the _VENDOR_ project.',
         'For the full copyright and license information, please view the LICENSE',
         'file that was distributed with this source code.',
     ];
@@ -110,7 +111,7 @@ abstract class AbstractCopyrightTest extends PHPUnit
      */
     protected $validHeaderPHP = [
         '/**',
-        ' * _VENDOR_ _PACKAGE_',
+        ' * _VENDOR_ - _PACKAGE_',
         ' *',
         ' * _DESCRIPTION_PHP_',
         ' *',
@@ -125,7 +126,7 @@ abstract class AbstractCopyrightTest extends PHPUnit
      */
     protected $validHeaderJS = [
         '/**',
-        ' * _VENDOR_ _PACKAGE_',
+        ' * _VENDOR_ - _PACKAGE_',
         ' *',
         ' * _DESCRIPTION_JS_',
         ' *',
@@ -140,7 +141,7 @@ abstract class AbstractCopyrightTest extends PHPUnit
      */
     protected $validHeaderCSS = [
         '/**',
-        ' * _VENDOR_ _PACKAGE_',
+        ' * _VENDOR_ - _PACKAGE_',
         ' *',
         ' * _DESCRIPTION_CSS_',
         ' *',
@@ -157,7 +158,7 @@ abstract class AbstractCopyrightTest extends PHPUnit
      */
     protected $validHeaderLESS = [
         '//',
-        '// _VENDOR_ _PACKAGE_',
+        '// _VENDOR_ - _PACKAGE_',
         '//',
         '// _DESCRIPTION_LESS_',
         '//',
@@ -174,7 +175,7 @@ abstract class AbstractCopyrightTest extends PHPUnit
     protected $validHeaderXML = [
         '<?xml version="1.0" encoding="UTF-8" ?>',
         '<!--',
-        '    _VENDOR_ _PACKAGE_',
+        '    _VENDOR_ - _PACKAGE_',
         '',
         '    _DESCRIPTION_XML_',
         '',
@@ -190,7 +191,7 @@ abstract class AbstractCopyrightTest extends PHPUnit
      */
     protected $validHeaderINI = [
         ';',
-        '; _VENDOR_ _PACKAGE_',
+        '; _VENDOR_ - _PACKAGE_',
         ';',
         '; _DESCRIPTION_INI_',
         ';',
@@ -210,7 +211,7 @@ abstract class AbstractCopyrightTest extends PHPUnit
         '#!/usr/bin/env sh',
         '',
         '#',
-        '# _VENDOR_ _PACKAGE_',
+        '# _VENDOR_ - _PACKAGE_',
         '#',
         '# _DESCRIPTION_SH_',
         '#',
@@ -227,7 +228,7 @@ abstract class AbstractCopyrightTest extends PHPUnit
      */
     protected $validHeaderSQL = [
         '--',
-        '-- _VENDOR_ _PACKAGE_',
+        '-- _VENDOR_ - _PACKAGE_',
         '--',
         '-- _DESCRIPTION_SQL_',
         '--',
@@ -244,7 +245,7 @@ abstract class AbstractCopyrightTest extends PHPUnit
      */
     protected $validHeaderHash = [
         '#',
-        '# _VENDOR_ _PACKAGE_',
+        '# _VENDOR_ - _PACKAGE_',
         '#',
         '# _DESCRIPTION_HTACCESS_',
         '#',
@@ -263,11 +264,13 @@ abstract class AbstractCopyrightTest extends PHPUnit
     {
         parent::setUp();
 
+        $this->projectRoot = trim($this->projectRoot);
+
         if (!$this->packageName) {
             throw new Exception('$this->packageName is undefined!');
         }
 
-        if (!$this->projectRoot) {
+        if ('' === $this->projectRoot) {
             throw new Exception('$this->projectRoot is undefined!');
         }
 
@@ -459,7 +462,7 @@ abstract class AbstractCopyrightTest extends PHPUnit
      */
     protected function checkHeaderInFiles(Finder $finder, string $validHeader): void
     {
-        /** @var SplFileInfo $file */
+        /** @var \SplFileInfo $file */
         foreach ($finder as $file) {
             $content = openFile($file->getPathname());
             if ($content) {

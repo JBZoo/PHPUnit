@@ -1,9 +1,9 @@
 <?php
 
 /**
- * JBZoo PHPUnit
+ * JBZoo Toolbox - PHPUnit
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
@@ -18,7 +18,6 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit;
 
-use SplFileInfo;
 use Symfony\Component\Finder\Finder;
 
 /**
@@ -72,9 +71,6 @@ abstract class AbstractCodestyleTest extends PHPUnit
 
     #### Test cases ####################################################################################################
 
-    /**
-     * Test line endings
-     */
     public function testFiles(): void
     {
         $finder = (new Finder())
@@ -102,7 +98,7 @@ abstract class AbstractCodestyleTest extends PHPUnit
             ->exclude('*.Makefile')
             ->exclude('Makefile');
 
-        /** @var SplFileInfo $file */
+        /** @var \SplFileInfo $file */
         foreach ($finder as $file) {
             $content = openFile($file->getPathname());
             if ($content) {
@@ -121,9 +117,6 @@ abstract class AbstractCodestyleTest extends PHPUnit
         isTrue(true); // One assert is a minimum for test complete
     }
 
-    /**
-     * Try to find cyrillic symbols in the code
-     */
     public function testCyrillic(): void
     {
         $finder = (new Finder())
@@ -136,7 +129,6 @@ abstract class AbstractCodestyleTest extends PHPUnit
             ->notName('/\.min\.(js|css)$/')
             ->notName('/\.min\.(js|css)\.map$/');
 
-        /** @var SplFileInfo $file */
         foreach ($finder as $file) {
             $content = openFile($file->getPathname());
 
@@ -149,33 +141,48 @@ abstract class AbstractCodestyleTest extends PHPUnit
         isTrue(true); // One assert is a minimum for test complete
     }
 
-    /**
-     * Try to find cyrillic symbols in the code
-     */
     public function testMakefilePhony(): void
     {
-        $finder = (new Finder())
+        $finderMakefiles = (new Finder())
             ->files()
             ->in($this->projectRoot)
             ->exclude($this->excludePaths)
             ->ignoreDotFiles(false)
-            ->name('Makefile');
+            ->name('Makefile')
+            ->name('*.Makefile');
 
-        /** @var SplFileInfo $file */
-        foreach ($finder as $file) {
+        // Collect list for targets
+        $makeCommands = [];
+        foreach ($finderMakefiles as $file) {
             if ($content = openFile($file->getPathname())) {
-                $commands = [];
-
                 if (preg_match_all('/^([0-9a-z\-\_]*):$/m', $content, $matches)) {
                     foreach (array_keys($matches[0]) as $index) {
-                        $commands[] = trim($matches[1][$index]);
+                        $makeCommands[] = trim($matches[1][$index]);
                     }
                 }
+            }
+        }
 
-                if (count($commands) > 0) {
-                    sort($commands);
-                    isContain('.PHONY: ' . implode(' ', $commands) . "\n", $content);
-                }
+        // Collect list for files
+        $finderDirAndFiles = (new Finder())
+            ->in($this->projectRoot)
+            ->ignoreDotFiles(false)
+            ->depth('== 0');
+
+        $rootFilesAndDirs = [];
+        foreach ($finderDirAndFiles as $dirOrFile) {
+            $rootFilesAndDirs[] = $dirOrFile->getFilename();
+        }
+
+        // Get conflict targets
+        $mainMakefileContent = openFile(PROJECT_ROOT . '/Makefile');
+        if ($mainMakefileContent) {
+            $phonyCommands = array_intersect($makeCommands, $rootFilesAndDirs);
+            sort($phonyCommands);
+            if (count($phonyCommands) > 0) {
+                isContain('.PHONY: ' . implode(' ', $phonyCommands) . "\n", $mainMakefileContent);
+            } else {
+                isNotContain('.PHONY:', $mainMakefileContent);
             }
         }
 

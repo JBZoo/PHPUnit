@@ -7,7 +7,7 @@
 
     "authors"     : [
         {
-            "name"  : "SmetDenis",
+            "name"  : "Denis Smetannikov",
             "email" : "denis@jbzoo.com",
             "role"  : "lead"
         }
@@ -23,44 +23,15 @@
     },
 
     "require-dev" : {
-        "guzzlehttp/guzzle"              : "^6.5.3",
+        "jbzoo/codestyle"    : "^1.0",
+        "jbzoo/data"         : "^3.0||^4.0",
+        "jbzoo/utils"        : "^3.0||^4.0",
+        "jbzoo/http-client"  : "^2.1||^3.0",
 
-        "phploc/phploc"                  : "*",
-        "phpmd/phpmd"                    : "*",
-        "povils/phpmnd"                  : "*",
-        "sebastian/phpcpd"               : "*",
-        "squizlabs/php_codesniffer"      : "*",
-        "phpstan/phpstan"                : "*",
-        "vimeo/psalm"                    : "*",
-        "clue/graph-composer"            : "*",
-        "davidrjonas/composer-lock-diff" : "*",
-        "sensiolabs/security-checker"    : "*",
+        "symfony/process"    : "^4.0||^5.0",
+        "symfony/var-dumper" : "^4.0||^5.0",
 
-
-        "jbzoo/utils"                    : "*",
-        "jbzoo/data"                     : "*",
-        "jbzoo/http-client"              : "*",
-        "jbzoo/profiler"                 : "*",
-        "jbzoo/jbdump"                   : "*",
-
-        "symfony/process"                : "^4.0||^5.0",
-        "symfony/var-dumper"             : "^4.0||^5.0",
-        "symfony/dom-crawler"            : "^4.0||^5.0",
-        "symfony/css-selector"           : "^4.0||^5.0",
-        "symfony/finder"                 : "^4.0||^5.0",
-
-        "roave/security-advisories"      : "dev-master"
-    },
-
-    "suggest"     : {
-        "jbzoo/http-client"    : "For http-requests (^2.0)",
-        "jbzoo/profiler"       : "For runBench() function (^1.0)",
-        "jbzoo/jbdump"         : "For dump() function (^1.5)",
-        "symfony/var-dumper"   : "For dump() function (^4.4)",
-        "symfony/process"      : "For cli() function (^4.4)",
-        "symfony/dom-crawler"  : "For isHtml(not)Contain() function (^3.3)",
-        "symfony/css-selector" : "For isHtml(not)Contain() function (^3.3)",
-        "symfony/finder"       : "For CodeStyle tests (^3.3)"
+        "phan/phan"          : "^3.0.0"
     },
 
     "autoload"    : {

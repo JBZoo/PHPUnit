@@ -1,9 +1,9 @@
 <?php
 
 /**
- * JBZoo PHPUnit
+ * JBZoo Toolbox - PHPUnit
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
@@ -26,8 +26,8 @@ use function JBZoo\Data\data;
 // something which should probably be served as a static file
 if (PHP_SAPI === 'cli-server') {
     $url = (array)parse_url($_SERVER['REQUEST_URI']);
-    $path = null;
 
+    $path = false;
     if (array_key_exists('path', $url)) {
         $path = realpath($_SERVER['DOCUMENT_ROOT'] . $url['path']);
     }
@@ -78,7 +78,7 @@ $cliOptions->process((string)getenv('PHPUNINT_ARGUMENTS'));
 $realIndex = (string)($realIndex ?? realpath($cliOptions->getOption('index')));
 
 if (class_exists(CovCatcher::class) && Sys::hasXdebug()) {
-    $testname = data($_REQUEST)->get('testname');
+    $testname = (string)data($_REQUEST)->get('testname');
 
     $coverHash = md5(implode('||', [serialize($_REQUEST), serialize($_SERVER), PHP_VERSION]));
     $coverHash = $testname ? $testname . '-' . $coverHash : $testname;

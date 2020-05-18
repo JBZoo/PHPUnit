@@ -1,9 +1,9 @@
 <?php
 
 /**
- * JBZoo PHPUnit
+ * JBZoo Toolbox - PHPUnit
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
@@ -12,8 +12,6 @@
  * @copyright  Copyright (C) JBZoo.com, All rights reserved.
  * @link       https://github.com/JBZoo/PHPUnit
  * @author     Denis Smetannikov <denis@jbzoo.com>
- *
- * @codingStandardsIgnoreFile
  */
 
 declare(strict_types=1);
@@ -26,7 +24,7 @@ declare(strict_types=1);
 !defined('DS') && define('DS', DIRECTORY_SEPARATOR);
 
 // Paths
-!defined('PROJECT_ROOT') && define('PROJECT_ROOT', realpath('.'));
+!defined('PROJECT_ROOT') && define('PROJECT_ROOT', (string)realpath('.'));
 !defined('PROJECT_BUILD') && define('PROJECT_BUILD', PROJECT_ROOT . DS . 'build');
 !defined('PROJECT_SRC') && define('PROJECT_SRC', PROJECT_ROOT . DS . 'src');
 !defined('PROJECT_TESTS') && define('PROJECT_TESTS', PROJECT_ROOT . DS . 'tests');
