@@ -37,8 +37,7 @@
         "files" : [
             "src/functions/defines.php",
             "src/functions/aliases.php",
-            "src/functions/tools.php",
-            "src/functions/var-dumper.php"
+            "src/functions/tools.php"
         ],
         "psr-4" : {
             "JBZoo\\PHPUnit\\" : "src"
