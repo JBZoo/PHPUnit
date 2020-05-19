@@ -21,8 +21,7 @@ php:
 matrix:
   fast_finish: true
   include:
-    - php: 7.4
-      env: XDEBUG_OFF="yes"
+    - env: XDEBUG_OFF="yes"
 
 before_script:
   - if [[ $XDEBUG_OFF = yes ]]; then phpenv config-rm xdebug.ini; fi;
