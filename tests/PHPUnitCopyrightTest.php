@@ -14,8 +14,6 @@
  * @author     Denis Smetannikov <denis@jbzoo.com>
  */
 
-declare(strict_types=1);
-
 namespace JBZoo\PHPUnit;
 
 /**
@@ -35,7 +33,6 @@ class PHPUnitCopyrightTest extends AbstractCopyrightTest
     protected $excludePaths = [
         '.git',
         '.idea',
-        'bin',
         'build',
         'logs',
         'vendor',

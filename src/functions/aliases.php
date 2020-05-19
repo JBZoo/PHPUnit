@@ -14,8 +14,6 @@
  * @author     Denis Smetannikov <denis@jbzoo.com>
  */
 
-declare(strict_types=1);
-
 namespace JBZoo\PHPUnit;
 
 use DateTime;

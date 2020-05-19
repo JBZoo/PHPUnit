@@ -14,33 +14,34 @@
  * @author     Denis Smetannikov <denis@jbzoo.com>
  */
 
-declare(strict_types=1);
+namespace JBZoo\PHPUnit;
 
 use GetOpt\GetOpt;
-use JBZoo\PHPUnit\CovCatcher;
+use JBZoo\Utils\Env;
 use JBZoo\Utils\Sys;
 
 use function JBZoo\Data\data;
 
 // To help the built-in PHP dev server, check if the request was actually for
 // something which should probably be served as a static file
-if (PHP_SAPI === 'cli-server') {
-    $url = (array)parse_url($_SERVER['REQUEST_URI']);
+if (PHP_SAPI !== 'cli-server') {
+    return null;
+}
 
-    $path = false;
-    if (array_key_exists('path', $url)) {
-        $path = realpath($_SERVER['DOCUMENT_ROOT'] . $url['path']);
-    }
+$url = (array)parse_url($_SERVER['REQUEST_URI']);
+$path = false;
+if (array_key_exists('path', $url)) {
+    $path = realpath($_SERVER['DOCUMENT_ROOT'] . $url['path']);
+}
 
-    if ($path) {
-        if (is_dir($path)) {
-            $realIndex = $path . '/index.php';
-        } elseif (is_file($path)) {
-            if (pathinfo($path, PATHINFO_EXTENSION) !== 'php') {
-                return false;
-            }
-            $realIndex = $path;
+if ($path) {
+    if (is_dir($path)) {
+        $realIndex = $path . '/index.php';
+    } elseif (is_file($path)) {
+        if (pathinfo($path, PATHINFO_EXTENSION) !== 'php') {
+            return false;
         }
+        $realIndex = $path;
     }
 }
 
@@ -73,9 +74,9 @@ $cliOptions = new Getopt([
     [null, 'cov-html', GetOpt::OPTIONAL_ARGUMENT],
 ]);
 
-$cliOptions->process((string)getenv('PHPUNINT_ARGUMENTS'));
+$cliOptions->process(Env::get('PHPUNINT_ARGUMENTS', '', Env::VAR_STRING));
 
-$realIndex = (string)($realIndex ?? realpath((string)$cliOptions->getOption('index')));
+$realIndex = (string)($realIndex ?? realpath($cliOptions->getOption('index')));
 
 if (class_exists(CovCatcher::class) && Sys::hasXdebug()) {
     $testname = (string)data($_REQUEST)->get('testname');

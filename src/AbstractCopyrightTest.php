@@ -14,8 +14,6 @@
  * @author     Denis Smetannikov <denis@jbzoo.com>
  */
 
-declare(strict_types=1);
-
 namespace JBZoo\PHPUnit;
 
 use Symfony\Component\Finder\Finder;
@@ -91,7 +89,6 @@ abstract class AbstractCopyrightTest extends PHPUnit
     protected $excludePaths = [
         '.git',
         '.idea',
-        'bin',
         'bower_components',
         'build',
         'fonts',

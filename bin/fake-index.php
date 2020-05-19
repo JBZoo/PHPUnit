@@ -14,6 +14,4 @@
  * @author     Denis Smetannikov <denis@jbzoo.com>
  */
 
-declare(strict_types=1);
-
 return include __DIR__ . '/../src/fake-index.php';

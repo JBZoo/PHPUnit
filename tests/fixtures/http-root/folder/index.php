@@ -14,8 +14,6 @@
  * @author     Denis Smetannikov <denis@jbzoo.com>
  */
 
-declare(strict_types=1);
-
 include __DIR__ . '/../func.php';
 
 echo 'folder/index: ' . showTestMessage();

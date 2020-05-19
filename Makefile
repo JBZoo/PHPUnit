@@ -15,6 +15,10 @@ ifneq (, $(wildcard ./vendor/jbzoo/codestyle/src/init.Makefile))
     include ./vendor/jbzoo/codestyle/src/init.Makefile
 endif
 
+JBZOO_TEST_HOST   ?= "localhost"
+JBZOO_TEST_PORT_1 ?= "8888"
+JBZOO_TEST_PORT_2 ?= "8889"
+
 
 install: ##@Project Install all 3rd party dependencies
 	$(call title,"Install all 3rd party dependencies")
@@ -37,16 +41,20 @@ test-all: ##@Project Run all test
 server-fake-test:
 	$(call title,"Start server \(Fake index\)")
 	@chmod +x `pwd`/bin/phpunit-server.sh
-	@sh `pwd`/bin/phpunit-server.sh  "localhost" "8888" \
+	@sh `pwd`/bin/phpunit-server.sh                     \
+        $(JBZOO_TEST_HOST)                              \
+        $(JBZOO_TEST_PORT_1)                            \
         "`pwd`/tests/fixtures/http-root"                \
         "`pwd`/bin/fake-index.php"                      \
-        "--index=`pwd`/tests/fixtures/http-root/index.php --cov-src=$(PATH_SRC) --cov-cov=1 --cov-xml=1 --cov-html=1"
+        "--index=`pwd`/tests/fixtures/http-root/index.php --cov-src=\"$(PATH_SRC)\" --cov-cov=1 --cov-xml=1 --cov-html=1"
 
 
 server-phpunit:
 	$(call title,"Start server \(PHPUnit\)")
 	@chmod +x `pwd`/bin/phpunit-server.sh
-	@sh `pwd`/bin/phpunit-server.sh  "localhost" "8889" \
+	@sh `pwd`/bin/phpunit-server.sh                     \
+        $(JBZOO_TEST_HOST)                              \
+        $(JBZOO_TEST_PORT_2)                            \
         "`pwd`/tests/web-root"                          \
         "`pwd`/bin/fake-index.php"                      \
         "--index=`pwd`/tests/web-root/index.php --cov-cov=1 --cov-xml=1"
