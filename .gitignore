@@ -13,9 +13,8 @@
 
 .idea
 .DS_Store
-build/*
-vendor/*
+build
+vendor
 phpunit.xml
 composer.lock
-.phpunit.result.cache
 *.cache

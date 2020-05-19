@@ -11,7 +11,15 @@
 # @link       https://github.com/JBZoo/PHPUnit
 #
 
-include ./vendor/jbzoo/codestyle/src/init.Makefile
+ifneq (, $(wildcard ./vendor/jbzoo/codestyle/src/init.Makefile))
+    include ./vendor/jbzoo/codestyle/src/init.Makefile
+endif
+
+
+install: ##@Project Install all 3rd party dependencies
+	$(call title,"Install all 3rd party dependencies")
+	@composer install --optimize-autoloader
+
 
 server: ##@Project Run PHP web-server for PHPUnit tests
 	@make server-fake-test
@@ -23,6 +31,7 @@ test-all: ##@Project Run all test
 	@make clean-build
 	@make test
 	@make codestyle
+	@make report-phpqa
 
 
 server-fake-test:
