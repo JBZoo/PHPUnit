@@ -94,7 +94,11 @@ class PHPUnitAliasesTest extends PHPUnit
         isNotLike('#teeest#i', 'TESTO');
 
         isContain('t', 'test');
+        isContain('T', 'test', true);
         isNotContain('x', 'test');
+        isNotContain('T', 'test');
+        isNotContain('E', 'test');
+        isNotContain('X', 'test', true);
     }
 
     public function testFilesystem()
