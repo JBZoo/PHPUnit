@@ -12,13 +12,15 @@
 #
 
 language: php
+os: linux
+dist: xenial
 
 php:
   - 7.2
   - 7.3
   - 7.4
 
-matrix:
+jobs:
   fast_finish: true
   include:
     - env: XDEBUG_OFF="yes"
