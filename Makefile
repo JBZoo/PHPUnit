@@ -11,9 +11,9 @@
 # @link       https://github.com/JBZoo/PHPUnit
 #
 
-#ifneq (, $(wildcard ./vendor/jbzoo/codestyle/src/init.Makefile))
+ifneq (, $(wildcard ./vendor/jbzoo/codestyle/src/init.Makefile))
     include ./vendor/jbzoo/codestyle/src/init.Makefile
-#endif
+endif
 
 JBZOO_TEST_HOST   ?= "localhost"
 JBZOO_TEST_PORT_1 ?= "8888"
