@@ -34,6 +34,7 @@ test-all: ##@Project Run all test
 	$(call title,"Run all tests")
 	@make clean-build
 	@make test
+	@make report-merge-coverage
 	@make codestyle
 	@make report-phpqa
 
