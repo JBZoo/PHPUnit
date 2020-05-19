@@ -1,8 +1,9 @@
 <?php
+
 /**
- * JBZoo PHPUnit
+ * JBZoo Toolbox - PHPUnit
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
@@ -93,7 +94,11 @@ class PHPUnitAliasesTest extends PHPUnit
         isNotLike('#teeest#i', 'TESTO');
 
         isContain('t', 'test');
+        isContain('T', 'test', true);
         isNotContain('x', 'test');
+        isNotContain('T', 'test');
+        isNotContain('E', 'test');
+        isNotContain('X', 'test', true);
     }
 
     public function testFilesystem()
@@ -127,9 +132,11 @@ class PHPUnitAliasesTest extends PHPUnit
     {
         isAmount('100.99', 100.98);
         isAmount('100.99', '100.97');
+        isNotAmount('100.99', '100');
+        isNotAmount('100.99', 100);
 
-        isAmount(['100.99', 'USD'], [100.98, 'USD']);
-        isNotAmount(['100.99', 'USD'], [100, 'USD']);
+        isAmountCur(['100.99', 'USD'], [100.98, 'USD']);
+        isNotAmountCur(['100.99', 'USD'], [100, 'USD']);
     }
 
     public function testIsSameDate()

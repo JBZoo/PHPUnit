@@ -1,8 +1,9 @@
 <?php
+
 /**
- * JBZoo PHPUnit
+ * JBZoo Toolbox - PHPUnit
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
@@ -17,11 +18,7 @@ namespace JBZoo\PHPUnit;
 
 use JBZoo\Data\Data;
 use JBZoo\Utils\Env;
-use JBZoo\Utils\Str;
 use JBZoo\Utils\Sys;
-use PHPUnit\Framework\TestCase;
-use ReflectionException;
-use RuntimeException;
 use SebastianBergmann\CodeCoverage\CodeCoverage;
 use SebastianBergmann\CodeCoverage\Filter;
 use SebastianBergmann\CodeCoverage\Report\Clover;
@@ -30,27 +27,29 @@ use SebastianBergmann\CodeCoverage\Report\PHP;
 
 /**
  * Class CovCatcher
- *
  * @package JBZoo\PHPUnit
  *
- * @codeCoverageIgnore
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class CovCatcher
 {
     public const MODE_REQUIRE      = 'require';
     public const MODE_REQUIRE_ONCE = 'require_once';
 
-    protected $_isStart = false;
+    /**
+     * @var bool
+     */
+    protected $isStarted = false;
 
     /**
-     * @var CodeCoverage
+     * @var CodeCoverage|null
      */
-    protected $_coverage;
+    protected $coverage;
 
     /**
-     * @var array
+     * @var array<bool|string>
      */
-    protected $_default = [
+    protected $default = [
         'cov'        => true,
         'xml'        => false,
         'html'       => false,
@@ -63,38 +62,40 @@ class CovCatcher
     /**
      * @var Data
      */
-    protected $_config;
+    protected $config;
 
     /**
      * @var string
      */
-    protected $_hash;
+    protected $hash = '';
 
     /**
      * CovCatcher constructor.
      *
-     * @param string $testName
-     * @param array  $options
+     * @param string             $testName
+     * @param array<bool|string> $options
      * @throws Exception
      */
     public function __construct($testName = null, array $options = [])
     {
         if (!class_exists(Data::class)) {
-            throw new Exception('jbzoo/data required for CovCatcher');
+            throw new Exception('jbzoo/data is required for CovCatcher');
         }
 
         if (!class_exists(Env::class)) {
-            throw new Exception('jbzoo/utils required for CovCatcher');
+            throw new Exception('jbzoo/utils is required for CovCatcher');
         }
 
-        $this->_initConfig($options);
+        $this->initConfig($options);
 
-        $this->_hash = $testName . '__' . str_replace('.', '', uniqid('', true));
+        $postFixName = str_replace('.', '', uniqid('', true));
+        $this->hash = $testName ? "{$testName}__{$postFixName}" : $postFixName;
 
+        $this->coverage = null;
         if (Sys::hasXdebug()) {
             $covFilter = new Filter();
-            $covFilter->addDirectoryToWhitelist($this->_config->get('src'));
-            $this->_coverage = new CodeCoverage(null, $covFilter);
+            $covFilter->addDirectoryToWhitelist($this->config->get('src'));
+            $this->coverage = new CodeCoverage(null, $covFilter);
         }
     }
 
@@ -103,153 +104,127 @@ class CovCatcher
      * @param string $mode
      * @return mixed
      * @throws Exception
-     * @throws ReflectionException
      */
     public function includeFile($filename, $mode = self::MODE_REQUIRE)
     {
-        $this->_start();
+        $this->start();
 
         $realpath = realpath($filename);
-        if (!file_exists($realpath)) {
+
+        if ($realpath && file_exists($realpath)) {
+            if (self::MODE_REQUIRE === $mode) {
+                /** @noinspection PhpIncludeInspection */
+                /** @psalm-suppress UnresolvableInclude */
+                $result = require $realpath;
+            } elseif (self::MODE_REQUIRE_ONCE === $mode) {
+                /** @noinspection PhpIncludeInspection */
+                /** @noinspection UsingInclusionOnceReturnValueInspection */
+                /** @psalm-suppress UnresolvableInclude */
+                $result = require_once $realpath;
+            } else {
+                throw new Exception("Undefined mode to include file: \"{$filename}\"");
+            }
+        } else {
             throw new Exception("Included file not found: \"{$filename}\"");
         }
 
-        if (self::MODE_REQUIRE === $mode) {
-            /** @noinspection PhpIncludeInspection */
-            $result = require $realpath;
-
-        } elseif (self::MODE_REQUIRE_ONCE === $mode) {
-            /** @noinspection PhpIncludeInspection */
-            /** @noinspection UsingInclusionOnceReturnValueInspection */
-            $result = require_once $realpath;
-
-        } else {
-            throw new Exception("Undefined mode to include file: \"{$filename}\"");
-        }
-
-        $this->_stop();
+        $this->stop();
 
         return $result;
     }
 
     /**
-     * @param null|string $testName
-     * @return string
-     */
-    protected function _getPrefix($testName = null)
-    {
-        if (null === $testName) {
-            $objects = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT);
-            foreach ($objects as $object) {
-                if (isset($object['object']) && $object['object'] instanceof TestCase) {
-                    $testName = $object['class'] . '_' . $object['function'];
-                    break;
-                }
-            }
-        }
-
-        $testName = str_replace(__NAMESPACE__ . '\\', '', $testName);
-        $testName = Str::splitCamelCase($testName, '_', true);
-        $testName = preg_replace('/^test_/', '', $testName);
-        $testName = preg_replace('/_test$/', '', $testName);
-        $testName = str_replace(['_test_test_', '/', '\\', '_', '-'], ['_', '', '', '', ''], $testName);
-        $testName = strtolower($testName);
-
-        if (!$testName) {
-            $testName = uniqid('', true);
-            $testName = str_replace('.', '', $testName);
-        }
-
-        return $testName;
-    }
-
-    /**
      * Save report
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     public function __destruct()
     {
-        $this->_stop();
-        $this->_createReports();
+        $this->stop();
+        $this->createReports();
     }
 
     /**
-     * Start coverage proccess
+     * Start coverage process
      */
-    protected function _start()
+    protected function start(): void
     {
-        if (!$this->_isStart && $this->_coverage) {
-            $this->_isStart = true;
-            $this->_coverage->start($this->_hash, true);
+        if (!$this->isStarted) {
+            $this->isStarted = true;
+            if ($this->coverage) {
+                $this->coverage->start($this->hash, true);
+            }
         }
     }
 
     /**
-     * Stop or pause coverage proccess
-     * @throws ReflectionException
+     * Stop or pause coverage process
      */
-    protected function _stop()
+    protected function stop(): void
     {
-        if ($this->_isStart && $this->_coverage) {
-            $this->_isStart = false;
-            $this->_coverage->stop();
+        if ($this->isStarted) {
+            $this->isStarted = false;
+            if ($this->coverage) {
+                $this->coverage->stop();
+            }
         }
     }
 
     /**
-     * Stop or pause coverage proccess
+     * Stop or pause coverage process
      */
-    protected function _createReports()
+    protected function createReports(): void
     {
-        if (!$this->_coverage) {
-            return;
-        }
-
-        $reportXmlDir = $this->_config->get('build_xml');
-        if ($this->_config->get('xml', true, 'bool')) {
-            $this->_checkDir($reportXmlDir);
+        $reportXmlDir = $this->config->get('build_xml');
+        $isXmlEnabled = $this->config->get('xml', false, 'bool');
+        if ($isXmlEnabled) {
+            $this->prepareDirectory($reportXmlDir);
             $report = new Clover();
-            $report->process($this->_coverage, $reportXmlDir . '/' . $this->_hash . '.xml');
+            if ($this->coverage) {
+                $report->process($this->coverage, $reportXmlDir . '/' . $this->hash . '.xml');
+            }
         }
 
-
-        $reportCovDir = $this->_config->get('build_cov');
-        if ($this->_config->get('cov', false, 'bool')) {
-            $this->_checkDir($reportCovDir);
+        $reportCovDir = $this->config->get('build_cov');
+        $isCovEnabled = $this->config->get('cov', false, 'bool');
+        if ($isCovEnabled) {
+            $this->prepareDirectory($reportCovDir);
             $report = new PHP();
-            $report->process($this->_coverage, $reportCovDir . '/' . $this->_hash . '.cov');
+            if ($this->coverage) {
+                $report->process($this->coverage, $reportCovDir . '/' . $this->hash . '.cov');
+            }
         }
 
-
-        $reportHtmlDir = $this->_config->get('build_html');
-        if ($this->_config->get('html', false, 'bool')) {
-            $this->_checkDir($reportHtmlDir);
+        $reportHtmlDir = $this->config->get('build_html');
+        $isHtmlEnabled = $this->config->get('html', false, 'bool');
+        if ($isHtmlEnabled) {
+            $this->prepareDirectory($reportHtmlDir);
             $report = new Facade();
-            $report->process($this->_coverage, $reportHtmlDir . '/' . $this->_hash);
+            if ($this->coverage) {
+                $report->process($this->coverage, $reportHtmlDir . '/' . $this->hash);
+            }
         }
     }
 
     /**
      * @param string $dirPath
      */
-    protected function _checkDir($dirPath)
+    protected function prepareDirectory($dirPath): void
     {
-        if (!mkdir($dirPath, 0777, true) && !is_dir($dirPath)) {
-            throw new RuntimeException(sprintf('Directory "%s" was not created', $dirPath));
+        if (!is_dir($dirPath) && !mkdir($dirPath, 0777, true) && !is_dir($dirPath)) {
+            throw new \RuntimeException(sprintf('Directory "%s" was not created', $dirPath));
         }
     }
 
     /**
      * Prepare and init config
-     *
-     * @param array $options
+     * @param array<bool|string|null> $options
      */
-    protected function _initConfig(array $options)
+    protected function initConfig(array $options): void
     {
         $options = array_filter($options, function ($option) {
             return null !== $option;
         });
 
-        $this->_config = new Data(array_merge($this->_default, $options));
+        $this->config = new Data(array_merge($this->default, $options));
     }
 }

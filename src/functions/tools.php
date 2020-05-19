@@ -1,8 +1,9 @@
 <?php
+
 /**
- * JBZoo PHPUnit
+ * JBZoo Toolbox - PHPUnit
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
@@ -28,42 +29,13 @@ use Symfony\Component\Process\Process;
  */
 function isWin()
 {
-    return strncasecmp(PHP_OS, 'WIN', 3) === 0;
+    return strncasecmp(PHP_OS_FAMILY, 'WIN', 3) === 0;
 }
 
 /**
- * @param string $message
- * @param bool   $addEol
- */
-function cliMessage($message, $addEol = true)
-{
-    $message = (string)$message;
-    if ($addEol) {
-        $message .= PHP_EOL;
-    }
-
-    MessageBuffer::getInstance()->info($message);
-}
-
-/**
- * @param string $message
- * @param bool   $addEol
- * @codeCoverageIgnore
- */
-function cliError($message, $addEol = true)
-{
-    $message = (string)$message;
-    if ($addEol) {
-        $message .= PHP_EOL;
-    }
-
-    MessageBuffer::getInstance()->error($message);
-}
-
-/**
- * Binary save to open file
+ * Read file in binary save mode
  *
- * @param $path
+ * @param string $path
  * @return null|string
  */
 function openFile($path)
@@ -71,55 +43,62 @@ function openFile($path)
     $contents = null;
 
     if ($realPath = realpath($path)) {
-        $filesize = filesize($realPath);
+        $fileSize = (int)filesize($realPath);
 
-        if ($filesize > 0) {
+        if ($fileSize > 0) {
             $handle = fopen($realPath, 'rb');
-            $contents = fread($handle, $filesize);
-            fclose($handle);
+            if ($handle) {
+                $contents = fread($handle, $fileSize);
+                fclose($handle);
+            }
         }
+    }
+
+    if ($contents === false) {
+        $contents = null;
     }
 
     return $contents;
 }
 
 /**
- * @param string $command
- * @param array  $args
- * @param null   $cwd
+ * @param string        $command
+ * @param array<string> $args
+ * @param null          $cwd
  * @return string
  * @throws Exception
  * @throws \JBZoo\Utils\Exception
  */
-function cmd($command, $args = [], $cwd = null)
+function cmd(string $command, $args = [], $cwd = null)
 {
     if (!class_exists(Cli::class)) {
-        throw new Exception('jbzoo/utils required for cmd() function');
+        throw new Exception('jbzoo/utils is required for cmd() function');
     }
 
     if (!class_exists(Process::class)) {
-        throw new Exception('symfony/process package required for cmd() function'); // @codeCoverageIgnore
+        throw new Exception('symfony/process package is required for cmd() function');
     }
 
     return Cli::exec($command, $args, $cwd);
 }
 
 /**
- * @param string       $url
- * @param string|array $args
- * @param string       $method
- * @param array        $options
+ * @param string                 $url
+ * @param string|array<mixed>    $args
+ * @param string                 $method
+ * @param array<string|bool|int> $options
  * @return Response
  * @throws Exception
  * @throws \JBZoo\HttpClient\Exception
  */
-function httpRequest($url, $args = null, $method = 'GET', array $options = [])
+function httpRequest(string $url, $args = null, $method = 'GET', array $options = [])
 {
     if (!class_exists(HttpClient::class)) {
-        throw new Exception('jbzoo/http-client required for httpRequest() function'); // @codeCoverageIgnore
+        throw new Exception('jbzoo/http-client is required for httpRequest() function');
     }
 
-    return (new HttpClient())->request($url, $args, $method, $options);
+    $client = new HttpClient($options);
+    return $client->request($url, $args, $method, $options);
 }
 
 /**
@@ -130,6 +109,7 @@ function getTestName($withNamespace = false)
 {
     $objects = debug_backtrace();
     $result = null;
+
     foreach ($objects as $object) {
         if (isset($object['object']) && $object['object'] instanceof TestCase) {
             $result = get_class($object['object']) . '::' . $object['function'];
@@ -139,5 +119,6 @@ function getTestName($withNamespace = false)
             break;
         }
     }
+
     return $result;
 }

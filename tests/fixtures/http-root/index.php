@@ -1,8 +1,9 @@
 <?php
+
 /**
- * JBZoo PHPUnit
+ * JBZoo Toolbox - PHPUnit
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
@@ -18,7 +19,7 @@
  * @param string $key
  * @return string|null
  */
-function showTestMessage($key)
+function showTestMessage($key): ?string
 {
     return $_REQUEST[$key] ?? '200ok!';
 }

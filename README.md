@@ -10,7 +10,7 @@ PHPUnit Toolbox for simple syntax and dev
 ```js
 {
     "require-dev": {
-        "jbzoo/phpunit": "^3.0"
+        "jbzoo/phpunit": "^4.0"
     }
 }
 ```

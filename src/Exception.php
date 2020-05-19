@@ -1,8 +1,9 @@
 <?php
+
 /**
- * JBZoo PHPUnit
+ * JBZoo Toolbox - PHPUnit
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
@@ -19,7 +20,7 @@ namespace JBZoo\PHPUnit;
  * Class PHPUnit
  * @package JBZoo\PHPUnit
  */
-class Exception extends \Exception
+class Exception extends \RuntimeException
 {
 
 }

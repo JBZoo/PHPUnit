@@ -14,6 +14,27 @@
  * @author     Denis Smetannikov <denis@jbzoo.com>
  */
 
-include __DIR__ . '/../func.php';
+namespace JBZoo\PHPUnit;
 
-echo 'folder/index: ' . showTestMessage();
+/**
+ * Class PHPUnitCopyrightTest
+ *
+ * @package JBZoo\PHPUnit
+ */
+class PHPUnitCopyrightTest extends AbstractCopyrightTest
+{
+    protected $packageName = 'PHPUnit';
+
+    /**
+     * Ignore list for
+     *
+     * @var array
+     */
+    protected $excludePaths = [
+        '.git',
+        '.idea',
+        'build',
+        'logs',
+        'vendor',
+    ];
+}

@@ -1,8 +1,9 @@
 <?php
+
 /**
- * JBZoo PHPUnit
+ * JBZoo Toolbox - PHPUnit
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
@@ -50,7 +51,6 @@ class PHPUnitToolsTest extends PHPUnit
     public function testCliError()
     {
         skip('Some message...');
-        cliError('Some error message');
     }
 
     public function testGetTestName()
@@ -60,29 +60,8 @@ class PHPUnitToolsTest extends PHPUnit
         isContain('ToolsTest::testGetTestName', getTestName());
     }
 
-    public function testHtml()
-    {
-        $html = '<body>
-            <div class="test-class">
-                <p>qwerty</p>
-            </div>
-            <span class="empty-1"> </span>
-            <span class="empty-2"></span>
-        </body>';
-
-        isHtmlContain($html, 'body > div.test-class p', 'qwerty');
-        isHtmlNotContain($html, 'body > div.test-class p', 'qwerty-123');
-    }
-
     public function testIsWin()
     {
         isFalse(isWin());
-    }
-
-    public function testMessages()
-    {
-        cliMessage('cliMessage');
-        cliError('cliError');
-        isTrue(true);
     }
 }

@@ -11,9 +11,4 @@
 # @link       https://github.com/JBZoo/PHPUnit
 #
 
-RewriteEngine On
-
-RewriteBase /
-
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^(.+) index.php [QSA,L]
+.PHONY: build
