@@ -23,12 +23,7 @@ JBZOO_TEST_PORT_2 ?= "8889"
 update: ##@Project Install/Update all 3rd party dependencies
 	$(call title,"Install/Update all 3rd party dependencies")
 	@echo "Composer flags: $(JBZOO_COMPOSER_UPDATE_FLAGS)"
-	@composer update                   \
-        --optimize-autoloader          \
-        --with-all-dependencies        \
-        --no-progress                  \
-        --no-suggest                   \
-        $(JBZOO_COMPOSER_UPDATE_FLAGS)
+	@composer update $(JBZOO_COMPOSER_UPDATE_FLAGS)
 
 
 server: ##@Project Run PHP web-server for PHPUnit tests
