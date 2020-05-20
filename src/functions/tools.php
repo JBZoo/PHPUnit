@@ -62,27 +62,6 @@ function openFile($path)
 }
 
 /**
- * @param string        $command
- * @param array<string> $args
- * @param null          $cwd
- * @return string
- * @throws Exception
- * @throws \JBZoo\Utils\Exception
- */
-function cmd(string $command, $args = [], $cwd = null)
-{
-    if (!class_exists(Cli::class)) {
-        throw new Exception('jbzoo/utils is required for cmd() function');
-    }
-
-    if (!class_exists(Process::class)) {
-        throw new Exception('symfony/process package is required for cmd() function');
-    }
-
-    return Cli::exec($command, $args, $cwd);
-}
-
-/**
  * @param string                 $url
  * @param string|array<mixed>    $args
  * @param string                 $method

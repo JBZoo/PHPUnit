@@ -39,15 +39,6 @@ class PHPUnitToolsTest extends PHPUnit
         isSame($body->find('form.qwerty'), $uniq);
     }
 
-    public function testCmd()
-    {
-        $output = cmd('php', ['v' => '']);
-        isContain('PHP', $output);
-
-        $output = cmd('php', ['version' => '']);
-        isContain('PHP', $output);
-    }
-
     public function testCliError()
     {
         skip('Some message...');

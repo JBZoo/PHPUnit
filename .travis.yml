@@ -27,6 +27,7 @@ env:
     - XDEBUG_OFF="yes"
 
 before_script:
+  - composer self-update
   - if [[ $XDEBUG_OFF = yes ]]; then phpenv config-rm xdebug.ini; fi;
 
 script:
