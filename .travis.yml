@@ -20,10 +20,13 @@ php:
   - 7.3
   - 7.4
 
-jobs:
+matrix:
   fast_finish: true
+  allow_failures:
+    - php: 7.4snapshot
   include:
-    - env: XDEBUG_OFF="yes"
+    - php: 7.2
+      env: XDEBUG_OFF="yes"
 
 before_script:
   - if [[ $XDEBUG_OFF = yes ]]; then phpenv config-rm xdebug.ini; fi;
