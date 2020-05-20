@@ -30,7 +30,7 @@ before_script:
   - if [[ $XDEBUG_OFF = yes ]]; then phpenv config-rm xdebug.ini; fi;
 
 script:
-  - make install  --no-print-directory
+  - make update   --no-print-directory
   - make server   --no-print-directory
   - make test-all --no-print-directory
 
