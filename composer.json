@@ -15,6 +15,8 @@
 
     "require"     : {
         "php"                         : "^7.2",
+        "ext-filter"                  : "*",
+
         "phpunit/phpunit"             : "^8.5||^9.1",
         "phpunit/phpcov"              : "^6.0.1||^7.0",
         "sempro/phpunit-pretty-print" : "^1.2.2",
