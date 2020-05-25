@@ -355,6 +355,7 @@ abstract class AbstractCopyrightTest extends PHPUnit
     public function testHeadersMakefile(): void
     {
         $finder = $this->createFinder(['Makefile']);
+        $finder->name('Makefile');
 
         $this->checkHeaderInFiles($finder, $this->prepareTemplate(implode($this->eol, $this->validHeaderHash)));
     }
