@@ -20,9 +20,7 @@
         "phpunit/phpunit"             : "^8.5||^9.1",
         "phpunit/phpcov"              : "^6.0.1||^7.0",
         "sempro/phpunit-pretty-print" : "^1.2.2",
-        "ulrichsg/getopt-php"         : "^3.3.0",
-
-        "symfony/var-dumper"          : "^4.4||^5.0"
+        "ulrichsg/getopt-php"         : "^3.3.0"
     },
 
     "require-dev" : {
@@ -41,6 +39,12 @@
         ],
         "psr-4" : {
             "JBZoo\\PHPUnit\\" : "src"
+        }
+    },
+
+    "extra"       : {
+        "branch-alias" : {
+            "dev-master" : "4.0-dev"
         }
     }
 }
