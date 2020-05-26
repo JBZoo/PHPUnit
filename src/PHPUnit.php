@@ -25,24 +25,5 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class PHPUnit extends TestCase
 {
-    // Example to init var dumper
-    //protected function setUp(): void
-    //{
-    //    parent::setUp();
-    //    $this->initVarDumper();
-    //}
 
-    /**
-     * @return bool
-     */
-    protected function initVarDumper()
-    {
-        static $isInit;
-
-        if (null === $isInit) {
-            $isInit = include __DIR__ . '/functions/var-dumper.php';
-        }
-
-        return $isInit;
-    }
 }
