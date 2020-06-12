@@ -69,7 +69,7 @@ phpmetrics:
 
 phpstan:
   level: max
-  standard: vendor/jbzoo/codestyle/phpstan.neon
+  standard: phpstan.neon
 
 
 psalm:
