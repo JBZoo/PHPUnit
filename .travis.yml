@@ -28,7 +28,6 @@ env:
 
 before_script:
   - composer self-update
-  - composer global require hirak/prestissimo
   - if [[ $XDEBUG_OFF = yes ]]; then phpenv config-rm xdebug.ini; fi;
 
 script:
