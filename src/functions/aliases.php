@@ -150,6 +150,7 @@ function isLike($pattern, $value, string $message = ''): void
 {
     if (method_exists(Assert::class, 'assertMatchesRegularExpression')) {
         /** @noinspection PhpUndefinedMethodInspection */
+        /** @phan-suppress-next-line PhanUndeclaredStaticMethod */
         Assert::assertMatchesRegularExpression($pattern, $value, $message);
     } else {
         Assert::assertRegExp($pattern, $value, $message);
@@ -165,6 +166,7 @@ function isNotLike($pattern, $value, string $message = ''): void
 {
     if (method_exists(Assert::class, 'assertMatchesRegularExpression')) {
         /** @noinspection PhpUndefinedMethodInspection */
+        /** @phan-suppress-next-line PhanUndeclaredStaticMethod */
         Assert::assertDoesNotMatchRegularExpression($pattern, $value, $message);
     } else {
         Assert::assertNotRegExp($pattern, $value, $message);
@@ -322,8 +324,11 @@ function isNotFile($path, string $message = ''): void
 {
     if (!is_dir($path)) {
         if (method_exists(Assert::class, 'assertFileDoesNotExist')) {
+            /** @noinspection PhpUndefinedMethodInspection */
+            /** @phan-suppress-next-line PhanUndeclaredStaticMethod */
             Assert::assertFileDoesNotExist($path, $message);
         } else {
+            /** @phan-suppress-next-line PhanUndeclaredStaticMethod */
             Assert::assertFileNotExists($path, $message);
         }
     } else {
