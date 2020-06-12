@@ -148,7 +148,12 @@ function isCount($expected, $actual, string $message = ''): void
  */
 function isLike($pattern, $value, string $message = ''): void
 {
-    Assert::assertRegExp($pattern, $value, $message);
+    if (method_exists(Assert::class, 'assertMatchesRegularExpression')) {
+        /** @noinspection PhpUndefinedMethodInspection */
+        Assert::assertMatchesRegularExpression($pattern, $value, $message);
+    } else {
+        Assert::assertRegExp($pattern, $value, $message);
+    }
 }
 
 /**
@@ -158,7 +163,12 @@ function isLike($pattern, $value, string $message = ''): void
  */
 function isNotLike($pattern, $value, string $message = ''): void
 {
-    Assert::assertNotRegExp($pattern, $value, $message);
+    if (method_exists(Assert::class, 'assertMatchesRegularExpression')) {
+        /** @noinspection PhpUndefinedMethodInspection */
+        Assert::assertDoesNotMatchRegularExpression($pattern, $value, $message);
+    } else {
+        Assert::assertNotRegExp($pattern, $value, $message);
+    }
 }
 
 /**
@@ -311,7 +321,11 @@ function isFile($path, string $message = ''): void
 function isNotFile($path, string $message = ''): void
 {
     if (!is_dir($path)) {
-        Assert::assertFileNotExists($path, $message);
+        if (method_exists(Assert::class, 'assertFileDoesNotExist')) {
+            Assert::assertFileDoesNotExist($path, $message);
+        } else {
+            Assert::assertFileNotExists($path, $message);
+        }
     } else {
         success($message);
     }
