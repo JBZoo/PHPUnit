@@ -323,14 +323,13 @@ function isFile($path, string $message = ''): void
 function isNotFile($path, string $message = ''): void
 {
     if (!is_dir($path)) {
+        $methodName = 'assertFileNotExists';
         if (method_exists(Assert::class, 'assertFileDoesNotExist')) {
-            /** @noinspection PhpUndefinedMethodInspection */
-            /** @phan-suppress-next-line PhanUndeclaredStaticMethod */
-            Assert::assertFileDoesNotExist($path, $message);
-        } else {
-            /** @phan-suppress-next-line PhanUndeclaredStaticMethod */
-            Assert::assertFileNotExists($path, $message);
+            $methodName = 'assertFileDoesNotExist';
         }
+
+        /** @phan-suppress-next-line PhanUndeclaredStaticMethod */
+        Assert::$methodName($path, $message);
     } else {
         success($message);
     }
