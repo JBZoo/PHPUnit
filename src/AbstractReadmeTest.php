@@ -98,7 +98,7 @@ abstract class AbstractReadmeTest extends PHPUnit
 
     public function testTitle(): void
     {
-        isContain("# {$this->vendorName} - {$this->packageName}", $this->getReadme());
+        isContain("#{$this->vendorName} - {$this->packageName}", $this->getReadme());
     }
 
     public function testBadgeLine(): void
@@ -344,7 +344,7 @@ abstract class AbstractReadmeTest extends PHPUnit
             "The readme file has no valid copyright in header",
             "Expected badge ({$testCaseName}):",
             str_repeat('-', 60),
-            "\"{$badge}\"",
+            $badge,
             str_repeat('-', 60)
         ]);
 
