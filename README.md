@@ -1,18 +1,11 @@
-# JBZoo PHPUnit  [![Build Status](https://travis-ci.org/JBZoo/PHPUnit.svg?branch=master)](https://travis-ci.org/JBZoo/PHPUnit)      [![Coverage Status](https://coveralls.io/repos/github/JBZoo/PHPUnit/badge.svg?branch=master)](https://coveralls.io/github/JBZoo/PHPUnit?branch=master)
-
-PHPUnit Toolbox for simple syntax and dev
-
-[![License](https://poser.pugx.org/JBZoo/PHPUnit/license)](https://packagist.org/packages/JBZoo/PHPUnit)
-[![Latest Stable Version](https://poser.pugx.org/JBZoo/PHPUnit/v/stable)](https://packagist.org/packages/JBZoo/PHPUnit) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/JBZoo/PHPUnit/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/JBZoo/PHPUnit/?branch=master)
+# JBZoo - PHPUnit
+  
+[![Build Status](https://travis-ci.org/JBZoo/PHPUnit.svg?branch=master)](https://travis-ci.org/JBZoo/PHPUnit)    [![Coverage Status](https://coveralls.io/repos/JBZoo/PHPUnit/badge.svg)](https://coveralls.io/github/JBZoo/PHPUnit?branch=master)    [![Psalm Coverage](https://shepherd.dev/github/JBZoo/PHPUnit/coverage.svg)](https://shepherd.dev/github/JBZoo/PHPUnit)    [![Codacy Badge](https://app.codacy.com/project/badge/Grade/6cfd2188e43f4f86bd996d6c3aaccf9a)](https://www.codacy.com/gh/JBZoo/PHPUnit)    [![Latest Stable Version](https://poser.pugx.org/JBZoo/PHPUnit/v)](https://packagist.org/packages/JBZoo/PHPUnit)    [![Latest Unstable Version](https://poser.pugx.org/JBZoo/PHPUnit/v/unstable)](https://packagist.org/packages/JBZoo/PHPUnit)    [![Dependents](https://poser.pugx.org/JBZoo/PHPUnit/dependents)](https://packagist.org/packages/JBZoo/PHPUnit/dependents?order_by=downloads)    [![GitHub Issues](https://img.shields.io/github/issues/JBZoo/PHPUnit)](https://github.com/JBZoo/PHPUnit/issues)    [![Total Downloads](https://poser.pugx.org/JBZoo/PHPUnit/downloads)](https://packagist.org/packages/JBZoo/PHPUnit/stats)    [![GitHub License](https://img.shields.io/github/license/JBZoo/PHPUnit)](https://github.com/JBZoo/PHPUnit/blob/master/LICENSE)    
 
 
 #### Composer.json content
-```js
-{
-    "require-dev": {
-        "jbzoo/phpunit": "^4.0"
-    }
-}
+```sh
+composer require jbzoo/phpunit --dev
 ```
 
 

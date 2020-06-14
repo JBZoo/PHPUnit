@@ -148,13 +148,13 @@ function isCount($expected, $actual, string $message = ''): void
  */
 function isLike($pattern, $value, string $message = ''): void
 {
+    $methodName = 'assertRegExp';
     if (method_exists(Assert::class, 'assertMatchesRegularExpression')) {
-        /** @noinspection PhpUndefinedMethodInspection */
-        /** @phan-suppress-next-line PhanUndeclaredStaticMethod */
-        Assert::assertMatchesRegularExpression($pattern, $value, $message);
-    } else {
-        Assert::assertRegExp($pattern, $value, $message);
+        $methodName = 'assertMatchesRegularExpression';
     }
+
+    /** @phan-suppress-next-line PhanUndeclaredStaticMethod */
+    Assert::$methodName($pattern, $value, $message);
 }
 
 /**
@@ -164,13 +164,13 @@ function isLike($pattern, $value, string $message = ''): void
  */
 function isNotLike($pattern, $value, string $message = ''): void
 {
-    if (method_exists(Assert::class, 'assertMatchesRegularExpression')) {
-        /** @noinspection PhpUndefinedMethodInspection */
-        /** @phan-suppress-next-line PhanUndeclaredStaticMethod */
-        Assert::assertDoesNotMatchRegularExpression($pattern, $value, $message);
-    } else {
-        Assert::assertNotRegExp($pattern, $value, $message);
+    $methodName = 'assertNotRegExp';
+    if (method_exists(Assert::class, 'assertDoesNotMatchRegularExpression')) {
+        $methodName = 'assertDoesNotMatchRegularExpression';
     }
+
+    /** @phan-suppress-next-line PhanUndeclaredStaticMethod */
+    Assert::$methodName($pattern, $value, $message);
 }
 
 /**
