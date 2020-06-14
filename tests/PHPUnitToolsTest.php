@@ -35,7 +35,7 @@ class PHPUnitToolsTest extends PHPUnit
         isContain('application/json', $result->find('headers.content-type'));
 
         $body = $result->getJSON();
-        isSame($body->find('url'), $url);
+        isContain('httpbin.org/post', $body->find('url'));
         isSame($body->find('form.qwerty'), $uniq);
     }
 
