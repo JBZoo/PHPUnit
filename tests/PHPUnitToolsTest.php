@@ -55,4 +55,17 @@ class PHPUnitToolsTest extends PHPUnit
     {
         isFalse(isWin());
     }
+
+    public function testDefines()
+    {
+        isSame(realpath(__DIR__ . '/..'), PROJECT_ROOT);
+        isSame(realpath(__DIR__ . '/../src'), PROJECT_SRC);
+        isSame(realpath(__DIR__ . '/../tests'), PROJECT_TESTS);
+        isSame(realpath(__DIR__ . '/../build'), PROJECT_BUILD);
+        isSame(true, JBZOO_PHPUNIT);
+        isSame('/', DIRECTORY_SEPARATOR);
+        isSame("\r\n", CRLF);
+        isSame("\n", LF);
+        isSame("\n", PHP_EOL);
+    }
 }

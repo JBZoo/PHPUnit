@@ -16,16 +16,29 @@
 
 // phpcs:ignoreFile
 
-!defined('JBZOO_PHPUNIT') && define('JBZOO_PHPUNIT', true);
-
-// System
-!defined('CRLF') && define('CRLF', "\r\n");
-!defined('LF') && define('LF', "\n");
-!defined('DS') && define('DS', DIRECTORY_SEPARATOR);
-
 // Paths
-!defined('PROJECT_ROOT') && define('PROJECT_ROOT', (string)realpath('.'));
-!defined('PROJECT_BUILD') && define('PROJECT_BUILD', PROJECT_ROOT . DS . 'build');
-!defined('PROJECT_SRC') && define('PROJECT_SRC', PROJECT_ROOT . DS . 'src');
-!defined('PROJECT_TESTS') && define('PROJECT_TESTS', PROJECT_ROOT . DS . 'tests');
-!defined('PROJECT_RES') && define('PROJECT_RES', PROJECT_ROOT . DS . 'resources');
+$paths = [
+    realpath('./../../../vendor/autoload.php'),
+    realpath('./../../vendor/autoload.php'),
+    realpath('./../vendor/autoload.php'),
+    realpath('./vendor/autoload.php'),
+    realpath('vendor/autoload.php')
+];
+
+foreach ($paths as $path) {
+    if ($path && !defined('JBZOO_PHPUNIT')) {
+        define('JBZOO_PHPUNIT', true);
+
+        // System
+        define('CRLF', "\r\n");
+        define('LF', "\n");
+        define('DS', DIRECTORY_SEPARATOR);
+
+        define('PROJECT_ROOT', dirname($path, 2));
+        define('PROJECT_BUILD', PROJECT_ROOT . DS . 'build');
+        define('PROJECT_SRC', PROJECT_ROOT . DS . 'src');
+        define('PROJECT_TESTS', PROJECT_ROOT . DS . 'tests');
+        define('PROJECT_RES', PROJECT_ROOT . DS . 'resources');
+        break;
+    }
+}

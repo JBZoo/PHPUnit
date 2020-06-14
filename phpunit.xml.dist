@@ -40,6 +40,7 @@
     </filter>
 
     <logging>
+        <log type="coverage-html" target="build/coverage_html" lowUpperBound="75" highLowerBound="95"/>
         <log type="coverage-clover" target="build/coverage_xml/main.xml"/>
         <log type="coverage-php" target="build/coverage_cov/main.cov"/>
         <log type="junit" target="build/coverage_junit/main.xml"/>

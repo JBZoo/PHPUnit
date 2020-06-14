@@ -84,6 +84,7 @@ abstract class AbstractReadmeTest extends PHPUnit
         'coveralls',
         'psalm_coverage',
         'codacy',
+        '__BR__',
         'latest_stable_version',
         'latest_unstable_version',
         'dependents',
@@ -105,13 +106,21 @@ abstract class AbstractReadmeTest extends PHPUnit
         $expected = [];
 
         foreach ($this->badgesTemplate as $badgeName) {
-            $testMethod = 'checkBadge' . str_replace('_', '', ucwords($badgeName, '_'));
-            if (method_exists($this, $testMethod)) {
-                $expected[] = $this->{$testMethod}();
+            if ($badgeName === '__BR__') {
+                $expected[] = "\n";
+            } else {
+                $testMethod = 'checkBadge' . str_replace('_', '', ucwords($badgeName, '_'));
+                if (method_exists($this, $testMethod)) {
+                    if ($tmpBadge = $this->{$testMethod}()) {
+                        $expected[] = "{$tmpBadge}    ";
+                    }
+                } else {
+                    fail("Method not found: '{$testMethod}'");
+                }
             }
         }
 
-        isContain(implode('    ', array_filter($expected)), $this->getReadme());
+        isContain(trim(implode('', array_filter($expected))), $this->getReadme());
     }
 
     public function checkBadgeLatestStableVersion(): ?string
