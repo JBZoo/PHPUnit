@@ -98,21 +98,21 @@ abstract class AbstractReadmeTest extends PHPUnit
 
     public function testTitle(): void
     {
-        isContain("#{$this->vendorName} - {$this->packageName}", $this->getReadme());
+        isContain("# {$this->vendorName} - {$this->packageName}", $this->getReadme());
     }
 
     public function testBadgeLine(): void
     {
-        $expected = [];
+        $expectedBadges = [];
 
         foreach ($this->badgesTemplate as $badgeName) {
             if ($badgeName === '__BR__') {
-                $expected[] = "\n";
+                $expectedBadges[$badgeName] = "\n";
             } else {
                 $testMethod = 'checkBadge' . str_replace('_', '', ucwords($badgeName, '_'));
                 if (method_exists($this, $testMethod)) {
                     if ($tmpBadge = $this->{$testMethod}()) {
-                        $expected[] = "{$tmpBadge}    ";
+                        $expectedBadges[$badgeName] = "{$tmpBadge}    ";
                     }
                 } else {
                     fail("Method not found: '{$testMethod}'");
@@ -120,71 +120,90 @@ abstract class AbstractReadmeTest extends PHPUnit
             }
         }
 
-        isContain(trim(implode('', array_filter($expected))), $this->getReadme());
+        isContain(trim(implode('', array_filter($expectedBadges))), $this->getReadme());
+
+        $readme = $this->getReadme();
+        foreach ($expectedBadges as $badgeName => $expectedBadge) {
+            $expectedBadge = trim($expectedBadge);
+            if ($expectedBadge) {
+                $isContain = strpos($readme, $expectedBadge) !== false;
+
+                $errMessage = implode("\n", [
+                    "The readme file has no valid copyright in header",
+                    "Expected badge ({$badgeName}):",
+                    str_repeat('-', 60),
+                    $expectedBadge,
+                    str_repeat('-', 60)
+                ]);
+
+                isTrue($isContain, $errMessage);
+                isContain($expectedBadge, $readme, false, $errMessage);
+            }
+        }
     }
 
     public function checkBadgeLatestStableVersion(): ?string
     {
-        return $this->isContainInReadme($this->getBadgePackagist('Latest Stable Version', 'v'));
+        return $this->getPreparedBadge($this->getBadgePackagist('Latest Stable Version', 'v'));
     }
 
 
     public function checkBadgeLatestUnstableVersion(): ?string
     {
-        return $this->isContainInReadme($this->getBadgePackagist('Latest Unstable Version', 'v/unstable'));
+        return $this->getPreparedBadge($this->getBadgePackagist('Latest Unstable Version', 'v/unstable'));
     }
 
     public function checkBadgeTotalDownloads(): ?string
     {
-        return $this->isContainInReadme($this->getBadgePackagist('Total Downloads', 'downloads', 'stats'));
+        return $this->getPreparedBadge($this->getBadgePackagist('Total Downloads', 'downloads', 'stats'));
     }
 
 
     public function checkBadgePackagistLicense(): ?string
     {
-        return $this->isContainInReadme($this->getBadgePackagist('License', 'license'));
+        return $this->getPreparedBadge($this->getBadgePackagist('License', 'license'));
     }
 
     public function checkBadgeMonthlyDownloads(): ?string
     {
-        return $this->isContainInReadme($this->getBadgePackagist('Monthly Downloads', 'd/monthly', 'stats'));
+        return $this->getPreparedBadge($this->getBadgePackagist('Monthly Downloads', 'd/monthly', 'stats'));
     }
 
     public function checkBadgeDailyDownloads(): ?string
     {
-        return $this->isContainInReadme($this->getBadgePackagist('Daily Downloads', 'd/daily', 'stats'));
+        return $this->getPreparedBadge($this->getBadgePackagist('Daily Downloads', 'd/daily', 'stats'));
     }
 
     public function checkBadgeVersion(): ?string
     {
-        return $this->isContainInReadme($this->getBadgePackagist('Version', 'version'));
+        return $this->getPreparedBadge($this->getBadgePackagist('Version', 'version'));
     }
 
     public function checkBadgeComposerlock(): ?string
     {
-        return $this->isContainInReadme($this->getBadgePackagist('Version', 'composerlock'));
+        return $this->getPreparedBadge($this->getBadgePackagist('Version', 'composerlock'));
     }
 
     public function checkBadgeGitattributes(): ?string
     {
-        return $this->isContainInReadme($this->getBadgePackagist('.gitattributes', 'gitattributes'));
+        return $this->getPreparedBadge($this->getBadgePackagist('.gitattributes', 'gitattributes'));
     }
 
     public function checkBadgeDependents(): ?string
     {
-        return $this->isContainInReadme(
+        return $this->getPreparedBadge(
             $this->getBadgePackagist('Dependents', 'dependents', 'dependents?order_by=downloads')
         );
     }
 
     public function checkBadgeSuggesters(): ?string
     {
-        return $this->isContainInReadme($this->getBadgePackagist('Suggesters', 'suggesters'));
+        return $this->getPreparedBadge($this->getBadgePackagist('Suggesters', 'suggesters'));
     }
 
     public function checkBadgeCircleCI(): ?string
     {
-        return $this->isContainInReadme($this->getBadgePackagist('CircleCI Build', 'circleci'));
+        return $this->getPreparedBadge($this->getBadgePackagist('CircleCI Build', 'circleci'));
     }
 
 
@@ -193,7 +212,7 @@ abstract class AbstractReadmeTest extends PHPUnit
 
     public function checkBadgeTravis(): ?string
     {
-        return $this->isContainInReadme($this->getBadge(
+        return $this->getPreparedBadge($this->getBadge(
             'Build Status',
             'https://travis-ci.org/__VENDOR__/__PACKAGE__.svg?branch=master',
             'https://travis-ci.org/__VENDOR__/__PACKAGE__'
@@ -202,7 +221,7 @@ abstract class AbstractReadmeTest extends PHPUnit
 
     public function checkBadgeCoveralls(): ?string
     {
-        return $this->isContainInReadme($this->getBadge(
+        return $this->getPreparedBadge($this->getBadge(
             'Coverage Status',
             'https://coveralls.io/repos/__VENDOR__/__PACKAGE__/badge.svg',
             'https://coveralls.io/github/__VENDOR__/__PACKAGE__?branch=master'
@@ -211,7 +230,7 @@ abstract class AbstractReadmeTest extends PHPUnit
 
     public function checkBadgeCodacy(): ?string
     {
-        return $this->isContainInReadme($this->getBadge(
+        return $this->getPreparedBadge($this->getBadge(
             'Codacy Badge',
             "https://app.codacy.com/project/badge/Grade/{$this->codacyId}",
             'https://www.codacy.com/gh/__VENDOR__/__PACKAGE__'
@@ -220,7 +239,7 @@ abstract class AbstractReadmeTest extends PHPUnit
 
     public function checkBadgePsalmCoverage(): ?string
     {
-        return $this->isContainInReadme($this->getBadge(
+        return $this->getPreparedBadge($this->getBadge(
             'Psalm Coverage',
             'https://shepherd.dev/github/__VENDOR__/__PACKAGE__/coverage.svg',
             'https://shepherd.dev/github/__VENDOR__/__PACKAGE__'
@@ -229,7 +248,7 @@ abstract class AbstractReadmeTest extends PHPUnit
 
     public function checkBadgeGithubIssues(): ?string
     {
-        return $this->isContainInReadme($this->getBadge(
+        return $this->getPreparedBadge($this->getBadge(
             'GitHub Issues',
             'https://img.shields.io/github/issues/__VENDOR__/__PACKAGE__',
             'https://github.com/__VENDOR__/__PACKAGE__/issues'
@@ -238,7 +257,7 @@ abstract class AbstractReadmeTest extends PHPUnit
 
     public function checkBadgeGithubForks(): ?string
     {
-        return $this->isContainInReadme($this->getBadge(
+        return $this->getPreparedBadge($this->getBadge(
             'GitHub Forks',
             'https://img.shields.io/github/forks/__VENDOR__/__PACKAGE__',
             'https://github.com/__VENDOR__/__PACKAGE__/network'
@@ -247,7 +266,7 @@ abstract class AbstractReadmeTest extends PHPUnit
 
     public function checkBadgeGithubStars(): ?string
     {
-        return $this->isContainInReadme($this->getBadge(
+        return $this->getPreparedBadge($this->getBadge(
             'GitHub Stars',
             'https://img.shields.io/github/stars/__VENDOR__/__PACKAGE__',
             'https://github.com/__VENDOR__/__PACKAGE__/stargazers'
@@ -256,7 +275,7 @@ abstract class AbstractReadmeTest extends PHPUnit
 
     public function checkBadgeGithubLicense(): ?string
     {
-        return $this->isContainInReadme($this->getBadge(
+        return $this->getPreparedBadge($this->getBadge(
             'GitHub License',
             'https://img.shields.io/github/license/__VENDOR__/__PACKAGE__',
             'https://github.com/__VENDOR__/__PACKAGE__/blob/master/LICENSE'
@@ -321,7 +340,7 @@ abstract class AbstractReadmeTest extends PHPUnit
      * @param string $badge
      * @return string|null
      */
-    protected function isContainInReadme(string $badge): ?string
+    protected function getPreparedBadge(string $badge): ?string
     {
         $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
         $testCaseName = str_replace('check_badge_', '', Str::splitCamelCase($trace[1]['function']));
@@ -335,21 +354,6 @@ abstract class AbstractReadmeTest extends PHPUnit
             success();
             return null;
         }
-
-        $readme = $this->getReadme();
-
-        $isContain = strpos($readme, $badge) !== false;
-
-        $errMessage = implode("\n", [
-            "The readme file has no valid copyright in header",
-            "Expected badge ({$testCaseName}):",
-            str_repeat('-', 60),
-            $badge,
-            str_repeat('-', 60)
-        ]);
-
-        isTrue($isContain, $errMessage);
-        isContain($badge, $readme, false, $errMessage);
 
         return $badge;
     }
