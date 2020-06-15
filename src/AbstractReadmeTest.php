@@ -81,7 +81,6 @@ abstract class AbstractReadmeTest extends PHPUnit
         'travis',
         'coveralls',
         'psalm_coverage',
-        'codacy',
         '__BR__',
         'latest_stable_version',
         'latest_unstable_version',
@@ -96,7 +95,7 @@ abstract class AbstractReadmeTest extends PHPUnit
 
     public function testTitle(): void
     {
-        isContain("# {$this->vendorName} - {$this->packageName}", $this->getReadme());
+        isContain("# {$this->vendorName} / {$this->packageName}", $this->getReadme());
     }
 
     public function testBadgeLine(): void
@@ -118,7 +117,17 @@ abstract class AbstractReadmeTest extends PHPUnit
             }
         }
 
-        isContain(trim(implode('', array_filter($expectedBadges))), $this->getReadme());
+        $expectedBadgeLine = trim(implode('', array_filter($expectedBadges)));
+        $errMessage = implode("\n", [
+            "The readme file has no valid copyright in header",
+            "Expected badge line:",
+            str_repeat('-', 60),
+            $expectedBadgeLine,
+            str_repeat('-', 60)
+        ]);
+
+        isTrue(strpos($this->getReadme(), $expectedBadgeLine) > 0, $errMessage);
+        isContain($expectedBadgeLine, $this->getReadme(), false, $errMessage);
 
         $readme = $this->getReadme();
         foreach ($expectedBadges as $badgeName => $expectedBadge) {
