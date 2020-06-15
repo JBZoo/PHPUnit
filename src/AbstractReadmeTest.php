@@ -16,8 +16,6 @@
 
 namespace JBZoo\PHPUnit;
 
-use JBZoo\Utils\Str;
-
 /**
  * Class AbstractReadmeTest
  *
@@ -343,7 +341,7 @@ abstract class AbstractReadmeTest extends PHPUnit
     protected function getPreparedBadge(string $badge): ?string
     {
         $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
-        $testCaseName = str_replace('check_badge_', '', Str::splitCamelCase($trace[1]['function']));
+        $testCaseName = str_replace('check_badge_', '', $this->splitCamelCase($trace[1]['function']));
 
         $isEnabled = $this->params[$testCaseName] ?? null;
         if (null === $isEnabled) {
@@ -356,5 +354,26 @@ abstract class AbstractReadmeTest extends PHPUnit
         }
 
         return $badge;
+    }
+
+    /**
+     * @param string $input
+     * @return string
+     */
+    protected function splitCamelCase(string $input): string
+    {
+        $original = $input;
+
+        $output = (string)preg_replace(['/(?<=[^A-Z])([A-Z])/', '/(?<=[^0-9])([0-9])/'], '_$0', $input);
+        $output = (string)preg_replace('#_{1,}#', '_', $output);
+
+        $output = trim($output);
+        $output = strtolower($output);
+
+        if ('' === $output) {
+            return $original;
+        }
+
+        return $output;
     }
 }
