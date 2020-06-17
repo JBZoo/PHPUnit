@@ -29,7 +29,8 @@
         "jbzoo/codestyle"           : "2.0.x-dev",
         "jbzoo/data"                : "4.0.x-dev",
         "jbzoo/utils"               : "4.0.x-dev",
-        "jbzoo/http-client"         : "3.0.x-dev"
+        "jbzoo/http-client"         : "3.0.x-dev",
+        "guzzlehttp/guzzle"         : "^6.4.1"
     },
 
     "autoload"          : {
