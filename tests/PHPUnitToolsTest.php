@@ -32,7 +32,7 @@ class PHPUnitToolsTest extends PHPUnit
         $result = httpRequest($url, $args, 'post');
 
         isSame(200, $result->code);
-        isContain('application/json', $result->find('headers.content-type'));
+        isContain('application/json', $result->getHeader('content-type'));
 
         $body = $result->getJSON();
         isContain('httpbin.org/post', $body->find('url'));
