@@ -210,6 +210,7 @@ class CovCatcher
      */
     protected function prepareDirectory($dirPath): void
     {
+        /** @phan-suppress-next-line PhanPluginDuplicateIfCondition */
         if (!is_dir($dirPath) && !mkdir($dirPath, 0777, true) && !is_dir($dirPath)) {
             throw new \RuntimeException(sprintf('Directory "%s" was not created', $dirPath));
         }
