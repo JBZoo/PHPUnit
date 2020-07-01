@@ -19,7 +19,7 @@
 
         "phpunit/phpunit"                    : "^8.5||^9.1",
         "phpunit/phpcov"                     : "^6.0.1||^7.0",
-        "codedungeon/phpunit-result-printer" : "^0.27.0",
+        "codedungeon/phpunit-result-printer" : "^0.28.0",
 
         "ulrichsg/getopt-php"                : "^3.3.0"
     },
