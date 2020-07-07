@@ -16,6 +16,10 @@
 
 $default = include __DIR__ . '/../vendor/jbzoo/codestyle/src/phan/default.php';
 
+// See isNotLike(), isLike()
+$index = array_search('UnusedSuppressionPlugin', $default['plugins'], true);
+unset($default['plugins'][$index]);
+
 return array_merge($default, [
     'file_list' => [
         'src/functions/defines.php',
@@ -36,9 +40,5 @@ return array_merge($default, [
         'vendor/phpunit/phpunit/src',
         'vendor/symfony/finder',
         'vendor/ulrichsg/getopt-php/src',
-    ],
-
-    'suppress_issue_types' => [
-        'BuiltinSuppressionPlugin'
     ]
 ]);
