@@ -35,7 +35,10 @@ return array_merge($default, [
         'vendor/phpunit/php-code-coverage/src',
         'vendor/phpunit/phpunit/src',
         'vendor/symfony/finder',
-        'vendor/symfony/var-dumper',
         'vendor/ulrichsg/getopt-php/src',
+    ],
+
+    'suppress_issue_types' => [
+        'BuiltinSuppressionPlugin'
     ]
 ]);
