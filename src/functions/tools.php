@@ -17,15 +17,15 @@
 namespace JBZoo\PHPUnit;
 
 use JBZoo\HttpClient\HttpClient;
+use JBZoo\HttpClient\Request;
 use JBZoo\HttpClient\Response;
-use PHPUnit\Framework\TestCase;
 
 /**
  * Check is current OS Windows
  *
  * @return bool
  */
-function isWin()
+function isWin(): bool
 {
     return strncasecmp(PHP_OS_FAMILY, 'WIN', 3) === 0;
 }
@@ -36,7 +36,7 @@ function isWin()
  * @param string $path
  * @return null|string
  */
-function openFile($path)
+function openFile(string $path): ?string
 {
     $contents = null;
 
@@ -68,10 +68,14 @@ function openFile($path)
  * @throws Exception
  * @throws \JBZoo\HttpClient\Exception
  */
-function httpRequest(string $url, $args = null, $method = 'GET', array $options = [])
+function httpRequest(string $url, $args = null, string $method = Request::GET, array $options = []): Response
 {
     if (!class_exists(HttpClient::class)) {
         throw new Exception('jbzoo/http-client is required for httpRequest() function');
+    }
+
+    if (array_key_exists('timeout', $options)) {
+        $options['timeout'] = 600; // For PHPUnit coverage
     }
 
     $client = new HttpClient($options);
@@ -80,20 +84,24 @@ function httpRequest(string $url, $args = null, $method = 'GET', array $options 
 
 /**
  * @param bool $withNamespace
- * @return null|string
+ * @return string|null
  */
-function getTestName($withNamespace = false)
+function getTestName(bool $withNamespace = false): ?string
 {
     $objects = debug_backtrace();
     $result = null;
 
     foreach ($objects as $object) {
-        if (isset($object['object']) && $object['object'] instanceof TestCase) {
-            $result = get_class($object['object']) . '::' . $object['function'];
+        if (isset($object['object']) && $object['object'] instanceof PHPUnit) {
+            $result = get_class($object['object']) . '__' . $object['function'];
+
             if (!$withNamespace) {
                 $result = str_replace(__NAMESPACE__ . '\\', '', $result);
             }
-            break;
+
+            if (strpos($result, '__test') > 0) {
+                break;
+            }
         }
     }
 

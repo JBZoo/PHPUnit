@@ -46,9 +46,11 @@ class PHPUnitToolsTest extends PHPUnit
 
     public function testGetTestName()
     {
-        isSame(__METHOD__, getTestName(true));
+        isSame(str_replace('::', '__', __METHOD__), getTestName(true));
         isContain(__FUNCTION__, getTestName(false));
-        isContain('ToolsTest::testGetTestName', getTestName());
+        isContain('ToolsTest__testGetTestName', getTestName());
+        isContain('ToolsTest__testGetTestName', getTestName(true));
+        isContain('testGetTestName', getTestName(false));
     }
 
     public function testIsWin()

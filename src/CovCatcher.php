@@ -105,7 +105,7 @@ class CovCatcher
      * @return mixed
      * @throws Exception
      */
-    public function includeFile($filename, $mode = self::MODE_REQUIRE)
+    public function includeFile(string $filename, string $mode = self::MODE_REQUIRE)
     {
         $this->start();
 
@@ -177,7 +177,7 @@ class CovCatcher
         $reportXmlDir = $this->config->get('build_xml');
         $isXmlEnabled = $this->config->get('xml', false, 'bool');
         if ($isXmlEnabled) {
-            $this->prepareDirectory($reportXmlDir);
+            self::prepareDirectory($reportXmlDir);
             $report = new Clover();
             if ($this->coverage) {
                 $report->process($this->coverage, $reportXmlDir . '/' . $this->hash . '.xml');
@@ -187,7 +187,7 @@ class CovCatcher
         $reportCovDir = $this->config->get('build_cov');
         $isCovEnabled = $this->config->get('cov', false, 'bool');
         if ($isCovEnabled) {
-            $this->prepareDirectory($reportCovDir);
+            self::prepareDirectory($reportCovDir);
             $report = new PHP();
             if ($this->coverage) {
                 $report->process($this->coverage, $reportCovDir . '/' . $this->hash . '.cov');
@@ -197,7 +197,7 @@ class CovCatcher
         $reportHtmlDir = $this->config->get('build_html');
         $isHtmlEnabled = $this->config->get('html', false, 'bool');
         if ($isHtmlEnabled) {
-            $this->prepareDirectory($reportHtmlDir);
+            self::prepareDirectory($reportHtmlDir);
             $report = new Facade();
             if ($this->coverage) {
                 $report->process($this->coverage, $reportHtmlDir . '/' . $this->hash);
@@ -208,7 +208,7 @@ class CovCatcher
     /**
      * @param string $dirPath
      */
-    protected function prepareDirectory($dirPath): void
+    protected static function prepareDirectory(string $dirPath): void
     {
         /** @phan-suppress-next-line PhanPluginDuplicateIfCondition */
         if (!is_dir($dirPath) && !mkdir($dirPath, 0777, true) && !is_dir($dirPath)) {
@@ -222,7 +222,7 @@ class CovCatcher
      */
     protected function initConfig(array $options): void
     {
-        $options = array_filter($options, function ($option) {
+        $options = array_filter($options, static function ($option) {
             return null !== $option;
         });
 

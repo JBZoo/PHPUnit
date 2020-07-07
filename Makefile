@@ -34,6 +34,7 @@ server: ##@Project Run PHP web-server for PHPUnit tests
 test-all: ##@Project Run all test
 	$(call title,"Run all tests")
 	@make test
+	@make report-composer-graph
 	@-make report-merge-coverage
 	@make codestyle
 

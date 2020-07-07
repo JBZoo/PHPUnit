@@ -288,35 +288,35 @@ abstract class AbstractCopyrightTest extends PHPUnit
 
         $finder = $this->createFinder(['php', 'phtml']);
 
-        $this->checkHeaderInFiles($finder, $valid);
+        self::checkHeaderInFiles($finder, $valid);
     }
 
     public function testHeadersJs(): void
     {
         $finder = $this->createFinder(['js', 'jsx'], ['*.min.js', '*.min.jsx']);
 
-        $this->checkHeaderInFiles($finder, $this->prepareTemplate(implode($this->eol, $this->validHeaderJS)));
+        self::checkHeaderInFiles($finder, $this->prepareTemplate(implode($this->eol, $this->validHeaderJS)));
     }
 
     public function testHeadersCss(): void
     {
         $finder = $this->createFinder(['css'], ['*.min.css']);
 
-        $this->checkHeaderInFiles($finder, $this->prepareTemplate(implode($this->eol, $this->validHeaderCSS)));
+        self::checkHeaderInFiles($finder, $this->prepareTemplate(implode($this->eol, $this->validHeaderCSS)));
     }
 
     public function testHeadersLess(): void
     {
         $finder = $this->createFinder(['less']);
 
-        $this->checkHeaderInFiles($finder, $this->prepareTemplate(implode($this->eol, $this->validHeaderLESS)));
+        self::checkHeaderInFiles($finder, $this->prepareTemplate(implode($this->eol, $this->validHeaderLESS)));
     }
 
     public function testHeadersXml(): void
     {
         $finder = $this->createFinder(['xml.dist', 'xml']);
 
-        $this->checkHeaderInFiles($finder, $this->prepareTemplate(implode($this->eol, $this->validHeaderXML)));
+        self::checkHeaderInFiles($finder, $this->prepareTemplate(implode($this->eol, $this->validHeaderXML)));
     }
 
     /**
@@ -326,7 +326,7 @@ abstract class AbstractCopyrightTest extends PHPUnit
     {
         $finder = $this->createFinder(['ini']);
 
-        $this->checkHeaderInFiles($finder, $this->prepareTemplate(implode($this->eol, $this->validHeaderINI)));
+        self::checkHeaderInFiles($finder, $this->prepareTemplate(implode($this->eol, $this->validHeaderINI)));
     }
 
     /**
@@ -336,7 +336,7 @@ abstract class AbstractCopyrightTest extends PHPUnit
     {
         $finder = $this->createFinder(['sh']);
 
-        $this->checkHeaderInFiles($finder, $this->prepareTemplate(implode($this->eol, $this->validHeaderSH)));
+        self::checkHeaderInFiles($finder, $this->prepareTemplate(implode($this->eol, $this->validHeaderSH)));
     }
 
     /**
@@ -346,7 +346,7 @@ abstract class AbstractCopyrightTest extends PHPUnit
     {
         $finder = $this->createFinder(['sql']);
 
-        $this->checkHeaderInFiles($finder, $this->prepareTemplate(implode($this->eol, $this->validHeaderSQL)));
+        self::checkHeaderInFiles($finder, $this->prepareTemplate(implode($this->eol, $this->validHeaderSQL)));
     }
 
     /**
@@ -357,7 +357,7 @@ abstract class AbstractCopyrightTest extends PHPUnit
         $finder = $this->createFinder(['Makefile']);
         $finder->name('Makefile');
 
-        $this->checkHeaderInFiles($finder, $this->prepareTemplate(implode($this->eol, $this->validHeaderHash)));
+        self::checkHeaderInFiles($finder, $this->prepareTemplate(implode($this->eol, $this->validHeaderHash)));
     }
 
     /**
@@ -367,7 +367,7 @@ abstract class AbstractCopyrightTest extends PHPUnit
     {
         $finder = $this->createFinder(['yml', 'yaml', 'neon']);
 
-        $this->checkHeaderInFiles($finder, $this->prepareTemplate(implode($this->eol, $this->validHeaderHash)));
+        self::checkHeaderInFiles($finder, $this->prepareTemplate(implode($this->eol, $this->validHeaderHash)));
     }
 
     /**
@@ -377,7 +377,7 @@ abstract class AbstractCopyrightTest extends PHPUnit
     {
         $finder = $this->createFinder(['htaccess', '.htaccess']);
 
-        $this->checkHeaderInFiles($finder, $this->prepareTemplate(implode($this->eol, $this->validHeaderHash)));
+        self::checkHeaderInFiles($finder, $this->prepareTemplate(implode($this->eol, $this->validHeaderHash)));
     }
 
     /**
@@ -387,7 +387,7 @@ abstract class AbstractCopyrightTest extends PHPUnit
     {
         $finder = $this->createFinder(['editorconfig', 'gitattributes', 'gitignore']);
 
-        $this->checkHeaderInFiles($finder, $this->prepareTemplate(implode($this->eol, $this->validHeaderHash)));
+        self::checkHeaderInFiles($finder, $this->prepareTemplate(implode($this->eol, $this->validHeaderHash)));
     }
 
     #### Internal tools for test case ##################################################################################
@@ -397,7 +397,7 @@ abstract class AbstractCopyrightTest extends PHPUnit
      * @param array<string> $exclusions
      * @return Finder
      */
-    protected function createFinder(array $inclusions = [], array $exclusions = [])
+    protected function createFinder(array $inclusions = [], array $exclusions = []): Finder
     {
         $finder = (new Finder())
             ->files()
@@ -426,7 +426,7 @@ abstract class AbstractCopyrightTest extends PHPUnit
      * @param string $text
      * @return string
      */
-    protected function prepareTemplate($text): string
+    protected function prepareTemplate(string $text): string
     {
         $replace = [
             '_DESCRIPTION_PHP_'      => implode($this->eol . ' * ', $this->packageDesc),
@@ -458,7 +458,7 @@ abstract class AbstractCopyrightTest extends PHPUnit
      * @param Finder $finder
      * @param string $validHeader
      */
-    protected function checkHeaderInFiles(Finder $finder, string $validHeader): void
+    protected static function checkHeaderInFiles(Finder $finder, string $validHeader): void
     {
         /** @var \SplFileInfo $file */
         foreach ($finder as $file) {

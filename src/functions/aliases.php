@@ -90,7 +90,7 @@ function isNot($expected, $actual, string $message = ''): void
  * @param string       $message
  * @deprecated
  */
-function isBatch($testList, string $message = ''): void
+function isBatch(array $testList, string $message = ''): void
 {
     foreach ($testList as $testItem) {
         Assert::assertEquals($testItem[0], $testItem[1], $message);
@@ -100,6 +100,7 @@ function isBatch($testList, string $message = ''): void
 /**
  * @param bool   $value
  * @param string $message
+ * @phan-suppress PhanPluginCanUseParamType
  */
 function isTrue($value, string $message = ''): void
 {
@@ -109,6 +110,7 @@ function isTrue($value, string $message = ''): void
 /**
  * @param bool   $value
  * @param string $message
+ * @phan-suppress PhanPluginCanUseParamType
  */
 function isFalse($value, string $message = ''): void
 {
@@ -124,6 +126,7 @@ function isFalse($value, string $message = ''): void
  * @psalm-template ExpectedType of object
  * @psalm-param    class-string<ExpectedType> $expected
  * @psalm-assert   ExpectedType $actual
+ * @phan-suppress  PhanPluginCanUseParamType
  */
 function isClass($expected, $className, string $message = ''): void
 {
@@ -135,7 +138,7 @@ function isClass($expected, $className, string $message = ''): void
  * @param mixed  $actual
  * @param string $message
  */
-function isCount($expected, $actual, string $message = ''): void
+function isCount(int $expected, $actual, string $message = ''): void
 {
     Assert::assertCount($expected, $actual, $message);
 }
@@ -146,7 +149,7 @@ function isCount($expected, $actual, string $message = ''): void
  * @param string $value
  * @param string $message
  */
-function isLike($pattern, $value, string $message = ''): void
+function isLike(string $pattern, string $value, string $message = ''): void
 {
     $methodName = 'assertRegExp';
     if (method_exists(Assert::class, 'assertMatchesRegularExpression')) {
@@ -162,7 +165,7 @@ function isLike($pattern, $value, string $message = ''): void
  * @param string $value
  * @param string $message
  */
-function isNotLike($pattern, $value, string $message = ''): void
+function isNotLike(string $pattern, string $value, string $message = ''): void
 {
     $methodName = 'assertNotRegExp';
     if (method_exists(Assert::class, 'assertDoesNotMatchRegularExpression')) {
@@ -174,14 +177,14 @@ function isNotLike($pattern, $value, string $message = ''): void
 }
 
 /**
- * @param string $filePathOrig
- * @param string $filePathCopy
+ * @param string $filepathExpecte
+ * @param string $filepathActual
  * @param string $message
  *
  */
-function isFileEq($filePathOrig, $filePathCopy, string $message = ''): void
+function isFileEq(string $filepathExpecte, string $filepathActual, string $message = ''): void
 {
-    Assert::assertFileEquals($filePathOrig, $filePathCopy, $message);
+    Assert::assertFileEquals($filepathExpecte, $filepathActual, $message);
 }
 
 /**
@@ -239,21 +242,21 @@ function isNotEmpty($expected, string $message = ''): void
 }
 
 /**
- * @param string       $key
+ * @param string|int   $key
  * @param array<mixed> $array
  * @param string       $message
  */
-function isKey($key, $array, string $message = ''): void
+function isKey($key, array $array, string $message = ''): void
 {
     Assert::assertArrayHasKey($key, $array, $message);
 }
 
 /**
- * @param string       $key
+ * @param string|int   $key
  * @param array<mixed> $array
  * @param string       $message
  */
-function isNotKey($key, $array, string $message = ''): void
+function isNotKey($key, array $array, string $message = ''): void
 {
     Assert::assertArrayNotHasKey($key, $array, $message);
 }
@@ -265,7 +268,7 @@ function isNotKey($key, $array, string $message = ''): void
  * @param mixed  $object
  * @param string $message
  */
-function isAttr($attrName, $object, string $message = ''): void
+function isAttr(string $attrName, $object, string $message = ''): void
 {
     Assert::assertNotNull($object, 'object ' . get_class($object) . " is not empty. {$message}");
     Assert::assertObjectHasAttribute($attrName, $object, $message);
@@ -278,58 +281,58 @@ function isAttr($attrName, $object, string $message = ''): void
  * @param mixed  $object
  * @param string $message
  */
-function isNotAttr($attrName, $object, string $message = ''): void
+function isNotAttr(string $attrName, $object, string $message = ''): void
 {
     Assert::assertNotNull($object, 'object ' . get_class($object) . " is not empty. {$message}");
     Assert::assertObjectNotHasAttribute($attrName, $object, $message);
 }
 
 /**
- * @param string $path
+ * @param string $directoryPath
  * @param string $message
  */
-function isDir($path, string $message = ''): void
+function isDir(string $directoryPath, string $message = ''): void
 {
-    Assert::assertFileExists($path, $message);
-    Assert::assertDirectoryExists($path);
+    Assert::assertFileExists($directoryPath, $message);
+    Assert::assertDirectoryExists($directoryPath);
 }
 
 /**
- * @param string $path
+ * @param string $notDirectoryPath
  * @param string $message
  */
-function isNotDir($path, string $message = ''): void
+function isNotDir(string $notDirectoryPath, string $message = ''): void
 {
-    if (is_dir($path)) {
-        fail("\"{$path}\" is directory");
+    if (is_dir($notDirectoryPath)) {
+        fail("\"{$notDirectoryPath}\" is directory");
     } else {
         success($message);
     }
 }
 
 /**
- * @param string $path
+ * @param string $filePath
  * @param string $message
  */
-function isFile($path, string $message = ''): void
+function isFile(string $filePath, string $message = ''): void
 {
-    Assert::assertFileExists($path, $message);
+    Assert::assertFileExists($filePath, $message);
 }
 
 /**
- * @param string $path
+ * @param string $notFilePath
  * @param string $message
  */
-function isNotFile($path, string $message = ''): void
+function isNotFile(string $notFilePath, string $message = ''): void
 {
-    if (!is_dir($path)) {
+    if (!is_dir($notFilePath)) {
         $methodName = 'assertFileNotExists';
         if (method_exists(Assert::class, 'assertFileDoesNotExist')) {
             $methodName = 'assertFileDoesNotExist';
         }
 
         /** @phan-suppress-next-line PhanUndeclaredStaticMethod */
-        Assert::$methodName($path, $message);
+        Assert::$methodName($notFilePath, $message);
     } else {
         success($message);
     }
@@ -337,52 +340,52 @@ function isNotFile($path, string $message = ''): void
 
 /**
  * @param string $expected
- * @param string $value
+ * @param string $haystack
  * @param bool   $ignoreCase
  * @param string $message
  */
-function isContain($expected, $value, $ignoreCase = false, string $message = ''): void
+function isContain(string $expected, string $haystack, bool $ignoreCase = false, string $message = ''): void
 {
     if ($ignoreCase) {
-        Assert::assertStringContainsStringIgnoringCase($expected, $value, $message);
+        Assert::assertStringContainsStringIgnoringCase($expected, $haystack, $message);
     } else {
-        Assert::assertStringContainsString($expected, $value, $message);
+        Assert::assertStringContainsString($expected, $haystack, $message);
     }
 }
 
 /**
  * @param string $expected
- * @param string $value
+ * @param string $haystack
  * @param bool   $ignoreCase
  * @param string $message
  */
-function isNotContain($expected, $value, $ignoreCase = false, string $message = ''): void
+function isNotContain(string $expected, string $haystack, bool $ignoreCase = false, string $message = ''): void
 {
     if ($ignoreCase) {
-        Assert::assertStringNotContainsStringIgnoringCase($expected, $value, $message);
+        Assert::assertStringNotContainsStringIgnoringCase($expected, $haystack, $message);
     } else {
-        Assert::assertStringNotContainsString($expected, $value, $message);
+        Assert::assertStringNotContainsString($expected, $haystack, $message);
     }
 }
 
 /**** Custom Asserts **************************************************************************************************/
 
 /**
- * @param string $mixedVar
+ * @param string $email
  * @param string $message
  */
-function isEmail($mixedVar, string $message = ''): void
+function isEmail(string $email, string $message = ''): void
 {
-    isTrue((bool)filter_var($mixedVar, FILTER_VALIDATE_EMAIL), $message);
+    isTrue((bool)filter_var($email, FILTER_VALIDATE_EMAIL), $message);
 }
 
 /**
- * @param string $mixedVar
+ * @param string $notEmail
  * @param string $message
  */
-function isNotEmail($mixedVar, string $message = ''): void
+function isNotEmail(string $notEmail, string $message = ''): void
 {
-    isFalse((bool)filter_var($mixedVar, FILTER_VALIDATE_EMAIL), $message);
+    isFalse((bool)filter_var($notEmail, FILTER_VALIDATE_EMAIL), $message);
 }
 
 /**
@@ -391,7 +394,7 @@ function isNotEmail($mixedVar, string $message = ''): void
  * @param string $message
  * @throws \Exception
  */
-function isCurrentDate($date, $timeDiff = 300, string $message = ''): void
+function isCurrentDate(string $date, int $timeDiff = 300, string $message = ''): void
 {
     $nowDate = new DateTime('now');
     $checkDate = new DateTime($date);
@@ -404,7 +407,7 @@ function isCurrentDate($date, $timeDiff = 300, string $message = ''): void
  * @param string           $message
  * @param float            $allowableDiff
  */
-function isAmount($expected, $actual, string $message = '', $allowableDiff = 0.03): void
+function isAmount($expected, $actual, string $message = '', float $allowableDiff = 0.03): void
 {
     $message = $message ?: 'Diff: ' . ((float)$expected - (float)$actual) . "; Expected diff={$allowableDiff}";
     Assert::assertEqualsWithDelta((float)$expected, (float)$actual, $allowableDiff, $message);
@@ -416,7 +419,7 @@ function isAmount($expected, $actual, string $message = '', $allowableDiff = 0.0
  * @param string           $message
  * @param float            $allowableDiff
  */
-function isNotAmount($expected, $actual, string $message = '', $allowableDiff = 0.03): void
+function isNotAmount($expected, $actual, string $message = '', float $allowableDiff = 0.03): void
 {
     $message = $message ?: 'Diff: ' . ((float)$expected - (float)$actual) . "; Expected diff={$allowableDiff}";
     Assert::assertNotEqualsWithDelta((float)$expected, (float)$actual, $allowableDiff, $message);
@@ -428,7 +431,7 @@ function isNotAmount($expected, $actual, string $message = '', $allowableDiff = 
  * @param string                  $message
  * @param float                   $allowableDiff
  */
-function isAmountCur(array $expected, array $actual, string $message = '', $allowableDiff = 0.03): void
+function isAmountCur(array $expected, array $actual, string $message = '', float $allowableDiff = 0.03): void
 {
     $message = $message ?: 'Actual diff=' . ((float)$expected[0] - (float)$actual[0])
         . "; Expected diff={$allowableDiff}";
@@ -443,7 +446,7 @@ function isAmountCur(array $expected, array $actual, string $message = '', $allo
  * @param string                  $message
  * @param float                   $allowableDiff
  */
-function isNotAmountCur(array $expected, array $actual, string $message = '', $allowableDiff = 0.03): void
+function isNotAmountCur(array $expected, array $actual, string $message = '', float $allowableDiff = 0.03): void
 {
     $message = $message ?: 'Actual diff=' . ((float)$expected[0] - (float)$actual[0])
         . "; Expected diff={$allowableDiff}";
@@ -459,7 +462,7 @@ function isNotAmountCur(array $expected, array $actual, string $message = '', $a
  * @param string $message
  * @throws \Exception
  */
-function isDiffBetweenDates($date1, $date2, $timeDiff = 300, string $message = ''): void
+function isDiffBetweenDates(string $date1, string $date2, int $timeDiff = 300, string $message = ''): void
 {
     $dateObj1 = new \DateTime($date1);
     $dateObj2 = new \DateTime($date2);
@@ -476,7 +479,7 @@ function isDiffBetweenDates($date1, $date2, $timeDiff = 300, string $message = '
  * @param string $message
  * @throws \Exception
  */
-function isSameDate($expected, $actual, $format = 'Y-m-d', string $message = ''): void
+function isSameDate(string $expected, string $actual, string $format = 'Y-m-d', string $message = ''): void
 {
     $expectedObj = new \DateTime($expected);
     $actualObj = new \DateTime($actual);

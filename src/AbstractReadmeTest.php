@@ -95,7 +95,9 @@ abstract class AbstractReadmeTest extends PHPUnit
 
     public function testTitle(): void
     {
-        isContain("# {$this->vendorName} / {$this->packageName}", $this->getReadme());
+        $header = "# {$this->vendorName} / {$this->packageName}";
+        $isContain = strpos(self::getReadme(), $header);
+        isNotSame(false, $isContain, "Readme doesn't contain valid header: {$header}");
     }
 
     public function testBadgeLine(): void
@@ -126,10 +128,10 @@ abstract class AbstractReadmeTest extends PHPUnit
             str_repeat('-', 60)
         ]);
 
-        isTrue(strpos($this->getReadme(), $expectedBadgeLine) > 0, $errMessage);
-        isContain($expectedBadgeLine, $this->getReadme(), false, $errMessage);
+        isTrue(strpos(self::getReadme(), $expectedBadgeLine) > 0, $errMessage);
+        isContain($expectedBadgeLine, self::getReadme(), false, $errMessage);
 
-        $readme = $this->getReadme();
+        $readme = self::getReadme();
         foreach ($expectedBadges as $badgeName => $expectedBadge) {
             $expectedBadge = trim($expectedBadge);
             if ($expectedBadge) {
@@ -335,7 +337,7 @@ abstract class AbstractReadmeTest extends PHPUnit
     /**
      * @return string
      */
-    protected function getReadme()
+    protected static function getReadme(): string
     {
         $content = (string)file_get_contents(PROJECT_ROOT . '/README.md');
         isNotEmpty($content);
@@ -350,7 +352,7 @@ abstract class AbstractReadmeTest extends PHPUnit
     protected function getPreparedBadge(string $badge): ?string
     {
         $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
-        $testCaseName = str_replace('check_badge_', '', $this->splitCamelCase($trace[1]['function']));
+        $testCaseName = str_replace('check_badge_', '', self::splitCamelCase($trace[1]['function']));
 
         $isEnabled = $this->params[$testCaseName] ?? null;
         if (null === $isEnabled) {
@@ -369,7 +371,7 @@ abstract class AbstractReadmeTest extends PHPUnit
      * @param string $input
      * @return string
      */
-    protected function splitCamelCase(string $input): string
+    protected static function splitCamelCase(string $input): string
     {
         $original = $input;
 
