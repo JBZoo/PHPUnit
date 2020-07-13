@@ -69,7 +69,7 @@ class PHPUnitHttpServerTest extends PHPUnit
         isSame($uniq, $result->getBody());
         isSame(200, $result->getCode());
 
-        if (Sys::hasXdebug() && !Sys::isPHP7()) {
+        if (Sys::hasXdebug()) {
             isDir(PROJECT_BUILD . '/coverage_cov');
             isDir(PROJECT_BUILD . '/coverage_html');
             isDir(PROJECT_BUILD . '/coverage_xml');
@@ -87,7 +87,7 @@ class PHPUnitHttpServerTest extends PHPUnit
         isSame($uniq, $result->getBody());
         isSame(200, $result->getCode());
 
-        if (Sys::hasXdebug() && !Sys::isPHP7()) {
+        if (Sys::hasXdebug()) {
             isDir(PROJECT_BUILD . '/coverage_cov');
             isDir(PROJECT_BUILD . '/coverage_html');
             isDir(PROJECT_BUILD . '/coverage_xml');
