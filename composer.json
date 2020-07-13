@@ -1,7 +1,7 @@
 {
     "name"              : "jbzoo/phpunit",
     "type"              : "library",
-    "description"       : "PHPUnit toolbox with short assert aliases and useful functions around PhpUnit",
+    "description"       : "PHPUnit toolbox with short assert aliases and useful functions around testing",
     "license"           : "MIT",
     "keywords"          : ["phpunit", "jbzoo", "aliases", "short-syntax", "testing", "assert", "assertion", "debug"],
 
