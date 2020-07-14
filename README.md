@@ -1,16 +1,19 @@
 # JBZoo / PHPUnit
-  
+
 [![Build Status](https://travis-ci.org/JBZoo/PHPUnit.svg?branch=master)](https://travis-ci.org/JBZoo/PHPUnit)    [![Coverage Status](https://coveralls.io/repos/JBZoo/PHPUnit/badge.svg)](https://coveralls.io/github/JBZoo/PHPUnit?branch=master)    [![Psalm Coverage](https://shepherd.dev/github/JBZoo/PHPUnit/coverage.svg)](https://shepherd.dev/github/JBZoo/PHPUnit)    
-[![Latest Stable Version](https://poser.pugx.org/JBZoo/PHPUnit/v)](https://packagist.org/packages/JBZoo/PHPUnit)    [![Latest Unstable Version](https://poser.pugx.org/JBZoo/PHPUnit/v/unstable)](https://packagist.org/packages/JBZoo/PHPUnit)    [![Dependents](https://poser.pugx.org/JBZoo/PHPUnit/dependents)](https://packagist.org/packages/JBZoo/PHPUnit/dependents?order_by=downloads)    [![GitHub Issues](https://img.shields.io/github/issues/JBZoo/PHPUnit)](https://github.com/JBZoo/PHPUnit/issues)    [![Total Downloads](https://poser.pugx.org/JBZoo/PHPUnit/downloads)](https://packagist.org/packages/JBZoo/PHPUnit/stats)    [![GitHub License](https://img.shields.io/github/license/JBZoo/PHPUnit)](https://github.com/JBZoo/PHPUnit/blob/master/LICENSE)
+[![Latest Stable Version](https://poser.pugx.org/jbzoo/phpunit/v)](https://packagist.org/packages/jbzoo/phpunit)    [![Latest Unstable Version](https://poser.pugx.org/jbzoo/phpunit/v/unstable)](https://packagist.org/packages/jbzoo/phpunit)    [![Dependents](https://poser.pugx.org/jbzoo/phpunit/dependents)](https://packagist.org/packages/jbzoo/phpunit/dependents?order_by=downloads)    [![GitHub Issues](https://img.shields.io/github/issues/jbzoo/phpunit)](https://github.com/JBZoo/PHPUnit/issues)    [![Total Downloads](https://poser.pugx.org/jbzoo/phpunit/downloads)](https://packagist.org/packages/jbzoo/phpunit/stats)    [![GitHub License](https://img.shields.io/github/license/jbzoo/phpunit)](https://github.com/JBZoo/PHPUnit/blob/master/LICENSE)
 
 
-#### Composer.json content
+
+## Installation
+
 ```sh
 composer require jbzoo/phpunit --dev
 ```
 
 
-#### Test class example
+## Usage
+
 ```php
 namespace JBZoo\PHPUnit;
 

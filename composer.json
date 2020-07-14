@@ -24,12 +24,12 @@
     },
 
     "require-dev"       : {
-        "jbzoo/codestyle"           : "^2.0.0",
-        "jbzoo/data"                : "^4.0.0",
-        "jbzoo/utils"               : "^4.0.0",
-        "jbzoo/http-client"         : "^3.0.0",
-        "jbzoo/composer-graph"      : "^1.0.0",
-        "guzzlehttp/guzzle"         : "^6.4.1"
+        "jbzoo/codestyle"      : "^2.0.0",
+        "jbzoo/data"           : "^4.0.0",
+        "jbzoo/utils"          : "^4.0.0",
+        "jbzoo/http-client"    : "^3.0.0",
+        "jbzoo/composer-graph" : "^1.0.0",
+        "guzzlehttp/guzzle"    : "^6.4.1"
     },
 
     "autoload"          : {
@@ -51,7 +51,7 @@
 
     "extra"             : {
         "branch-alias" : {
-            "dev-master" : "4.0.x-dev"
+            "dev-master" : "4.x-dev"
         }
     }
 }
