@@ -17,20 +17,18 @@
         "php"                                : "^7.2",
         "ext-filter"                         : "*",
 
-        "phpunit/phpunit"                    : "^8.5||^9.1",
+        "phpunit/phpunit"                    : "^8.5||^9.0",
         "phpunit/phpcov"                     : "^6.0.1||^7.0",
         "codedungeon/phpunit-result-printer" : "^0.28.0",
-
         "ulrichsg/getopt-php"                : "^3.3.0"
     },
 
     "require-dev"       : {
-        "roave/security-advisories" : "dev-master",
-        "jbzoo/codestyle"           : "2.0.x-dev",
-        "jbzoo/data"                : "4.0.x-dev",
-        "jbzoo/utils"               : "4.0.x-dev",
-        "jbzoo/http-client"         : "3.0.x-dev",
-        "jbzoo/composer-graph"      : "1.0.x-dev",
+        "jbzoo/codestyle"           : "^2.0.0",
+        "jbzoo/data"                : "^4.0.0",
+        "jbzoo/utils"               : "^4.0.0",
+        "jbzoo/http-client"         : "^3.0.0",
+        "jbzoo/composer-graph"      : "^1.0.0",
         "guzzlehttp/guzzle"         : "^6.4.1"
     },
 
