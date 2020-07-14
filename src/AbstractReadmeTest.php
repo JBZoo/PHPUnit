@@ -21,6 +21,7 @@ namespace JBZoo\PHPUnit;
  *
  * @package JBZoo\PHPUnit
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ * @codeCoverageIgnore
  */
 abstract class AbstractReadmeTest extends PHPUnit
 {
