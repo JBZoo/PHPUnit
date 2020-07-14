@@ -144,7 +144,7 @@ abstract class AbstractReadmeTest extends PHPUnit
 
     protected function checkBadgeLatestStableVersion(): ?string
     {
-        return $this->getPreparedBadge($this->getBadgePackagist('Latest Stable Version', 'v'));
+        return $this->getPreparedBadge($this->getBadgePackagist('Stable Version', 'version'));
     }
 
     protected function checkBadgeLatestUnstableVersion(): ?string
