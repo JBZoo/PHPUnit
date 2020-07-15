@@ -468,11 +468,11 @@ abstract class AbstractCopyrightTest extends PHPUnit
 
                 $errMessage = implode("\n", [
                     "The file has no valid copyright in header",
-                    $file,
-                    "Expected file header (copyright):",
-                    str_repeat('-', 60),
+                    "See: {$file}",
+                    "Expected file header:",
+                    str_repeat('-', 80),
                     $validHeader,
-                    str_repeat('-', 60)
+                    str_repeat('-', 80)
                 ]);
 
                 isTrue($isValid, $errMessage);
