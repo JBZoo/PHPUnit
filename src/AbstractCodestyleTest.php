@@ -71,10 +71,11 @@ abstract class AbstractCodestyleTest extends PHPUnit
 
     #### Test cases ####################################################################################################
 
-    public function testCodesStyle()
+    public function testCodesStyle(): void
     {
         if (!Env::bool('TEAMCITY_VERSION') && Env::isExists('IDE_PHPUNIT_CUSTOM_LOADER')) {
-            echo Cli::exec('TEAMCITY_VERSION="2020.1.2 (build 78726)" make codestyle', [], PROJECT_ROOT);
+            /** @phan-suppress-next-line PhanPluginRemoveDebugEcho */
+            echo Cli::exec('TEAMCITY_VERSION="2020.1.2 (build 78726)" make codestyle', [], $this->projectRoot);
             success();
         } else {
             skip("It's disabled in TeamCity. Please, use `make codestyle` for your another environment.");
