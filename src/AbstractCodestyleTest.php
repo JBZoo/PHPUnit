@@ -16,6 +16,8 @@
 
 namespace JBZoo\PHPUnit;
 
+use JBZoo\Utils\Cli;
+use JBZoo\Utils\Env;
 use Symfony\Component\Finder\Finder;
 
 /**
@@ -68,6 +70,16 @@ abstract class AbstractCodestyleTest extends PHPUnit
     }
 
     #### Test cases ####################################################################################################
+
+    public function testCodesStyle()
+    {
+        if (!Env::bool('TEAMCITY_VERSION') && Env::isExists('IDE_PHPUNIT_CUSTOM_LOADER')) {
+            echo Cli::exec('TEAMCITY_VERSION="2020.1.2 (build 78726)" make codestyle', [], PROJECT_ROOT);
+            success();
+        } else {
+            skip("It's disabled in TeamCity. Please, use `make codestyle` for your another environment.");
+        }
+    }
 
     public function testFiles(): void
     {

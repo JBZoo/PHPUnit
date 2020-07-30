@@ -24,12 +24,15 @@
     },
 
     "require-dev"       : {
-        "jbzoo/codestyle"      : "^2.0.0",
-        "jbzoo/data"           : "^4.0.0",
-        "jbzoo/utils"          : "^4.0.0",
-        "jbzoo/http-client"    : "^3.0.0",
-        "jbzoo/composer-graph" : "^1.0.0",
-        "guzzlehttp/guzzle"    : "^6.4.1"
+        "jbzoo/codestyle"      : "^2.3.2",
+        "jbzoo/data"           : "^4.0.1",
+        "jbzoo/utils"          : "^4.1.2",
+        "jbzoo/http-client"    : "^3.0.1",
+        "jbzoo/composer-graph" : "^1.0.1",
+        "jbzoo/toolbox-ci"     : "^1.1.0",
+
+        "guzzlehttp/guzzle"    : "^6.4.1",
+        "symfony/process"      : "^4.4|^5.0"
     },
 
     "autoload"          : {
