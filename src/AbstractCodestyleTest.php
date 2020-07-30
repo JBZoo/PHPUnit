@@ -78,7 +78,7 @@ abstract class AbstractCodestyleTest extends PHPUnit
             echo Cli::exec('TEAMCITY_VERSION="2020.1.2 (build 78726)" make codestyle', [], $this->projectRoot);
             success();
         } else {
-            skip("It's disabled in TeamCity. Please, use `make codestyle` for your another environment.");
+            skip("Test works only in PhpStorm. Please, use `make codestyle` for another environment.");
         }
     }
 
