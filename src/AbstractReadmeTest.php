@@ -200,7 +200,7 @@ abstract class AbstractReadmeTest extends PHPUnit
     {
         return $this->getPreparedBadge($this->getBadge(
             'Build Status',
-            'https://travis-ci.org/__VENDOR_ORIG__/__PACKAGE_ORIG__.svg?branch=master',
+            'https://travis-ci.org/__VENDOR_ORIG__/__PACKAGE_ORIG__.svg',
             'https://travis-ci.org/__VENDOR_ORIG__/__PACKAGE_ORIG__'
         ));
     }
@@ -210,7 +210,7 @@ abstract class AbstractReadmeTest extends PHPUnit
         return $this->getPreparedBadge($this->getBadge(
             'Coverage Status',
             'https://coveralls.io/repos/__VENDOR_ORIG__/__PACKAGE_ORIG__/badge.svg',
-            'https://coveralls.io/github/__VENDOR_ORIG__/__PACKAGE_ORIG__?branch=master'
+            'https://coveralls.io/github/__VENDOR_ORIG__/__PACKAGE_ORIG__'
         ));
     }
 

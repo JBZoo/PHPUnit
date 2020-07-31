@@ -49,7 +49,7 @@ abstract class AbstractComposerTest extends PHPUnit
     /**
      * @var string
      */
-    protected $phpVersion = '^7.2';
+    protected $phpVersion = '>=7.2';
 
     public function testAuthor(): void
     {
