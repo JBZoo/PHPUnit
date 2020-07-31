@@ -148,4 +148,18 @@ class PHPUnitAliasesTest extends PHPUnit
     {
         isDiffBetweenDates('now', '- 5min');
     }
+
+    public function testIsFileNotContains()
+    {
+        isFileNotContains('Some not expected text', PROJECT_ROOT . '/README.md');
+        isFileNotContains('Some not expected text', PROJECT_ROOT . '/README.md', true);
+        isFileNotContains('Some not expected text', PROJECT_ROOT . '/README.md', false);
+    }
+
+    public function testIsFileContains()
+    {
+        isFileContains('Some expected text', __FILE__);
+        isFileContains('Some  expected text', __FILE__, true);
+        isFileContains('Some   expected text', __FILE__, false);
+    }
 }
