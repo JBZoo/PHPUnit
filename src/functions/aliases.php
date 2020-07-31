@@ -485,3 +485,59 @@ function isSameDate(string $expected, string $actual, string $format = 'Y-m-d', 
     $actualObj = new \DateTime($actual);
     isSame('' . $expectedObj->format($format), '' . $actualObj->format($format), $message);
 }
+
+/**
+ * @param string $expected
+ * @param string $filepath
+ * @param bool   $ignoreCase
+ * @param string $message
+ */
+function isFileContains(string $expected, string $filepath, bool $ignoreCase = false, string $message = ''): void
+{
+    isFile($filepath);
+
+    $errMessage = implode("\n", [
+        "The file doesn't contain expected text. " . ($message ? '' . $message : ''),
+        "See: {$filepath}",
+        "Expected text:",
+        str_repeat('-', 80),
+        $expected,
+        str_repeat('-', 80)
+    ]);
+
+    $fileContent = (string)file_get_contents($filepath);
+
+    if ($ignoreCase) {
+        isTrue(mb_stripos($fileContent, $expected) !== false, $errMessage);
+    } else {
+        isTrue(mb_strpos($fileContent, $expected) !== false, $errMessage);
+    }
+}
+
+/**
+ * @param string $expected
+ * @param string $filepath
+ * @param bool   $ignoreCase
+ * @param string $message
+ */
+function isFileNotContains(string $expected, string $filepath, bool $ignoreCase = false, string $message = ''): void
+{
+    isFile($filepath);
+
+    $errMessage = implode("\n", [
+        "The file shouldn't contain expected text. " . ($message ? '' . $message : ''),
+        "See: {$filepath}",
+        "Expected text:",
+        str_repeat('-', 80),
+        $expected,
+        str_repeat('-', 80)
+    ]);
+
+    $fileContent = (string)file_get_contents($filepath);
+
+    if ($ignoreCase) {
+        isTrue(mb_stripos($fileContent, $expected) === false, $errMessage);
+    } else {
+        isTrue(mb_strpos($fileContent, $expected) === false, $errMessage);
+    }
+}

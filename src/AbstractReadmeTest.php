@@ -121,16 +121,7 @@ abstract class AbstractReadmeTest extends PHPUnit
             ''
         ]);
 
-        $errMessage = implode("\n", [
-            "The readme file has no valid copyright in header",
-            "See: " . PROJECT_ROOT . '/README.md',
-            "Expected badge line:",
-            str_repeat('-', 80),
-            $expectedBadgeLine,
-            str_repeat('-', 80)
-        ]);
-
-        isTrue(strpos(self::getReadme(), $expectedBadgeLine) === 0, $errMessage);
+        isFileContains($expectedBadgeLine, PROJECT_ROOT . '/README.md');
     }
 
     #### Tools #########################################################################################################

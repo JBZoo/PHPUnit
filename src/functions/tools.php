@@ -19,6 +19,7 @@ namespace JBZoo\PHPUnit;
 use JBZoo\HttpClient\HttpClient;
 use JBZoo\HttpClient\Request;
 use JBZoo\HttpClient\Response;
+use JBZoo\Utils\Env;
 
 /**
  * Check is current OS Windows
@@ -28,6 +29,30 @@ use JBZoo\HttpClient\Response;
 function isWin(): bool
 {
     return strncasecmp(PHP_OS_FAMILY, 'WIN', 3) === 0;
+}
+
+/**
+ * @return bool
+ */
+function isTeamCity(): bool
+{
+    return Env::isExists('TEAMCITY_VERSION');
+}
+
+/**
+ * @return bool
+ */
+function isTravis(): bool
+{
+    return Env::isExists('TRAVIS');
+}
+
+/**
+ * @return bool
+ */
+function isPhpStorm(): bool
+{
+    return Env::isExists('IDE_PHPUNIT_CUSTOM_LOADER');
 }
 
 /**

@@ -17,7 +17,6 @@
 namespace JBZoo\PHPUnit;
 
 use JBZoo\Utils\Cli;
-use JBZoo\Utils\Env;
 use Symfony\Component\Finder\Finder;
 
 /**
@@ -73,12 +72,34 @@ abstract class AbstractCodestyleTest extends PHPUnit
 
     public function testCodesStyle(): void
     {
-        if (!Env::bool('TEAMCITY_VERSION') && Env::isExists('IDE_PHPUNIT_CUSTOM_LOADER')) {
-            /** @phan-suppress-next-line PhanPluginRemoveDebugEcho */
-            echo Cli::exec('TEAMCITY_VERSION="2020.1.2 (build 78726)" make codestyle', [], $this->projectRoot);
+        if (isPhpStorm()) {
+            $makefileActions = [
+                'test-phpcs-teamcity',
+                'test-phpmd-teamcity',
+                //'test-phpmnd-teamcity',
+                //'test-phpcpd-teamcity',
+                'test-phpstan-teamcity',
+                'test-psalm-teamcity',
+                'test-phan-teamcity',
+                //'test-phploc',
+                //'test-composer',
+                //'test-composer-reqs',
+            ];
+
+            foreach ($makefileActions as $makefileAction) {
+                $cliCommand = "TEAMCITY_VERSION=\"2020.1.2 (build 78726)\" make {$makefileAction}";
+                try {
+                    $output = trim(Cli::exec($cliCommand, [], $this->projectRoot));
+                    Cli::out($output);
+                } catch (\Exception $exception) {
+                    $output = trim($exception->getMessage());
+                    Cli::out($output);
+                }
+            }
+
             success();
         } else {
-            skip("Test works only in PhpStorm. Please, use `make codestyle` for another environment.");
+            skip("Test works only in PhpStorm. Please, use `make codestyle` for any other environments.");
         }
     }
 
