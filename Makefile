@@ -15,9 +15,10 @@ ifneq (, $(wildcard ./vendor/jbzoo/codestyle/src/init.Makefile))
     include ./vendor/jbzoo/codestyle/src/init.Makefile
 endif
 
-JBZOO_TEST_HOST   ?= "localhost"
-JBZOO_TEST_PORT_1 ?= "8888"
-JBZOO_TEST_PORT_2 ?= "8889"
+
+JBZOO_TEST_SERVER_HOST    ?= "localhost"
+JBZOO_TEST_SERVER_FAKE    ?= "8888"
+JBZOO_TEST_SERVER_PHPUNIT ?= "8889"
 
 
 update: ##@Project Install/Update all 3rd party dependencies
@@ -26,9 +27,14 @@ update: ##@Project Install/Update all 3rd party dependencies
 	@composer update $(JBZOO_COMPOSER_UPDATE_FLAGS)
 
 
-server: ##@Project Run PHP web-server for PHPUnit tests
+server-start: ##@Project Run PHP web-server for PHPUnit tests
 	@make server-fake-test
 	@make server-phpunit
+
+
+server-stop: ##@Project Run PHP web-server for PHPUnit tests
+	@-pgrep --full "$(JBZOO_TEST_SERVER_HOST):$(JBZOO_TEST_SERVER_FAKE)"    | xargs kill -15 || true;
+	@-pgrep --full "$(JBZOO_TEST_SERVER_HOST):$(JBZOO_TEST_SERVER_PHPUNIT)" | xargs kill -15 || true;
 
 
 test-all: ##@Project Run all test
@@ -43,8 +49,8 @@ server-fake-test:
 	$(call title,"Start server \(Fake index\)")
 	@chmod +x `pwd`/bin/phpunit-server.sh
 	@sh `pwd`/bin/phpunit-server.sh                     \
-        $(JBZOO_TEST_HOST)                              \
-        $(JBZOO_TEST_PORT_1)                            \
+        $(JBZOO_TEST_SERVER_HOST)                       \
+        $(JBZOO_TEST_SERVER_FAKE)                       \
         "`pwd`/tests/fixtures/http-root"                \
         "`pwd`/bin/fake-index.php"                      \
         "--index=`pwd`/tests/fixtures/http-root/index.php --cov-src=\"$(PATH_SRC)\" --cov-cov=1 --cov-xml=1 --cov-html=1"
@@ -54,8 +60,8 @@ server-phpunit:
 	$(call title,"Start server \(PHPUnit\)")
 	@chmod +x `pwd`/bin/phpunit-server.sh
 	@sh `pwd`/bin/phpunit-server.sh                     \
-        $(JBZOO_TEST_HOST)                              \
-        $(JBZOO_TEST_PORT_2)                            \
+        $(JBZOO_TEST_SERVER_HOST)                       \
+        $(JBZOO_TEST_SERVER_PHPUNIT)                    \
         "`pwd`/tests/web-root"                          \
         "`pwd`/bin/fake-index.php"                      \
         "--index=`pwd`/tests/web-root/index.php --cov-cov=1 --cov-xml=1"
