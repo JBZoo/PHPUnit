@@ -28,7 +28,7 @@
 >
 
     <testsuites>
-        <testsuite name="All">
+        <testsuite name="PHPUnit">
             <directory suffix="Test.php">tests</directory>
         </testsuite>
     </testsuites>
@@ -46,5 +46,4 @@
         <log type="junit" target="build/coverage_junit/main.xml"/>
         <log type="coverage-text" target="php://stdout" showUncoveredFiles="false" showOnlySummary="true"/>
     </logging>
-
 </phpunit>

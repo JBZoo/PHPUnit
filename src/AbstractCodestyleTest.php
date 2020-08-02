@@ -16,7 +16,11 @@
 
 namespace JBZoo\PHPUnit;
 
+use hanneskod\classtools\Iterator\ClassIterator;
 use JBZoo\Utils\Cli;
+use JBZoo\Utils\PhpDocs;
+use JBZoo\Utils\Str;
+use ReflectionClass;
 use Symfony\Component\Finder\Finder;
 
 /**
@@ -100,6 +104,37 @@ abstract class AbstractCodestyleTest extends PHPUnit
             success();
         } else {
             skip("Test works only in PhpStorm. Please, use `make codestyle` for any other environments.");
+        }
+    }
+
+    public function testClassesPhpDocs(): void
+    {
+        $classIterator = new ClassIterator((new Finder())->in("{$this->projectRoot}/src")->name("*.php"));
+        $classIterator->disableAutoloading();
+
+        foreach ($classIterator->getClassMap() as $className => $splFileInfo) {
+            /** @var class-string $classNameStr */
+            $classNameStr = (string)$className;
+
+            $classReflection = new ReflectionClass($classNameStr);
+
+            $class = Str::getClassName($classNameStr);
+            $package = $classReflection->getNamespaceName();
+            $docs = PhpDocs::parse((string)$classReflection->getDocComment());
+            $seeFile = "See File: {$splFileInfo}";
+
+            isTrue(array_key_exists('package', $docs['params']), "PhpDoc tag @package not found.\n{$seeFile}");
+            isContain(
+                $docs['description'],
+                "Class {$class}\n",
+                false,
+                "Invalid class name in description. Expected string: \"Class {$class}\"\n{$seeFile}"
+            );
+
+            isTrue(
+                in_array($package, $docs['params']['package'], true),
+                "Invalid PhpDoc tag of the class. Expected \"@package {$package}\".\n{$seeFile}"
+            );
         }
     }
 

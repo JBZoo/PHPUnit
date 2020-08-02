@@ -30,18 +30,19 @@ update: ##@Project Install/Update all 3rd party dependencies
 server-start: ##@Project Run PHP web-server for PHPUnit tests
 	@make server-fake-test
 	@make server-phpunit
+	@sleep 1
 
 
 server-stop: ##@Project Run PHP web-server for PHPUnit tests
 	@-pgrep --full "$(JBZOO_TEST_SERVER_HOST):$(JBZOO_TEST_SERVER_FAKE)"    | xargs kill -15 || true;
 	@-pgrep --full "$(JBZOO_TEST_SERVER_HOST):$(JBZOO_TEST_SERVER_PHPUNIT)" | xargs kill -15 || true;
+	@sleep 1
 
 
 test-all: ##@Project Run all test
 	$(call title,"Run all tests")
 	@make test
 	@make report-composer-graph
-	@-make report-merge-coverage
 	@make codestyle
 
 

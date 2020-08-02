@@ -17,7 +17,7 @@
 namespace JBZoo\PHPUnit;
 
 /**
- * Class PHPUnit
+ * Class Exception
  * @package JBZoo\PHPUnit
  */
 class Exception extends \RuntimeException

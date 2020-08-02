@@ -36,9 +36,11 @@ return array_merge($default, [
         'vendor/jbzoo/data',
         'vendor/jbzoo/http-client',
         'vendor/jbzoo/utils',
+
         'vendor/phpunit/php-code-coverage/src',
         'vendor/phpunit/phpunit/src',
         'vendor/symfony/finder',
         'vendor/ulrichsg/getopt-php/src',
+        'vendor/hanneskod/classtools/src',
     ]
 ]);
