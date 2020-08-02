@@ -74,45 +74,32 @@ abstract class AbstractCodestyleTest extends PHPUnit
 
     #### Test cases ####################################################################################################
 
-    public function testPHPcs(): void
-    {
-        $this->runLinter('test-phpcs-teamcity');
-    }
-
-    public function testPHPmd(): void
-    {
-        $this->runLinter('test-phpmd-teamcity');
-    }
-
-    public function testPHPstan(): void
-    {
-        $this->runLinter('test-phpstan-teamcity');
-    }
-
-    public function testPsalm(): void
-    {
-        $this->runLinter('test-psalm-teamcity');
-    }
-
-    public function testPhan(): void
-    {
-        $this->runLinter('test-phan-teamcity');
-    }
-
-    /**
-     * @param string $makefileAction
-     */
-    protected function runLinter(string $makefileAction): void
+    public function testCodesStyle(): void
     {
         // Test works only in PhpStorm. Please, use `make codestyle` for any other environments.
         if (isPhpStorm()) {
-            $cliCommand = "TEAMCITY_VERSION=\"2020.1.2 (build 78726)\" make {$makefileAction}";
-            try {
-                $output = trim(Cli::exec($cliCommand, [], $this->projectRoot));
-                Cli::out($output);
-            } catch (\Exception $exception) {
-                $output = trim($exception->getMessage());
-                Cli::out($output);
+            $makefileActions = [
+                'test-phpcs-teamcity',
+                'test-phpmd-teamcity',
+                //'test-phpmnd-teamcity',
+                //'test-phpcpd-teamcity',
+                'test-phpstan-teamcity',
+                'test-psalm-teamcity',
+                'test-phan-teamcity',
+                //'test-phploc',
+                //'test-composer',
+                //'test-composer-reqs',
+            ];
+
+            foreach ($makefileActions as $makefileAction) {
+                $cliCommand = "TEAMCITY_VERSION=\"2020.1.2 (build 78726)\" make {$makefileAction}";
+                try {
+                    $output = trim(Cli::exec($cliCommand, [], $this->projectRoot));
+                    Cli::out($output);
+                } catch (\Exception $exception) {
+                    $output = trim($exception->getMessage());
+                    Cli::out($output);
+                }
             }
         }
 
