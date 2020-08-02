@@ -129,7 +129,7 @@ abstract class AbstractCodestyleTest extends PHPUnit
             $docs = PhpDocs::parse((string)$classReflection->getDocComment());
 
             $minimalExpectedPhpDoc = implode("\n", [
-                'Invalid desciption. Minimal expected PhpDoc for the class:',
+                'Invalid description. Minimal expected PhpDoc for the entity:',
                 str_repeat('-', 80),
                 '/**',
                 " * {$entityType} {$class}",
