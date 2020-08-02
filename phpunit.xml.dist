@@ -24,7 +24,7 @@
          stopOnSkipped="false"
          stopOnRisky="false"
          verbose="true"
-         colors="true"
+         colors="false"
 >
 
     <testsuites>
