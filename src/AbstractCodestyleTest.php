@@ -123,6 +123,8 @@ abstract class AbstractCodestyleTest extends PHPUnit
                 "Invalid PhpDoc tag of the class. {$minimalExpectedPhpDoc}"
             );
         }
+
+        success();
     }
 
     public function testCodesStyle(): void
