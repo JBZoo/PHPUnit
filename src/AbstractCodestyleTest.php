@@ -77,7 +77,7 @@ abstract class AbstractCodestyleTest extends PHPUnit
     public function testClassesPhpDocs(): void
     {
         $finder = (new Finder())
-            ->in("{$this->projectRoot}/src")
+            ->in(PHPUnit::getSourcePath())
             ->name("*.php");
 
         $classIterator = new ClassIterator($finder);
