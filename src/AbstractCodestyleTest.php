@@ -112,8 +112,8 @@ abstract class AbstractCodestyleTest extends PHPUnit
             ]);
 
             isContain(
+                "{$entityType} {$class}",
                 $docs['description'],
-                "{$entityType} {$class}\n",
                 false,
                 "Invalid class name in description. {$minimalExpectedPhpDoc}"
             );

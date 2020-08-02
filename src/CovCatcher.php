@@ -27,7 +27,6 @@ use SebastianBergmann\CodeCoverage\Report\PHP;
 
 /**
  * Class CovCatcher
- *
  * @package JBZoo\PHPUnit
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
