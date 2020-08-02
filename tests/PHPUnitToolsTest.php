@@ -18,7 +18,6 @@ namespace JBZoo\PHPUnit;
 
 /**
  * Class PHPUnitToolsTest
- *
  * @package JBZoo\PHPUnit
  */
 class PHPUnitToolsTest extends PHPUnit
