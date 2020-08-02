@@ -117,22 +117,38 @@ abstract class AbstractCodestyleTest extends PHPUnit
 
             $classReflection = new ReflectionClass($classNameStr);
 
+            $entityType = 'Class';
+            if ($classReflection->isTrait()) {
+                $entityType = 'Trait';
+            } elseif ($classReflection->isInterface()) {
+                $entityType = 'Interface';
+            }
+
             $class = Str::getClassName($classNameStr);
             $package = $classReflection->getNamespaceName();
             $docs = PhpDocs::parse((string)$classReflection->getDocComment());
-            $seeFile = "See File: {$splFileInfo}";
 
-            isTrue(array_key_exists('package', $docs['params']), "PhpDoc tag @package not found.\n{$seeFile}");
+            $minimalExpectedPhpDoc = implode("\n", [
+                'Invalid desciption. Minimal expected PhpDoc for the class:',
+                str_repeat('-', 80),
+                '/**',
+                " * {$entityType} {$class}",
+                " * @package {$package}",
+                ' */',
+                str_repeat('-', 80),
+                "See File: {$splFileInfo}",
+            ]);
+
             isContain(
                 $docs['description'],
-                "Class {$class}\n",
+                "{$entityType} {$class}\n",
                 false,
-                "Invalid class name in description. Expected string: \"Class {$class}\"\n{$seeFile}"
+                "Invalid class name in description. {$minimalExpectedPhpDoc}"
             );
 
             isTrue(
                 in_array($package, $docs['params']['package'], true),
-                "Invalid PhpDoc tag of the class. Expected \"@package {$package}\".\n{$seeFile}"
+                "Invalid PhpDoc tag of the class. {$minimalExpectedPhpDoc}"
             );
         }
     }
