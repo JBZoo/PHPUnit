@@ -28,8 +28,9 @@ abstract class PHPUnit extends TestCase
 {
     /**
      * @return string
+     * @suppress PhanPluginPossiblyStaticProtectedMethod
      */
-    protected static function getSourcePath(): string
+    protected function getSourcePath(): string
     {
         return PROJECT_ROOT . '/' . str_replace('`pwd`/', '', Env::string('PATH_SRC', 'src'));
     }
