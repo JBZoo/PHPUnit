@@ -415,7 +415,7 @@ function isAmount($expected, $actual, string $message = '', float $allowableDiff
     } elseif (is_array($expected) && is_array($actual)) {
         isAmountCur($expected, $actual, $message, $allowableDiff);
     } else {
-        fail('$expected and $actual both must be "array" or "float|string|int"');
+        fail('$expected and $actual both must be "array" OR "float|string|int"');
     }
 }
 
@@ -433,7 +433,7 @@ function isNotAmount($expected, $actual, string $message = '', float $allowableD
     } elseif (is_array($expected) && is_array($actual)) {
         isNotAmountCur($expected, $actual, $message, $allowableDiff);
     } else {
-        fail('$expected and $actual both must be "array" or "float|string|int"');
+        fail('$expected and $actual both must be "array" OR "float|string|int"');
     }
 }
 
@@ -454,6 +454,8 @@ function isAmountCur(array $expected, array $actual, string $message = '', float
     isTrue(is_string($expected[1]), $message);
     isTrue(is_string($actual[1]), $message);
     isSame($expected[1], $actual[1], $message);
+    isNotEmpty($expected[1], $message);
+    isNotEmpty($actual[1], $message);
 
     Assert::assertEqualsWithDelta((float)$expected[0], (float)$actual[0], $allowableDiff, $message);
 }
@@ -475,6 +477,8 @@ function isNotAmountCur(array $expected, array $actual, string $message = '', fl
     isTrue(is_string($expected[1]), $message);
     isTrue(is_string($actual[1]), $message);
     isSame($expected[1], $actual[1], $message);
+    isNotEmpty($expected[1], $message);
+    isNotEmpty($actual[1], $message);
 
     Assert::assertNotEqualsWithDelta((float)$expected[0], (float)$actual[0], $allowableDiff, $message);
 }
