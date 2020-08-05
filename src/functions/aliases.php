@@ -402,27 +402,39 @@ function isCurrentDate(string $date, int $timeDiff = 300, string $message = ''):
 }
 
 /**
- * @param float|string|int $expected
- * @param float|string|int $actual
- * @param string           $message
- * @param float            $allowableDiff
+ * @param array|float|string|int $expected
+ * @param array|float|string|int $actual
+ * @param string                 $message
+ * @param float                  $allowableDiff
  */
 function isAmount($expected, $actual, string $message = '', float $allowableDiff = 0.03): void
 {
-    $message = $message ?: 'Diff: ' . ((float)$expected - (float)$actual) . "; Expected diff={$allowableDiff}";
-    Assert::assertEqualsWithDelta((float)$expected, (float)$actual, $allowableDiff, $message);
+    if (!is_array($expected) && !is_array($actual)) {
+        $message = $message ?: 'Diff: ' . ((float)$expected - (float)$actual) . "; Expected diff={$allowableDiff}";
+        Assert::assertEqualsWithDelta((float)$expected, (float)$actual, $allowableDiff, $message);
+    } elseif (is_array($expected) && is_array($actual)) {
+        isAmountCur($expected, $actual, $message, $allowableDiff);
+    } else {
+        fail('$expected and $actual both must be "array" or "float|string|int"');
+    }
 }
 
 /**
- * @param float|string|int $expected
- * @param float|string|int $actual
- * @param string           $message
- * @param float            $allowableDiff
+ * @param array|float|string|int $expected
+ * @param array|float|string|int $actual
+ * @param string                 $message
+ * @param float                  $allowableDiff
  */
 function isNotAmount($expected, $actual, string $message = '', float $allowableDiff = 0.03): void
 {
-    $message = $message ?: 'Diff: ' . ((float)$expected - (float)$actual) . "; Expected diff={$allowableDiff}";
-    Assert::assertNotEqualsWithDelta((float)$expected, (float)$actual, $allowableDiff, $message);
+    if (!is_array($expected) && !is_array($actual)) {
+        $message = $message ?: 'Diff: ' . ((float)$expected - (float)$actual) . "; Expected diff={$allowableDiff}";
+        Assert::assertNotEqualsWithDelta((float)$expected, (float)$actual, $allowableDiff, $message);
+    } elseif (is_array($expected) && is_array($actual)) {
+        isNotAmountCur($expected, $actual, $message, $allowableDiff);
+    } else {
+        fail('$expected and $actual both must be "array" or "float|string|int"');
+    }
 }
 
 /**
@@ -433,11 +445,17 @@ function isNotAmount($expected, $actual, string $message = '', float $allowableD
  */
 function isAmountCur(array $expected, array $actual, string $message = '', float $allowableDiff = 0.03): void
 {
-    $message = $message ?: 'Actual diff=' . ((float)$expected[0] - (float)$actual[0])
-        . "; Expected diff={$allowableDiff}";
+    isTrue(count($expected) === 2, $message);
+    isTrue(count($actual) === 2, $message);
+
+    $diff = (float)$expected[0] - (float)$actual[0];
+    $message .= " Actual diff={$diff}; Expected diff={$allowableDiff}";
+
+    isTrue(is_string($expected[1]), $message);
+    isTrue(is_string($actual[1]), $message);
+    isSame($expected[1], $actual[1], $message);
 
     Assert::assertEqualsWithDelta((float)$expected[0], (float)$actual[0], $allowableDiff, $message);
-    isSame($expected[1], $actual[1], $message);
 }
 
 /**
@@ -448,11 +466,17 @@ function isAmountCur(array $expected, array $actual, string $message = '', float
  */
 function isNotAmountCur(array $expected, array $actual, string $message = '', float $allowableDiff = 0.03): void
 {
-    $message = $message ?: 'Actual diff=' . ((float)$expected[0] - (float)$actual[0])
-        . "; Expected diff={$allowableDiff}";
+    isTrue(count($expected) === 2, $message);
+    isTrue(count($actual) === 2, $message);
+
+    $diff = (float)$expected[0] - (float)$actual[0];
+    $message .= " Actual diff={$diff}; Expected diff={$allowableDiff}";
+
+    isTrue(is_string($expected[1]), $message);
+    isTrue(is_string($actual[1]), $message);
+    isSame($expected[1], $actual[1], $message);
 
     Assert::assertNotEqualsWithDelta((float)$expected[0], (float)$actual[0], $allowableDiff, $message);
-    isSame($expected[1], $actual[1], $message);
 }
 
 /**
