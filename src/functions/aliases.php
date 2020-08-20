@@ -445,8 +445,10 @@ function isNotAmount($expected, $actual, string $message = '', float $allowableD
  */
 function isAmountCur(array $expected, array $actual, string $message = '', float $allowableDiff = 0.03): void
 {
-    isTrue(count($expected) === 2, $message);
-    isTrue(count($actual) === 2, $message);
+    $numberOfArgs = 2;
+
+    isTrue(count($expected) === $numberOfArgs, $message);
+    isTrue(count($actual) === $numberOfArgs, $message);
 
     $diff = (float)$expected[0] - (float)$actual[0];
     $message .= " Actual diff={$diff}; Expected diff={$allowableDiff}";
@@ -468,8 +470,10 @@ function isAmountCur(array $expected, array $actual, string $message = '', float
  */
 function isNotAmountCur(array $expected, array $actual, string $message = '', float $allowableDiff = 0.03): void
 {
-    isTrue(count($expected) === 2, $message);
-    isTrue(count($actual) === 2, $message);
+    $numberOfArgs = 2;
+
+    isTrue(count($expected) === $numberOfArgs, $message);
+    isTrue(count($actual) === $numberOfArgs, $message);
 
     $diff = (float)$expected[0] - (float)$actual[0];
     $message .= " Actual diff={$diff}; Expected diff={$allowableDiff}";

@@ -134,18 +134,23 @@ abstract class AbstractCodestyleTest extends PHPUnit
             $makefileActions = [
                 'test-phpcs-teamcity',
                 'test-phpmd-teamcity',
-                //'test-phpmnd-teamcity',
+                'test-phpmnd-teamcity',
                 //'test-phpcpd-teamcity',
                 'test-phpstan-teamcity',
                 'test-psalm-teamcity',
                 'test-phan-teamcity',
-                //'test-phploc',
-                //'test-composer',
-                //'test-composer-reqs',
             ];
 
             foreach ($makefileActions as $makefileAction) {
-                $cliCommand = "TEAMCITY_VERSION=\"2020.1.2 (build 78726)\" make {$makefileAction}";
+                $cliCommand = implode(' ', [
+                    'TC_REPORT="tc-tests"',
+                    'TC_REPORT_MND="tc-tests"',
+                    'TEAMCITY_VERSION="2020.1.2"',
+                    "make {$makefileAction}"
+                ]);
+
+                $start = microtime(true);
+
                 try {
                     $output = trim(Cli::exec($cliCommand, [], $this->projectRoot));
                     Cli::out($output);
@@ -153,6 +158,13 @@ abstract class AbstractCodestyleTest extends PHPUnit
                     $output = trim($exception->getMessage());
                     Cli::out($output);
                 }
+
+                $time = microtime(true) - $start;
+                $seconds = (int)floor($time);
+                $mSeconds = str_replace('0.', '', (string)((float)round($time, 3) - (float)$seconds));
+
+                $finish = gmdate('i:s', $seconds);
+                Cli::out("{$makefileAction}:\t{$finish}.{$mSeconds}");
             }
         }
 
