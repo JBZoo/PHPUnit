@@ -18,6 +18,7 @@ namespace JBZoo\PHPUnit;
 
 use hanneskod\classtools\Iterator\ClassIterator;
 use JBZoo\Utils\Cli;
+use JBZoo\Utils\Env;
 use JBZoo\Utils\PhpDocs;
 use JBZoo\Utils\Str;
 use ReflectionClass;
@@ -142,10 +143,13 @@ abstract class AbstractCodestyleTest extends PHPUnit
             ];
 
             foreach ($makefileActions as $makefileAction) {
+                $phpBin = Env::string('PHP_BIN') ?: 'php';
+
                 $cliCommand = implode(' ', [
                     'TC_REPORT="tc-tests"',
                     'TC_REPORT_MND="tc-tests"',
                     'TEAMCITY_VERSION="2020.1.2"',
+                    "PHP_BIN=\"{$phpBin}\"",
                     "make {$makefileAction}"
                 ]);
 
