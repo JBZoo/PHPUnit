@@ -28,7 +28,7 @@
     },
 
     "require-dev"       : {
-        "jbzoo/codestyle"      : "^2.7.2",
+        "jbzoo/codestyle"      : "^2.7.7",
         "jbzoo/data"           : "^4.1.2",
         "jbzoo/http-client"    : "^3.4.0",
         "jbzoo/composer-graph" : "^1.0.3",
