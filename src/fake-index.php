@@ -80,6 +80,7 @@ $realIndex = (string)($realIndex ?? realpath($cliOptions->getOption('index')));
 
 if (class_exists(CovCatcher::class) && Sys::hasXdebug()) {
     $testname = (string)data($_REQUEST)->get('testname');
+    putenv('XDEBUG_MODE=' . Env::string('XDEBUG_MODE', 'coverage'));
 
     $coverHash = md5(implode('||', [serialize($_REQUEST), serialize($_SERVER), PHP_VERSION]));
     $coverHash = $testname ? $testname . '-' . $coverHash : $testname;
