@@ -94,13 +94,15 @@ class CovCatcher
         if (Sys::hasXdebug()) {
             $covFilter = new Filter();
 
-            /** @phan-suppress-next-line PhanUndeclaredMethod */
-            if (method_exists($covFilter, 'addDirectoryToWhitelist')) { /** @phpstan-ignore-line */
+            /** @phpstan-ignore-next-line */
+            if (method_exists($covFilter, 'addDirectoryToWhitelist')) {
+                /** @phan-suppress-next-line PhanUndeclaredMethod */
                 $covFilter->addDirectoryToWhitelist($this->config->get('src'));
             }
 
-            /** @phan-suppress-next-line PhanUndeclaredMethod */
-            if (method_exists($covFilter, 'includeDirectory')) { /** @phpstan-ignore-line */
+            /** @phpstan-ignore-next-line */
+            if (method_exists($covFilter, 'includeDirectory')) {
+                /** @phan-suppress-next-line PhanUndeclaredMethod */
                 $covFilter->includeDirectory($this->config->get('src'));
             }
 
