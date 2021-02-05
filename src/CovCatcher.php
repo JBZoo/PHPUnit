@@ -94,10 +94,12 @@ class CovCatcher
         if (Sys::hasXdebug()) {
             $covFilter = new Filter();
 
+            /** @phpstan-ignore-next-line */
             if (method_exists($covFilter, 'addDirectoryToWhitelist')) {
                 $covFilter->addDirectoryToWhitelist($this->config->get('src'));
             }
 
+            /** @phpstan-ignore-next-line */
             if (method_exists($covFilter, 'includeDirectory')) {
                 $covFilter->includeDirectory($this->config->get('src'));
             }
