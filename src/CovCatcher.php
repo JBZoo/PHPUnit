@@ -93,7 +93,9 @@ class CovCatcher
         $this->coverage = null;
         if (Sys::hasXdebug()) {
             $covFilter = new Filter();
-            $covFilter->addDirectoryToWhitelist($this->config->get('src'));
+            if (method_exists($covFilter, 'addDirectoryToWhitelist')) {
+                $covFilter->addDirectoryToWhitelist($this->config->get('src'));
+            }
             $this->coverage = new CodeCoverage(null, $covFilter);
         }
     }
