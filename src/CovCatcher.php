@@ -112,6 +112,7 @@ class CovCatcher
                 $driver = (new $selectorClass())->forLineAndPathCoverage($covFilter);
                 $this->coverage = new CodeCoverage($driver, $covFilter);
             } else {
+                /** @phpstan-ignore-next-line */
                 $this->coverage = new CodeCoverage(null, $covFilter);
             }
         }
