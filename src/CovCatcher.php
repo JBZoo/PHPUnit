@@ -20,6 +20,8 @@ use JBZoo\Data\Data;
 use JBZoo\Utils\Env;
 use JBZoo\Utils\Sys;
 use SebastianBergmann\CodeCoverage\CodeCoverage;
+use SebastianBergmann\CodeCoverage\Driver\Driver;
+use SebastianBergmann\CodeCoverage\Driver\Selector;
 use SebastianBergmann\CodeCoverage\Filter;
 use SebastianBergmann\CodeCoverage\Report\Clover;
 use SebastianBergmann\CodeCoverage\Report\Html\Facade;
@@ -106,7 +108,12 @@ class CovCatcher
                 $covFilter->includeDirectory($this->config->get('src'));
             }
 
-            $this->coverage = new CodeCoverage(null, $covFilter);
+            if (class_exists(Selector::class)) {
+                $driver = (new Selector())->forLineAndPathCoverage($covFilter);
+                $this->coverage = new CodeCoverage($driver, $covFilter);
+            } else {
+                $this->coverage = new CodeCoverage(null, $covFilter);
+            }
         }
     }
 
