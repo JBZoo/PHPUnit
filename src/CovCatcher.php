@@ -106,7 +106,7 @@ class CovCatcher
                 $covFilter->includeDirectory($this->config->get('src'));
             }
 
-            $selectorClass = '\SebastianBergmann\CodeCoverage\Driver\Driver\Selector';
+            $selectorClass = '\SebastianBergmann\CodeCoverage\Driver\Selector';
             if (class_exists($selectorClass)) {
                 /* @phan-suppress-next-line PhanTypeExpectedObjectOrClassName, PhanUndeclaredClass */
                 $driver = (new $selectorClass())->forLineAndPathCoverage($covFilter);
