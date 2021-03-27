@@ -133,36 +133,34 @@ abstract class AbstractCodestyleTest extends PHPUnit
      */
     protected function runToolViaMakefile(string $makeTargetName): void
     {
-        // Test works only in PhpStorm. Please, use `make codestyle` for any other environments.
-        if (!isPhpStorm()) {
-            success();
+        // Test works only in PhpStorm ot TeamCity env. Please, use `make codestyle` for any other environments.
+        if (isPhpStorm()) {
+            $phpBin = Env::string('PHP_BIN') ?: 'php';
+            $cliCommand = implode(' ', [
+                'TC_REPORT="tc-tests"',
+                'TC_REPORT_MND="tc-tests"',
+                'TEAMCITY_VERSION="2020.1.2"',
+                "PHP_BIN=\"{$phpBin}\"",
+                "make {$makeTargetName}"
+            ]);
+
+            //$start = microtime(true);
+
+            // redirect error to std output
+            try {
+                $output = trim(Cli::exec($cliCommand, [], $this->projectRoot));
+                Cli::out($output);
+            } catch (\Exception $exception) {
+                $output = trim($exception->getMessage());
+                Cli::out($output);
+            }
+
+            //$time = microtime(true) - $start;
+            //$seconds = (int)floor($time);
+            //$mSeconds = str_replace('0.', '', (string)(round($time, 3) - (float)$seconds));
+            //$finish = gmdate('i:s', $seconds);
+            //Cli::out("{$makeTargetName}:\t{$finish}.{$mSeconds}");
         }
-
-        $phpBin = Env::string('PHP_BIN') ?: 'php';
-        $cliCommand = implode(' ', [
-            'TC_REPORT="tc-tests"',
-            'TC_REPORT_MND="tc-tests"',
-            'TEAMCITY_VERSION="2020.1.2"',
-            "PHP_BIN=\"{$phpBin}\"",
-            "make {$makeTargetName}"
-        ]);
-
-        //$start = microtime(true);
-
-        // redirect error to std output
-        try {
-            $output = trim(Cli::exec($cliCommand, [], $this->projectRoot));
-            Cli::out($output);
-        } catch (\Exception $exception) {
-            $output = trim($exception->getMessage());
-            Cli::out($output);
-        }
-
-        //$time = microtime(true) - $start;
-        //$seconds = (int)floor($time);
-        //$mSeconds = str_replace('0.', '', (string)(round($time, 3) - (float)$seconds));
-        //$finish = gmdate('i:s', $seconds);
-        //Cli::out("{$makeTargetName}:\t{$finish}.{$mSeconds}");
 
         success();
     }
