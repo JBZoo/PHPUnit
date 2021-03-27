@@ -128,51 +128,73 @@ abstract class AbstractCodestyleTest extends PHPUnit
         success();
     }
 
-    public function testCodesStyle(): void
+    /**
+     * @param string $makeTargetName
+     */
+    protected function runToolViaMakefile(string $makeTargetName): void
     {
         // Test works only in PhpStorm. Please, use `make codestyle` for any other environments.
-        if (isPhpStorm()) {
-            $makefileActions = [
-                'test-phpcs-teamcity',
-                'test-phpmd-teamcity',
-                'test-phpmnd-teamcity',
-                //'test-phpcpd-teamcity',
-                'test-phpstan-teamcity',
-                'test-psalm-teamcity',
-                'test-phan-teamcity',
-            ];
-
-            foreach ($makefileActions as $makefileAction) {
-                $phpBin = Env::string('PHP_BIN') ?: 'php';
-
-                $cliCommand = implode(' ', [
-                    'TC_REPORT="tc-tests"',
-                    'TC_REPORT_MND="tc-tests"',
-                    'TEAMCITY_VERSION="2020.1.2"',
-                    "PHP_BIN=\"{$phpBin}\"",
-                    "make {$makefileAction}"
-                ]);
-
-                $start = microtime(true);
-
-                try {
-                    $output = trim(Cli::exec($cliCommand, [], $this->projectRoot));
-                    Cli::out($output);
-                } catch (\Exception $exception) {
-                    $output = trim($exception->getMessage());
-                    Cli::out($output);
-                }
-
-                $time = microtime(true) - $start;
-                $seconds = (int)floor($time);
-                $mSeconds = str_replace('0.', '', (string)((float)round($time, 3) - (float)$seconds));
-
-                $finish = gmdate('i:s', $seconds);
-                Cli::out("{$makefileAction}:\t{$finish}.{$mSeconds}");
-            }
+        if (!isPhpStorm()) {
+            success();
         }
 
+        $phpBin = Env::string('PHP_BIN') ?: 'php';
+        $cliCommand = implode(' ', [
+            'TC_REPORT="tc-tests"',
+            'TC_REPORT_MND="tc-tests"',
+            'TEAMCITY_VERSION="2020.1.2"',
+            "PHP_BIN=\"{$phpBin}\"",
+            "make {$makeTargetName}"
+        ]);
+
+        //$start = microtime(true);
+
+        // redirect error to std output
+        try {
+            $output = trim(Cli::exec($cliCommand, [], $this->projectRoot));
+            Cli::out($output);
+        } catch (\Exception $exception) {
+            $output = trim($exception->getMessage());
+            Cli::out($output);
+        }
+
+        //$time = microtime(true) - $start;
+        //$seconds = (int)floor($time);
+        //$mSeconds = str_replace('0.', '', (string)(round($time, 3) - (float)$seconds));
+        //$finish = gmdate('i:s', $seconds);
+        //Cli::out("{$makeTargetName}:\t{$finish}.{$mSeconds}");
+
         success();
+    }
+
+    public function testCodeSniffer(): void
+    {
+        $this->runToolViaMakefile('test-phpcs-teamcity');
+    }
+
+    public function testMessDetector(): void
+    {
+        $this->runToolViaMakefile('test-phpmd-teamcity');
+    }
+
+    public function testMagicNumbers(): void
+    {
+        $this->runToolViaMakefile('test-phpmnd-teamcity');
+    }
+
+    public function testPhpStan(): void
+    {
+        $this->runToolViaMakefile('test-phpstan-teamcity');
+    }
+
+    public function testPsalm(): void
+    {
+        $this->runToolViaMakefile('test-psalm-teamcity');
+    }
+
+    public function testPhan(): void
+    {
+        $this->runToolViaMakefile('test-phan-teamcity');
     }
 
     public function testFiles(): void
