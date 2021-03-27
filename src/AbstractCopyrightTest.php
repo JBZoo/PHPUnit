@@ -40,6 +40,11 @@ abstract class AbstractCopyrightTest extends PHPUnit
     protected $isPsr12 = true;
 
     /**
+     * @var bool
+     */
+    protected $isPhpStrictType = false;
+
+    /**
      * @var string
      */
     protected $projectRoot = PROJECT_ROOT;
@@ -284,6 +289,16 @@ abstract class AbstractCopyrightTest extends PHPUnit
             $valid = "<?php{$this->eol}{$this->eol}{$valid}";
         } else {
             $valid = "<?php{$this->eol}{$valid}";
+        }
+
+        if ($this->isPhpStrictType) {
+            $valid .= implode($this->eol, [
+                '',
+                ' */',
+                '',
+                'declare(strict_types=1);',
+                ''
+            ]);
         }
 
         $finder = $this->createFinder(['php', 'phtml']);
