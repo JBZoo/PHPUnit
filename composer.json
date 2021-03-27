@@ -34,6 +34,7 @@
         "jbzoo/composer-graph" : "^1.0.4",
         "jbzoo/toolbox-ci"     : "^1.3.5",
         "jbzoo/toolbox-dev"    : "^2.6.2",
+        "jbzoo/jbdump"         : "^1.5.4",
 
         "guzzlehttp/guzzle"    : ">=6.5.5",
         "symfony/process"      : ">=5.2.3"
