@@ -74,6 +74,10 @@ class CovCatcher
      * @param string             $testName
      * @param array<bool|string> $options
      * @throws Exception
+     *
+     * @phan-suppress PhanTypeMismatchArgumentReal
+     * @phan-suppress PhanTypeExpectedObjectOrClassName
+     * @phan-suppress PhanUndeclaredClass
      */
     public function __construct($testName = null, array $options = [])
     {
@@ -108,7 +112,6 @@ class CovCatcher
 
             $selectorClass = '\SebastianBergmann\CodeCoverage\Driver\Selector';
             if (class_exists($selectorClass)) {
-                /* @phan-suppress-next-line PhanTypeExpectedObjectOrClassName, PhanUndeclaredClass */
                 $driver = (new $selectorClass())->forLineAndPathCoverage($covFilter);
                 $this->coverage = new CodeCoverage($driver, $covFilter);
             } else {
