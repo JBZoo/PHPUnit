@@ -65,6 +65,11 @@ abstract class AbstractReadmeTest extends PHPUnit
         'github_stars'            => false,
         'codacy'                  => true,
         'psalm_coverage'          => true,
+        'docker_build'            => false,
+        'docker_pulls'            => false,
+        'scrutinizer'             => false,
+        'codefactor'              => false,
+        'sonarcloud'              => false,
         'travis'                  => true,
         'coveralls'               => true,
         'circle_ci'               => false,
@@ -77,6 +82,11 @@ abstract class AbstractReadmeTest extends PHPUnit
         'travis',
         'coveralls',
         'psalm_coverage',
+        'scrutinizer',
+        'codefactor',
+        'sonarcloud',
+        'docker_build',
+        'docker_pulls',
         '__BR__',
         'latest_stable_version',
         'latest_unstable_version',
@@ -265,6 +275,53 @@ abstract class AbstractReadmeTest extends PHPUnit
             'GitHub License',
             'https://img.shields.io/github/license/__VENDOR__/__PACKAGE__',
             'https://github.com/__VENDOR_ORIG__/__PACKAGE_ORIG__/blob/master/LICENSE'
+        ));
+    }
+
+    protected function checkBadgeDockerBuild(): ?string
+    {
+        return $this->getPreparedBadge($this->getBadge(
+            'Docker Cloud Build Status',
+            'https://img.shields.io/docker/cloud/build/__VENDOR__/__PACKAGE__.svg',
+            'https://hub.docker.com/r/__VENDOR__/__PACKAGE__'
+        ));
+    }
+
+    protected function checkBadgeDockerPulls(): ?string
+    {
+        return $this->getPreparedBadge($this->getBadge(
+            'Docker Pulls',
+            'https://img.shields.io/docker/pulls/__VENDOR__/__PACKAGE__.svg',
+            'https://hub.docker.com/r/__VENDOR__/__PACKAGE__'
+        ));
+    }
+
+    protected function checkBadgeScrutinizer(): ?string
+    {
+        return $this->getPreparedBadge($this->getBadge(
+            'Scrutinizer Code Quality',
+            'https://scrutinizer-ci.com/g/__VENDOR__/__PACKAGE__/badges/quality-score.png?b=master',
+            'https://scrutinizer-ci.com/g/__VENDOR__/__PACKAGE__/?branch=master'
+        ));
+    }
+
+    protected function checkBadgeCodefactor(): ?string
+    {
+        return $this->getPreparedBadge($this->getBadge(
+            'CodeFactor',
+            'https://www.codefactor.io/repository/github/__VENDOR__/__PACKAGE__/badge',
+            'https://www.codefactor.io/repository/github/__VENDOR__/__PACKAGE__/issues'
+        ));
+    }
+
+    protected function checkBadgeSonarcloud(): ?string
+    {
+        $project = '__VENDOR_ORIG_____PACKAGE_ORIG__';
+
+        return $this->getPreparedBadge($this->getBadge(
+            'Quality Gate Status',
+            "https://sonarcloud.io/api/project_badges/measure?project={$project}&metric=alert_status",
+            "https://sonarcloud.io/dashboard?id={$project}"
         ));
     }
 
