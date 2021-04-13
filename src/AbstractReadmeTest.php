@@ -70,6 +70,7 @@ abstract class AbstractReadmeTest extends PHPUnit
         'scrutinizer'             => false,
         'codefactor'              => false,
         'sonarcloud'              => false,
+        'strict_types'            => false,
         'travis'                  => true,
         'coveralls'               => true,
         'circle_ci'               => false,
@@ -85,8 +86,7 @@ abstract class AbstractReadmeTest extends PHPUnit
         'scrutinizer',
         'codefactor',
         'sonarcloud',
-        'docker_build',
-        'docker_pulls',
+        'strict_types',
         '__BR__',
         'latest_stable_version',
         'latest_unstable_version',
@@ -94,6 +94,8 @@ abstract class AbstractReadmeTest extends PHPUnit
         'github_issues',
         'total_downloads',
         'github_license',
+        'docker_build',
+        'docker_pulls',
     ];
 
     /**
@@ -144,51 +146,81 @@ abstract class AbstractReadmeTest extends PHPUnit
         return "# {$this->vendorName} / {$this->packageName}";
     }
 
+    /**
+     * @return string|null
+     */
     protected function checkBadgeLatestStableVersion(): ?string
     {
         return $this->getPreparedBadge($this->getBadgePackagist('Stable Version', 'version'));
     }
 
+    /**
+     * @return string|null
+     */
     protected function checkBadgeLatestUnstableVersion(): ?string
     {
         return $this->getPreparedBadge($this->getBadgePackagist('Latest Unstable Version', 'v/unstable'));
     }
 
+    /**
+     * @return string|null
+     */
     protected function checkBadgeTotalDownloads(): ?string
     {
         return $this->getPreparedBadge($this->getBadgePackagist('Total Downloads', 'downloads', 'stats'));
     }
 
+    /**
+     * @return string|null
+     */
     protected function checkBadgePackagistLicense(): ?string
     {
         return $this->getPreparedBadge($this->getBadgePackagist('License', 'license'));
     }
 
+    /**
+     * @return string|null
+     */
     protected function checkBadgeMonthlyDownloads(): ?string
     {
         return $this->getPreparedBadge($this->getBadgePackagist('Monthly Downloads', 'd/monthly', 'stats'));
     }
 
+    /**
+     * @return string|null
+     */
     protected function checkBadgeDailyDownloads(): ?string
     {
         return $this->getPreparedBadge($this->getBadgePackagist('Daily Downloads', 'd/daily', 'stats'));
     }
 
+    /**
+     * @return string|null
+     */
     protected function checkBadgeVersion(): ?string
     {
         return $this->getPreparedBadge($this->getBadgePackagist('Version', 'version'));
     }
 
+    /**
+     * @return string|null
+     */
     protected function checkBadgeComposerlock(): ?string
     {
         return $this->getPreparedBadge($this->getBadgePackagist('Version', 'composerlock'));
     }
 
+    /**
+     * @return string|null
+     */
     protected function checkBadgeGitattributes(): ?string
     {
         return $this->getPreparedBadge($this->getBadgePackagist('.gitattributes', 'gitattributes'));
     }
 
+    /**
+     * @return string|null
+     */
     protected function checkBadgeDependents(): ?string
     {
         return $this->getPreparedBadge(
@@ -196,16 +228,25 @@ abstract class AbstractReadmeTest extends PHPUnit
         );
     }
 
+    /**
+     * @return string|null
+     */
     protected function checkBadgeSuggesters(): ?string
     {
         return $this->getPreparedBadge($this->getBadgePackagist('Suggesters', 'suggesters'));
     }
 
+    /**
+     * @return string|null
+     */
     protected function checkBadgeCircleCI(): ?string
     {
         return $this->getPreparedBadge($this->getBadgePackagist('CircleCI Build', 'circleci'));
     }
 
+    /**
+     * @return string|null
+     */
     protected function checkBadgeTravis(): ?string
     {
         return $this->getPreparedBadge($this->getBadge(
@@ -215,6 +256,9 @@ abstract class AbstractReadmeTest extends PHPUnit
         ));
     }
 
+    /**
+     * @return string|null
+     */
     protected function checkBadgeCoveralls(): ?string
     {
         return $this->getPreparedBadge($this->getBadge(
@@ -224,6 +268,9 @@ abstract class AbstractReadmeTest extends PHPUnit
         ));
     }
 
+    /**
+     * @return string|null
+     */
     protected function checkBadgeCodacy(): ?string
     {
         return $this->getPreparedBadge($this->getBadge(
@@ -233,6 +280,9 @@ abstract class AbstractReadmeTest extends PHPUnit
         ));
     }
 
+    /**
+     * @return string|null
+     */
     protected function checkBadgePsalmCoverage(): ?string
     {
         return $this->getPreparedBadge($this->getBadge(
@@ -242,6 +292,9 @@ abstract class AbstractReadmeTest extends PHPUnit
         ));
     }
 
+    /**
+     * @return string|null
+     */
     protected function checkBadgeGithubIssues(): ?string
     {
         return $this->getPreparedBadge($this->getBadge(
@@ -251,6 +304,9 @@ abstract class AbstractReadmeTest extends PHPUnit
         ));
     }
 
+    /**
+     * @return string|null
+     */
     protected function checkBadgeGithubForks(): ?string
     {
         return $this->getPreparedBadge($this->getBadge(
@@ -260,6 +316,9 @@ abstract class AbstractReadmeTest extends PHPUnit
         ));
     }
 
+    /**
+     * @return string|null
+     */
     protected function checkBadgeGithubStars(): ?string
     {
         return $this->getPreparedBadge($this->getBadge(
@@ -269,6 +328,9 @@ abstract class AbstractReadmeTest extends PHPUnit
         ));
     }
 
+    /**
+     * @return string|null
+     */
     protected function checkBadgeGithubLicense(): ?string
     {
         return $this->getPreparedBadge($this->getBadge(
@@ -278,6 +340,9 @@ abstract class AbstractReadmeTest extends PHPUnit
         ));
     }
 
+    /**
+     * @return string|null
+     */
     protected function checkBadgeDockerBuild(): ?string
     {
         return $this->getPreparedBadge($this->getBadge(
@@ -287,6 +352,9 @@ abstract class AbstractReadmeTest extends PHPUnit
         ));
     }
 
+    /**
+     * @return string|null
+     */
     protected function checkBadgeDockerPulls(): ?string
     {
         return $this->getPreparedBadge($this->getBadge(
@@ -296,6 +364,9 @@ abstract class AbstractReadmeTest extends PHPUnit
         ));
     }
 
+    /**
+     * @return string|null
+     */
     protected function checkBadgeScrutinizer(): ?string
     {
         return $this->getPreparedBadge($this->getBadge(
@@ -305,6 +376,9 @@ abstract class AbstractReadmeTest extends PHPUnit
         ));
     }
 
+    /**
+     * @return string|null
+     */
     protected function checkBadgeCodefactor(): ?string
     {
         return $this->getPreparedBadge($this->getBadge(
@@ -314,6 +388,9 @@ abstract class AbstractReadmeTest extends PHPUnit
         ));
     }
 
+    /**
+     * @return string|null
+     */
     protected function checkBadgeSonarcloud(): ?string
     {
         $project = '__VENDOR_ORIG_____PACKAGE_ORIG__';
@@ -322,6 +399,18 @@ abstract class AbstractReadmeTest extends PHPUnit
             'Quality Gate Status',
             "https://sonarcloud.io/api/project_badges/measure?project={$project}&metric=alert_status",
             "https://sonarcloud.io/dashboard?id={$project}"
+        ));
+    }
+
+    /**
+     * @return string|null
+     */
+    protected function checkBadgeStrictTypes(): ?string
+    {
+        return $this->getPreparedBadge($this->getBadge(
+            'PHP Strict Types',
+            'https://img.shields.io/badge/strict__types-%3D1-brightgreen',
+            'https://www.php.net/manual/en/language.types.declarations.php#language.types.declarations.strict'
         ));
     }
 
