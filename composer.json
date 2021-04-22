@@ -1,11 +1,11 @@
 {
-    "name"              : "jbzoo/phpunit",
-    "type"              : "library",
-    "description"       : "PHPUnit toolbox with short assert aliases and useful functions around testing",
-    "license"           : "MIT",
-    "keywords"          : ["phpunit", "jbzoo", "aliases", "short-syntax", "testing", "assert", "assertion", "debug"],
+    "name"        : "jbzoo/phpunit",
+    "type"        : "library",
+    "description" : "PHPUnit toolbox with short assert aliases and useful functions around testing",
+    "license"     : "MIT",
+    "keywords"    : ["phpunit", "jbzoo", "aliases", "short-syntax", "testing", "assert", "assertion", "debug"],
 
-    "authors"           : [
+    "authors"     : [
         {
             "name"  : "Denis Smetannikov",
             "email" : "admin@jbzoo.com",
@@ -13,7 +13,7 @@
         }
     ],
 
-    "require"           : {
+    "require"     : {
         "php"                                : ">=7.2",
         "ext-filter"                         : "*",
         "ext-mbstring"                       : "*",
@@ -26,25 +26,25 @@
         "ulrichsg/getopt-php"                : "^3.4.0"
     },
 
-    "require-dev"       : {
-        "jbzoo/utils"          : "^4.2.3",
-        "jbzoo/codestyle"      : "^2.9.4",
-        "jbzoo/data"           : "^4.1.3",
-        "jbzoo/http-client"    : "^3.4.2",
-        "jbzoo/composer-graph" : "^1.0.4",
-        "jbzoo/toolbox-ci"     : "^1.3.5",
-        "jbzoo/toolbox-dev"    : "^2.9.1",
+    "require-dev" : {
+        "jbzoo/utils"          : "^4.3.0",
+        "jbzoo/codestyle"      : "^2.10.0",
+        "jbzoo/data"           : "^4.2.1",
+        "jbzoo/http-client"    : "^3.5.0",
+        "jbzoo/composer-graph" : "^1.2.0",
+        "jbzoo/toolbox-ci"     : "^1.4.0",
+        "jbzoo/toolbox-dev"    : "^2.10.0",
         "jbzoo/jbdump"         : "^1.5.6",
 
         "guzzlehttp/guzzle"    : ">=7.3.0",
         "symfony/process"      : ">=5.2.4"
     },
 
-    "suggest"           : {
+    "suggest"     : {
         "jbzoo/utils" : "^4.2.3 to use all functionality"
     },
 
-    "autoload"          : {
+    "autoload"    : {
         "files" : [
             "src/functions/defines.php",
             "src/functions/aliases.php",
@@ -55,13 +55,11 @@
         }
     },
 
-    "minimum-stability" : "dev",
-    "prefer-stable"     : true,
-    "config"            : {
+    "config"      : {
         "optimize-autoloader" : true
     },
 
-    "extra"             : {
+    "extra"       : {
         "branch-alias" : {
             "dev-master" : "4.x-dev"
         }
