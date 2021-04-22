@@ -11,8 +11,9 @@
  * @license    MIT
  * @copyright  Copyright (C) JBZoo.com, All rights reserved.
  * @link       https://github.com/JBZoo/PHPUnit
- * @author     Denis Smetannikov <denis@jbzoo.com>
  */
+
+declare(strict_types=1);
 
 namespace JBZoo\PHPUnit;
 
@@ -24,5 +25,10 @@ namespace JBZoo\PHPUnit;
 class PHPUnitReadmeTest extends AbstractReadmeTest
 {
     protected $packageName = 'PHPUnit';
-    protected $codacyId    = '6cfd2188e43f4f86bd996d6c3aaccf9a';
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->params['strict_types'] = true;
+    }
 }

@@ -11,8 +11,9 @@
  * @license    MIT
  * @copyright  Copyright (C) JBZoo.com, All rights reserved.
  * @link       https://github.com/JBZoo/PHPUnit
- * @author     Denis Smetannikov <denis@jbzoo.com>
  */
+
+declare(strict_types=1);
 
 namespace JBZoo\PHPUnit;
 
@@ -23,7 +24,8 @@ namespace JBZoo\PHPUnit;
  */
 class PHPUnitCopyrightTest extends AbstractCopyrightTest
 {
-    protected $packageName = 'PHPUnit';
+    protected $packageName     = 'PHPUnit';
+    protected $isPhpStrictType = true;
 
     /**
      * Ignore list for

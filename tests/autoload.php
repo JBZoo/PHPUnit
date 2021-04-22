@@ -11,11 +11,12 @@
  * @license    MIT
  * @copyright  Copyright (C) JBZoo.com, All rights reserved.
  * @link       https://github.com/JBZoo/PHPUnit
- * @author     Denis Smetannikov <denis@jbzoo.com>
  */
 
+declare(strict_types=1);
+
 // main autoload
-if ($autoload = realpath('./vendor/autoload.php')) {
+if ($autoload = dirname(__DIR__) . '/vendor/autoload.php') {
     require_once $autoload;
 } else {
     echo 'execute "composer update"';
