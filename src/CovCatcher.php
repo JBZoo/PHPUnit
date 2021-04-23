@@ -21,6 +21,7 @@ use JBZoo\Data\Data;
 use JBZoo\Utils\Env;
 use JBZoo\Utils\Sys;
 use SebastianBergmann\CodeCoverage\CodeCoverage;
+use SebastianBergmann\CodeCoverage\Driver\Xdebug;
 use SebastianBergmann\CodeCoverage\Filter;
 use SebastianBergmann\CodeCoverage\Report\Clover;
 use SebastianBergmann\CodeCoverage\Report\Html\Facade;
@@ -79,6 +80,8 @@ class CovCatcher
      * @phan-suppress PhanTypeMismatchArgumentReal
      * @phan-suppress PhanTypeExpectedObjectOrClassName
      * @phan-suppress PhanUndeclaredClass
+     * @phan-suppress PhanUndeclaredClassReference
+     * @phan-suppress PhanUndeclaredClassMethod
      */
     public function __construct($testName = null, array $options = [])
     {
@@ -112,12 +115,13 @@ class CovCatcher
             }
 
             $selectorClass = '\SebastianBergmann\CodeCoverage\Driver\Selector';
+
             if (class_exists($selectorClass)) {
                 $driver = (new $selectorClass())->forLineAndPathCoverage($covFilter);
                 $this->coverage = new CodeCoverage($driver, $covFilter);
-            } else {
+            } elseif (class_exists(Xdebug::class)) {
                 /** @phpstan-ignore-next-line */
-                $this->coverage = new CodeCoverage(null, $covFilter);
+                $this->coverage = new CodeCoverage(new Xdebug($covFilter), $covFilter);
             }
         }
     }
