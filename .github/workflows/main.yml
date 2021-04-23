@@ -64,10 +64,6 @@ jobs:
         continue-on-error: ${{ matrix.experimental }}
         run: make codestyle --no-print-directory
 
-      - name: 🔥 PHPBench - Performance Report
-        continue-on-error: ${{ matrix.experimental }}
-        run: XDEBUG_OFF=yes make test-performance-travis --no-print-directory
-
       - name: 📝 Build All Reports at Once
         continue-on-error: ${{ matrix.experimental }}
         run: make report-all --no-print-directory
