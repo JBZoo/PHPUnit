@@ -28,7 +28,7 @@
 
     "require-dev" : {
         "jbzoo/utils"          : "^4.3.0",
-        "jbzoo/codestyle"      : "^2.10.0",
+        "jbzoo/codestyle"      : "^2.11.1",
         "jbzoo/data"           : "^4.2.1",
         "jbzoo/http-client"    : "^3.5.0",
         "jbzoo/composer-graph" : "^1.2.0",
@@ -41,7 +41,7 @@
     },
 
     "suggest"     : {
-        "jbzoo/utils" : "^4.2.3 to use all functionality"
+        "jbzoo/utils" : "^4.2.3 to use all functionals"
     },
 
     "autoload"    : {

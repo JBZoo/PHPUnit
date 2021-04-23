@@ -454,7 +454,7 @@ abstract class AbstractReadmeTest extends PHPUnit
             $result = str_replace($key, $value, $result);
         }
 
-        return (string)$result;
+        return $result;
     }
 
     /**
