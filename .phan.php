@@ -15,7 +15,7 @@
 
 declare(strict_types=1);
 
-$default = include __DIR__ . '/../vendor/jbzoo/codestyle/src/phan/default.php';
+$default = include __DIR__ . '/vendor/jbzoo/codestyle/src/phan/default.php';
 
 // See isNotLike(), isLike()
 $index = array_search('UnusedSuppressionPlugin', $default['plugins'], true);
