@@ -120,9 +120,9 @@ function isFalse($value, string $message = ''): void
 
 
 /**
- * @param string $expected
- * @param mixed  $className
- * @param string $message
+ * @param string                              $expected
+ * @param mixed                               $className
+ * @param string                              $message
  *
  * @psalm-template ExpectedType of object
  * @psalm-param    class-string<ExpectedType> $expected
@@ -491,17 +491,71 @@ function isNotAmountCur(array $expected, array $actual, string $message = '', fl
 /**
  * @param string $date1
  * @param string $date2
- * @param int    $timeDiff
+ * @param int    $expectedDiff
  * @param string $message
  * @throws \Exception
  */
-function isDiffBetweenDates(string $date1, string $date2, int $timeDiff = 300, string $message = ''): void
+function isDiffBetweenDates(string $date1, string $date2, int $expectedDiff = 300, string $message = ''): void
 {
     $dateObj1 = new \DateTime($date1);
     $dateObj2 = new \DateTime($date2);
+    $actualDiff = abs((int)$dateObj1->getTimestamp() - (int)$dateObj2->getTimestamp());
     isTrue(
-        abs((int)$dateObj1->getTimestamp() - (int)$dateObj2->getTimestamp()) === $timeDiff,
-        "Diff between dates: {$date1} and {$date2} is more then {$timeDiff} seconds. {$message}"
+        $actualDiff === $expectedDiff,
+        trim(
+            "The expected difference between \"{$date1}\" and \"{$date2}\" is {$expectedDiff} seconds. " .
+            "The actual value is {$actualDiff} seconds. {$message}"
+        )
+    );
+}
+
+/**
+ * @param string $date1
+ * @param string $date2
+ * @param int    $expectedMaxDiff
+ * @param string $message
+ * @throws \Exception
+ */
+function isDiffBetweenDatesLessThan(
+    string $date1,
+    string $date2,
+    int $expectedMaxDiff = 300,
+    string $message = ''
+): void {
+    $dateObj1 = new \DateTime($date1);
+    $dateObj2 = new \DateTime($date2);
+    $actualDiff = abs((int)$dateObj1->getTimestamp() - (int)$dateObj2->getTimestamp());
+    isTrue(
+        $actualDiff < $expectedMaxDiff,
+        trim(
+            "Diff between dates: \"{$date1}\" and \"{$date2}\" is more than expected {$expectedMaxDiff} seconds. " .
+            "The actual value is {$actualDiff} seconds. {$message}"
+        )
+    );
+}
+
+/**
+ * @param string $date1
+ * @param string $date2
+ * @param int    $expectedMinDiff
+ * @param string $message
+ * @throws \Exception
+ */
+function isDiffBetweenDatesMoreThan(
+    string $date1,
+    string $date2,
+    int $expectedMinDiff = 300,
+    string $message = ''
+): void {
+    $dateObj1 = new \DateTime($date1);
+    $dateObj2 = new \DateTime($date2);
+    $actualDiff = abs((int)$dateObj1->getTimestamp() - (int)$dateObj2->getTimestamp());
+    isTrue(
+        $actualDiff > $expectedMinDiff,
+        trim(
+            "Diff between dates: \"{$date1}\" and \"{$date2}\" is less than expected {$expectedMinDiff} seconds. " .
+            "The actual value is {$actualDiff} seconds. {$message}"
+        )
     );
 }
 

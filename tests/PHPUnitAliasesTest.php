@@ -150,7 +150,75 @@ class PHPUnitAliasesTest extends PHPUnit
 
     public function testIsDiffBetweenDates()
     {
-        isDiffBetweenDates('now', '- 5min');
+        isDiffBetweenDates('now', '-5min');
+        isDiffBetweenDates('+5min', 'now');
+        isDiffBetweenDates('+1min', 'now', 60);
+        isDiffBetweenDates('-1min', 'now', 60);
+        isDiffBetweenDates('now', '+1min', 60);
+        isDiffBetweenDates('now', '-1min', 60);
+
+        $isFail = false;
+        try {
+            isDiffBetweenDates('+5min', '-5min', 400, 'My message.');
+        } catch (\Exception $exception) {
+            isContain(
+                'The expected difference between "+5min" and "-5min" is 400 seconds. ' .
+                'The actual value is 600 seconds. My message.',
+                $exception->getMessage()
+            );
+
+            $isFail = true;
+        }
+
+        isTrue($isFail);
+    }
+
+    public function testIsDiffBetweenDatesLessThan()
+    {
+        isDiffBetweenDatesLessThan('now', '-4min');
+        isDiffBetweenDatesLessThan('+4min', 'now');
+        isDiffBetweenDatesLessThan('+59 sec', 'now', 60);
+        isDiffBetweenDatesLessThan('-59 sec', 'now', 60);
+        isDiffBetweenDatesLessThan('now', '+59 sec', 60);
+        isDiffBetweenDatesLessThan('now', '-59 sec', 60);
+
+        $isFail = false;
+        try {
+            isDiffBetweenDatesLessThan('+5min', '-5min', 100, 'My message.');
+        } catch (\Exception $exception) {
+            isContain(
+                'Diff between dates: "+5min" and "-5min" is more than expected 100 seconds. ' .
+                'The actual value is 600 seconds. My message.',
+                $exception->getMessage()
+            );
+            $isFail = true;
+        }
+
+        isTrue($isFail);
+    }
+
+    public function testIsDiffBetweenDatesMoreThan()
+    {
+        isDiffBetweenDatesMoreThan('now', '-6min');
+        isDiffBetweenDatesMoreThan('+6min', 'now');
+        isDiffBetweenDatesMoreThan('+59 sec', 'now', 50);
+        isDiffBetweenDatesMoreThan('-59 sec', 'now', 50);
+        isDiffBetweenDatesMoreThan('now', '+59 sec', 50);
+        isDiffBetweenDatesMoreThan('now', '-59 sec', 50);
+
+        $isFail = false;
+        try {
+            isDiffBetweenDatesMoreThan('+5min', '-5min', 1000, 'My message.');
+        } catch (\Exception $exception) {
+            isContain(
+                'Diff between dates: "+5min" and "-5min" is less than expected 1000 seconds. ' .
+                'The actual value is 600 seconds. My message.',
+                $exception->getMessage()
+            );
+            $isFail = true;
+        }
+
+        isTrue($isFail);
     }
 
     public function testIsFileNotContains()
