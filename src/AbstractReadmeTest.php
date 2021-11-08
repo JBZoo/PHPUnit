@@ -72,7 +72,7 @@ abstract class AbstractReadmeTest extends PHPUnit
         'codefactor'              => false,
         'sonarcloud'              => false,
         'strict_types'            => false,
-        'travis'                  => true,
+        'travis'                  => false,
         'coveralls'               => true,
         'circle_ci'               => false,
     ];
