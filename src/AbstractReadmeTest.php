@@ -17,6 +17,8 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit;
 
+use JBZoo\Markdown\Markdown;
+
 /**
  * Class AbstractReadmeTest
  *
@@ -49,54 +51,63 @@ abstract class AbstractReadmeTest extends PHPUnit
      * @var bool[]
      */
     protected $params = [
-        'latest_stable_version'   => true,
-        'latest_unstable_version' => true,
-        'version'                 => false,
-        'total_downloads'         => true,
-        'dependents'              => true,
-        'suggesters'              => false,
-        'daily_downloads'         => false,
-        'monthly_downloads'       => false,
-        'composerlock'            => false,
-        'gitattributes'           => false,
-        'packagist_license'       => false,
-        'github_issues'           => true,
-        'github_license'          => true,
-        'github_forks'            => false,
-        'github_stars'            => false,
-        'codacy'                  => true,
-        'psalm_coverage'          => true,
-        'docker_build'            => false,
-        'docker_pulls'            => false,
-        'scrutinizer'             => false,
-        'codefactor'              => false,
-        'sonarcloud'              => false,
-        'strict_types'            => false,
-        'travis'                  => false,
-        'coveralls'               => true,
-        'circle_ci'               => false,
+        // Packagist
+        'packagist_latest_stable_version'   => true,
+        'packagist_latest_unstable_version' => true,
+        'packagist_license'                 => false,
+        'packagist_version'                 => false,
+
+        'packagist_dependents' => true,
+        'packagist_suggesters' => false,
+
+        'packagist_downloads_total'   => true,
+        'packagist_downloads_daily'   => false,
+        'packagist_downloads_monthly' => false,
+
+        'packagist_composerlock'  => false,
+        'packagist_gitattributes' => false,
+
+        'github_issues'  => true,
+        'github_license' => true,
+        'github_forks'   => false,
+        'github_stars'   => false,
+        'github_actions' => true,
+
+        'docker_build' => false,
+        'docker_pulls' => false,
+
+        'psalm_coverage' => true,
+        'scrutinizer'    => false,
+        'codacy'         => true,
+        'codefactor'     => true,
+        'sonarcloud'     => false,
+        'strict_types'   => true,
+
+        'coveralls' => false,
+        'codecov'   => true,
+        'travis'    => false,
+        'circle_ci' => false,
+        'visitors'  => true,
     ];
 
     /**
      * @var string[]
      */
     protected $badgesTemplate = [
-        'travis',
-        'coveralls',
+        'github_actions',
+        'docker_build',
+        'codecov',
         'psalm_coverage',
-        'scrutinizer',
         'codefactor',
-        'sonarcloud',
         'strict_types',
         '__BR__',
-        'latest_stable_version',
-        'latest_unstable_version',
-        'dependents',
-        'github_issues',
-        'total_downloads',
-        'github_license',
-        'docker_build',
+        'packagist_latest_stable_version',
+        'packagist_downloads_total',
         'docker_pulls',
+        'packagist_dependents',
+        'github_issues',
+        'github_license',
+        'visitors',
     ];
 
     /**
@@ -137,8 +148,6 @@ abstract class AbstractReadmeTest extends PHPUnit
         isFileContains($expectedBadgeLine, PROJECT_ROOT . '/README.md');
     }
 
-    #### Tools #########################################################################################################
-
     /**
      * @return string
      */
@@ -147,10 +156,12 @@ abstract class AbstractReadmeTest extends PHPUnit
         return "# {$this->vendorName} / {$this->packageName}";
     }
 
+    #### Bages #########################################################################################################
+
     /**
      * @return string|null
      */
-    protected function checkBadgeLatestStableVersion(): ?string
+    protected function checkBadgePackagistLatestStableVersion(): ?string
     {
         return $this->getPreparedBadge($this->getBadgePackagist('Stable Version', 'version'));
     }
@@ -158,7 +169,7 @@ abstract class AbstractReadmeTest extends PHPUnit
     /**
      * @return string|null
      */
-    protected function checkBadgeLatestUnstableVersion(): ?string
+    protected function checkBadgePackagistLatestUnstableVersion(): ?string
     {
         return $this->getPreparedBadge($this->getBadgePackagist('Latest Unstable Version', 'v/unstable'));
     }
@@ -166,7 +177,7 @@ abstract class AbstractReadmeTest extends PHPUnit
     /**
      * @return string|null
      */
-    protected function checkBadgeTotalDownloads(): ?string
+    protected function checkBadgePackagistDownloadsTotal(): ?string
     {
         return $this->getPreparedBadge($this->getBadgePackagist('Total Downloads', 'downloads', 'stats'));
     }
@@ -182,7 +193,7 @@ abstract class AbstractReadmeTest extends PHPUnit
     /**
      * @return string|null
      */
-    protected function checkBadgeMonthlyDownloads(): ?string
+    protected function checkBadgePackagistDownloadsMonthly(): ?string
     {
         return $this->getPreparedBadge($this->getBadgePackagist('Monthly Downloads', 'd/monthly', 'stats'));
     }
@@ -190,7 +201,7 @@ abstract class AbstractReadmeTest extends PHPUnit
     /**
      * @return string|null
      */
-    protected function checkBadgeDailyDownloads(): ?string
+    protected function checkBadgePackagistDownloadsDaily(): ?string
     {
         return $this->getPreparedBadge($this->getBadgePackagist('Daily Downloads', 'd/daily', 'stats'));
     }
@@ -198,7 +209,7 @@ abstract class AbstractReadmeTest extends PHPUnit
     /**
      * @return string|null
      */
-    protected function checkBadgeVersion(): ?string
+    protected function checkBadgePackagistVersion(): ?string
     {
         return $this->getPreparedBadge($this->getBadgePackagist('Version', 'version'));
     }
@@ -206,7 +217,7 @@ abstract class AbstractReadmeTest extends PHPUnit
     /**
      * @return string|null
      */
-    protected function checkBadgeComposerlock(): ?string
+    protected function checkBadgePackagistComposerlock(): ?string
     {
         return $this->getPreparedBadge($this->getBadgePackagist('Version', 'composerlock'));
     }
@@ -214,7 +225,7 @@ abstract class AbstractReadmeTest extends PHPUnit
     /**
      * @return string|null
      */
-    protected function checkBadgeGitattributes(): ?string
+    protected function checkBadgePackagistGitAttributes(): ?string
     {
         return $this->getPreparedBadge($this->getBadgePackagist('.gitattributes', 'gitattributes'));
     }
@@ -222,7 +233,7 @@ abstract class AbstractReadmeTest extends PHPUnit
     /**
      * @return string|null
      */
-    protected function checkBadgeDependents(): ?string
+    protected function checkBadgePackagistDependents(): ?string
     {
         return $this->getPreparedBadge(
             $this->getBadgePackagist('Dependents', 'dependents', 'dependents?order_by=downloads')
@@ -232,7 +243,7 @@ abstract class AbstractReadmeTest extends PHPUnit
     /**
      * @return string|null
      */
-    protected function checkBadgeSuggesters(): ?string
+    protected function checkBadgePackagistSuggesters(): ?string
     {
         return $this->getPreparedBadge($this->getBadgePackagist('Suggesters', 'suggesters'));
     }
@@ -252,8 +263,8 @@ abstract class AbstractReadmeTest extends PHPUnit
     {
         return $this->getPreparedBadge($this->getBadge(
             'Build Status',
-            'https://travis-ci.org/__VENDOR_ORIG__/__PACKAGE_ORIG__.svg',
-            'https://travis-ci.org/__VENDOR_ORIG__/__PACKAGE_ORIG__'
+            'https://travis-ci.org/__VENDOR_ORIG__/__PACKAGE_ORIG__.svg?branch=master',
+            'https://travis-ci.org/__VENDOR_ORIG__/__PACKAGE_ORIG__?branch=master'
         ));
     }
 
@@ -264,8 +275,8 @@ abstract class AbstractReadmeTest extends PHPUnit
     {
         return $this->getPreparedBadge($this->getBadge(
             'Coverage Status',
-            'https://coveralls.io/repos/__VENDOR_ORIG__/__PACKAGE_ORIG__/badge.svg',
-            'https://coveralls.io/github/__VENDOR_ORIG__/__PACKAGE_ORIG__'
+            'https://coveralls.io/repos/__VENDOR_ORIG__/__PACKAGE_ORIG__/badge.svg?branch=master',
+            'https://coveralls.io/github/__VENDOR_ORIG__/__PACKAGE_ORIG__?branch=master'
         ));
     }
 
@@ -431,6 +442,55 @@ abstract class AbstractReadmeTest extends PHPUnit
     }
 
     /**
+     * @return string|null
+     */
+    protected function checkBadgeCodecov(): ?string
+    {
+        return $this->getPreparedBadge($this->getBadge(
+            'codecov',
+            'https://codecov.io/gh/__VENDOR_ORIG__/__PACKAGE_ORIG__/branch/master/graph/badge.svg',
+            'https://codecov.io/gh/__VENDOR_ORIG__/__PACKAGE_ORIG__/branch/master'
+        ));
+    }
+
+    /**
+     * @return string|null
+     */
+    protected function checkBadgePhpVersion(): ?string
+    {
+        return $this->getPreparedBadge($this->getBadge(
+            'PHP Version',
+            'https://img.shields.io/packagist/php-v/__VENDOR__/__PACKAGE__',
+            'https://github.com/__VENDOR_ORIG__/__PACKAGE_ORIG__/blob/master/composer.json'
+        ));
+    }
+
+    /**
+     * @return string|null
+     */
+    protected function checkBadgeGithubActions(): ?string
+    {
+        return $this->getPreparedBadge($this->getBadge(
+            'CI',
+            'https://github.com/__VENDOR_ORIG__/__PACKAGE_ORIG__/actions/workflows/main.yml/badge.svg?branch=master',
+            'https://github.com/__VENDOR_ORIG__/__PACKAGE_ORIG__/actions/workflows/main.yml?query=branch%3Amaster'
+        ));
+    }
+
+    /**
+     * @return string|null
+     */
+    protected function checkBadgeVisitors(): ?string
+    {
+        return $this->getPreparedBadge($this->getBadge(
+            'Visitors',
+            'https://visitor-badge.glitch.me/badge?page_id=__VENDOR__.__PACKAGE__'
+        ));
+    }
+
+    //// Tools /////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
      * @param string $name
      * @param string $svgUrl
      * @param string $linkUrl
@@ -449,7 +509,7 @@ abstract class AbstractReadmeTest extends PHPUnit
             '__PACKAGE__'      => strtolower($this->packageName),
         ];
 
-        $result = '[![__NAME__](__SVG_URL__)](__SERVICE_URL__)';
+        $result = Markdown::badge('__NAME__', '__SVG_URL__', '__SERVICE_URL__');
         foreach ($params as $key => $value) {
             $result = str_replace($key, $value, $result);
         }
