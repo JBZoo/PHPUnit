@@ -54,40 +54,39 @@ abstract class AbstractReadmeTest extends PHPUnit
         // Packagist
         'packagist_latest_stable_version'   => true,
         'packagist_latest_unstable_version' => true,
-        'packagist_license'                 => false,
-        'packagist_version'                 => false,
+        'packagist_license'                 => true,
+        'packagist_version'                 => true,
 
         'packagist_dependents' => true,
-        'packagist_suggesters' => false,
+        'packagist_suggesters' => true,
 
         'packagist_downloads_total'   => true,
-        'packagist_downloads_daily'   => false,
-        'packagist_downloads_monthly' => false,
+        'packagist_downloads_daily'   => true,
+        'packagist_downloads_monthly' => true,
 
-        'packagist_composerlock'  => false,
-        'packagist_gitattributes' => false,
+        'packagist_composerlock'  => true,
+        'packagist_gitattributes' => true,
 
         'github_issues'  => true,
         'github_license' => true,
-        'github_forks'   => false,
-        'github_stars'   => false,
+        'github_forks'   => true,
+        'github_stars'   => true,
         'github_actions' => true,
 
         'docker_build' => false,
         'docker_pulls' => false,
 
         'psalm_coverage' => true,
-        'scrutinizer'    => false,
+        'scrutinizer'    => true,
         'codacy'         => true,
         'codefactor'     => true,
-        'sonarcloud'     => false,
+        'sonarcloud'     => true,
         'strict_types'   => true,
-
-        'coveralls' => false,
-        'codecov'   => true,
-        'travis'    => false,
-        'circle_ci' => false,
-        'visitors'  => true,
+        'coveralls'      => true,
+        'codecov'        => true,
+        'travis'         => true,
+        'circle_ci'      => true,
+        'visitors'       => true,
     ];
 
     /**
@@ -99,15 +98,15 @@ abstract class AbstractReadmeTest extends PHPUnit
         'codecov',
         'psalm_coverage',
         'codefactor',
+        'scrutinizer',
         'strict_types',
         '__BR__',
         'packagist_latest_stable_version',
         'packagist_downloads_total',
         'docker_pulls',
         'packagist_dependents',
-        'github_issues',
-        'github_license',
         'visitors',
+        'github_license',
     ];
 
     /**
