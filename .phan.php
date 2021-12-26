@@ -21,6 +21,9 @@ $default = include __DIR__ . '/vendor/jbzoo/codestyle/src/phan/default.php';
 $index = array_search('UnusedSuppressionPlugin', $default['plugins'], true);
 unset($default['plugins'][$index]);
 
+$index = array_search('NotFullyQualifiedUsagePlugin', $default['plugins'], true);
+unset($default['plugins'][$index]);
+
 return array_merge($default, [
     'file_list' => [
         'src/functions/defines.php',
