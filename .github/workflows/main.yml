@@ -40,7 +40,7 @@ jobs:
         coverage: [ xdebug, none ]
         composer_flags: [ "--prefer-lowest", "" ]
         include:
-          - php-version: "8.1"
+          - php-version: "8.0"
             experimental: true
     steps:
       - name: Checkout code
