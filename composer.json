@@ -19,7 +19,6 @@
         "ext-mbstring"                         : "*",
 
         "phpunit/phpunit"                      : ">=8.5.15",
-        "phpunit/phpcov"                       : ">=6.0.1",
         "codedungeon/phpunit-result-printer"   : ">=0.30.1",
         "mheap/phpunit-github-actions-printer" : ">=1.5.1",
 
