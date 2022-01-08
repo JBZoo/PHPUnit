@@ -27,14 +27,16 @@
     },
 
     "require-dev" : {
-        "jbzoo/toolbox-dev" : "^3.1.0",
-        "jbzoo/http-client" : "^3.5.0",
-        "jbzoo/data"        : "^4.2.1",
-        "jbzoo/utils"       : "^4.4.0",
-        "jbzoo/markdown"    : "^1.1.1",
+        "jbzoo/toolbox-dev"        : "^3.1.0",
+        "jbzoo/http-client"        : "^3.5.0",
+        "jbzoo/data"               : "^4.2.1",
+        "jbzoo/utils"              : "^4.4.0",
+        "jbzoo/markdown"           : "^1.1.1",
 
-        "guzzlehttp/guzzle" : ">=7.3.0",
-        "symfony/process"   : ">=5.2.4"
+        "guzzlehttp/guzzle"        : ">=7.3.0",
+        "symfony/process"          : ">=5.2.4",
+
+        "phpunit/php-token-stream" : ">=3.1.3"
     },
 
     "suggest"     : {
