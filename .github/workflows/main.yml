@@ -35,12 +35,14 @@ jobs:
       JBZOO_COMPOSER_UPDATE_FLAGS: ${{ matrix.composer_flags }}
     strategy:
       matrix:
-        php-version: [ 7.2, 7.3, 7.4, 8.0 ]
+        php-version: [ 7.2, 7.3, 7.4 ]
         experimental: [ false ]
         coverage: [ xdebug, none ]
         composer_flags: [ "--prefer-lowest", "" ]
         include:
           - php-version: "8.0"
+            experimental: true
+          - php-version: "8.1"
             experimental: true
     steps:
       - name: Checkout code
