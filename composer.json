@@ -41,7 +41,7 @@
     },
 
     "suggest"     : {
-        "jbzoo/utils" : "^4.2.3 to use all functionals"
+        "jbzoo/utils" : "^4.2.3"
     },
 
     "autoload"    : {
