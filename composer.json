@@ -23,7 +23,9 @@
         "mheap/phpunit-github-actions-printer" : ">=1.5.1",
 
         "hanneskod/classtools"                 : ">=1.2.1",
-        "ulrichsg/getopt-php"                  : ">=3.4.0"
+        "ulrichsg/getopt-php"                  : ">=3.4.0",
+
+        "jbzoo/markdown"                       : "^1.1.1"
     },
 
     "require-dev" : {
@@ -31,7 +33,6 @@
         "jbzoo/http-client"        : "^3.5.0",
         "jbzoo/data"               : "^4.2.1",
         "jbzoo/utils"              : "^4.4.0",
-        "jbzoo/markdown"           : "^1.1.1",
 
         "guzzlehttp/guzzle"        : ">=7.3.0",
         "symfony/process"          : ">=5.2.4",
