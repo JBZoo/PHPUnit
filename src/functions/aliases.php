@@ -87,8 +87,8 @@ function isNot($expected, $actual, string $message = ''): void
 }
 
 /**
- * @param array<mixed> $testList
- * @param string       $message
+ * @param array  $testList
+ * @param string $message
  * @deprecated
  */
 function isBatch(array $testList, string $message = ''): void
@@ -99,23 +99,23 @@ function isBatch(array $testList, string $message = ''): void
 }
 
 /**
- * @param bool   $value
+ * @param mixed  $value
  * @param string $message
  * @phan-suppress PhanPluginCanUseParamType
  */
 function isTrue($value, string $message = ''): void
 {
-    Assert::assertTrue($value ? true : false, $message);
+    Assert::assertTrue($value, $message);
 }
 
 /**
- * @param bool   $value
+ * @param mixed  $value
  * @param string $message
  * @phan-suppress PhanPluginCanUseParamType
  */
 function isFalse($value, string $message = ''): void
 {
-    Assert::assertFalse($value ? true : false, $message);
+    Assert::assertFalse($value, $message);
 }
 
 
@@ -243,9 +243,9 @@ function isNotEmpty($expected, string $message = ''): void
 }
 
 /**
- * @param string|int   $key
- * @param array<mixed> $array
- * @param string       $message
+ * @param string|int $key
+ * @param array      $array
+ * @param string     $message
  */
 function isKey($key, array $array, string $message = ''): void
 {
@@ -253,9 +253,9 @@ function isKey($key, array $array, string $message = ''): void
 }
 
 /**
- * @param string|int   $key
- * @param array<mixed> $array
- * @param string       $message
+ * @param string|int $key
+ * @param array      $array
+ * @param string     $message
  */
 function isNotKey($key, array $array, string $message = ''): void
 {
@@ -499,7 +499,7 @@ function isDiffBetweenDates(string $date1, string $date2, int $expectedDiff = 30
 {
     $dateObj1 = new \DateTime($date1);
     $dateObj2 = new \DateTime($date2);
-    $actualDiff = abs((float)($dateObj1->getTimestamp() - $dateObj2->getTimestamp()));
+    $actualDiff = abs((int)($dateObj1->getTimestamp() - $dateObj2->getTimestamp()));
     isTrue(
         $actualDiff === $expectedDiff,
         trim(
@@ -612,7 +612,7 @@ function isFileNotContains(string $expected, string $filepath, bool $ignoreCase 
     isFile($filepath);
 
     $errMessage = implode("\n", [
-        "The file shouldn't contain expected text. " . ($message ? '' . $message : ''),
+        "The file shouldn't contain expected text. " . ($message ?: ''),
         "See: {$filepath}",
         "Expected text:",
         str_repeat('-', 80),
