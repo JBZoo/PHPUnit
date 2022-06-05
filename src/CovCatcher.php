@@ -21,11 +21,11 @@ use JBZoo\Data\Data;
 use JBZoo\Utils\Env;
 use JBZoo\Utils\Sys;
 use SebastianBergmann\CodeCoverage\CodeCoverage;
-use SebastianBergmann\CodeCoverage\Driver\Xdebug;
 use SebastianBergmann\CodeCoverage\Filter;
 use SebastianBergmann\CodeCoverage\Report\Clover;
 use SebastianBergmann\CodeCoverage\Report\Html\Facade;
 use SebastianBergmann\CodeCoverage\Report\PHP;
+use SebastianBergmann\CodeCoverage\Driver\Selector;
 
 /**
  * Class CovCatcher
@@ -40,12 +40,12 @@ class CovCatcher
     /**
      * @var bool
      */
-    protected $isStarted = false;
+    protected bool $isStarted = false;
 
     /**
      * @var CodeCoverage|null
      */
-    protected $coverage;
+    protected ?CodeCoverage $coverage;
 
     /**
      * @var array<bool|string>
@@ -63,7 +63,7 @@ class CovCatcher
     /**
      * @var Data
      */
-    protected $config;
+    protected Data $config;
 
     /**
      * @var string
@@ -73,7 +73,7 @@ class CovCatcher
     /**
      * CovCatcher constructor.
      *
-     * @param string             $testName
+     * @param string|null        $testName
      * @param array<bool|string> $options
      * @throws Exception
      *
@@ -83,7 +83,7 @@ class CovCatcher
      * @phan-suppress PhanUndeclaredClassReference
      * @phan-suppress PhanUndeclaredClassMethod
      */
-    public function __construct($testName = null, array $options = [])
+    public function __construct(?string $testName = null, array $options = [])
     {
         if (!class_exists(Data::class)) {
             throw new Exception('jbzoo/data is required for CovCatcher');
@@ -114,15 +114,8 @@ class CovCatcher
                 $covFilter->includeDirectory($this->config->get('src'));
             }
 
-            $selectorClass = '\SebastianBergmann\CodeCoverage\Driver\Selector';
-
-            if (class_exists($selectorClass)) {
-                $driver = (new $selectorClass())->forLineAndPathCoverage($covFilter);
-                $this->coverage = new CodeCoverage($driver, $covFilter);
-            } elseif (class_exists(Xdebug::class)) {
-                /** @phpstan-ignore-next-line */
-                $this->coverage = new CodeCoverage(new Xdebug($covFilter), $covFilter);
-            }
+            $driver = (new Selector())->forLineAndPathCoverage($covFilter);
+            $this->coverage = new CodeCoverage($driver, $covFilter);
         }
     }
 
@@ -140,11 +133,9 @@ class CovCatcher
 
         if ($realpath && file_exists($realpath)) {
             if (self::MODE_REQUIRE === $mode) {
-                /** @noinspection PhpIncludeInspection */
                 /** @psalm-suppress UnresolvableInclude */
                 $result = require $realpath;
             } elseif (self::MODE_REQUIRE_ONCE === $mode) {
-                /** @noinspection PhpIncludeInspection */
                 /** @noinspection UsingInclusionOnceReturnValueInspection */
                 /** @psalm-suppress UnresolvableInclude */
                 $result = require_once $realpath;
@@ -162,7 +153,6 @@ class CovCatcher
 
     /**
      * Save report
-     * @throws \ReflectionException
      */
     public function __destruct()
     {

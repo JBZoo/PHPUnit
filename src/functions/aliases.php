@@ -152,13 +152,7 @@ function isCount(int $expected, $actual, string $message = ''): void
  */
 function isLike(string $pattern, string $value, string $message = ''): void
 {
-    $methodName = 'assertRegExp';
-    if (method_exists(Assert::class, 'assertMatchesRegularExpression')) {
-        $methodName = 'assertMatchesRegularExpression';
-    }
-
-    /** @phan-suppress-next-line PhanUndeclaredStaticMethod */
-    Assert::$methodName($pattern, $value, $message);
+    Assert::assertMatchesRegularExpression($pattern, $value, $message);
 }
 
 /**
@@ -168,13 +162,7 @@ function isLike(string $pattern, string $value, string $message = ''): void
  */
 function isNotLike(string $pattern, string $value, string $message = ''): void
 {
-    $methodName = 'assertNotRegExp';
-    if (method_exists(Assert::class, 'assertDoesNotMatchRegularExpression')) {
-        $methodName = 'assertDoesNotMatchRegularExpression';
-    }
-
-    /** @phan-suppress-next-line PhanUndeclaredStaticMethod */
-    Assert::$methodName($pattern, $value, $message);
+    Assert::assertDoesNotMatchRegularExpression($pattern, $value, $message);
 }
 
 /**
@@ -327,13 +315,7 @@ function isFile(string $filePath, string $message = ''): void
 function isNotFile(string $notFilePath, string $message = ''): void
 {
     if (!is_dir($notFilePath)) {
-        $methodName = 'assertFileNotExists';
-        if (method_exists(Assert::class, 'assertFileDoesNotExist')) {
-            $methodName = 'assertFileDoesNotExist';
-        }
-
-        /** @phan-suppress-next-line PhanUndeclaredStaticMethod */
-        Assert::$methodName($notFilePath, $message);
+        Assert::assertFileDoesNotExist($notFilePath, $message);
     } else {
         success($message);
     }
