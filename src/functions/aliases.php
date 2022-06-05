@@ -499,7 +499,7 @@ function isDiffBetweenDates(string $date1, string $date2, int $expectedDiff = 30
 {
     $dateObj1 = new \DateTime($date1);
     $dateObj2 = new \DateTime($date2);
-    $actualDiff = abs($dateObj1->getTimestamp() - $dateObj2->getTimestamp());
+    $actualDiff = abs((float)($dateObj1->getTimestamp() - $dateObj2->getTimestamp()));
     isTrue(
         $actualDiff === $expectedDiff,
         trim(
@@ -524,7 +524,7 @@ function isDiffBetweenDatesLessThan(
 ): void {
     $dateObj1 = new \DateTime($date1);
     $dateObj2 = new \DateTime($date2);
-    $actualDiff = abs($dateObj1->getTimestamp() - $dateObj2->getTimestamp());
+    $actualDiff = abs((float)($dateObj1->getTimestamp() - $dateObj2->getTimestamp()));
     isTrue(
         $actualDiff < $expectedMaxDiff,
         trim(
@@ -549,7 +549,7 @@ function isDiffBetweenDatesMoreThan(
 ): void {
     $dateObj1 = new \DateTime($date1);
     $dateObj2 = new \DateTime($date2);
-    $actualDiff = abs($dateObj1->getTimestamp() - $dateObj2->getTimestamp());
+    $actualDiff = abs((float)($dateObj1->getTimestamp() - $dateObj2->getTimestamp()));
     isTrue(
         $actualDiff > $expectedMinDiff,
         trim(
