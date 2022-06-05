@@ -87,8 +87,8 @@ function isNot($expected, $actual, string $message = ''): void
 }
 
 /**
- * @param array<mixed> $testList
- * @param string       $message
+ * @param array  $testList
+ * @param string $message
  * @deprecated
  */
 function isBatch(array $testList, string $message = ''): void
@@ -99,23 +99,23 @@ function isBatch(array $testList, string $message = ''): void
 }
 
 /**
- * @param bool   $value
+ * @param mixed  $value
  * @param string $message
  * @phan-suppress PhanPluginCanUseParamType
  */
 function isTrue($value, string $message = ''): void
 {
-    Assert::assertTrue($value ? true : false, $message);
+    Assert::assertTrue($value, $message);
 }
 
 /**
- * @param bool   $value
+ * @param mixed  $value
  * @param string $message
  * @phan-suppress PhanPluginCanUseParamType
  */
 function isFalse($value, string $message = ''): void
 {
-    Assert::assertFalse($value ? true : false, $message);
+    Assert::assertFalse($value, $message);
 }
 
 
@@ -152,13 +152,7 @@ function isCount(int $expected, $actual, string $message = ''): void
  */
 function isLike(string $pattern, string $value, string $message = ''): void
 {
-    $methodName = 'assertRegExp';
-    if (method_exists(Assert::class, 'assertMatchesRegularExpression')) {
-        $methodName = 'assertMatchesRegularExpression';
-    }
-
-    /** @phan-suppress-next-line PhanUndeclaredStaticMethod */
-    Assert::$methodName($pattern, $value, $message);
+    Assert::assertMatchesRegularExpression($pattern, $value, $message);
 }
 
 /**
@@ -168,13 +162,7 @@ function isLike(string $pattern, string $value, string $message = ''): void
  */
 function isNotLike(string $pattern, string $value, string $message = ''): void
 {
-    $methodName = 'assertNotRegExp';
-    if (method_exists(Assert::class, 'assertDoesNotMatchRegularExpression')) {
-        $methodName = 'assertDoesNotMatchRegularExpression';
-    }
-
-    /** @phan-suppress-next-line PhanUndeclaredStaticMethod */
-    Assert::$methodName($pattern, $value, $message);
+    Assert::assertDoesNotMatchRegularExpression($pattern, $value, $message);
 }
 
 /**
@@ -243,9 +231,9 @@ function isNotEmpty($expected, string $message = ''): void
 }
 
 /**
- * @param string|int   $key
- * @param array<mixed> $array
- * @param string       $message
+ * @param string|int $key
+ * @param array      $array
+ * @param string     $message
  */
 function isKey($key, array $array, string $message = ''): void
 {
@@ -253,9 +241,9 @@ function isKey($key, array $array, string $message = ''): void
 }
 
 /**
- * @param string|int   $key
- * @param array<mixed> $array
- * @param string       $message
+ * @param string|int $key
+ * @param array      $array
+ * @param string     $message
  */
 function isNotKey($key, array $array, string $message = ''): void
 {
@@ -327,13 +315,7 @@ function isFile(string $filePath, string $message = ''): void
 function isNotFile(string $notFilePath, string $message = ''): void
 {
     if (!is_dir($notFilePath)) {
-        $methodName = 'assertFileNotExists';
-        if (method_exists(Assert::class, 'assertFileDoesNotExist')) {
-            $methodName = 'assertFileDoesNotExist';
-        }
-
-        /** @phan-suppress-next-line PhanUndeclaredStaticMethod */
-        Assert::$methodName($notFilePath, $message);
+        Assert::assertFileDoesNotExist($notFilePath, $message);
     } else {
         success($message);
     }
@@ -499,7 +481,7 @@ function isDiffBetweenDates(string $date1, string $date2, int $expectedDiff = 30
 {
     $dateObj1 = new \DateTime($date1);
     $dateObj2 = new \DateTime($date2);
-    $actualDiff = abs((int)$dateObj1->getTimestamp() - (int)$dateObj2->getTimestamp());
+    $actualDiff = abs((int)($dateObj1->getTimestamp() - $dateObj2->getTimestamp()));
     isTrue(
         $actualDiff === $expectedDiff,
         trim(
@@ -524,7 +506,7 @@ function isDiffBetweenDatesLessThan(
 ): void {
     $dateObj1 = new \DateTime($date1);
     $dateObj2 = new \DateTime($date2);
-    $actualDiff = abs((int)$dateObj1->getTimestamp() - (int)$dateObj2->getTimestamp());
+    $actualDiff = abs((float)($dateObj1->getTimestamp() - $dateObj2->getTimestamp()));
     isTrue(
         $actualDiff < $expectedMaxDiff,
         trim(
@@ -549,7 +531,7 @@ function isDiffBetweenDatesMoreThan(
 ): void {
     $dateObj1 = new \DateTime($date1);
     $dateObj2 = new \DateTime($date2);
-    $actualDiff = abs((int)$dateObj1->getTimestamp() - (int)$dateObj2->getTimestamp());
+    $actualDiff = abs((float)($dateObj1->getTimestamp() - $dateObj2->getTimestamp()));
     isTrue(
         $actualDiff > $expectedMinDiff,
         trim(
@@ -612,7 +594,7 @@ function isFileNotContains(string $expected, string $filepath, bool $ignoreCase 
     isFile($filepath);
 
     $errMessage = implode("\n", [
-        "The file shouldn't contain expected text. " . ($message ? '' . $message : ''),
+        "The file shouldn't contain expected text. " . ($message ?: ''),
         "See: {$filepath}",
         "Expected text:",
         str_repeat('-', 80),

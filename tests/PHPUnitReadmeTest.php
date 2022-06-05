@@ -24,5 +24,5 @@ namespace JBZoo\PHPUnit;
  */
 class PHPUnitReadmeTest extends AbstractReadmeTest
 {
-    protected $packageName = 'PHPUnit';
+    protected string $packageName = 'PHPUnit';
 }

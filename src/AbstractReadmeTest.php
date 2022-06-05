@@ -35,22 +35,22 @@ abstract class AbstractReadmeTest extends PHPUnit
     /**
      * @var string
      */
-    protected $vendorName = 'JBZoo';
+    protected string $vendorName = 'JBZoo';
 
     /**
      * @var string
      */
-    protected $packageName = '__DEFINE_ME__';
+    protected string $packageName = '__DEFINE_ME__';
 
     /**
      * @var string
      */
-    protected $readmeFile = 'README.md';
+    protected string $readmeFile = 'README.md';
 
     /**
      * @var bool[]
      */
-    protected $params = [
+    protected array $params = [
         // Packagist
         'packagist_latest_stable_version'   => true,
         'packagist_latest_unstable_version' => true,
@@ -92,7 +92,7 @@ abstract class AbstractReadmeTest extends PHPUnit
     /**
      * @var string[]
      */
-    protected $badgesTemplate = [
+    protected array $badgesTemplate = [
         'github_actions',
         'docker_build',
         'codecov',
@@ -113,8 +113,7 @@ abstract class AbstractReadmeTest extends PHPUnit
     /**
      * @var string
      */
-    protected $codacyId = '__SEE_REPO_CONFIG__';
-
+    protected string $codacyId = '__SEE_REPO_CONFIG__';
 
     #### Test cases ####################################################################################################
 

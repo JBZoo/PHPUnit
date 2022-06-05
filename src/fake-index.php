@@ -60,7 +60,6 @@ $vendorPaths = [
 foreach ($vendorPaths as $vendorPath) {
     /** @psalm-suppress UnresolvableInclude */
     if ($vendorPath && file_exists($vendorPath)) {
-        /** @noinspection PhpIncludeInspection */
         require_once $vendorPath;
         break;
     }
@@ -95,7 +94,6 @@ if (class_exists(CovCatcher::class) && Sys::hasXdebug()) {
 
     $result = $covCatcher->includeFile($realIndex);
 } elseif (file_exists($realIndex)) {
-    /** @noinspection PhpIncludeInspection */
     $result = require $realIndex;
 } else {
     $result = null;
