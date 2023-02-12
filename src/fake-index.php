@@ -29,10 +29,10 @@ if (PHP_SAPI !== 'cli-server') {
     return null;
 }
 
-$url = (array)parse_url($_SERVER['REQUEST_URI']);
+$url = (array)parse_url($_SERVER['REQUEST_URI'] ?? '');
 $path = false;
 if (array_key_exists('path', $url)) {
-    $path = realpath($_SERVER['DOCUMENT_ROOT'] . $url['path']);
+    $path = realpath(($_SERVER['DOCUMENT_ROOT'] ?? '') . $url['path']);
 }
 
 if ($path) {
