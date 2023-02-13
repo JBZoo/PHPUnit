@@ -21,11 +21,11 @@ use JBZoo\Data\Data;
 use JBZoo\Utils\Env;
 use JBZoo\Utils\Sys;
 use SebastianBergmann\CodeCoverage\CodeCoverage;
+use SebastianBergmann\CodeCoverage\Driver\Selector;
 use SebastianBergmann\CodeCoverage\Filter;
 use SebastianBergmann\CodeCoverage\Report\Clover;
 use SebastianBergmann\CodeCoverage\Report\Html\Facade;
 use SebastianBergmann\CodeCoverage\Report\PHP;
-use SebastianBergmann\CodeCoverage\Driver\Selector;
 
 /**
  * Class CovCatcher
@@ -50,7 +50,7 @@ class CovCatcher
     /**
      * @var array<bool|string>
      */
-    protected $default = [
+    protected array $default = [
         'cov'        => true,
         'xml'        => false,
         'html'       => false,
@@ -68,7 +68,7 @@ class CovCatcher
     /**
      * @var string
      */
-    protected $hash = '';
+    protected string $hash = '';
 
     /**
      * CovCatcher constructor.
@@ -125,7 +125,7 @@ class CovCatcher
      * @return mixed
      * @throws Exception
      */
-    public function includeFile(string $filename, string $mode = self::MODE_REQUIRE)
+    public function includeFile(string $filename, string $mode = self::MODE_REQUIRE): mixed
     {
         $this->start();
 
@@ -167,9 +167,7 @@ class CovCatcher
     {
         if (!$this->isStarted) {
             $this->isStarted = true;
-            if ($this->coverage) {
-                $this->coverage->start($this->hash, true);
-            }
+            $this->coverage?->start($this->hash, true);
         }
     }
 
@@ -180,9 +178,7 @@ class CovCatcher
     {
         if ($this->isStarted) {
             $this->isStarted = false;
-            if ($this->coverage) {
-                $this->coverage->stop();
-            }
+            $this->coverage?->stop();
         }
     }
 

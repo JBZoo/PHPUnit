@@ -24,15 +24,15 @@ namespace JBZoo\PHPUnit;
  */
 class PHPUnitCopyrightTest extends AbstractCopyrightTest
 {
-    protected $packageName     = 'PHPUnit';
-    protected $isPhpStrictType = true;
+    protected string $packageName     = 'PHPUnit';
+    protected bool   $isPhpStrictType = true;
 
     /**
      * Ignore list for
      *
      * @var array
      */
-    protected $excludePaths = [
+    protected array $excludePaths = [
         '.git',
         '.idea',
         'build',

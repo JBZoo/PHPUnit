@@ -30,69 +30,22 @@ abstract class AbstractCopyrightTest extends PHPUnit
 {
     #### Configurations. Override it if you need for your project. #####################################################
 
-    /**
-     * @var string
-     */
-    protected $packageName = ''; // Overload me!
+    protected string $packageName      = ''; // Overload me!
+    protected string $projectRoot      = PROJECT_ROOT;
+    protected string $packageVendor    = 'JBZoo Toolbox';
+    protected string $packageLicense   = 'MIT';
+    protected string $packageCopyright = 'Copyright (C) JBZoo.com, All rights reserved.';
+    protected string $packageLink      = 'https://github.com/JBZoo/_PACKAGE_';
+    protected string $packageAuthor    = '';
+    protected string $eol              = "\n";
 
-    /**
-     * @var bool
-     */
-    protected $isPsr12 = true;
-
-    /**
-     * @var bool
-     */
-    protected $isPhpStrictType = false;
-
-    /**
-     * @var string
-     */
-    protected $projectRoot = PROJECT_ROOT;
-
-    /**
-     * @var string
-     */
-    protected $packageVendor = 'JBZoo Toolbox';
-
-    /**
-     * @var string
-     */
-    protected $packageLicense = 'MIT';
-
-    /**
-     * @var string
-     */
-    protected $packageCopyright = 'Copyright (C) JBZoo.com, All rights reserved.';
-
-    /**
-     * @var string
-     */
-    protected $packageLink = 'https://github.com/JBZoo/_PACKAGE_';
-
-    /**
-     * @var string
-     */
-    protected $packageAuthor = '';
+    protected bool $isPsr12         = true;
+    protected bool $isPhpStrictType = false;
 
     /**
      * @var string[]
      */
-    protected $packageDesc = [
-        'This file is part of the _VENDOR_ project.',
-        'For the full copyright and license information, please view the LICENSE',
-        'file that was distributed with this source code.',
-    ];
-
-    /**
-     * @var string
-     */
-    protected $eol = "\n";
-
-    /**
-     * @var string[]
-     */
-    protected $excludePaths = [
+    protected array $excludePaths = [
         '.git',
         '.idea',
         'bower_components',
@@ -107,12 +60,22 @@ abstract class AbstractCopyrightTest extends PHPUnit
         'tmp',
     ];
 
+    /**
+     * @var string[]
+     */
+    protected array $packageDesc = [
+        'This file is part of the _VENDOR_ project.',
+        'For the full copyright and license information, please view the LICENSE',
+        'file that was distributed with this source code.',
+    ];
+
+
     #### Patterns of copyrights. #######################################################################################
 
     /**
      * @var string[]
      */
-    protected $validHeaderPHP = [
+    protected array $validHeaderPHP = [
         '/**',
         ' * _VENDOR_ - _PACKAGE_',
         ' *',
@@ -127,7 +90,7 @@ abstract class AbstractCopyrightTest extends PHPUnit
     /**
      * @var string[]
      */
-    protected $validHeaderJS = [
+    protected array $validHeaderJS = [
         '/**',
         ' * _VENDOR_ - _PACKAGE_',
         ' *',
@@ -142,7 +105,7 @@ abstract class AbstractCopyrightTest extends PHPUnit
     /**
      * @var string[]
      */
-    protected $validHeaderCSS = [
+    protected array $validHeaderCSS = [
         '/**',
         ' * _VENDOR_ - _PACKAGE_',
         ' *',
@@ -159,7 +122,7 @@ abstract class AbstractCopyrightTest extends PHPUnit
     /**
      * @var string[]
      */
-    protected $validHeaderLESS = [
+    protected array $validHeaderLESS = [
         '//',
         '// _VENDOR_ - _PACKAGE_',
         '//',
@@ -175,7 +138,7 @@ abstract class AbstractCopyrightTest extends PHPUnit
     /**
      * @var string[]
      */
-    protected $validHeaderXML = [
+    protected array $validHeaderXML = [
         '<?xml version="1.0" encoding="UTF-8" ?>',
         '<!--',
         '    _VENDOR_ - _PACKAGE_',
@@ -192,7 +155,7 @@ abstract class AbstractCopyrightTest extends PHPUnit
     /**
      * @var string[]
      */
-    protected $validHeaderINI = [
+    protected array $validHeaderINI = [
         ';',
         '; _VENDOR_ - _PACKAGE_',
         ';',
@@ -210,7 +173,7 @@ abstract class AbstractCopyrightTest extends PHPUnit
     /**
      * @var string[]
      */
-    protected $validHeaderSH = [
+    protected array $validHeaderSH = [
         '#!/usr/bin/env sh',
         '',
         '#',
@@ -246,7 +209,7 @@ abstract class AbstractCopyrightTest extends PHPUnit
     /**
      * @var string[]
      */
-    protected $validHeaderHash = [
+    protected array $validHeaderHash = [
         '#',
         '# _VENDOR_ - _PACKAGE_',
         '#',
@@ -298,7 +261,7 @@ abstract class AbstractCopyrightTest extends PHPUnit
                 ' */',
                 '',
                 'declare(strict_types=1);',
-                ''
+                '',
             ]);
         }
 
@@ -488,7 +451,7 @@ abstract class AbstractCopyrightTest extends PHPUnit
                     "Expected file header:",
                     str_repeat('-', 80),
                     $validHeader,
-                    str_repeat('-', 80)
+                    str_repeat('-', 80),
                 ]);
 
                 isTrue($isValid, $errMessage);
