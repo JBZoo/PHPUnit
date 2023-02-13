@@ -27,30 +27,11 @@ use function JBZoo\Data\json;
  */
 abstract class AbstractComposerTest extends PHPUnit
 {
-    /**
-     * @var string
-     */
-    protected $authorName = 'Denis Smetannikov';
-
-    /**
-     * @var string
-     */
-    protected $authorEmail = 'admin@jbzoo.com';
-
-    /**
-     * @var string
-     */
-    protected $authorRole = 'lead';
-
-    /**
-     * @var string
-     */
-    protected $devBranch = 'dev-master';
-
-    /**
-     * @var string
-     */
-    protected $phpVersion = '>=7.4';
+    protected string $authorName  = 'Denis Smetannikov';
+    protected string $authorEmail = 'admin@jbzoo.com';
+    protected string $authorRole  = 'lead';
+    protected string $devBranch   = 'dev-master';
+    protected string $phpVersion  = '>=8.0';
 
     public function testAuthor(): void
     {

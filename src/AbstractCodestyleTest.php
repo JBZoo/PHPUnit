@@ -17,12 +17,8 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit;
 
-use hanneskod\classtools\Iterator\ClassIterator;
 use JBZoo\Utils\Cli;
 use JBZoo\Utils\Env;
-use JBZoo\Utils\PhpDocs;
-use JBZoo\Utils\Str;
-use ReflectionClass;
 use Symfony\Component\Finder\Finder;
 
 /**
@@ -34,15 +30,12 @@ abstract class AbstractCodestyleTest extends PHPUnit
 {
     #### Configurations. Override it if you need for your project. #####################################################
 
-    /**
-     * @var string
-     */
-    protected $projectRoot = PROJECT_ROOT;
+    protected string $projectRoot = PROJECT_ROOT;
 
     /**
      * @var string[]
      */
-    protected $excludePaths = [
+    protected array $excludePaths = [
         '.git',
         '.idea',
         'bin',
@@ -76,59 +69,6 @@ abstract class AbstractCodestyleTest extends PHPUnit
 
     #### Test cases ####################################################################################################
 
-    public function testClassesPhpDocs(): void
-    {
-        $finder = (new Finder())
-            ->in($this->getSourcePath())
-            ->name("*.php");
-
-        $classIterator = new ClassIterator($finder);
-        $classIterator->disableAutoloading();
-
-        foreach ($classIterator->getClassMap() as $className => $splFileInfo) {
-            /** @var class-string $classNameStr */
-            $classNameStr = (string)$className;
-
-            $classReflection = new ReflectionClass($classNameStr);
-
-            $entityType = 'Class';
-            if ($classReflection->isTrait()) {
-                $entityType = 'Trait';
-            } elseif ($classReflection->isInterface()) {
-                $entityType = 'Interface';
-            }
-
-            $class = Str::getClassName($classNameStr);
-            $package = $classReflection->getNamespaceName();
-            $docs = PhpDocs::parse((string)$classReflection->getDocComment());
-
-            $minimalExpectedPhpDoc = implode("\n", [
-                'Invalid description. Minimal expected PhpDoc for the entity:',
-                str_repeat('-', 80),
-                '/**',
-                " * {$entityType} {$class}",
-                " * @package {$package}",
-                ' */',
-                str_repeat('-', 80),
-                "See File: {$splFileInfo}",
-            ]);
-
-            isContain(
-                "{$entityType} {$class}",
-                $docs['description'],
-                false,
-                "Invalid class name in description. {$minimalExpectedPhpDoc}"
-            );
-
-            isTrue(
-                in_array($package, $docs['params']['package'], true),
-                "Invalid PhpDoc tag of the class. {$minimalExpectedPhpDoc}"
-            );
-        }
-
-        success();
-    }
-
     /**
      * @param string $makeTargetName
      */
@@ -142,7 +82,7 @@ abstract class AbstractCodestyleTest extends PHPUnit
                 'TC_REPORT_MND="tc-tests"',
                 'TEAMCITY_VERSION="2020.1.2"',
                 "PHP_BIN=\"{$phpBin}\"",
-                "make {$makeTargetName}"
+                "make {$makeTargetName}",
             ]);
 
             //$start = microtime(true);

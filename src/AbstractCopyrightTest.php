@@ -424,9 +424,9 @@ abstract class AbstractCopyrightTest extends PHPUnit
 
         foreach ($inclusions as $inclusion) {
             $finder
-                ->name(".{$inclusion}")
-                ->name("*.{$inclusion}")
-                ->name(".*.{$inclusion}");
+                ->name("\.{$inclusion}")
+                ->name("*\.{$inclusion}")
+                ->name("\.*\.{$inclusion}");
         }
 
         foreach ($exclusions as $exclusion) {
@@ -480,7 +480,7 @@ abstract class AbstractCopyrightTest extends PHPUnit
         foreach ($finder as $file) {
             $content = openFile($file->getPathname());
             if ($content) {
-                $isValid = strpos($content, $validHeader) === 0;
+                $isValid = str_starts_with($content, $validHeader);
 
                 $errMessage = implode("\n", [
                     "The file has no valid copyright in header",

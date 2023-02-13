@@ -272,7 +272,7 @@ function isAttr(string $attrName, $object, string $message = ''): void
 function isNotAttr(string $attrName, $object, string $message = ''): void
 {
     Assert::assertNotNull($object, 'object ' . get_class($object) . " is not empty. {$message}");
-    Assert::assertObjectNotHasAttribute($attrName, $object, $message);
+    isFalse(property_exists($object, $attrName));
 }
 
 /**

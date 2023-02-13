@@ -21,10 +21,7 @@
         "phpunit/phpunit"                      : ">=9.5.20",
         "codedungeon/phpunit-result-printer"   : ">=0.32.0",
         "mheap/phpunit-github-actions-printer" : ">=1.5.1",
-
-        "hanneskod/classtools"                 : ">=1.2.1",
         "ulrichsg/getopt-php"                  : ">=4.0.2",
-
         "jbzoo/markdown"                       : ">=1.1.1"
     },
 
