@@ -14,23 +14,20 @@
     ],
 
     "require"     : {
-        "php"                                  : ">=7.4",
+        "php"                                  : ">=8.0",
         "ext-filter"                           : "*",
         "ext-mbstring"                         : "*",
 
         "phpunit/phpunit"                      : ">=9.5.20",
         "codedungeon/phpunit-result-printer"   : ">=0.32.0",
         "mheap/phpunit-github-actions-printer" : ">=1.5.1",
-
-        "hanneskod/classtools"                 : ">=1.2.1",
         "ulrichsg/getopt-php"                  : ">=4.0.2",
-
         "jbzoo/markdown"                       : ">=1.1.1"
     },
 
     "require-dev" : {
         "jbzoo/toolbox-dev"        : ">=4.0.0",
-        "jbzoo/codestyle"          : ">=4.0.1",
+        "jbzoo/codestyle"          : ">=4.1.0",
         "jbzoo/http-client"        : ">=3.6.2",
         "jbzoo/data"               : ">=4.4.0",
         "jbzoo/utils"              : ">=4.5.5",
@@ -65,7 +62,7 @@
 
     "extra"       : {
         "branch-alias" : {
-            "dev-master" : "4.x-dev"
+            "dev-master" : "6.x-dev"
         }
     }
 }

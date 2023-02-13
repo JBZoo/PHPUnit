@@ -28,7 +28,7 @@ return array_merge($default, [
     'file_list' => [
         'src/functions/defines.php',
         'src/functions/aliases.php',
-        'src/functions/tools.php'
+        'src/functions/tools.php',
     ],
 
     'directory_list' => [
@@ -46,6 +46,5 @@ return array_merge($default, [
         'vendor/phpunit/phpunit/src',
         'vendor/symfony/finder',
         'vendor/ulrichsg/getopt-php/src',
-        'vendor/hanneskod/classtools/src',
-    ]
+    ],
 ]);

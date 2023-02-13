@@ -126,7 +126,6 @@ function isFalse($value, string $message = ''): void
  *
  * @psalm-template ExpectedType of object
  * @psalm-param    class-string<ExpectedType> $expected
- * @psalm-assert   ExpectedType $actual
  * @phan-suppress  PhanPluginCanUseParamType
  */
 function isClass($expected, $className, string $message = ''): void
@@ -260,7 +259,7 @@ function isNotKey($key, array $array, string $message = ''): void
 function isAttr(string $attrName, $object, string $message = ''): void
 {
     Assert::assertNotNull($object, 'object ' . get_class($object) . " is not empty. {$message}");
-    Assert::assertObjectHasAttribute($attrName, $object, $message);
+    isTrue(property_exists($object, $attrName));
 }
 
 /**
@@ -273,7 +272,7 @@ function isAttr(string $attrName, $object, string $message = ''): void
 function isNotAttr(string $attrName, $object, string $message = ''): void
 {
     Assert::assertNotNull($object, 'object ' . get_class($object) . " is not empty. {$message}");
-    Assert::assertObjectNotHasAttribute($attrName, $object, $message);
+    isFalse(property_exists($object, $attrName));
 }
 
 /**
@@ -571,7 +570,7 @@ function isFileContains(string $expected, string $filepath, bool $ignoreCase = f
         "Expected text:",
         str_repeat('-', 80),
         $expected,
-        str_repeat('-', 80)
+        str_repeat('-', 80),
     ]);
 
     $fileContent = (string)file_get_contents($filepath);
@@ -599,7 +598,7 @@ function isFileNotContains(string $expected, string $filepath, bool $ignoreCase 
         "Expected text:",
         str_repeat('-', 80),
         $expected,
-        str_repeat('-', 80)
+        str_repeat('-', 80),
     ]);
 
     $fileContent = (string)file_get_contents($filepath);
