@@ -116,6 +116,7 @@ class CovCatcher
 
         if ('' !== $realpath && file_exists($realpath) && is_file($realpath)) {
             if (self::MODE_REQUIRE === $mode) {
+                /** @psalm-suppress UnresolvableInclude */
                 $result = require $realpath;
             } elseif (self::MODE_REQUIRE_ONCE === $mode) {
                 $result = require_once $realpath;
