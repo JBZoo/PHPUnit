@@ -27,7 +27,7 @@
 
     "require-dev" : {
         "jbzoo/toolbox-dev"        : ">=4.0.0",
-        "jbzoo/codestyle"          : ">=4.1.0",
+        "jbzoo/codestyle"          : "5.x-dev",
         "jbzoo/http-client"        : ">=3.6.2",
         "jbzoo/data"               : ">=4.4.0",
         "jbzoo/utils"              : ">=4.5.5",
