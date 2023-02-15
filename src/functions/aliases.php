@@ -384,16 +384,24 @@ function isCurrentDate(string $date, int $timeDiff = 300, string $message = ''):
 }
 
 /**
- * @param array|float|string|int $expected
- * @param array|float|string|int $actual
+ * @param float|int|array|string $expected
+ * @param float|int|array|string $actual
  * @param string                 $message
  * @param float                  $allowableDiff
  */
-function isAmount($expected, $actual, string $message = '', float $allowableDiff = 0.03): void
-{
+function isAmount(
+    float|int|array|string $expected,
+    float|int|array|string $actual,
+    string $message = '',
+    float $allowableDiff = 0.03
+): void {
     if (!is_array($expected) && !is_array($actual)) {
-        $message = $message ?: 'Diff: ' . ((float)$expected - (float)$actual) . "; Expected diff={$allowableDiff}";
-        Assert::assertEqualsWithDelta((float)$expected, (float)$actual, $allowableDiff, $message);
+        Assert::assertEqualsWithDelta(
+            (float)$expected,
+            (float)$actual,
+            $allowableDiff,
+            'Diff: ' . ((float)$expected - (float)$actual) . "; Expected diff={$allowableDiff}; " . $message
+        );
     } elseif (is_array($expected) && is_array($actual)) {
         isAmountCur($expected, $actual, $message, $allowableDiff);
     } else {
@@ -402,16 +410,24 @@ function isAmount($expected, $actual, string $message = '', float $allowableDiff
 }
 
 /**
- * @param array|float|string|int $expected
- * @param array|float|string|int $actual
+ * @param float|int|array|string $expected
+ * @param float|int|array|string $actual
  * @param string                 $message
  * @param float                  $allowableDiff
  */
-function isNotAmount($expected, $actual, string $message = '', float $allowableDiff = 0.03): void
-{
+function isNotAmount(
+    float|int|array|string $expected,
+    float|int|array|string $actual,
+    string $message = '',
+    float $allowableDiff = 0.03
+): void {
     if (!is_array($expected) && !is_array($actual)) {
-        $message = $message ?: 'Diff: ' . ((float)$expected - (float)$actual) . "; Expected diff={$allowableDiff}";
-        Assert::assertNotEqualsWithDelta((float)$expected, (float)$actual, $allowableDiff, $message);
+        Assert::assertNotEqualsWithDelta(
+            (float)$expected,
+            (float)$actual,
+            $allowableDiff,
+            'Diff: ' . ((float)$expected - (float)$actual) . "; Expected diff={$allowableDiff}; " . $message
+        );
     } elseif (is_array($expected) && is_array($actual)) {
         isNotAmountCur($expected, $actual, $message, $allowableDiff);
     } else {
@@ -552,7 +568,7 @@ function isSameDate(string $expected, string $actual, string $format = 'Y-m-d', 
 {
     $expectedObj = new \DateTime($expected);
     $actualObj = new \DateTime($actual);
-    isSame('' . $expectedObj->format($format), '' . $actualObj->format($format), $message);
+    isSame($expectedObj->format($format), $actualObj->format($format), $message);
 }
 
 /**
@@ -579,7 +595,7 @@ function isFileContains(string $expected, string $filepath, bool $ignoreCase = f
     if ($ignoreCase) {
         isTrue(mb_stripos($fileContent, $expected) !== false, $errMessage);
     } else {
-        isTrue(mb_strpos($fileContent, $expected) !== false, $errMessage);
+        isTrue(str_contains($fileContent, $expected), $errMessage);
     }
 }
 
@@ -594,7 +610,7 @@ function isFileNotContains(string $expected, string $filepath, bool $ignoreCase 
     isFile($filepath);
 
     $errMessage = implode("\n", [
-        "The file shouldn't contain expected text. " . ($message ?: ''),
+        "The file shouldn't contain expected text. " . $message,
         "See: {$filepath}",
         "Expected text:",
         str_repeat('-', 80),
@@ -607,6 +623,6 @@ function isFileNotContains(string $expected, string $filepath, bool $ignoreCase 
     if ($ignoreCase) {
         isTrue(mb_stripos($fileContent, $expected) === false, $errMessage);
     } else {
-        isTrue(mb_strpos($fileContent, $expected) === false, $errMessage);
+        isTrue(!str_contains($fileContent, $expected), $errMessage);
     }
 }
