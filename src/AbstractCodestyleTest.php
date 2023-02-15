@@ -58,7 +58,7 @@ abstract class AbstractCodestyleTest extends PHPUnit
     {
         parent::setUp();
 
-        if (!$this->projectRoot) {
+        if ($this->projectRoot === "") {
             throw new Exception('$this->projectRoot is undefined!');
         }
 
@@ -76,7 +76,7 @@ abstract class AbstractCodestyleTest extends PHPUnit
     {
         // Test works only in PhpStorm ot TeamCity env. Please, use `make codestyle` for any other environments.
         if (isPhpStorm()) {
-            $phpBin = Env::string('PHP_BIN') ?: 'php';
+            $phpBin = Env::string('PHP_BIN', 'php');
             $cliCommand = implode(' ', [
                 'TC_REPORT="tc-tests"',
                 'TC_REPORT_MND="tc-tests"',
@@ -165,15 +165,15 @@ abstract class AbstractCodestyleTest extends PHPUnit
 
         /** @var \SplFileInfo $file */
         foreach ($finder as $file) {
-            $content = openFile($file->getPathname());
-            if ($content) {
+            $content = (string)openFile($file->getPathname());
+            if ('' !== $content) {
                 isTrue(
-                    strpos($content, "\r") === false,
+                    !str_contains($content, "\r"),
                     'The file contains prohibited symbol "\r" (CARRIAGE RETURN) : ' . $file->getPathname()
                 );
 
                 isTrue(
-                    strpos($content, "\t") === false,
+                    !str_contains($content, "\t"),
                     'The file contains prohibited symbol "\t" (TAB) : ' . $file->getPathname()
                 );
             }
@@ -198,7 +198,7 @@ abstract class AbstractCodestyleTest extends PHPUnit
             $content = openFile($file->getPathname());
 
             /** @noinspection NotOptimalRegularExpressionsInspection */
-            if (preg_match('#[А-Яа-яЁё]#ius', (string)$content)) {
+            if (preg_match('#[А-Яа-яЁё]#ius', (string)$content) > 0) {
                 fail('File contains cyrillic symbols: ' . $file); // Short message in terminal
             }
         }

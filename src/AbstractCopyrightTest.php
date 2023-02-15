@@ -232,7 +232,7 @@ abstract class AbstractCopyrightTest extends PHPUnit
 
         $this->projectRoot = trim($this->projectRoot);
 
-        if (!$this->packageName) {
+        if ('' === $this->packageName) {
             throw new Exception('$this->packageName is undefined!');
         }
 
@@ -441,8 +441,8 @@ abstract class AbstractCopyrightTest extends PHPUnit
     {
         /** @var \SplFileInfo $file */
         foreach ($finder as $file) {
-            $content = openFile($file->getPathname());
-            if ($content) {
+            $content = (string)openFile($file->getPathname());
+            if ('' !== $content) {
                 $isValid = str_starts_with($content, $validHeader);
 
                 $errMessage = implode("\n", [

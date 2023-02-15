@@ -66,12 +66,13 @@ function openFile(string $path): ?string
 {
     $contents = null;
 
-    if ($realPath = realpath($path)) {
+    $realPath = (string)realpath($path);
+    if ('' !== $realPath && file_exists($realPath)) {
         $fileSize = (int)filesize($realPath);
 
         if ($fileSize > 0) {
             $handle = fopen($realPath, 'rb');
-            if ($handle) {
+            if (false !== $handle) {
                 $contents = fread($handle, $fileSize);
                 fclose($handle);
             }

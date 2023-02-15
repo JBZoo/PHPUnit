@@ -472,15 +472,16 @@ function isNotAmountCur(array $expected, array $actual, string $message = '', fl
 /**
  * @param string $date1
  * @param string $date2
- * @param int    $expectedDiff
+ * @param float  $expectedDiff
  * @param string $message
  * @throws \Exception
  */
-function isDiffBetweenDates(string $date1, string $date2, int $expectedDiff = 300, string $message = ''): void
+function isDiffBetweenDates(string $date1, string $date2, float $expectedDiff = 300.0, string $message = ''): void
 {
     $dateObj1 = new \DateTime($date1);
     $dateObj2 = new \DateTime($date2);
-    $actualDiff = abs((int)($dateObj1->getTimestamp() - $dateObj2->getTimestamp()));
+    $actualDiff = abs((float)($dateObj1->getTimestamp() - $dateObj2->getTimestamp()));
+
     isTrue(
         $actualDiff === $expectedDiff,
         trim(
@@ -565,7 +566,7 @@ function isFileContains(string $expected, string $filepath, bool $ignoreCase = f
     isFile($filepath);
 
     $errMessage = implode("\n", [
-        "The file doesn't contain expected text. " . ($message ? '' . $message : ''),
+        "The file doesn't contain expected text. " . $message,
         "See: {$filepath}",
         "Expected text:",
         str_repeat('-', 80),

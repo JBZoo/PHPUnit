@@ -30,19 +30,19 @@ if (PHP_SAPI !== 'cli-server') {
 }
 
 $url = (array)parse_url($_SERVER['REQUEST_URI'] ?? '');
-$path = false;
+$currentUrlPath = '';
 if (array_key_exists('path', $url)) {
-    $path = realpath(($_SERVER['DOCUMENT_ROOT'] ?? '') . $url['path']);
+    $currentUrlPath = (string)realpath(($_SERVER['DOCUMENT_ROOT'] ?? '') . $url['path']);
 }
 
-if ($path) {
-    if (is_dir($path)) {
-        $realIndex = $path . '/index.php';
-    } elseif (is_file($path)) {
-        if (pathinfo($path, PATHINFO_EXTENSION) !== 'php') {
+if ('' !== $currentUrlPath) {
+    if (is_dir($currentUrlPath)) {
+        $realIndex = $currentUrlPath . '/index.php';
+    } elseif (is_file($currentUrlPath)) {
+        if (pathinfo($currentUrlPath, PATHINFO_EXTENSION) !== 'php') {
             return false;
         }
-        $realIndex = $path;
+        $realIndex = $currentUrlPath;
     }
 }
 
@@ -58,8 +58,9 @@ $vendorPaths = [
 ];
 
 foreach ($vendorPaths as $vendorPath) {
+    $vendorPath = (string)$vendorPath;
     /** @psalm-suppress UnresolvableInclude */
-    if ($vendorPath && file_exists($vendorPath)) {
+    if ('' !== $vendorPath && file_exists($vendorPath)) {
         require_once $vendorPath;
         break;
     }
@@ -74,7 +75,7 @@ $cliOptions = new Getopt([
     [null, 'cov-html', GetOpt::OPTIONAL_ARGUMENT],
 ]);
 
-$cliOptions->process(Env::get('PHPUNINT_ARGUMENTS', '', Env::VAR_STRING));
+$cliOptions->process(Env::string('PHPUNINT_ARGUMENTS'));
 
 $realIndex = (string)($realIndex ?? realpath($cliOptions->getOption('index')));
 
@@ -83,7 +84,7 @@ if (class_exists(CovCatcher::class) && Sys::hasXdebug()) {
     putenv('XDEBUG_MODE=' . Env::string('XDEBUG_MODE', 'coverage'));
 
     $coverHash = md5(implode('||', [serialize($_REQUEST), serialize($_SERVER), PHP_VERSION]));
-    $coverHash = $testname ? $testname . '-' . $coverHash : $testname;
+    $coverHash = '' !== $testname ? $testname . '-' . $coverHash : $testname;
 
     $covCatcher = new CovCatcher($coverHash, [
         'src'  => $cliOptions->getOption('cov-src'),

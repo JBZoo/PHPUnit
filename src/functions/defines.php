@@ -26,11 +26,12 @@ if (!defined('JBZOO_PHPUNIT')) {
         realpath('./../../vendor/autoload.php'),
         realpath('./../vendor/autoload.php'),
         realpath('./vendor/autoload.php'),
-        realpath('vendor/autoload.php')
+        realpath('vendor/autoload.php'),
     ];
 
     foreach ($paths as $path) {
-        if ($path) {
+        $path = (string)$path;
+        if ('' !== $path) {
             if (!defined('CRLF')) {
                 define('CRLF', "\r\n");
             }

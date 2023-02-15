@@ -73,7 +73,7 @@ class CovCatcher
     /**
      * CovCatcher constructor.
      *
-     * @param string|null        $testName
+     * @param string             $testName
      * @param array<bool|string> $options
      * @throws Exception
      *
@@ -83,7 +83,7 @@ class CovCatcher
      * @phan-suppress PhanUndeclaredClassReference
      * @phan-suppress PhanUndeclaredClassMethod
      */
-    public function __construct(?string $testName = null, array $options = [])
+    public function __construct(string $testName = '', array $options = [])
     {
         if (!class_exists(Data::class)) {
             throw new Exception('jbzoo/data is required for CovCatcher');
@@ -96,7 +96,7 @@ class CovCatcher
         $this->initConfig($options);
 
         $postFixName = str_replace('.', '', uniqid('', true));
-        $this->hash = $testName ? "{$testName}__{$postFixName}" : $postFixName;
+        $this->hash = '' !== $testName ? "{$testName}__{$postFixName}" : $postFixName;
 
         $this->coverage = null;
         if (Sys::hasXdebug()) {
@@ -105,13 +105,13 @@ class CovCatcher
             /** @phpstan-ignore-next-line */
             if (method_exists($covFilter, 'addDirectoryToWhitelist')) {
                 /** @phan-suppress-next-line PhanUndeclaredMethod */
-                $covFilter->addDirectoryToWhitelist($this->config->get('src'));
+                $covFilter->addDirectoryToWhitelist($this->config->getString('src'));
             }
 
             /** @phpstan-ignore-next-line */
             if (method_exists($covFilter, 'includeDirectory')) {
                 /** @phan-suppress-next-line PhanUndeclaredMethod */
-                $covFilter->includeDirectory($this->config->get('src'));
+                $covFilter->includeDirectory($this->config->getString('src'));
             }
 
             $driver = (new Selector())->forLineAndPathCoverage($covFilter);
@@ -131,7 +131,7 @@ class CovCatcher
 
         $realpath = realpath($filename);
 
-        if ($realpath && file_exists($realpath)) {
+        if (false !== $realpath && file_exists($realpath)) {
             if (self::MODE_REQUIRE === $mode) {
                 /** @psalm-suppress UnresolvableInclude */
                 $result = require $realpath;
@@ -187,32 +187,32 @@ class CovCatcher
      */
     protected function createReports(): void
     {
-        $reportXmlDir = $this->config->get('build_xml');
-        $isXmlEnabled = $this->config->get('xml', false, 'bool');
+        $reportXmlDir = $this->config->getString('build_xml');
+        $isXmlEnabled = $this->config->getBool('xml');
         if ($isXmlEnabled) {
             self::prepareDirectory($reportXmlDir);
             $report = new Clover();
-            if ($this->coverage) {
+            if (null !== $this->coverage) {
                 $report->process($this->coverage, $reportXmlDir . '/' . $this->hash . '.xml');
             }
         }
 
-        $reportCovDir = $this->config->get('build_cov');
-        $isCovEnabled = $this->config->get('cov', false, 'bool');
+        $reportCovDir = $this->config->getString('build_cov');
+        $isCovEnabled = $this->config->getBool('cov');
         if ($isCovEnabled) {
             self::prepareDirectory($reportCovDir);
             $report = new PHP();
-            if ($this->coverage) {
+            if (null !== $this->coverage) {
                 $report->process($this->coverage, $reportCovDir . '/' . $this->hash . '.cov');
             }
         }
 
-        $reportHtmlDir = $this->config->get('build_html');
-        $isHtmlEnabled = $this->config->get('html', false, 'bool');
+        $reportHtmlDir = $this->config->getString('build_html');
+        $isHtmlEnabled = $this->config->getBool('html');
         if ($isHtmlEnabled) {
             self::prepareDirectory($reportHtmlDir);
             $report = new Facade();
-            if ($this->coverage) {
+            if (null !== $this->coverage) {
                 $report->process($this->coverage, $reportHtmlDir . '/' . $this->hash);
             }
         }
