@@ -76,12 +76,6 @@ class CovCatcher
      * @param string             $testName
      * @param array<bool|string> $options
      * @throws Exception
-     *
-     * @phan-suppress PhanTypeMismatchArgumentReal
-     * @phan-suppress PhanTypeExpectedObjectOrClassName
-     * @phan-suppress PhanUndeclaredClass
-     * @phan-suppress PhanUndeclaredClassReference
-     * @phan-suppress PhanUndeclaredClassMethod
      */
     public function __construct(string $testName = '', array $options = [])
     {
@@ -101,18 +95,7 @@ class CovCatcher
         $this->coverage = null;
         if (Sys::hasXdebug()) {
             $covFilter = new Filter();
-
-            /** @phpstan-ignore-next-line */
-            if (method_exists($covFilter, 'addDirectoryToWhitelist')) {
-                /** @phan-suppress-next-line PhanUndeclaredMethod */
-                $covFilter->addDirectoryToWhitelist($this->config->getString('src'));
-            }
-
-            /** @phpstan-ignore-next-line */
-            if (method_exists($covFilter, 'includeDirectory')) {
-                /** @phan-suppress-next-line PhanUndeclaredMethod */
-                $covFilter->includeDirectory($this->config->getString('src'));
-            }
+            $covFilter->includeDirectory($this->config->getString('src'));
 
             $driver = (new Selector())->forLineAndPathCoverage($covFilter);
             $this->coverage = new CodeCoverage($driver, $covFilter);
@@ -129,15 +112,12 @@ class CovCatcher
     {
         $this->start();
 
-        $realpath = realpath($filename);
+        $realpath = (string)realpath($filename);
 
-        if (false !== $realpath && file_exists($realpath)) {
+        if ('' !== $realpath && file_exists($realpath) && is_file($realpath)) {
             if (self::MODE_REQUIRE === $mode) {
-                /** @psalm-suppress UnresolvableInclude */
                 $result = require $realpath;
             } elseif (self::MODE_REQUIRE_ONCE === $mode) {
-                /** @noinspection UsingInclusionOnceReturnValueInspection */
-                /** @psalm-suppress UnresolvableInclude */
                 $result = require_once $realpath;
             } else {
                 throw new Exception("Undefined mode to include file: \"{$filename}\"");

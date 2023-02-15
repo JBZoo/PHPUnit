@@ -101,9 +101,8 @@ function isBatch(array $testList, string $message = ''): void
 /**
  * @param mixed  $value
  * @param string $message
- * @phan-suppress PhanPluginCanUseParamType
  */
-function isTrue($value, string $message = ''): void
+function isTrue(mixed $value, string $message = ''): void
 {
     Assert::assertTrue($value, $message);
 }
@@ -111,9 +110,8 @@ function isTrue($value, string $message = ''): void
 /**
  * @param mixed  $value
  * @param string $message
- * @phan-suppress PhanPluginCanUseParamType
  */
-function isFalse($value, string $message = ''): void
+function isFalse(mixed $value, string $message = ''): void
 {
     Assert::assertFalse($value, $message);
 }
