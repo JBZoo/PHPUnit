@@ -51,7 +51,7 @@ class PHPUnitCovCatcherTest extends PHPUnit
      */
     public function testInclude()
     {
-        $catcher = new CovCatcher(null, [
+        $catcher = new CovCatcher('', [
             'src'  => PROJECT_TESTS . '/fixtures/includes',
             'xml'  => true,
             'cov'  => true,
@@ -78,7 +78,7 @@ class PHPUnitCovCatcherTest extends PHPUnit
     {
         $this->expectException(RuntimeException::class);
 
-        $catcher = new CovCatcher(null, [
+        $catcher = new CovCatcher('', [
             'src'  => PROJECT_TESTS . '/fixtures/includes',
             'xml'  => true,
             'cov'  => true,

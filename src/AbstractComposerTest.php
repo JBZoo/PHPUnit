@@ -38,15 +38,15 @@ abstract class AbstractComposerTest extends PHPUnit
         $composerPath = PROJECT_ROOT . '/composer.json';
         $composerJson = json($composerPath);
 
-        if ($this->authorName) {
+        if ('' !== $this->authorName) {
             isSame($this->authorName, $composerJson->find('authors.0.name'), "See file: {$composerPath}");
         }
 
-        if ($this->authorEmail) {
+        if ('' !== $this->authorEmail) {
             isSame($this->authorEmail, $composerJson->find('authors.0.email'), "See file: {$composerPath}");
         }
 
-        if ($this->authorRole) {
+        if ('' !== $this->authorRole) {
             isSame($this->authorRole, $composerJson->find('authors.0.role'), "See file: {$composerPath}");
         }
     }

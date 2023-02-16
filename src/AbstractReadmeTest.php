@@ -129,6 +129,7 @@ abstract class AbstractReadmeTest extends PHPUnit
             } else {
                 $testMethod = 'checkBadge' . str_replace('_', '', ucwords($badgeName, '_'));
                 if (method_exists($this, $testMethod)) {
+                    /** @phpstan-ignore-next-line */
                     if ($tmpBadge = $this->{$testMethod}()) {
                         $expectedBadges[$badgeName] = "{$tmpBadge}    ";
                     }
@@ -143,7 +144,7 @@ abstract class AbstractReadmeTest extends PHPUnit
             '',
             trim(implode('', array_filter($expectedBadges))),
             '',
-            ''
+            '',
         ]);
 
         isFileContains($expectedBadgeLine, PROJECT_ROOT . '/README.md');
@@ -262,11 +263,13 @@ abstract class AbstractReadmeTest extends PHPUnit
      */
     protected function checkBadgeTravis(): ?string
     {
-        return $this->getPreparedBadge($this->getBadge(
-            'Build Status',
-            'https://travis-ci.org/__VENDOR_ORIG__/__PACKAGE_ORIG__.svg?branch=master',
-            'https://travis-ci.org/__VENDOR_ORIG__/__PACKAGE_ORIG__?branch=master'
-        ));
+        return $this->getPreparedBadge(
+            $this->getBadge(
+                'Build Status',
+                'https://travis-ci.org/__VENDOR_ORIG__/__PACKAGE_ORIG__.svg?branch=master',
+                'https://travis-ci.org/__VENDOR_ORIG__/__PACKAGE_ORIG__?branch=master'
+            )
+        );
     }
 
     /**
@@ -274,11 +277,13 @@ abstract class AbstractReadmeTest extends PHPUnit
      */
     protected function checkBadgeCoveralls(): ?string
     {
-        return $this->getPreparedBadge($this->getBadge(
-            'Coverage Status',
-            'https://coveralls.io/repos/__VENDOR_ORIG__/__PACKAGE_ORIG__/badge.svg?branch=master',
-            'https://coveralls.io/github/__VENDOR_ORIG__/__PACKAGE_ORIG__?branch=master'
-        ));
+        return $this->getPreparedBadge(
+            $this->getBadge(
+                'Coverage Status',
+                'https://coveralls.io/repos/__VENDOR_ORIG__/__PACKAGE_ORIG__/badge.svg?branch=master',
+                'https://coveralls.io/github/__VENDOR_ORIG__/__PACKAGE_ORIG__?branch=master'
+            )
+        );
     }
 
     /**
@@ -286,11 +291,13 @@ abstract class AbstractReadmeTest extends PHPUnit
      */
     protected function checkBadgeCodacy(): ?string
     {
-        return $this->getPreparedBadge($this->getBadge(
-            'Codacy Badge',
-            "https://app.codacy.com/project/badge/Grade/{$this->codacyId}",
-            'https://www.codacy.com/gh/__VENDOR__/__PACKAGE__'
-        ));
+        return $this->getPreparedBadge(
+            $this->getBadge(
+                'Codacy Badge',
+                "https://app.codacy.com/project/badge/Grade/{$this->codacyId}",
+                'https://www.codacy.com/gh/__VENDOR__/__PACKAGE__'
+            )
+        );
     }
 
     /**
@@ -298,11 +305,13 @@ abstract class AbstractReadmeTest extends PHPUnit
      */
     protected function checkBadgePsalmCoverage(): ?string
     {
-        return $this->getPreparedBadge($this->getBadge(
-            'Psalm Coverage',
-            'https://shepherd.dev/github/__VENDOR_ORIG__/__PACKAGE_ORIG__/coverage.svg',
-            'https://shepherd.dev/github/__VENDOR_ORIG__/__PACKAGE_ORIG__'
-        ));
+        return $this->getPreparedBadge(
+            $this->getBadge(
+                'Psalm Coverage',
+                'https://shepherd.dev/github/__VENDOR_ORIG__/__PACKAGE_ORIG__/coverage.svg',
+                'https://shepherd.dev/github/__VENDOR_ORIG__/__PACKAGE_ORIG__'
+            )
+        );
     }
 
     /**
@@ -310,11 +319,13 @@ abstract class AbstractReadmeTest extends PHPUnit
      */
     protected function checkBadgeGithubIssues(): ?string
     {
-        return $this->getPreparedBadge($this->getBadge(
-            'GitHub Issues',
-            'https://img.shields.io/github/issues/__VENDOR__/__PACKAGE__',
-            'https://github.com/__VENDOR_ORIG__/__PACKAGE_ORIG__/issues'
-        ));
+        return $this->getPreparedBadge(
+            $this->getBadge(
+                'GitHub Issues',
+                'https://img.shields.io/github/issues/__VENDOR__/__PACKAGE__',
+                'https://github.com/__VENDOR_ORIG__/__PACKAGE_ORIG__/issues'
+            )
+        );
     }
 
     /**
@@ -322,11 +333,13 @@ abstract class AbstractReadmeTest extends PHPUnit
      */
     protected function checkBadgeGithubForks(): ?string
     {
-        return $this->getPreparedBadge($this->getBadge(
-            'GitHub Forks',
-            'https://img.shields.io/github/forks/__VENDOR__/__PACKAGE__',
-            'https://github.com/__VENDOR_ORIG__/__PACKAGE_ORIG__/network'
-        ));
+        return $this->getPreparedBadge(
+            $this->getBadge(
+                'GitHub Forks',
+                'https://img.shields.io/github/forks/__VENDOR__/__PACKAGE__',
+                'https://github.com/__VENDOR_ORIG__/__PACKAGE_ORIG__/network'
+            )
+        );
     }
 
     /**
@@ -334,11 +347,13 @@ abstract class AbstractReadmeTest extends PHPUnit
      */
     protected function checkBadgeGithubStars(): ?string
     {
-        return $this->getPreparedBadge($this->getBadge(
-            'GitHub Stars',
-            'https://img.shields.io/github/stars/__VENDOR__/__PACKAGE__',
-            'https://github.com/__VENDOR_ORIG__/__PACKAGE_ORIG__/stargazers'
-        ));
+        return $this->getPreparedBadge(
+            $this->getBadge(
+                'GitHub Stars',
+                'https://img.shields.io/github/stars/__VENDOR__/__PACKAGE__',
+                'https://github.com/__VENDOR_ORIG__/__PACKAGE_ORIG__/stargazers'
+            )
+        );
     }
 
     /**
@@ -346,11 +361,13 @@ abstract class AbstractReadmeTest extends PHPUnit
      */
     protected function checkBadgeGithubLicense(): ?string
     {
-        return $this->getPreparedBadge($this->getBadge(
-            'GitHub License',
-            'https://img.shields.io/github/license/__VENDOR__/__PACKAGE__',
-            'https://github.com/__VENDOR_ORIG__/__PACKAGE_ORIG__/blob/master/LICENSE'
-        ));
+        return $this->getPreparedBadge(
+            $this->getBadge(
+                'GitHub License',
+                'https://img.shields.io/github/license/__VENDOR__/__PACKAGE__',
+                'https://github.com/__VENDOR_ORIG__/__PACKAGE_ORIG__/blob/master/LICENSE'
+            )
+        );
     }
 
     /**
@@ -358,11 +375,13 @@ abstract class AbstractReadmeTest extends PHPUnit
      */
     protected function checkBadgeDockerBuild(): ?string
     {
-        return $this->getPreparedBadge($this->getBadge(
-            'Docker Cloud Build Status',
-            'https://img.shields.io/docker/cloud/build/__VENDOR__/__PACKAGE__.svg',
-            'https://hub.docker.com/r/__VENDOR__/__PACKAGE__'
-        ));
+        return $this->getPreparedBadge(
+            $this->getBadge(
+                'Docker Cloud Build Status',
+                'https://img.shields.io/docker/cloud/build/__VENDOR__/__PACKAGE__.svg',
+                'https://hub.docker.com/r/__VENDOR__/__PACKAGE__'
+            )
+        );
     }
 
     /**
@@ -370,11 +389,13 @@ abstract class AbstractReadmeTest extends PHPUnit
      */
     protected function checkBadgeDockerPulls(): ?string
     {
-        return $this->getPreparedBadge($this->getBadge(
-            'Docker Pulls',
-            'https://img.shields.io/docker/pulls/__VENDOR__/__PACKAGE__.svg',
-            'https://hub.docker.com/r/__VENDOR__/__PACKAGE__'
-        ));
+        return $this->getPreparedBadge(
+            $this->getBadge(
+                'Docker Pulls',
+                'https://img.shields.io/docker/pulls/__VENDOR__/__PACKAGE__.svg',
+                'https://hub.docker.com/r/__VENDOR__/__PACKAGE__'
+            )
+        );
     }
 
     /**
@@ -382,11 +403,13 @@ abstract class AbstractReadmeTest extends PHPUnit
      */
     protected function checkBadgeScrutinizer(): ?string
     {
-        return $this->getPreparedBadge($this->getBadge(
-            'Scrutinizer Code Quality',
-            'https://scrutinizer-ci.com/g/__VENDOR__/__PACKAGE__/badges/quality-score.png?b=master',
-            'https://scrutinizer-ci.com/g/__VENDOR__/__PACKAGE__/?branch=master'
-        ));
+        return $this->getPreparedBadge(
+            $this->getBadge(
+                'Scrutinizer Code Quality',
+                'https://scrutinizer-ci.com/g/__VENDOR__/__PACKAGE__/badges/quality-score.png?b=master',
+                'https://scrutinizer-ci.com/g/__VENDOR__/__PACKAGE__/?branch=master'
+            )
+        );
     }
 
     /**
@@ -394,11 +417,13 @@ abstract class AbstractReadmeTest extends PHPUnit
      */
     protected function checkBadgeCodefactor(): ?string
     {
-        return $this->getPreparedBadge($this->getBadge(
-            'CodeFactor',
-            'https://www.codefactor.io/repository/github/__VENDOR__/__PACKAGE__/badge',
-            'https://www.codefactor.io/repository/github/__VENDOR__/__PACKAGE__/issues'
-        ));
+        return $this->getPreparedBadge(
+            $this->getBadge(
+                'CodeFactor',
+                'https://www.codefactor.io/repository/github/__VENDOR__/__PACKAGE__/badge',
+                'https://www.codefactor.io/repository/github/__VENDOR__/__PACKAGE__/issues'
+            )
+        );
     }
 
     /**
@@ -408,11 +433,13 @@ abstract class AbstractReadmeTest extends PHPUnit
     {
         $project = '__VENDOR_ORIG_____PACKAGE_ORIG__';
 
-        return $this->getPreparedBadge($this->getBadge(
-            'Quality Gate Status',
-            "https://sonarcloud.io/api/project_badges/measure?project={$project}&metric=alert_status",
-            "https://sonarcloud.io/dashboard?id={$project}"
-        ));
+        return $this->getPreparedBadge(
+            $this->getBadge(
+                'Quality Gate Status',
+                "https://sonarcloud.io/api/project_badges/measure?project={$project}&metric=alert_status",
+                "https://sonarcloud.io/dashboard?id={$project}"
+            )
+        );
     }
 
     /**
@@ -420,11 +447,13 @@ abstract class AbstractReadmeTest extends PHPUnit
      */
     protected function checkBadgeStrictTypes(): ?string
     {
-        return $this->getPreparedBadge($this->getBadge(
-            'PHP Strict Types',
-            'https://img.shields.io/badge/strict__types-%3D1-brightgreen',
-            'https://www.php.net/manual/en/language.types.declarations.php#language.types.declarations.strict'
-        ));
+        return $this->getPreparedBadge(
+            $this->getBadge(
+                'PHP Strict Types',
+                'https://img.shields.io/badge/strict__types-%3D1-brightgreen',
+                'https://www.php.net/manual/en/language.types.declarations.php#language.types.declarations.strict'
+            )
+        );
     }
 
     /**
@@ -438,7 +467,7 @@ abstract class AbstractReadmeTest extends PHPUnit
         return $this->getBadge(
             $name,
             "https://poser.pugx.org/__VENDOR__/__PACKAGE__/{$mode}",
-            'https://packagist.org/packages/__VENDOR__/__PACKAGE__' . ($postfix ? "/{$postfix}" : '')
+            'https://packagist.org/packages/__VENDOR__/__PACKAGE__' . ('' !== $postfix ? "/{$postfix}" : '')
         );
     }
 
@@ -447,11 +476,13 @@ abstract class AbstractReadmeTest extends PHPUnit
      */
     protected function checkBadgeCodecov(): ?string
     {
-        return $this->getPreparedBadge($this->getBadge(
-            'codecov',
-            'https://codecov.io/gh/__VENDOR_ORIG__/__PACKAGE_ORIG__/branch/master/graph/badge.svg',
-            'https://codecov.io/gh/__VENDOR_ORIG__/__PACKAGE_ORIG__/branch/master'
-        ));
+        return $this->getPreparedBadge(
+            $this->getBadge(
+                'codecov',
+                'https://codecov.io/gh/__VENDOR_ORIG__/__PACKAGE_ORIG__/branch/master/graph/badge.svg',
+                'https://codecov.io/gh/__VENDOR_ORIG__/__PACKAGE_ORIG__/branch/master'
+            )
+        );
     }
 
     /**
@@ -459,11 +490,13 @@ abstract class AbstractReadmeTest extends PHPUnit
      */
     protected function checkBadgePhpVersion(): ?string
     {
-        return $this->getPreparedBadge($this->getBadge(
-            'PHP Version',
-            'https://img.shields.io/packagist/php-v/__VENDOR__/__PACKAGE__',
-            'https://github.com/__VENDOR_ORIG__/__PACKAGE_ORIG__/blob/master/composer.json'
-        ));
+        return $this->getPreparedBadge(
+            $this->getBadge(
+                'PHP Version',
+                'https://img.shields.io/packagist/php-v/__VENDOR__/__PACKAGE__',
+                'https://github.com/__VENDOR_ORIG__/__PACKAGE_ORIG__/blob/master/composer.json'
+            )
+        );
     }
 
     /**
@@ -471,11 +504,15 @@ abstract class AbstractReadmeTest extends PHPUnit
      */
     protected function checkBadgeGithubActions(): ?string
     {
-        return $this->getPreparedBadge($this->getBadge(
-            'CI',
-            'https://github.com/__VENDOR_ORIG__/__PACKAGE_ORIG__/actions/workflows/main.yml/badge.svg?branch=master',
-            'https://github.com/__VENDOR_ORIG__/__PACKAGE_ORIG__/actions/workflows/main.yml?query=branch%3Amaster'
-        ));
+        $path = "https://github.com/__VENDOR_ORIG__/__PACKAGE_ORIG__/actions/workflows";
+
+        return $this->getPreparedBadge(
+            $this->getBadge(
+                'CI',
+                $path . '/main.yml/badge.svg?branch=master',
+                $path . '/main.yml?query=branch%3Amaster'
+            )
+        );
     }
 
     /**
@@ -483,10 +520,12 @@ abstract class AbstractReadmeTest extends PHPUnit
      */
     protected function checkBadgeVisitors(): ?string
     {
-        return $this->getPreparedBadge($this->getBadge(
-            'Visitors',
-            'https://visitor-badge.glitch.me/badge?page_id=__VENDOR__.__PACKAGE__'
-        ));
+        return $this->getPreparedBadge(
+            $this->getBadge(
+                'Visitors',
+                'https://visitor-badge.glitch.me/badge?page_id=__VENDOR__.__PACKAGE__'
+            )
+        );
     }
 
     //// Tools /////////////////////////////////////////////////////////////////////////////////////////////////////////
