@@ -119,6 +119,7 @@ class CovCatcher
                 /** @psalm-suppress UnresolvableInclude */
                 $result = require $realpath;
             } elseif (self::MODE_REQUIRE_ONCE === $mode) {
+                /** @psalm-suppress UnresolvableInclude */
                 $result = require_once $realpath;
             } else {
                 throw new Exception("Undefined mode to include file: \"{$filename}\"");
