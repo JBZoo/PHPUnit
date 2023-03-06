@@ -3,7 +3,16 @@
     "type"        : "library",
     "description" : "PHPUnit toolbox with short assert aliases and useful functions around testing",
     "license"     : "MIT",
-    "keywords"    : ["phpunit", "jbzoo", "aliases", "short-syntax", "testing", "assert", "assertion", "debug"],
+    "keywords"    : [
+        "phpunit",
+        "jbzoo",
+        "aliases",
+        "short-syntax",
+        "testing",
+        "assert",
+        "assertion",
+        "debug"
+    ],
 
     "authors"     : [
         {
@@ -26,11 +35,11 @@
     },
 
     "require-dev" : {
-        "jbzoo/toolbox-dev"        : ">=4.0.0",
-        "jbzoo/codestyle"          : "5.x-dev",
-        "jbzoo/http-client"        : ">=3.6.2",
-        "jbzoo/data"               : ">=4.4.0",
-        "jbzoo/utils"              : ">=4.5.5",
+        "jbzoo/toolbox-dev"        : "dev-master|7.x-dev",
+        "jbzoo/codestyle"          : "dev-master|7.x-dev",
+        "jbzoo/http-client"        : ">=3.6.2|dev-master|7.x-dev",
+        "jbzoo/data"               : ">=4.4.0|dev-master|7.x-dev",
+        "jbzoo/utils"              : ">=4.5.5|dev-master|7.x-dev",
 
         "guzzlehttp/guzzle"        : ">=7.4.3",
         "symfony/process"          : ">=5.4.8",
@@ -62,7 +71,7 @@
 
     "extra"       : {
         "branch-alias" : {
-            "dev-master" : "6.x-dev"
+            "dev-master" : "7.x-dev"
         }
     }
 }
