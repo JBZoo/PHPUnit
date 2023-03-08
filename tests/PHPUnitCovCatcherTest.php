@@ -39,7 +39,6 @@ class PHPUnitCovCatcherTest extends PHPUnit
 
     /**
      * @throws Exception
-     * @throws \ReflectionException
      */
     public function testInclude(): void
     {

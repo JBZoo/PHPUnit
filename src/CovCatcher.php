@@ -55,7 +55,6 @@ class CovCatcher
 
     /**
      * @param  array<bool|string> $options
-     * @throws Exception
      */
     public function __construct(string $testName = '', array $options = [])
     {
@@ -91,9 +90,6 @@ class CovCatcher
         $this->createReports();
     }
 
-    /**
-     * @throws Exception
-     */
     public function includeFile(string $filename, string $mode = self::MODE_REQUIRE): mixed
     {
         $this->start();

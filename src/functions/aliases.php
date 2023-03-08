@@ -277,9 +277,6 @@ function isNotEmail(string $notEmail, string $message = ''): void
     isFalse((bool)\filter_var($notEmail, \FILTER_VALIDATE_EMAIL), $message);
 }
 
-/**
- * @throws \Exception
- */
 function isCurrentDate(string $date, int $timeDiff = 300, string $message = ''): void
 {
     $nowDate   = new \DateTime('now');
@@ -373,9 +370,6 @@ function isNotAmountCur(array $expected, array $actual, string $message = '', fl
     Assert::assertNotEqualsWithDelta((float)$expected[0], (float)$actual[0], $allowableDiff, $message);
 }
 
-/**
- * @throws \Exception
- */
 function isDiffBetweenDates(string $date1, string $date2, float $expectedDiff = 300.0, string $message = ''): void
 {
     $dateObj1   = new \DateTime($date1);
@@ -391,9 +385,6 @@ function isDiffBetweenDates(string $date1, string $date2, float $expectedDiff = 
     );
 }
 
-/**
- * @throws \Exception
- */
 function isDiffBetweenDatesLessThan(
     string $date1,
     string $date2,
@@ -412,9 +403,6 @@ function isDiffBetweenDatesLessThan(
     );
 }
 
-/**
- * @throws \Exception
- */
 function isDiffBetweenDatesMoreThan(
     string $date1,
     string $date2,
@@ -433,9 +421,6 @@ function isDiffBetweenDatesMoreThan(
     );
 }
 
-/**
- * @throws \Exception
- */
 function isSameDate(string $expected, string $actual, string $format = 'Y-m-d', string $message = ''): void
 {
     $expectedObj = new \DateTime($expected);
