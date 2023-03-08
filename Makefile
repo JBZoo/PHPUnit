@@ -1,14 +1,13 @@
 #
-# JBZoo Toolbox - PHPUnit
+# JBZoo Toolbox - PHPUnit.
 #
 # This file is part of the JBZoo Toolbox project.
 # For the full copyright and license information, please view the LICENSE
 # file that was distributed with this source code.
 #
-# @package    PHPUnit
 # @license    MIT
 # @copyright  Copyright (C) JBZoo.com, All rights reserved.
-# @link       https://github.com/JBZoo/PHPUnit
+# @see        https://github.com/JBZoo/PHPUnit
 #
 
 ifneq (, $(wildcard ./vendor/jbzoo/codestyle/src/init.Makefile))
@@ -27,19 +26,19 @@ update: ##@Project Install/Update all 3rd party dependencies
 	@composer update $(JBZOO_COMPOSER_UPDATE_FLAGS)
 
 
-server-start: ##@Project Run PHP web-server for PHPUnit tests
+server-start: ##@ProjectSpecific Run PHP web-server for PHPUnit tests
 	@make server-fake-test
 	@make server-phpunit
 	@sleep 1
 
 
-server-stop: ##@Project Run PHP web-server for PHPUnit tests
+server-stop: ##@ProjectSpecific Run PHP web-server for PHPUnit tests
 	@-pgrep --full "$(JBZOO_TEST_SERVER_HOST):$(JBZOO_TEST_SERVER_FAKE)"    | xargs kill -15 || true;
 	@-pgrep --full "$(JBZOO_TEST_SERVER_HOST):$(JBZOO_TEST_SERVER_PHPUNIT)" | xargs kill -15 || true;
 	@sleep 1
 
 
-test-all: ##@Project Run all test
+test-all: ##@ProjectSpecific Run all test
 	$(call title,"Run all tests")
 	@make test
 	@make report-composer-graph
