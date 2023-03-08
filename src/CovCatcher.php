@@ -54,7 +54,7 @@ class CovCatcher
     protected string $hash = '';
 
     /**
-     * @param  array<bool|string> $options
+     * @param array<bool|string> $options
      */
     public function __construct(string $testName = '', array $options = [])
     {

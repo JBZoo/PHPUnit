@@ -72,8 +72,8 @@ function openFile(string $path): ?string
 }
 
 /**
- * @param  array<mixed>|string         $args
- * @param  array<bool|int|string>      $options
+ * @param array<mixed>|string    $args
+ * @param array<bool|int|string> $options
  */
 function httpRequest(string $url, $args = null, string $method = Request::GET, array $options = []): Response
 {
