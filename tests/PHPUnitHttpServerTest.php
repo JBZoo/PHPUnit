@@ -1,16 +1,15 @@
 <?php
 
 /**
- * JBZoo Toolbox - PHPUnit
+ * JBZoo Toolbox - PHPUnit.
  *
  * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package    PHPUnit
  * @license    MIT
  * @copyright  Copyright (C) JBZoo.com, All rights reserved.
- * @link       https://github.com/JBZoo/PHPUnit
+ * @see        https://github.com/JBZoo/PHPUnit
  */
 
 declare(strict_types=1);
@@ -21,11 +20,6 @@ use JBZoo\HttpClient\Response;
 use JBZoo\Utils\FS;
 use JBZoo\Utils\Sys;
 
-/**
- * Class PHPUnitHttpServerTest
- *
- * @package JBZoo\PHPUnit
- */
 class PHPUnitHttpServerTest extends PHPUnit
 {
     protected function setUp(): void
@@ -37,13 +31,13 @@ class PHPUnitHttpServerTest extends PHPUnit
         FS::rmDir(PROJECT_BUILD . '/coverage_xml');
     }
 
-    public function testSimple()
+    public function testSimple(): void
     {
         if (Sys::isPHP('7.4')) {
             skip('Not supported yet in PHP 7.4');
         }
 
-        $uniq = uniqid('', true);
+        $uniq = \uniqid('', true);
 
         $result = $this->httpRequest('http://localhost:8888/', [
             'test' => $uniq,
@@ -59,9 +53,9 @@ class PHPUnitHttpServerTest extends PHPUnit
         }
     }
 
-    public function testDirectIndex()
+    public function testDirectIndex(): void
     {
-        $uniq = uniqid('', true);
+        $uniq = \uniqid('', true);
 
         $result = $this->httpRequest('http://localhost:8888/index.php', [
             'test' => $uniq,
@@ -77,9 +71,9 @@ class PHPUnitHttpServerTest extends PHPUnit
         }
     }
 
-    public function testNestedIndex()
+    public function testNestedIndex(): void
     {
-        $uniq = uniqid('', true);
+        $uniq = \uniqid('', true);
 
         $result = $this->httpRequest('http://localhost:8888/folder/index-second.php', [
             'test' => $uniq,
@@ -95,21 +89,20 @@ class PHPUnitHttpServerTest extends PHPUnit
         }
     }
 
-    public function testAssets()
+    public function testAssets(): void
     {
         $result = $this->httpRequest('http://localhost:8888/robots.txt');
         isSame(200, $result->getCode());
-        //isContain('User-agent: *', $result->getBody());
+        // isContain('User-agent: *', $result->getBody());
 
         $result = $this->httpRequest('http://localhost:8888/robots.txt', ['test' => '123456']);
         isSame(200, $result->getCode());
-        //isContain('User-agent: *', $result->getBody());
+        // isContain('User-agent: *', $result->getBody());
     }
 
     /**
-     * @param string $url
-     * @param array  $args
-     * @return Response
+     * @param  string                      $url
+     * @param  array                       $args
      * @throws Exception
      * @throws \JBZoo\HttpClient\Exception
      */

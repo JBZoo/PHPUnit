@@ -1,16 +1,15 @@
 #!/usr/bin/env sh
 
 #
-# JBZoo Toolbox - PHPUnit
+# JBZoo Toolbox - PHPUnit.
 #
 # This file is part of the JBZoo Toolbox project.
 # For the full copyright and license information, please view the LICENSE
 # file that was distributed with this source code.
 #
-# @package    PHPUnit
 # @license    MIT
 # @copyright  Copyright (C) JBZoo.com, All rights reserved.
-# @link       https://github.com/JBZoo/PHPUnit
+# @see        https://github.com/JBZoo/PHPUnit
 #
 
 if [ "$1" != "" ]; then HTTP_HOST=$1; else  HTTP_HOST="127.0.0.1";      fi

@@ -1,16 +1,15 @@
 <?php
 
 /**
- * JBZoo Toolbox - PHPUnit
+ * JBZoo Toolbox - PHPUnit.
  *
  * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package    PHPUnit
  * @license    MIT
  * @copyright  Copyright (C) JBZoo.com, All rights reserved.
- * @link       https://github.com/JBZoo/PHPUnit
+ * @see        https://github.com/JBZoo/PHPUnit
  */
 
 declare(strict_types=1);
@@ -28,8 +27,6 @@ use SebastianBergmann\CodeCoverage\Report\Html\Facade;
 use SebastianBergmann\CodeCoverage\Report\PHP;
 
 /**
- * Class CovCatcher
- * @package JBZoo\PHPUnit
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class CovCatcher
@@ -37,19 +34,11 @@ class CovCatcher
     public const MODE_REQUIRE      = 'require';
     public const MODE_REQUIRE_ONCE = 'require_once';
 
-    /**
-     * @var bool
-     */
     protected bool $isStarted = false;
 
-    /**
-     * @var CodeCoverage|null
-     */
     protected ?CodeCoverage $coverage;
 
-    /**
-     * @var array<bool|string>
-     */
+    /** @var array<bool|string> */
     protected array $default = [
         'cov'        => true,
         'xml'        => false,
@@ -60,65 +49,62 @@ class CovCatcher
         'build_html' => './build/coverage_html',
     ];
 
-    /**
-     * @var Data
-     */
     protected Data $config;
 
-    /**
-     * @var string
-     */
     protected string $hash = '';
 
     /**
-     * CovCatcher constructor.
-     *
-     * @param string             $testName
-     * @param array<bool|string> $options
+     * @param  array<bool|string> $options
      * @throws Exception
      */
     public function __construct(string $testName = '', array $options = [])
     {
-        if (!class_exists(Data::class)) {
+        if (!\class_exists(Data::class)) {
             throw new Exception('jbzoo/data is required for CovCatcher');
         }
 
-        if (!class_exists(Env::class)) {
+        if (!\class_exists(Env::class)) {
             throw new Exception('jbzoo/utils is required for CovCatcher');
         }
 
         $this->initConfig($options);
 
-        $postFixName = str_replace('.', '', uniqid('', true));
-        $this->hash = '' !== $testName ? "{$testName}__{$postFixName}" : $postFixName;
+        $postFixName = \str_replace('.', '', \uniqid('', true));
+        $this->hash  = $testName !== '' ? "{$testName}__{$postFixName}" : $postFixName;
 
         $this->coverage = null;
         if (Sys::hasXdebug()) {
             $covFilter = new Filter();
             $covFilter->includeDirectory($this->config->getString('src'));
 
-            $driver = (new Selector())->forLineAndPathCoverage($covFilter);
+            $driver         = (new Selector())->forLineAndPathCoverage($covFilter);
             $this->coverage = new CodeCoverage($driver, $covFilter);
         }
     }
 
     /**
-     * @param string $filename
-     * @param string $mode
-     * @return mixed
+     * Save report.
+     */
+    public function __destruct()
+    {
+        $this->stop();
+        $this->createReports();
+    }
+
+    /**
      * @throws Exception
      */
     public function includeFile(string $filename, string $mode = self::MODE_REQUIRE): mixed
     {
         $this->start();
 
-        $realpath = (string)realpath($filename);
+        $realpath = (string)\realpath($filename);
 
-        if ('' !== $realpath && file_exists($realpath) && is_file($realpath)) {
-            if (self::MODE_REQUIRE === $mode) {
+        if ($realpath !== '' && \file_exists($realpath) && \is_file($realpath)) {
+            if ($mode === self::MODE_REQUIRE) {
                 /** @psalm-suppress UnresolvableInclude */
                 $result = require $realpath;
-            } elseif (self::MODE_REQUIRE_ONCE === $mode) {
+            } elseif ($mode === self::MODE_REQUIRE_ONCE) {
                 /** @psalm-suppress UnresolvableInclude */
                 $result = require_once $realpath;
             } else {
@@ -134,16 +120,7 @@ class CovCatcher
     }
 
     /**
-     * Save report
-     */
-    public function __destruct()
-    {
-        $this->stop();
-        $this->createReports();
-    }
-
-    /**
-     * Start coverage process
+     * Start coverage process.
      */
     protected function start(): void
     {
@@ -154,7 +131,7 @@ class CovCatcher
     }
 
     /**
-     * Stop or pause coverage process
+     * Stop or pause coverage process.
      */
     protected function stop(): void
     {
@@ -165,7 +142,7 @@ class CovCatcher
     }
 
     /**
-     * Stop or pause coverage process
+     * Stop or pause coverage process.
      */
     protected function createReports(): void
     {
@@ -174,7 +151,7 @@ class CovCatcher
         if ($isXmlEnabled) {
             self::prepareDirectory($reportXmlDir);
             $report = new Clover();
-            if (null !== $this->coverage) {
+            if ($this->coverage !== null) {
                 $report->process($this->coverage, $reportXmlDir . '/' . $this->hash . '.xml');
             }
         }
@@ -184,7 +161,7 @@ class CovCatcher
         if ($isCovEnabled) {
             self::prepareDirectory($reportCovDir);
             $report = new PHP();
-            if (null !== $this->coverage) {
+            if ($this->coverage !== null) {
                 $report->process($this->coverage, $reportCovDir . '/' . $this->hash . '.cov');
             }
         }
@@ -194,33 +171,28 @@ class CovCatcher
         if ($isHtmlEnabled) {
             self::prepareDirectory($reportHtmlDir);
             $report = new Facade();
-            if (null !== $this->coverage) {
+            if ($this->coverage !== null) {
                 $report->process($this->coverage, $reportHtmlDir . '/' . $this->hash);
             }
         }
     }
 
     /**
-     * @param string $dirPath
-     */
-    protected static function prepareDirectory(string $dirPath): void
-    {
-        /** @phan-suppress-next-line PhanPluginDuplicateIfCondition */
-        if (!is_dir($dirPath) && !mkdir($dirPath, 0777, true) && !is_dir($dirPath)) {
-            throw new \RuntimeException(sprintf('Directory "%s" was not created', $dirPath));
-        }
-    }
-
-    /**
-     * Prepare and init config
-     * @param array<bool|string|null> $options
+     * Prepare and init config.
+     * @param array<null|bool|string> $options
      */
     protected function initConfig(array $options): void
     {
-        $options = array_filter($options, static function ($option) {
-            return null !== $option;
-        });
+        $options = \array_filter($options, static fn ($option) => $option !== null);
 
-        $this->config = new Data(array_merge($this->default, $options));
+        $this->config = new Data(\array_merge($this->default, $options));
+    }
+
+    protected static function prepareDirectory(string $dirPath): void
+    {
+        /** @phan-suppress-next-line PhanPluginDuplicateIfCondition */
+        if (!\is_dir($dirPath) && !\mkdir($dirPath, 0777, true) && !\is_dir($dirPath)) {
+            throw new \RuntimeException(\sprintf('Directory "%s" was not created', $dirPath));
+        }
     }
 }

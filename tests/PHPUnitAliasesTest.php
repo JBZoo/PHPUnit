@@ -1,30 +1,24 @@
 <?php
 
 /**
- * JBZoo Toolbox - PHPUnit
+ * JBZoo Toolbox - PHPUnit.
  *
  * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package    PHPUnit
  * @license    MIT
  * @copyright  Copyright (C) JBZoo.com, All rights reserved.
- * @link       https://github.com/JBZoo/PHPUnit
+ * @see        https://github.com/JBZoo/PHPUnit
  */
 
 declare(strict_types=1);
 
 namespace JBZoo\PHPUnit;
 
-/**
- * Class PHPUnitAliasesTest
- *
- * @package JBZoo\PHPUnit
- */
 class PHPUnitAliasesTest extends PHPUnit
 {
-    public function testBoolean()
+    public function testBoolean(): void
     {
         isTrue(true);
         isFalse(false);
@@ -36,7 +30,7 @@ class PHPUnitAliasesTest extends PHPUnit
         isNotNull(.0);
     }
 
-    public function testEmpty()
+    public function testEmpty(): void
     {
         isEmpty(0);
         isEmpty('');
@@ -52,7 +46,7 @@ class PHPUnitAliasesTest extends PHPUnit
         isNotEmpty(1);
     }
 
-    public function testEquals()
+    public function testEquals(): void
     {
         is(1, true);
         is([1, 2, 3], [1, 2, 3]);
@@ -74,7 +68,7 @@ class PHPUnitAliasesTest extends PHPUnit
         ]);
     }
 
-    public function testObjects()
+    public function testObjects(): void
     {
         isClass('stdClass', new \stdClass());
         isClass(\stdClass::class, new \stdClass());
@@ -82,14 +76,14 @@ class PHPUnitAliasesTest extends PHPUnit
         isClass(PHPUnit::class, $this);
     }
 
-    public function testArray()
+    public function testArray(): void
     {
         isCount(0, []);
         isCount(1, [1]);
         isCount(2, [1, 3]);
     }
 
-    public function testString()
+    public function testString(): void
     {
         isLike('#t.st#i', 'TESTO');
         isNotLike('#teeest#i', 'TESTO');
@@ -102,7 +96,7 @@ class PHPUnitAliasesTest extends PHPUnit
         isNotContain('X', 'test', true);
     }
 
-    public function testFilesystem()
+    public function testFilesystem(): void
     {
         isFileEq(__FILE__, __FILE__);
         is(openFile(__FILE__), openFile(__FILE__));
@@ -117,19 +111,19 @@ class PHPUnitAliasesTest extends PHPUnit
         isNotDir(__DIR__ . '/qwerty');
     }
 
-    public function testSkip()
+    public function testSkip(): void
     {
         skip('Some reason to skip this test');
     }
 
-    public function testOthers()
+    public function testOthers(): void
     {
         isEmail('e@mail.com');
         isCurrentDate('now');
         isNotEmail('email.com');
     }
 
-    public function testIsAmount()
+    public function testIsAmount(): void
     {
         isAmount('100.99', 100.98);
         isAmount('100.99', '100.97');
@@ -143,12 +137,12 @@ class PHPUnitAliasesTest extends PHPUnit
         isNotAmountCur(['100.99', 'USD'], [100, 'USD']);
     }
 
-    public function testIsSameDate()
+    public function testIsSameDate(): void
     {
         isSameDate('now', 'now');
     }
 
-    public function testIsDiffBetweenDates()
+    public function testIsDiffBetweenDates(): void
     {
         isDiffBetweenDates('now', '-5min');
         isDiffBetweenDates('+5min', 'now');
@@ -158,13 +152,14 @@ class PHPUnitAliasesTest extends PHPUnit
         isDiffBetweenDates('now', '-1min', 60);
 
         $isFail = false;
+
         try {
             isDiffBetweenDates('+5min', '-5min', 400, 'My message.');
         } catch (\Exception $exception) {
             isContain(
                 'The expected difference between "+5min" and "-5min" is 400 seconds. ' .
                 'The actual value is 600 seconds. My message.',
-                $exception->getMessage()
+                $exception->getMessage(),
             );
 
             $isFail = true;
@@ -173,7 +168,7 @@ class PHPUnitAliasesTest extends PHPUnit
         isTrue($isFail);
     }
 
-    public function testIsDiffBetweenDatesLessThan()
+    public function testIsDiffBetweenDatesLessThan(): void
     {
         isDiffBetweenDatesLessThan('now', '-4min');
         isDiffBetweenDatesLessThan('+4min', 'now');
@@ -183,13 +178,14 @@ class PHPUnitAliasesTest extends PHPUnit
         isDiffBetweenDatesLessThan('now', '-59 sec', 60);
 
         $isFail = false;
+
         try {
             isDiffBetweenDatesLessThan('+5min', '-5min', 100, 'My message.');
         } catch (\Exception $exception) {
             isContain(
                 'Diff between dates: "+5min" and "-5min" is more than expected 100 seconds. ' .
                 'The actual value is 600 seconds. My message.',
-                $exception->getMessage()
+                $exception->getMessage(),
             );
             $isFail = true;
         }
@@ -197,7 +193,7 @@ class PHPUnitAliasesTest extends PHPUnit
         isTrue($isFail);
     }
 
-    public function testIsDiffBetweenDatesMoreThan()
+    public function testIsDiffBetweenDatesMoreThan(): void
     {
         isDiffBetweenDatesMoreThan('now', '-6min');
         isDiffBetweenDatesMoreThan('+6min', 'now');
@@ -207,13 +203,14 @@ class PHPUnitAliasesTest extends PHPUnit
         isDiffBetweenDatesMoreThan('now', '-59 sec', 50);
 
         $isFail = false;
+
         try {
             isDiffBetweenDatesMoreThan('+5min', '-5min', 1000, 'My message.');
         } catch (\Exception $exception) {
             isContain(
                 'Diff between dates: "+5min" and "-5min" is less than expected 1000 seconds. ' .
                 'The actual value is 600 seconds. My message.',
-                $exception->getMessage()
+                $exception->getMessage(),
             );
             $isFail = true;
         }
@@ -221,14 +218,14 @@ class PHPUnitAliasesTest extends PHPUnit
         isTrue($isFail);
     }
 
-    public function testIsFileNotContains()
+    public function testIsFileNotContains(): void
     {
         isFileNotContains('Some not expected text', PROJECT_ROOT . '/README.md');
         isFileNotContains('Some not expected text', PROJECT_ROOT . '/README.md', true);
         isFileNotContains('Some not expected text', PROJECT_ROOT . '/README.md', false);
     }
 
-    public function testIsFileContains()
+    public function testIsFileContains(): void
     {
         isFileContains('Some expected text', __FILE__);
         isFileContains('Some  expected text', __FILE__, true);

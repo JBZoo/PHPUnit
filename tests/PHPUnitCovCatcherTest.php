@@ -1,16 +1,15 @@
 <?php
 
 /**
- * JBZoo Toolbox - PHPUnit
+ * JBZoo Toolbox - PHPUnit.
  *
  * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package    PHPUnit
  * @license    MIT
  * @copyright  Copyright (C) JBZoo.com, All rights reserved.
- * @link       https://github.com/JBZoo/PHPUnit
+ * @see        https://github.com/JBZoo/PHPUnit
  */
 
 declare(strict_types=1);
@@ -19,14 +18,7 @@ namespace JBZoo\PHPUnit;
 
 use JBZoo\Utils\FS;
 use JBZoo\Utils\Sys;
-use ReflectionException;
-use RuntimeException;
 
-/**
- * Class PHPUnitCovCatcherTest
- *
- * @package JBZoo\PHPUnit
- */
 class PHPUnitCovCatcherTest extends PHPUnit
 {
     /**
@@ -36,7 +28,7 @@ class PHPUnitCovCatcherTest extends PHPUnit
     {
         parent::setUp();
 
-        if (!class_exists(FS::class)) {
+        if (!\class_exists(FS::class)) {
             throw new Exception('jbzoo/utils required for CovCatcher unit-tests');
         }
 
@@ -47,9 +39,9 @@ class PHPUnitCovCatcherTest extends PHPUnit
 
     /**
      * @throws Exception
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
-    public function testInclude()
+    public function testInclude(): void
     {
         $catcher = new CovCatcher('', [
             'src'  => PROJECT_TESTS . '/fixtures/includes',
@@ -58,9 +50,9 @@ class PHPUnitCovCatcherTest extends PHPUnit
             'html' => true,
         ]);
 
-        ob_start();
+        \ob_start();
         $return = $catcher->includeFile(PROJECT_TESTS . '/fixtures/includes/cov-catcher.php');
-        $echo = ob_get_clean();
+        $echo   = \ob_get_clean();
 
         isSame(5, $return);
         isSame('Some text message', $echo);
@@ -74,9 +66,9 @@ class PHPUnitCovCatcherTest extends PHPUnit
         }
     }
 
-    public function testIncludeWithException()
+    public function testIncludeWithException(): void
     {
-        $this->expectException(RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
 
         $catcher = new CovCatcher('', [
             'src'  => PROJECT_TESTS . '/fixtures/includes',
