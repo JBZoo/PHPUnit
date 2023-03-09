@@ -1,9 +1,9 @@
 {
-    "name"         : "jbzoo/phpunit",
-    "type"         : "library",
-    "description"  : "PHPUnit toolbox with short assert aliases and useful functions around testing",
-    "license"      : "MIT",
-    "keywords"     : [
+    "name"              : "jbzoo/phpunit",
+    "type"              : "library",
+    "description"       : "PHPUnit toolbox with short assert aliases and useful functions around testing",
+    "license"           : "MIT",
+    "keywords"          : [
         "phpunit",
         "jbzoo",
         "aliases",
@@ -14,7 +14,7 @@
         "debug"
     ],
 
-    "authors"      : [
+    "authors"           : [
         {
             "name"  : "Denis Smetannikov",
             "email" : "admin@jbzoo.com",
@@ -22,7 +22,10 @@
         }
     ],
 
-    "require"      : {
+    "minimum-stability" : "dev",
+    "prefer-stable"     : true,
+
+    "require"           : {
         "php"                 : "^8.1",
         "ext-filter"          : "*",
         "ext-mbstring"        : "*",
@@ -32,7 +35,7 @@
         "jbzoo/markdown"      : "7.x-dev"
     },
 
-    "require-dev"  : {
+    "require-dev"       : {
         "jbzoo/toolbox-dev" : "7.x-dev",
         "jbzoo/codestyle"   : "7.x-dev",
         "jbzoo/http-client" : "7.x-dev",
@@ -43,11 +46,11 @@
         "symfony/process"   : ">=5.4.8"
     },
 
-    "suggest"      : {
+    "suggest"           : {
         "jbzoo/utils" : "^4.2.3"
     },
 
-    "autoload"     : {
+    "autoload"          : {
         "psr-4" : {"JBZoo\\PHPUnit\\" : "src"},
         "files" : [
             "src/functions/defines.php",
@@ -56,16 +59,16 @@
         ]
     },
 
-    "autoload-dev" : {
+    "autoload-dev"      : {
         "psr-4" : {"JBZoo\\PHPUnit\\" : "tests"}
     },
 
-    "config"       : {
+    "config"            : {
         "optimize-autoloader" : true,
         "allow-plugins"       : {"composer/package-versions-deprecated" : true}
     },
 
-    "extra"        : {
+    "extra"             : {
         "branch-alias" : {
             "dev-master" : "7.x-dev"
         }
