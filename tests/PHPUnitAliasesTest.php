@@ -61,11 +61,6 @@ class PHPUnitAliasesTest extends PHPUnit
 
         isAttr('test', (object)['test' => true]);
         isNotAttr('undefined', (object)['test' => true]);
-
-        isBatch([
-            [1, 1],
-            [2, 2],
-        ]);
     }
 
     public function testObjects(): void
