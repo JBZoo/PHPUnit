@@ -29,8 +29,7 @@ if (!\defined('JBZOO_PHPUNIT')) {
     ];
 
     foreach ($paths as $path) {
-        $path = (string)$path;
-        if ($path !== '') {
+        if (\is_string($path) && \file_exists($path)) {
             if (!\defined('CRLF')) {
                 \define('CRLF', "\r\n");
             }
@@ -44,6 +43,7 @@ if (!\defined('JBZOO_PHPUNIT')) {
             }
 
             if (!\defined('PROJECT_ROOT')) {
+                /** @phan-suppress-next-line PhanUndeclaredGlobalVariable */
                 \define('PROJECT_ROOT', \dirname($path, 2));
             }
 
@@ -62,6 +62,7 @@ if (!\defined('JBZOO_PHPUNIT')) {
             if (!\defined('PROJECT_RES')) {
                 \define('PROJECT_RES', PROJECT_ROOT . DS . 'resources');
             }
+
             break;
         }
     }

@@ -14,10 +14,7 @@
 
 declare(strict_types=1);
 
-$default = include __DIR__ . '/vendor/jbzoo/codestyle/src/phan/default.php';
-
-$index = \array_search('NotFullyQualifiedUsagePlugin', $default['plugins'], true);
-unset($default['plugins'][$index]);
+$default = include __DIR__ . '/vendor/jbzoo/codestyle/src/phan.php';
 
 return \array_merge($default, [
     'file_list' => [

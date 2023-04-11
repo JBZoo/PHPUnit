@@ -43,10 +43,6 @@ class PackageTest extends PHPUnit
         is(1, true);
         is(array(1, 2, 3), array(1, 2, 3));
         isSame(array(1, 2, 3), array(1, 2, 3));
-        isBatch(array(
-            array(1, 1),
-            array(2, 2),
-        ));
 
         // Array, Object etc
         isKey('test', array('test' => true));
