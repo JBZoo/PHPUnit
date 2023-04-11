@@ -74,16 +74,6 @@ function isNot($expected, $actual, string $message = ''): void
     Assert::assertNotEquals($expected, $actual, $message);
 }
 
-/**
- * @deprecated
- */
-function isBatch(array $testList, string $message = ''): void
-{
-    foreach ($testList as $testItem) {
-        Assert::assertEquals($testItem[0], $testItem[1], $message);
-    }
-}
-
 function isTrue(mixed $value, string $message = ''): void
 {
     Assert::assertTrue($value, $message);

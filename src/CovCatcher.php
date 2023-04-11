@@ -122,7 +122,7 @@ class CovCatcher
     {
         if (!$this->isStarted) {
             $this->isStarted = true;
-            $this->coverage?->start($this->hash, true);
+            $this->coverage?->start($this->hash, null, true);
         }
     }
 
