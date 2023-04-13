@@ -70,16 +70,12 @@ class CovCatcher
         $this->initConfig($options);
 
         $postFixName = \str_replace('.', '', \uniqid('', true));
-        $this->hash = $testName !== '' ? "{$testName}__{$postFixName}" : $postFixName;
+        $this->hash  = $testName !== '' ? "{$testName}__{$postFixName}" : $postFixName;
 
         $this->coverage = null;
         if (Sys::hasXdebug()) {
-            $covFilter = new Filter();
-            foreach ((new FileIteratorFacade)->getFilesAsArray($this->config->getString('src'), '.php', '') as $file) {
-                $covFilter->includeFile($file);
-            }
-
-            $driver = (new Selector())->forLineAndPathCoverage($covFilter);
+            $covFilter      = $this->prepareFilter($this->config->getString('src'));
+            $driver         = (new Selector())->forLineAndPathCoverage($covFilter);
             $this->coverage = new CodeCoverage($driver, $covFilter);
         }
     }
@@ -182,9 +178,20 @@ class CovCatcher
      */
     protected function initConfig(array $options): void
     {
-        $options = \array_filter($options, static fn($option) => $option !== null);
+        $options = \array_filter($options, static fn ($option) => $option !== null);
 
         $this->config = new Data(\array_merge($this->default, $options));
+    }
+
+    protected function prepareFilter(string $dirPath): Filter
+    {
+        $covFilter = new Filter();
+
+        foreach ((new FileIteratorFacade())->getFilesAsArray($dirPath, '.php') as $file) {
+            $covFilter->includeFile($file);
+        }
+
+        return $covFilter;
     }
 
     protected static function prepareDirectory(string $dirPath): void
