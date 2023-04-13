@@ -74,7 +74,7 @@ class CovCatcher
 
         $this->coverage = null;
         if (Sys::hasXdebug()) {
-            $covFilter = $this->prepareFilter($this->config->getString('src'));
+            $covFilter = self::prepareFilter($this->config->getString('src'));
             $driver    = (new Selector())->forLineAndPathCoverage($covFilter);
 
             $this->coverage = new CodeCoverage($driver, $covFilter);
