@@ -25,6 +25,7 @@ use SebastianBergmann\CodeCoverage\Filter;
 use SebastianBergmann\CodeCoverage\Report\Clover;
 use SebastianBergmann\CodeCoverage\Report\Html\Facade;
 use SebastianBergmann\CodeCoverage\Report\PHP;
+use SebastianBergmann\FileIterator\Facade as FileIteratorFacade;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -73,10 +74,9 @@ class CovCatcher
 
         $this->coverage = null;
         if (Sys::hasXdebug()) {
-            $covFilter = new Filter();
-            $covFilter->includeDirectory($this->config->getString('src'));
+            $covFilter = self::prepareFilter($this->config->getString('src'));
+            $driver    = (new Selector())->forLineAndPathCoverage($covFilter);
 
-            $driver         = (new Selector())->forLineAndPathCoverage($covFilter);
             $this->coverage = new CodeCoverage($driver, $covFilter);
         }
     }
@@ -182,6 +182,17 @@ class CovCatcher
         $options = \array_filter($options, static fn ($option) => $option !== null);
 
         $this->config = new Data(\array_merge($this->default, $options));
+    }
+
+    protected static function prepareFilter(string $dirPath): Filter
+    {
+        $covFilter = new Filter();
+
+        foreach ((new FileIteratorFacade())->getFilesAsArray($dirPath, '.php') as $file) {
+            $covFilter->includeFile($file);
+        }
+
+        return $covFilter;
     }
 
     protected static function prepareDirectory(string $dirPath): void
