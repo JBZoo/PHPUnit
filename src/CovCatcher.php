@@ -184,7 +184,7 @@ class CovCatcher
         $this->config = new Data(\array_merge($this->default, $options));
     }
 
-    protected function prepareFilter(string $dirPath): Filter
+    protected static function prepareFilter(string $dirPath): Filter
     {
         $covFilter = new Filter();
 
