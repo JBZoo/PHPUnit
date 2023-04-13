@@ -25,6 +25,7 @@ use SebastianBergmann\CodeCoverage\Filter;
 use SebastianBergmann\CodeCoverage\Report\Clover;
 use SebastianBergmann\CodeCoverage\Report\Html\Facade;
 use SebastianBergmann\CodeCoverage\Report\PHP;
+use SebastianBergmann\FileIterator\Facade as FileIteratorFacade;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -69,14 +70,16 @@ class CovCatcher
         $this->initConfig($options);
 
         $postFixName = \str_replace('.', '', \uniqid('', true));
-        $this->hash  = $testName !== '' ? "{$testName}__{$postFixName}" : $postFixName;
+        $this->hash = $testName !== '' ? "{$testName}__{$postFixName}" : $postFixName;
 
         $this->coverage = null;
         if (Sys::hasXdebug()) {
             $covFilter = new Filter();
-            $covFilter->includeDirectory($this->config->getString('src'));
+            foreach ((new FileIteratorFacade)->getFilesAsArray($this->config->getString('src'), '.php', '') as $file) {
+                $covFilter->includeFile($file);
+            }
 
-            $driver         = (new Selector())->forLineAndPathCoverage($covFilter);
+            $driver = (new Selector())->forLineAndPathCoverage($covFilter);
             $this->coverage = new CodeCoverage($driver, $covFilter);
         }
     }
@@ -179,7 +182,7 @@ class CovCatcher
      */
     protected function initConfig(array $options): void
     {
-        $options = \array_filter($options, static fn ($option) => $option !== null);
+        $options = \array_filter($options, static fn($option) => $option !== null);
 
         $this->config = new Data(\array_merge($this->default, $options));
     }

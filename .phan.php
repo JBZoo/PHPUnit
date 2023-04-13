@@ -35,6 +35,7 @@ return \array_merge($default, [
         'vendor/jbzoo/markdown',
 
         'vendor/phpunit/php-code-coverage/src',
+        'vendor/phpunit/php-file-iterator/src',
         'vendor/phpunit/phpunit/src',
         'vendor/symfony/finder',
         'vendor/ulrichsg/getopt-php/src',
