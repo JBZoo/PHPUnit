@@ -18,22 +18,6 @@ namespace JBZoo\PHPUnit;
 
 class PHPUnitToolsTest extends PHPUnit
 {
-    public function testHttpRequest(): void
-    {
-        $uniq = \uniqid('', true);
-        $url  = 'https://httpbin.org/post';
-        $args = ['qwerty' => $uniq];
-
-        $result = httpRequest($url, $args, 'post');
-
-        isSame(200, $result->code);
-        isContain('application/json', $result->getHeader('content-type'));
-
-        $body = $result->getJSON();
-        isContain('httpbin.org/post', $body->find('url'));
-        isSame($body->find('form.qwerty'), $uniq);
-    }
-
     public function testCliError(): void
     {
         skip('Some message...');
