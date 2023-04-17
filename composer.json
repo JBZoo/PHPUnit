@@ -30,7 +30,7 @@
         "ext-filter"          : "*",
         "ext-mbstring"        : "*",
 
-        "phpunit/phpunit"     : ">=10.0.19",
+        "phpunit/phpunit"     : "^9.6.7",
         "ulrichsg/getopt-php" : ">=4.0.3",
         "jbzoo/markdown"      : "7.x-dev"
     },
