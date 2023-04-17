@@ -18,10 +18,11 @@ if [ "$3" != "" ]; then HTTP_ROOT=$3; else  HTTP_ROOT=".";              fi
 if [ "$4" != "" ]; then HTTP_FILE=$4; else  HTTP_FILE="./index.php";    fi
 if [ "$5" != "" ]; then ARGUMENTS=$5; else  ARGUMENTS="";               fi
 
+$PHP_BIN -v -v | head -n1
 echo "Host: $HTTP_HOST:$HTTP_PORT";
 echo "Root: $HTTP_ROOT";
 echo "File: $HTTP_FILE";
 echo "Args: $ARGUMENTS";
 echo "";
 
-XDEBUG_MODE=coverage PHPUNINT_ARGUMENTS="$ARGUMENTS" php -S "$HTTP_HOST:$HTTP_PORT" -t "$HTTP_ROOT" "$HTTP_FILE" &
+XDEBUG_MODE=coverage PHPUNINT_ARGUMENTS="$ARGUMENTS" $PHP_BIN -S "$HTTP_HOST:$HTTP_PORT" -t "$HTTP_ROOT" "$HTTP_FILE" &
