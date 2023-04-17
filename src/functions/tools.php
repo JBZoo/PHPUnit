@@ -72,11 +72,16 @@ function openFile(string $path): ?string
 }
 
 /**
- * @param array<mixed>|string    $args
- * @param array<bool|int|string> $options
+ * @param null|array<mixed>|string $args
+ * @param array<bool|int|string>   $options
+ * @codeCoverageIgnore
  */
-function httpRequest(string $url, $args = null, string $method = Request::GET, array $options = []): Response
-{
+function httpRequest(
+    string $url,
+    array|string $args = null,
+    string $method = Request::GET,
+    array $options = [],
+): Response {
     if (!\class_exists(HttpClient::class)) {
         throw new Exception('jbzoo/http-client is required for httpRequest() function');
     }
@@ -85,9 +90,7 @@ function httpRequest(string $url, $args = null, string $method = Request::GET, a
         $options['timeout'] = 600; // For PHPUnit coverage
     }
 
-    $client = new HttpClient($options);
-
-    return $client->request($url, $args, $method, $options);
+    return (new HttpClient($options))->request($url, $args, $method, $options);
 }
 
 function getTestName(bool $withNamespace = false): ?string
