@@ -78,7 +78,7 @@ function openFile(string $path): ?string
  */
 function httpRequest(
     string $url,
-    array|string $args = null,
+    array|string|null $args = null,
     string $method = Request::GET,
     array $options = [],
 ): Response {
