@@ -275,8 +275,8 @@ function isCurrentDate(string $date, int $timeDiff = 300, string $message = ''):
 }
 
 function isAmount(
-    float|int|array|string $expected,
-    float|int|array|string $actual,
+    array|float|int|string $expected,
+    array|float|int|string $actual,
     string $message = '',
     float $allowableDiff = 0.03,
 ): void {
@@ -295,8 +295,8 @@ function isAmount(
 }
 
 function isNotAmount(
-    float|int|array|string $expected,
-    float|int|array|string $actual,
+    array|float|int|string $expected,
+    array|float|int|string $actual,
     string $message = '',
     float $allowableDiff = 0.03,
 ): void {
