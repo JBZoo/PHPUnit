@@ -67,7 +67,7 @@ foreach ($vendorPaths as $vendorPath) {
 }
 
 // Parse additional options
-$cliOptions = new Getopt([
+$cliOptions = new GetOpt([
     [null, 'index', GetOpt::OPTIONAL_ARGUMENT],
     [null, 'cov-src', GetOpt::OPTIONAL_ARGUMENT],
     [null, 'cov-xml', GetOpt::OPTIONAL_ARGUMENT],
