@@ -21,7 +21,7 @@ declare(strict_types=1);
  */
 function showError(): void
 {
-    throw new \RuntimeException('Some exception');
+    throw new RuntimeException('Some exception');
 }
 
 echo 'Some text message';
