@@ -122,7 +122,7 @@ final class CovCatcher
     {
         if (!$this->isStarted) {
             $this->isStarted = true;
-            $this->coverage?->start($this->hash, true);
+            $this->coverage?->start($this->hash, null, true);
         }
     }
 
@@ -188,8 +188,10 @@ final class CovCatcher
     {
         $covFilter = new Filter();
 
-        foreach ((new FileIteratorFacade())->getFilesAsArray($dirPath, '.php') as $file) {
-            $covFilter->includeFile($file);
+        if ($dirPath !== '') {
+            foreach ((new FileIteratorFacade())->getFilesAsArray($dirPath, '.php') as $file) {
+                $covFilter->includeFile($file);
+            }
         }
 
         return $covFilter;
