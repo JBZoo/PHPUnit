@@ -30,17 +30,17 @@ use SebastianBergmann\FileIterator\Facade as FileIteratorFacade;
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class CovCatcher
+final class CovCatcher
 {
     public const MODE_REQUIRE      = 'require';
     public const MODE_REQUIRE_ONCE = 'require_once';
 
-    protected bool $isStarted = false;
+    private bool $isStarted = false;
 
-    protected ?CodeCoverage $coverage;
+    private ?CodeCoverage $coverage;
 
     /** @var array<bool|string> */
-    protected array $default = [
+    private array $default = [
         'cov'        => true,
         'xml'        => false,
         'html'       => false,
@@ -50,9 +50,9 @@ class CovCatcher
         'build_html' => './build/coverage_html',
     ];
 
-    protected Data $config;
+    private Data $config;
 
-    protected string $hash = '';
+    private string $hash = '';
 
     /**
      * @param array<bool|string> $options
@@ -118,7 +118,7 @@ class CovCatcher
     /**
      * Start coverage process.
      */
-    protected function start(): void
+    private function start(): void
     {
         if (!$this->isStarted) {
             $this->isStarted = true;
@@ -129,7 +129,7 @@ class CovCatcher
     /**
      * Stop or pause coverage process.
      */
-    protected function stop(): void
+    private function stop(): void
     {
         if ($this->isStarted) {
             $this->isStarted = false;
@@ -140,7 +140,7 @@ class CovCatcher
     /**
      * Stop or pause coverage process.
      */
-    protected function createReports(): void
+    private function createReports(): void
     {
         $reportXmlDir = $this->config->getString('build_xml');
         $isXmlEnabled = $this->config->getBool('xml');
@@ -177,14 +177,14 @@ class CovCatcher
      * Prepare and init config.
      * @param array<null|bool|string> $options
      */
-    protected function initConfig(array $options): void
+    private function initConfig(array $options): void
     {
         $options = \array_filter($options, static fn ($option) => $option !== null);
 
         $this->config = new Data(\array_merge($this->default, $options));
     }
 
-    protected static function prepareFilter(string $dirPath): Filter
+    private static function prepareFilter(string $dirPath): Filter
     {
         $covFilter = new Filter();
 
@@ -195,7 +195,7 @@ class CovCatcher
         return $covFilter;
     }
 
-    protected static function prepareDirectory(string $dirPath): void
+    private static function prepareDirectory(string $dirPath): void
     {
         /** @phan-suppress-next-line PhanPluginDuplicateIfCondition */
         if (!\is_dir($dirPath) && !\mkdir($dirPath, 0777, true) && !\is_dir($dirPath)) {

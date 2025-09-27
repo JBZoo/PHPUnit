@@ -16,16 +16,8 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit;
 
-use JBZoo\Utils\Env;
 use PHPUnit\Framework\TestCase;
 
 abstract class PHPUnit extends TestCase
 {
-    /**
-     * @suppress PhanPluginPossiblyStaticProtectedMethod
-     */
-    protected function getSourcePath(): string
-    {
-        return PROJECT_ROOT . '/' . \str_replace('`pwd`/', '', Env::string('PATH_SRC', 'src'));
-    }
 }
