@@ -152,8 +152,8 @@ class PHPUnitAliasesTest extends PHPUnit
             isDiffBetweenDates('+5min', '-5min', 400, 'My message.');
         } catch (\Exception $exception) {
             isContain(
-                'The expected difference between "+5min" and "-5min" is 400 seconds. ' .
-                'The actual value is 600 seconds. My message.',
+                'The expected difference between "+5min" and "-5min" is 400 seconds. '
+                . 'The actual value is 600 seconds. My message.',
                 $exception->getMessage(),
             );
 
@@ -178,8 +178,8 @@ class PHPUnitAliasesTest extends PHPUnit
             isDiffBetweenDatesLessThan('+5min', '-5min', 100, 'My message.');
         } catch (\Exception $exception) {
             isContain(
-                'Diff between dates: "+5min" and "-5min" is more than expected 100 seconds. ' .
-                'The actual value is 600 seconds. My message.',
+                'Diff between dates: "+5min" and "-5min" is more than expected 100 seconds. '
+                . 'The actual value is 600 seconds. My message.',
                 $exception->getMessage(),
             );
             $isFail = true;
@@ -203,8 +203,8 @@ class PHPUnitAliasesTest extends PHPUnit
             isDiffBetweenDatesMoreThan('+5min', '-5min', 1000, 'My message.');
         } catch (\Exception $exception) {
             isContain(
-                'Diff between dates: "+5min" and "-5min" is less than expected 1000 seconds. ' .
-                'The actual value is 600 seconds. My message.',
+                'Diff between dates: "+5min" and "-5min" is less than expected 1000 seconds. '
+                . 'The actual value is 600 seconds. My message.',
                 $exception->getMessage(),
             );
             $isFail = true;

@@ -55,21 +55,14 @@ function success(string $message = ''): void
 // Asserts aliases
 
 /**
- * @param mixed $expected
- * @param mixed $actual
- *
  * @SuppressWarnings(PHPMD.ShortMethodName)
  */
-function is($expected, $actual, string $message = ''): void
+function is(mixed $expected, mixed $actual, string $message = ''): void
 {
     Assert::assertEquals($expected, $actual, $message);
 }
 
-/**
- * @param mixed $expected
- * @param mixed $actual
- */
-function isNot($expected, $actual, string $message = ''): void
+function isNot(mixed $expected, mixed $actual, string $message = ''): void
 {
     Assert::assertNotEquals($expected, $actual, $message);
 }
@@ -97,10 +90,7 @@ function isClass($expected, $className, string $message = ''): void
     Assert::assertInstanceOf($expected, $className, $message);
 }
 
-/**
- * @param mixed $actual
- */
-function isCount(int $expected, $actual, string $message = ''): void
+function isCount(int $expected, mixed $actual, string $message = ''): void
 {
     Assert::assertCount($expected, $actual, $message);
 }
@@ -120,78 +110,50 @@ function isFileEq(string $filepathExpecte, string $filepathActual, string $messa
     Assert::assertFileEquals($filepathExpecte, $filepathActual, $message);
 }
 
-/**
- * @param mixed $expected
- * @param mixed $actual
- */
-function isSame($expected, $actual, string $message = ''): void
+function isSame(mixed $expected, mixed $actual, string $message = ''): void
 {
     Assert::assertSame($expected, $actual, $message);
 }
 
-/**
- * @param mixed $expected
- * @param mixed $actual
- */
-function isNotSame($expected, $actual, string $message = ''): void
+function isNotSame(mixed $expected, mixed $actual, string $message = ''): void
 {
     Assert::assertNotSame($expected, $actual, $message);
 }
 
-/**
- * @param mixed $expected
- */
-function isNull($expected): void
+function isNull(mixed $expected): void
 {
     Assert::assertNull($expected);
 }
 
-/**
- * @param mixed $expected
- */
-function isNotNull($expected): void
+function isNotNull(mixed $expected): void
 {
     Assert::assertNotNull($expected);
 }
 
-/**
- * @param mixed $expected
- */
-function isEmpty($expected, string $message = ''): void
+function isEmpty(mixed $expected, string $message = ''): void
 {
     Assert::assertEmpty($expected, $message);
 }
 
-/**
- * @param mixed $expected
- */
-function isNotEmpty($expected, string $message = ''): void
+function isNotEmpty(mixed $expected, string $message = ''): void
 {
     Assert::assertNotEmpty($expected, $message);
 }
 
-/**
- * @param int|string $key
- */
-function isKey($key, array $array, string $message = ''): void
+function isKey(int|string $key, array $array, string $message = ''): void
 {
     Assert::assertArrayHasKey($key, $array, $message);
 }
 
-/**
- * @param int|string $key
- */
-function isNotKey($key, array $array, string $message = ''): void
+function isNotKey(int|string $key, array $array, string $message = ''): void
 {
     Assert::assertArrayNotHasKey($key, $array, $message);
 }
 
 /**
  * Assert object has an attribute.
- *
- * @param mixed $object
  */
-function isAttr(string $attrName, $object, string $message = ''): void
+function isAttr(string $attrName, mixed $object, string $message = ''): void
 {
     Assert::assertNotNull($object, 'object ' . $object::class . " is not empty. {$message}");
     isTrue(\property_exists($object, $attrName));
@@ -199,10 +161,8 @@ function isAttr(string $attrName, $object, string $message = ''): void
 
 /**
  * Assert object has an attribute.
- *
- * @param mixed $object
  */
-function isNotAttr(string $attrName, $object, string $message = ''): void
+function isNotAttr(string $attrName, mixed $object, string $message = ''): void
 {
     Assert::assertNotNull($object, 'object ' . $object::class . " is not empty. {$message}");
     isFalse(\property_exists($object, $attrName));
@@ -369,8 +329,8 @@ function isDiffBetweenDates(string $date1, string $date2, float $expectedDiff = 
     isTrue(
         $actualDiff === $expectedDiff,
         \trim(
-            "The expected difference between \"{$date1}\" and \"{$date2}\" is {$expectedDiff} seconds. " .
-            "The actual value is {$actualDiff} seconds. {$message}",
+            "The expected difference between \"{$date1}\" and \"{$date2}\" is {$expectedDiff} seconds. "
+            . "The actual value is {$actualDiff} seconds. {$message}",
         ),
     );
 }
@@ -387,8 +347,8 @@ function isDiffBetweenDatesLessThan(
     isTrue(
         $actualDiff < $expectedMaxDiff,
         \trim(
-            "Diff between dates: \"{$date1}\" and \"{$date2}\" is more than expected {$expectedMaxDiff} seconds. " .
-            "The actual value is {$actualDiff} seconds. {$message}",
+            "Diff between dates: \"{$date1}\" and \"{$date2}\" is more than expected {$expectedMaxDiff} seconds. "
+            . "The actual value is {$actualDiff} seconds. {$message}",
         ),
     );
 }
@@ -405,8 +365,8 @@ function isDiffBetweenDatesMoreThan(
     isTrue(
         $actualDiff > $expectedMinDiff,
         \trim(
-            "Diff between dates: \"{$date1}\" and \"{$date2}\" is less than expected {$expectedMinDiff} seconds. " .
-            "The actual value is {$actualDiff} seconds. {$message}",
+            "Diff between dates: \"{$date1}\" and \"{$date2}\" is less than expected {$expectedMinDiff} seconds. "
+            . "The actual value is {$actualDiff} seconds. {$message}",
         ),
     );
 }

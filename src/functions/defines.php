@@ -43,7 +43,6 @@ if (!\defined('JBZOO_PHPUNIT')) {
             }
 
             if (!\defined('PROJECT_ROOT')) {
-                /** @phan-suppress-next-line PhanUndeclaredGlobalVariable */
                 \define('PROJECT_ROOT', \dirname($path, 2));
             }
 
