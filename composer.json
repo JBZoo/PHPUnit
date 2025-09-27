@@ -37,7 +37,7 @@
 
     "require-dev"       : {
         "jbzoo/toolbox-dev" : "^7.1",
-        "jbzoo/codestyle"   : "^7.1.4",
+        "jbzoo/codestyle"   : "^7.1.5",
         "jbzoo/http-client" : "^7.1",
         "jbzoo/data"        : "^7.1",
         "jbzoo/utils"       : "^7.2",
