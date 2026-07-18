@@ -1,7 +1,15 @@
 # JBZoo / PHPUnit
 
-[![CI](https://github.com/JBZoo/PHPUnit/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/JBZoo/PHPUnit/actions/workflows/main.yml?query=branch%3Amaster)    [![Coverage Status](https://coveralls.io/repos/github/JBZoo/PHPUnit/badge.svg?branch=master)](https://coveralls.io/github/JBZoo/PHPUnit?branch=master)    [![Psalm Coverage](https://shepherd.dev/github/JBZoo/PHPUnit/coverage.svg)](https://shepherd.dev/github/JBZoo/PHPUnit)    [![Psalm Level](https://shepherd.dev/github/JBZoo/PHPUnit/level.svg)](https://shepherd.dev/github/JBZoo/PHPUnit)    [![CodeFactor](https://www.codefactor.io/repository/github/jbzoo/phpunit/badge)](https://www.codefactor.io/repository/github/jbzoo/phpunit/issues)
-[![Stable Version](https://poser.pugx.org/jbzoo/phpunit/version)](https://packagist.org/packages/jbzoo/phpunit/)    [![Total Downloads](https://poser.pugx.org/jbzoo/phpunit/downloads)](https://packagist.org/packages/jbzoo/phpunit/stats)    [![Dependents](https://poser.pugx.org/jbzoo/phpunit/dependents)](https://packagist.org/packages/jbzoo/phpunit/dependents?order_by=downloads)    [![GitHub License](https://img.shields.io/github/license/jbzoo/phpunit)](https://github.com/JBZoo/PHPUnit/blob/master/LICENSE)
+[![CI](https://github.com/JBZoo/PHPUnit/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/JBZoo/PHPUnit/actions/workflows/main.yml?query=branch%3Amaster)
+[![Coverage Status](https://coveralls.io/repos/github/JBZoo/PHPUnit/badge.svg?branch=master)](https://coveralls.io/github/JBZoo/PHPUnit?branch=master)
+[![Psalm Coverage](https://shepherd.dev/github/JBZoo/PHPUnit/coverage.svg)](https://shepherd.dev/github/JBZoo/PHPUnit)
+[![Psalm Level](https://shepherd.dev/github/JBZoo/PHPUnit/level.svg)](https://shepherd.dev/github/JBZoo/PHPUnit)
+[![CodeFactor](https://www.codefactor.io/repository/github/jbzoo/phpunit/badge)](https://www.codefactor.io/repository/github/jbzoo/phpunit/issues)
+
+[![Stable Version](https://poser.pugx.org/jbzoo/phpunit/version)](https://packagist.org/packages/jbzoo/phpunit/)
+[![Total Downloads](https://poser.pugx.org/jbzoo/phpunit/downloads)](https://packagist.org/packages/jbzoo/phpunit/stats)
+[![Dependents](https://poser.pugx.org/jbzoo/phpunit/dependents)](https://packagist.org/packages/jbzoo/phpunit/dependents?order_by=downloads)
+[![GitHub License](https://img.shields.io/github/license/jbzoo/phpunit)](https://github.com/JBZoo/PHPUnit/blob/master/LICENSE)
 
 PHPUnit toolbox with short assertion aliases and useful testing utilities. This library provides a more concise and readable way to write tests by offering shorter function names for common PHPUnit assertions.
 
