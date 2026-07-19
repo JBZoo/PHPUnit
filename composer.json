@@ -40,6 +40,7 @@
         "jbzoo/codestyle"   : "^8.0",
         "jbzoo/data"        : "^8.0",
         "jbzoo/utils"       : "^8.0",
+        "jbzoo/http-client" : "^8.0",
 
         "guzzlehttp/guzzle" : ">=7.10.0",
         "symfony/process"   : ">=7.3.4"

@@ -30,7 +30,7 @@ return \array_merge($default, [
 
         // Libs
         'vendor/jbzoo/data',
-        // 'vendor/jbzoo/http-client', // removed with http-client during the 8.0 batch; re-add in Wave B
+        'vendor/jbzoo/http-client',
         'vendor/jbzoo/utils',
         'vendor/jbzoo/markdown',
 

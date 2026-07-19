@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit;
 
-use JBZoo\HttpClient\HttpClient;
 use JBZoo\HttpClient\Response;
 use JBZoo\Utils\FS;
 use JBZoo\Utils\Sys;
@@ -26,13 +25,6 @@ class PHPUnitHttpServerTest extends PHPUnit
     protected function setUp(): void
     {
         parent::setUp();
-
-        // Interim (major 8.0 toolchain batch): jbzoo/http-client is temporarily removed from
-        // require-dev because its 7.x line pins jbzoo/data ^7.2 / jbzoo/utils ^7.3, unsatisfiable
-        // against this batch's ^8.0. It is re-added at ^8.0 in Wave B; drop this guard then.
-        if (!\class_exists(HttpClient::class)) {
-            skip('jbzoo/http-client is not installed during the 8.0 toolchain batch (re-added in Wave B).');
-        }
 
         FS::rmDir(PROJECT_BUILD . '/coverage_cov');
         FS::rmDir(PROJECT_BUILD . '/coverage_html');
