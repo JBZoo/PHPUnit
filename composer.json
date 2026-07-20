@@ -26,21 +26,21 @@
     "prefer-stable"     : true,
 
     "require"           : {
-        "php"                 : "^8.2",
+        "php"                 : "^8.3",
         "ext-filter"          : "*",
         "ext-mbstring"        : "*",
 
         "phpunit/phpunit"     : "^11.5.41",
         "ulrichsg/getopt-php" : ">=4.0.4",
-        "jbzoo/markdown"      : "^7.0.1"
+        "jbzoo/markdown"      : "^8.0"
     },
 
     "require-dev"       : {
-        "jbzoo/toolbox-dev" : "^7.1",
-        "jbzoo/codestyle"   : "^7.1.6",
-        "jbzoo/http-client" : "^7.1",
-        "jbzoo/data"        : "^7.1",
-        "jbzoo/utils"       : "^7.2",
+        "jbzoo/toolbox-dev" : "^8.0",
+        "jbzoo/codestyle"   : "^8.0",
+        "jbzoo/data"        : "^8.0",
+        "jbzoo/utils"       : "^8.0",
+        "jbzoo/http-client" : "^8.0",
 
         "guzzlehttp/guzzle" : ">=7.10.0",
         "symfony/process"   : ">=7.3.4"
@@ -66,7 +66,7 @@
 
     "extra"             : {
         "branch-alias" : {
-            "dev-master" : "7.x-dev"
+            "dev-master" : "8.x-dev"
         }
     }
 }

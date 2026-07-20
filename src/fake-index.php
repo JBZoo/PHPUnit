@@ -77,7 +77,7 @@ $cliOptions = new GetOpt([
 
 $cliOptions->process(Env::string('PHPUNINT_ARGUMENTS'));
 
-$realIndex = (string)($realIndex ?? \realpath($cliOptions->getOption('index')));
+$realIndex = (string)($realIndex ?? \realpath((string)$cliOptions->getOption('index')));
 
 if (\class_exists(CovCatcher::class) && Sys::hasXdebug()) {
     $testname = (string)data($_REQUEST)->get('testname');

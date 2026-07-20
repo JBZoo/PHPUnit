@@ -87,7 +87,7 @@ class MyFeatureTest extends PHPUnit
 
 ## Dependencies
 
-- PHP 8.2+ required
+- PHP 8.3+ required
 - PHPUnit ^9.6.29 as core testing framework
 - JBZoo toolbox ecosystem (codestyle, markdown, etc.)
 - Development dependencies managed via jbzoo/toolbox-dev
@@ -95,7 +95,7 @@ class MyFeatureTest extends PHPUnit
 ## CI/CD
 
 GitHub Actions workflow runs:
-- PHPUnit tests across PHP 8.1, 8.2, 8.3
+- PHPUnit tests across PHP 8.3, 8.4, 8.5
 - Code quality checks (linters)
 - Coverage reporting to Coveralls
 - Matrix testing with different Composer flags (--prefer-lowest)
