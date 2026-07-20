@@ -19,7 +19,7 @@ PHPUnit toolbox with short assertion aliases and useful testing utilities. This 
 - **Extended assertions** - Additional assertions for emails, dates, amounts, file contents
 - **Environment detection** - Detect if running under TeamCity, Travis, PhpStorm
 - **Built-in utilities** - Tools for test organization and debugging
-- **PHP 8.2+ support** - Modern PHP features and strict typing
+- **PHP 8.3+ support** - Modern PHP features and strict typing
 
 ## Installation
 
@@ -160,7 +160,7 @@ class PackageTest extends PHPUnit
 
 ## Requirements
 
-- PHP 8.2 or higher
+- PHP 8.3 or higher
 - PHPUnit ^9.6.29
 - ext-filter, ext-mbstring
 
