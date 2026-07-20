@@ -78,12 +78,10 @@ function isFalse(mixed $value, string $message = ''): void
 }
 
 /**
- * @param string $expected
- * @param mixed  $className
+ * @param class-string $expected
+ * @param mixed        $className
  *
- * @psalm-template ExpectedType of object
- * @psalm-param    class-string<ExpectedType> $expected
- * @phan-suppress  PhanPluginCanUseParamType
+ * @phan-suppress PhanPluginCanUseParamType
  */
 function isClass($expected, $className, string $message = ''): void
 {
